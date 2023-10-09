@@ -1,3 +1,17 @@
+#' Prepare a folder of prose texts
+#'
+#' @param folder A directory containing prose texts. Defaults to "data".
+#' @param name What naming pattern to search for in this folder. Defaults to ".txt".
+#' @param word Whether to split one word per line. Defaults to TRUE.
+#' @param paragraph Whether to detect paragraph breaks.
+#'
+#' @return A data frame.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' mysteries <- tidy_prose_texts("mystery-novels")
+#' }
 tidy_prose_texts <- function(folder = "data",
                              name = ".txt",
                              word = TRUE,

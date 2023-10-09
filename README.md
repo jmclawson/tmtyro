@@ -1,0 +1,34 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# tmtyro
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of tmtyro is to help beginners work with and analyze text for
+simple and complex features. Adopting tidytext principles, tmtyro
+abstracts processes a few levels further to allow tyros apply text
+mining techniques before they’re deeply familiar with R code.
+
+## Installation
+
+You can install the development version of tmtyro from
+[GitHub](https://github.com/) with:
+
+``` r
+# install.packages("remotes")
+remotes::install_github("jmclawson/tmtyro")
+```
+
+## Example
+
+One of the first steps of any text mining workflow is to load a corpus
+of texts from a directory, detect paragraph breaks, and prepare a data
+frame with one word per row. The `tidy_prose_texts()` and
+`tidy_poetry_texts()` functions make this easy.
+
+``` r
+library(tmtyro)
+mysteries <- tidy_prose_texts("mycorpus")
+```

@@ -1,3 +1,16 @@
+#' Prepare a folder of poetry
+#'
+#' @param folder A directory containing prose texts. Defaults to "data".
+#' @param name What naming pattern to search for in this folder. Defaults to ".txt".
+#' @param word Whether to split one word per line. Defaults to TRUE.
+#'
+#' @return A data frame.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' dickinson <- tidy_poetry_texts("~/Documents/Dickinson-corpus")
+#' }
 tidy_poetry_texts <-
   function(folder = "data",
            name = ".txt",
