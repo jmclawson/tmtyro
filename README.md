@@ -24,8 +24,9 @@ remotes::install_github("jmclawson/tmtyro")
 ## Example
 
 One of the first steps of any text mining workflow is to load a corpus
-of texts from a directory, detect paragraph breaks, and prepare a data
-frame with one word per row. The `load_texts()` function makes this easy.
+of texts from a directory. While doing so, it may be desirable to detect
+paragraph breaks and prepare a data frame with one word per row. The
+`load_texts()` function makes this easy.
 
 ``` r
 library(tmtyro)
