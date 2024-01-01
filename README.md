@@ -25,10 +25,9 @@ remotes::install_github("jmclawson/tmtyro")
 
 One of the first steps of any text mining workflow is to load a corpus
 of texts from a directory, detect paragraph breaks, and prepare a data
-frame with one word per row. The `tidy_prose_texts()` and
-`tidy_poetry_texts()` functions make this easy.
+frame with one word per row. The `load_texts()` function makes this easy.
 
 ``` r
 library(tmtyro)
-mysteries <- tidy_prose_texts("mycorpus")
+mysteries <- load_texts("mycorpus")
 ```

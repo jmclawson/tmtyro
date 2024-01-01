@@ -1,9 +1,9 @@
 Package: tmtyro
-Title: tmtyro: Text Mining Workflows for Beginners
+Title: tmtyro: Simplified Workflows for Text Mining Tyros
 Version: 0.0.0.9000
 Authors@R: 
     person("James", "Clawson", , "clawson@gmail.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+           comment = c(ORCID = "0009-0008-6756-0607"))
 Description: Work with and analyze text for simple and complex 
     features. Adopting tidytext principles, tmtyro abstracts
     processes a few levels further to allow beginners to use
@@ -15,3 +15,28 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 URL: https://github.com/jmclawson/tmtyro
 BugReports: https://github.com/jmclawson/tmtyro/issues
+Imports: 
+    dplyr,
+    forcats,
+    geomtextpath,
+    ggh4x,
+    ggplot2,
+    ggrepel,
+    janitor,
+    knitr,
+    NLP,
+    openNLP,
+    plotly,
+    purrr,
+    readr,
+    rlang,
+    rvest,
+    scales,
+    stringr,
+    textstem,
+    tibble,
+    tidyr,
+    tidytext,
+    topicmodels,
+    viridis,
+    wordcloud

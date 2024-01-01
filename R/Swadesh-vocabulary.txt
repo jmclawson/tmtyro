@@ -1,0 +1,32 @@
+from Morris Swadesh, "Lexico-Statistic Dating of Prehistoric Ethnic Contacts," Proceedings of the American Philosophical Society, 1952, volume 96, number 4, ppg 456-457, https://www.jstor.org/stable/3143802
+
+Modified list of 200 words:
+  all, and, animal, ashes, at, back, bad, bark, because,
+  belly, berry, big, bird, bite, black, blood, blow, bone,
+  breathe, burn, child, cloud, cold, come, count, cut, day,
+  die, dig, dirty, dog, drink, dry, dull, dust, ear, earth,
+  eat, egg, eye, fall, far, fat, father, fear, feather, few,
+  fight, fire, fish, five, float, flow, flower, fly, fog,
+  foot, four, freeze, give, good, grass, green, guts, hair,
+  hand, he, head, hear, heart, heavy, here, hit, hold, how,
+  hunt, husband, I, ice, if, in, kill, know, lake, laugh, leaf,
+  left, leg, lie, live, liver, long, louse, man, many, meat,
+  mother, mountain, mouth, name, narrow, near, neck, new,
+  night, nose, not, old, one, other, person, play, pull, push,
+  rain, red, right, right, river, road, root, rope, rotten,
+  rub, salt, sand, say, scratch, sea, see, seed, sew, sharp,
+  short, sing, sit, skin, sky, sleep, small, smell, smoke,
+  smooth, snake, snow, some, spit, split, squeeze, stab,
+  stand, star, stick, stone, straight, suck, sun, swell, swim,
+  tail, that, there, they, thick, thin, think, this, thou,
+  three, throw, tie, tongue, tooth, tree, turn, two, vomit,
+  walk, warm, wash, water, we, wet, what, when, where, white,
+  who, wide, wife, wind, wing, wipe, with, woman, woods, worm,
+  ye, year, yellow
+
+Included in original list:
+  brother, sister, six, seven, eight, nine, ten, twenty,
+  hundred, clothing, cook, dance, shoot, speak, work, cry
+
+Added to modified list beyond original list:
+  say, heavy
