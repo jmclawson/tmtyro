@@ -12,6 +12,7 @@ Work with and analyze text for simple and complex features. Adopting tidytext pr
 Useful links:
 \itemize{
   \item \url{https://github.com/jmclawson/tmtyro}
+  \item \url{https://jmclawson.github.io/tmtyro/}
   \item Report bugs at \url{https://github.com/jmclawson/tmtyro/issues}
 }
 
