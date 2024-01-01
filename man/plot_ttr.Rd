@@ -40,8 +40,18 @@ A ggplot object
 Visualize type-token ratio over time
 }
 \examples{
-\dontrun{
+austen <- "austen.rds" |>
+  system.file(package = "tmtyro") |>
+  readRDS()
+
+austen_measured <- austen |>
+  measure_lexical_variety()
+
 austen_measured |>
+  standardize_titles() |>
+  plot_ttr(labeling = "inline")
+
+austen_measured |>
+  standardize_titles() |>
   plot_ttr()
-  }
 }

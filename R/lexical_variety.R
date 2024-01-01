@@ -229,10 +229,20 @@ measure_lexical_variety <- function(df, by = doc_id, word = word) {
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' austen <- "austen.rds" |>
+#'   system.file(package = "tmtyro") |>
+#'   readRDS()
+#'
+#' austen_measured <- austen |>
+#'   measure_lexical_variety()
+#'
 #' austen_measured |>
+#'   standardize_titles() |>
+#'   plot_vocabulary(progress_percent)
+#'
+#' austen_measured |>
+#'   standardize_titles() |>
 #'   plot_vocabulary()
-#'   }
 plot_vocabulary <- function(df, x = progress_words, by = doc_id, descriptive_labels = TRUE, labeling = c("point", "inset", "inline", "axis")){
   internal_plot_engine(
     df, rlang::enquo(x), y = rlang::expr(vocabulary),
@@ -257,10 +267,20 @@ plot_vocabulary <- function(df, x = progress_words, by = doc_id, descriptive_lab
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' austen <- "austen.rds" |>
+#'   system.file(package = "tmtyro") |>
+#'   readRDS()
+#'
+#' austen_measured <- austen |>
+#'   measure_lexical_variety()
+#'
 #' austen_measured |>
+#'   standardize_titles() |>
+#'   plot_ttr(labeling = "inline")
+#'
+#' austen_measured |>
+#'   standardize_titles() |>
 #'   plot_ttr()
-#'   }
 plot_ttr <- function(df, x = progress_words, by = doc_id, descriptive_labels = TRUE, labeling = c("point", "inline", "axis", "inset"), log_y = TRUE){
   internal_plot_engine(
     df, rlang::enquo(x), y = rlang::expr(ttr),
@@ -286,10 +306,16 @@ plot_ttr <- function(df, x = progress_words, by = doc_id, descriptive_labels = T
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' austen <- "austen.rds" |>
+#'   system.file(package = "tmtyro") |>
+#'   readRDS()
+#'
+#' austen_measured <- austen |>
+#'   measure_lexical_variety()
+#'
 #' austen_measured |>
+#'   standardize_titles() |>
 #'   plot_htr()
-#'   }
 plot_htr <- function(df, x = progress_words, by = doc_id, descriptive_labels = TRUE, labeling = c("point", "inline", "axis", "inset"), log_y = TRUE){
   internal_plot_engine(
     df, rlang::enquo(x), y = rlang::expr(htr),
@@ -311,10 +337,16 @@ plot_htr <- function(df, x = progress_words, by = doc_id, descriptive_labels = T
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' austen <- "austen.rds" |>
+#'   system.file(package = "tmtyro") |>
+#'   readRDS()
+#'
+#' austen_measured <- austen |>
+#'   measure_lexical_variety()
+#'
 #' austen_measured |>
+#'   standardize_titles() |>
 #'   plot_hapax()
-#'   }
 plot_hapax <- function(
     df,
     prop = 0.01,

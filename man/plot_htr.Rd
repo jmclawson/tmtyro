@@ -40,8 +40,14 @@ A ggplot object
 Visualize hapax-token ratio over time
 }
 \examples{
-\dontrun{
+austen <- "austen.rds" |>
+  system.file(package = "tmtyro") |>
+  readRDS()
+
+austen_measured <- austen |>
+  measure_lexical_variety()
+
 austen_measured |>
+  standardize_titles() |>
   plot_htr()
-  }
 }

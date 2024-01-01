@@ -5,7 +5,7 @@
 \title{Plot a heatmap of ranked features}
 \usage{
 plot_doc_word_heatmap(
-  .data,
+  df,
   num = 10,
   by = doc_id,
   feature = word,
@@ -16,7 +16,7 @@ plot_doc_word_heatmap(
 )
 }
 \arguments{
-\item{.data}{A tidy data frame, potentially containing columns called "doc_id" and "word"}
+\item{df}{A tidy data frame, potentially containing columns called "doc_id" and "word"}
 
 \item{num}{The number of ranks to show, not counting ties}
 
@@ -39,16 +39,19 @@ A ggplot object
 Plot a heatmap of ranked features
 }
 \examples{
+library(tmtyro)
+library(dplyr)
+
 austen <- "austen.rds" |>
   system.file(package = "tmtyro") |>
   readRDS()
 
 austen |>
-  dplyr::filter(pos \%in\% c("NN", "NNS")) |>
+  filter(pos \%in\% c("NN", "NNS")) |>
   plot_doc_word_heatmap()
 
 austen |>
-  dplyr::filter(pos \%in\% c("JJ", "RB")) |>
+  filter(pos \%in\% c("JJ", "RB")) |>
   plot_doc_word_heatmap(feature = lemma, colorset = c("white", "red"))
 
 }

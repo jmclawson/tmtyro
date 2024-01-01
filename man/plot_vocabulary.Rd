@@ -37,8 +37,18 @@ A ggplot object
 \code{plot_vocabulary()} visualizes the vocabulary growth as new words are used in each document.
 }
 \examples{
-\dontrun{
+austen <- "austen.rds" |>
+  system.file(package = "tmtyro") |>
+  readRDS()
+
+austen_measured <- austen |>
+  measure_lexical_variety()
+
 austen_measured |>
+  standardize_titles() |>
+  plot_vocabulary(progress_percent)
+
+austen_measured |>
+  standardize_titles() |>
   plot_vocabulary()
-  }
 }

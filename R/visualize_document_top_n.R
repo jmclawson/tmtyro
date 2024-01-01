@@ -1,6 +1,6 @@
 #' Plot a heatmap of ranked features
 #'
-#' @param .data A tidy data frame, potentially containing columns called "doc_id" and "word"
+#' @param df A tidy data frame, potentially containing columns called "doc_id" and "word"
 #' @param num The number of ranks to show, not counting ties
 #' @param by The column used for document grouping, with doc_id as the default
 #' @param feature The column to measure, as in "word" or "lemma"
@@ -13,20 +13,23 @@
 #' @export
 #'
 #' @examples
+#' library(tmtyro)
+#' library(dplyr)
+#'
 #' austen <- "austen.rds" |>
 #'   system.file(package = "tmtyro") |>
 #'   readRDS()
 #'
 #' austen |>
-#'   dplyr::filter(pos %in% c("NN", "NNS")) |>
+#'   filter(pos %in% c("NN", "NNS")) |>
 #'   plot_doc_word_heatmap()
 #'
 #' austen |>
-#'   dplyr::filter(pos %in% c("JJ", "RB")) |>
+#'   filter(pos %in% c("JJ", "RB")) |>
 #'   plot_doc_word_heatmap(feature = lemma, colorset = c("white", "red"))
 #'
 plot_doc_word_heatmap <- function(
-    .data,
+    df,
     num = 10,
     by = doc_id,
     feature = word,
@@ -34,7 +37,7 @@ plot_doc_word_heatmap <- function(
     na_color = "white",
     colorset = "viridis",
     line_color = "gray"){
-  the_df <- .data |>
+  the_df <- df |>
     dplyr::count({{ by }}, {{ feature }}) |>
     dplyr::slice_max(
       n = num,

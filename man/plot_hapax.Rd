@@ -36,8 +36,14 @@ A ggplot object
 Visualize a sample of hapax legomena projected on faceted curves of vocabulary growth over time
 }
 \examples{
-\dontrun{
+austen <- "austen.rds" |>
+  system.file(package = "tmtyro") |>
+  readRDS()
+
+austen_measured <- austen |>
+  measure_lexical_variety()
+
 austen_measured |>
+  standardize_titles() |>
   plot_hapax()
-  }
 }
