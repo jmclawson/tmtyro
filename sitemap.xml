@@ -10,6 +10,15 @@
     <loc>https://jmclawson.github.io/tmtyro/LICENSE.html</loc>
   </url>
   <url>
+    <loc>https://jmclawson.github.io/tmtyro/articles/Counts-Columns-and-Clouds.html</loc>
+  </url>
+  <url>
+    <loc>https://jmclawson.github.io/tmtyro/articles/Page-to-Table.html</loc>
+  </url>
+  <url>
+    <loc>https://jmclawson.github.io/tmtyro/articles/index.html</loc>
+  </url>
+  <url>
     <loc>https://jmclawson.github.io/tmtyro/authors.html</loc>
   </url>
   <url>
@@ -17,12 +26,6 @@
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/download_once.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/get_micusp_corpus.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/get_micusp_metadata.html</loc>
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/index.html</loc>
@@ -38,6 +41,12 @@
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/measure_lexical_variety.html</loc>
+  </url>
+  <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/micusp_corpus.html</loc>
+  </url>
+  <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/micusp_metadata.html</loc>
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/plot_doc_word_heatmap.html</loc>

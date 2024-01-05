@@ -1,8 +1,10 @@
 pandoc: 2.19.2
 pkgdown: 2.0.7
 pkgdown_sha: ~
-articles: {}
-last_built: 2024-01-01T22:16Z
+articles:
+  Counts-Columns-and-Clouds: Counts-Columns-and-Clouds.html
+  Page-to-Table: Page-to-Table.html
+last_built: 2024-01-05T15:40Z
 urls:
   reference: https://jmclawson.github.io/tmtyro/reference
   article: https://jmclawson.github.io/tmtyro/articles
