@@ -248,12 +248,7 @@ austen_texts |>
             words = n()) |> 
     ungroup() |> 
   standardize_titles() |> 
-  rename(title = doc_id) |> 
-  gt::gt() |> 
-  gt::fmt_number(columns = 2:3,
-                 decimals = 0) |> 
-  gt::tab_spanner(label = "totals",
-                  columns = 2:3)
+  rename(title = doc_id)
 ```
 
 
