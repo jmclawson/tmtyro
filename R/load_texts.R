@@ -1,8 +1,8 @@
-#' Load a folder of texts
+#' Load a folder or data frame of texts
 #'
-#' `load_texts()` loads a corpus from a folder of texts and prepare it for further study using tidytext principles. By default, `load_texts()` will add paragraph numbers (suitable for prose), and unnest at the word level, but options exist to change these defaults for poetry, to avoid unnesting, and even to remove words that seem like proper nouns or to apply techniques of natural language processing for lemmatizing words or tagging their parts of speech.
+#' `load_texts()` loads a corpus from a folder of texts or a data frame and prepares it for further study using tidytext principles. By default, `load_texts()` will add paragraph numbers (suitable for prose), and unnest at the word level, but options exist to change these defaults for poetry, to avoid unnesting, and even to remove words that seem like proper nouns or to apply techniques of natural language processing for lemmatizing words or tagging their parts of speech.
 #'
-#' @param folder A directory containing prose texts. Defaults to "data".
+#' @param src Either a string identifying a directory containing texts or a data frame containing an unnested column called "text" and one column with a name ending in "_id". Defaults to "data" to load texts from that directory.
 #' @param name What naming pattern to search for in this folder. Defaults to ".txt".
 #' @param word Whether to split one word per line. Defaults to TRUE.
 #' @param lemma Whether to lemmatize the text. When `word` is TRUE, adds a new column called `lemma`. This step can add a lot of time, so it defaults to FALSE.
@@ -34,7 +34,7 @@
 #'   tidytext::unnest_tokens(word, text)
 #' }
 load_texts <- function(
-    folder = "data",
+    src = "data",
     name = ".txt",
     word = TRUE,
     lemma = FALSE,
@@ -44,16 +44,27 @@ load_texts <- function(
     pos = FALSE,
     poetry = FALSE,
     paragraph = TRUE) {
-  the_files <-
-    list.files(path = paste0(folder, "/"),
-               pattern = name)
+  if (length(class(src)) == 1 && "character" %in% class(src)) {
+    the_files <-
+      list.files(path = paste0(src, "/"),
+                 pattern = name)
 
-  full_corpus <-
-    do.call(rbind,
-            lapply(the_files,
-                   load_one_text,
-                   directory = folder,
-                   poetry = poetry))
+    full_corpus <-
+      do.call(rbind,
+              lapply(the_files,
+                     load_one_text,
+                     directory = src,
+                     poetry = poetry))
+  } else {
+    if (sum(stringr::str_detect(colnames(src), "_id")) == 1) {
+      index_id <- grepl("_id", colnames(src))
+      colnames(src)[index_id] <- "doc_id"
+    } else {
+      stop('When using `load_texts()` on a data frame, exactly one column needs to have a column name ending with "_id". Please rename columns accordingly and try again.')
+    }
+
+    full_corpus <- src
+  }
 
   full_corpus <- full_corpus |>
     tidy_texts_internal(word, lemma, lemma_replace, to_lower, remove_names, pos)

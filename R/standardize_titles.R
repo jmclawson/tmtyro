@@ -13,14 +13,24 @@
 #'   system.file(package = "tmtyro") |>
 #'   readRDS()
 #'
+#' ##### Standardizing strings #####
+#' # Before `standardize_titles()`
+#' unique(austen$doc_id)
+#'
+#' # After `standardize_titles()`
+#' unique(austen$doc_id) |>
+#'   standardize_titles()
+#'
+#' ##### Standardizing a data frame #####
+#'
 #' austen_measured <- austen |>
 #'   measure_lexical_variety()
 #'
-#' # Without standardized titles
+#' # Before `standardize_titles()`
 #' austen_measured |>
 #'   plot_vocabulary(labeling = "inline")
 #'
-#' # With standardized titles
+#' # After `standardize_titles()`
 #' austen_measured |>
 #'   standardize_titles() |>
 #'   plot_vocabulary(labeling = "inline")

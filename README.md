@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# tmtyro
+# tmtyro <a href="https://jmclawson.github.io/tmtyro/"><img src="man/figures/logo.png" align="right" height="208" alt="tmtyro website" /></a>
 
 <!-- badges: start -->
 <!-- badges: end -->

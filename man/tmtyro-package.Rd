@@ -6,6 +6,8 @@
 \alias{tmtyro-package}
 \title{tmtyro: tmtyro: Simplified Workflows for Text Mining Tyros}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 Work with and analyze text for simple and complex features. Adopting tidytext principles, tmtyro abstracts processes a few levels further to allow beginners to use and to familiarize themselves with techniques before needing to understand much code.
 }
 \seealso{

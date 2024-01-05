@@ -8,6 +8,7 @@ plot_vocabulary(
   df,
   x = progress_words,
   by = doc_id,
+  identity = doc_id,
   descriptive_labels = TRUE,
   labeling = c("point", "inset", "inline", "axis")
 )
@@ -17,7 +18,9 @@ plot_vocabulary(
 
 \item{x}{A column showing the cumulative count of words}
 
-\item{by}{A grouping column}
+\item{by}{A grouping column for colors and labels}
+
+\item{identity}{A grouping column for lines}
 
 \item{descriptive_labels}{A toggle for disabling descriptive labels of progress_percent on the X-axis}
 
@@ -51,4 +54,12 @@ austen_measured |>
 austen_measured |>
   standardize_titles() |>
   plot_vocabulary()
+
+\dontrun{
+  micusp_corpus(
+    discipline \%in\% c("Physics", "Economics")) |>
+    load_texts() |>
+    measure_lexical_variety() |>
+    plot_vocabulary(by = discipline)
+}
 }

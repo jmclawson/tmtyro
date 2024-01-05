@@ -3,9 +3,13 @@ internal_plot_engine <- function(
     x,
     y,
     by = doc_id,
+    identity = doc_id,
     descriptive_labels = TRUE,
     labeling = c("point", "inset", "inline", "axis"),
     log_y = FALSE){
+  if (is.null(identity)) {
+    identity <- by
+  }
   x_check <- rlang::as_name(x)
   y_check <- rlang::as_name(y)
   if(length(labeling)>2 & x_check == "progress_percent") {
@@ -20,7 +24,8 @@ internal_plot_engine <- function(
   the_plot <- df |>
     ggplot2::ggplot(ggplot2::aes(x = {{ x }},
                y = {{ y }},
-               color = {{ by }}))
+               color = {{ by }},
+               group = {{ identity }}))
 
   if (labeling == "inline") {
     if (y_check == "htr") {
@@ -187,7 +192,8 @@ internal_plot_engine <- function(
 #'   readRDS()
 #'
 #' austen |>
-#'    measure_lexical_variety()
+#'    measure_lexical_variety() |>
+#'    head()
 measure_lexical_variety <- function(df, by = doc_id, word = word) {
   df |>
     dplyr::ungroup() |>
@@ -216,7 +222,8 @@ measure_lexical_variety <- function(df, by = doc_id, word = word) {
 #'
 #' @param df A tidy data frame, potentially containing columns called "doc_id" and "word"
 #' @param x A column showing the cumulative count of words
-#' @param by A grouping column
+#' @param by A grouping column for colors and labels
+#' @param identity A grouping column for lines
 #' @param descriptive_labels A toggle for disabling descriptive labels of progress_percent on the X-axis
 #' @param labeling Options for labeling groups:
 #' * `"point"` labels the final value
@@ -243,17 +250,27 @@ measure_lexical_variety <- function(df, by = doc_id, word = word) {
 #' austen_measured |>
 #'   standardize_titles() |>
 #'   plot_vocabulary()
-plot_vocabulary <- function(df, x = progress_words, by = doc_id, descriptive_labels = TRUE, labeling = c("point", "inset", "inline", "axis")){
+#'
+#' \dontrun{
+#'   micusp_corpus(
+#'     discipline %in% c("Physics", "Economics")) |>
+#'     load_texts() |>
+#'     measure_lexical_variety() |>
+#'     plot_vocabulary(by = discipline)
+#' }
+plot_vocabulary <- function(df, x = progress_words, by = doc_id, identity = doc_id, descriptive_labels = TRUE, labeling = c("point", "inset", "inline", "axis")){
+
   internal_plot_engine(
     df, rlang::enquo(x), y = rlang::expr(vocabulary),
-    rlang::enquo(by), descriptive_labels, labeling)
+    rlang::enquo(by), identity = rlang::enquo(identity), descriptive_labels, labeling)
 }
 
 #' Visualize type-token ratio over time
 #'
 #' @param df A tidy data frame, potentially containing a column called "doc_id" and "word"
 #' @param x The progress column to show. Default option is progress_percent, but progress_words is also appropriate.
-#' @param by A grouping column such as doc_id, the default.
+#' @param by A grouping column for colors and labels
+#' @param identity A grouping column for lines
 #' @param descriptive_labels A toggle for disabling descriptive labels of progress_percent on the X-axis
 #' @param labeling Options for labeling groups:
 #' * `"point"` labels the final value
@@ -281,10 +298,10 @@ plot_vocabulary <- function(df, x = progress_words, by = doc_id, descriptive_lab
 #' austen_measured |>
 #'   standardize_titles() |>
 #'   plot_ttr()
-plot_ttr <- function(df, x = progress_words, by = doc_id, descriptive_labels = TRUE, labeling = c("point", "inline", "axis", "inset"), log_y = TRUE){
+plot_ttr <- function(df, x = progress_words, by = doc_id, identity = doc_id, descriptive_labels = TRUE, labeling = c("point", "inline", "axis", "inset"), log_y = TRUE){
   internal_plot_engine(
     df, rlang::enquo(x), y = rlang::expr(ttr),
-    rlang::enquo(by), descriptive_labels, labeling,
+    rlang::enquo(by), rlang::enquo(identity), descriptive_labels, labeling,
     log_y)
 }
 
@@ -292,7 +309,8 @@ plot_ttr <- function(df, x = progress_words, by = doc_id, descriptive_labels = T
 #'
 #' @param df A tidy data frame, potentially containing a column called "doc_id" and "word"
 #' @param x The progress column to show. Default option is progress_percent, but progress_words is also appropriate.
-#' @param by A grouping column such as doc_id, the default.
+#' @param by A grouping column for colors and labels
+#' @param identity A grouping column for lines
 #' @param descriptive_labels A toggle for disabling descriptive labels of progress_percent on the X-axis
 #' @param labeling Options for labeling groups:
 #' * `"point"` labels the final value
@@ -316,10 +334,10 @@ plot_ttr <- function(df, x = progress_words, by = doc_id, descriptive_labels = T
 #' austen_measured |>
 #'   standardize_titles() |>
 #'   plot_htr()
-plot_htr <- function(df, x = progress_words, by = doc_id, descriptive_labels = TRUE, labeling = c("point", "inline", "axis", "inset"), log_y = TRUE){
+plot_htr <- function(df, x = progress_words, by = doc_id, identity = doc_id, descriptive_labels = TRUE, labeling = c("point", "inline", "axis", "inset"), log_y = TRUE){
   internal_plot_engine(
     df, rlang::enquo(x), y = rlang::expr(htr),
-    rlang::enquo(by), descriptive_labels, labeling,
+    rlang::enquo(by), identity = rlang::enquo(identity), descriptive_labels, labeling,
     log_y)
 }
 

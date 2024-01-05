@@ -35,5 +35,6 @@ austen <- "austen.rds" |>
   readRDS()
 
 austen |>
-   measure_lexical_variety()
+   measure_lexical_variety() |>
+   head()
 }

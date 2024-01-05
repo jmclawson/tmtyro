@@ -8,6 +8,7 @@ plot_ttr(
   df,
   x = progress_words,
   by = doc_id,
+  identity = doc_id,
   descriptive_labels = TRUE,
   labeling = c("point", "inline", "axis", "inset"),
   log_y = TRUE
@@ -18,7 +19,9 @@ plot_ttr(
 
 \item{x}{The progress column to show. Default option is progress_percent, but progress_words is also appropriate.}
 
-\item{by}{A grouping column such as doc_id, the default.}
+\item{by}{A grouping column for colors and labels}
+
+\item{identity}{A grouping column for lines}
 
 \item{descriptive_labels}{A toggle for disabling descriptive labels of progress_percent on the X-axis}
 

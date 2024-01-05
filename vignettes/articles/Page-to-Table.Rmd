@@ -1,0 +1,259 @@
+---
+title: "Page to Table"
+subtitle: "Adding Structure Where It Wasn't"
+output:
+  html_document:
+    df_print: paged
+    toc: yes
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+There are certain considerations to keep in mind when working with text in any kind of analysis. Text is often called "unstructured data" because it resists techniques that work on other kinds of data. With little effort, we can add structure by reading text data into a table structure.
+
+## The easy way with `tmtyro`
+
+### Getting started
+
+It's best to start by loading any necessary package using the `library()` function. The `tmtyro` package provides many simple functions for working with text, so it's loaded here:
+
+```{r setup}
+library(tmtyro)
+```
+
+### Using `load_texts()`
+
+With `tmtyro` loaded, its tools are available. First of these is the `load_texts()` function, designed to load a folder of texts. To use it, copy any ".txt" files you wish to study into a directory in your project. By default, `load_texts()` will look for a folder called **data/** underneath the current directory, but we can tell it to look elsewhere.
+
+For this example, all of Jane Austen's novels have been saved in a folder called **austen**, so this location will be added to the `load_texts()` function. To save and work with these texts later, the results need to be assigned to a named object. The code here uses an assignment arrow `<-` to assign the table to the name `austen_texts`:
+
+```{r}
+austen_texts <- load_texts("austen/")
+```
+
+Once it has a name, this table can be viewed by typing its name to see the whole thing. The `head()` function is also useful to show just the first few rows.
+
+```{r}
+head(austen_texts)
+```
+
+By default, `load_texts()` prepares three columns:
+
+1. `doc_id` indicates the file name. Think of it as the document ID or title.
+2. `par_num` indicates the paragraph number. Think of it as a local context, in case you ever want to use it.
+3. `word` divides the text one word per row, all lowercase. Think of it as letting you read a book by going top to bottom, instead of left to right.
+
+At this point, we're done! Having texts loaded into a table adds structure, making it easier to apply some common methods of data analysis. And `tmtyro`'s `load_texts()` simplified many steps along the way.
+
+## The hard way
+
+Without resorting to other packages, it can be tough to effect the same table. The best might be to build up multiple tables, with one for each file, and then to stick them together in one combined table. 
+
+### Reading a file
+
+The first step is to read a text file into a table. The `data.frame()` and `readLines()` functions make this possible:
+
+```{r reading a file}
+emma <- data.frame(
+  doc_id = "emma",
+  text = readLines("austen/emma.txt"))
+
+head(emma, n = 15)
+```
+
+Because we've used the assignment arrow `<-` to assign the table to the name `emma`, we can reference it in later steps and even overwrite it by saving over the name.
+
+### Counting Paragraphs
+
+This option *nearly* gets to the fleeting, unsaved table above. It has a lot of empty lines and it lacks paragraph markers, but these can be corrected. The `mutate()` function of the `dplyr` package eases the process of adding a new column, as for paragraph number. And blank lines offer a good way of counting paragraphs, using the `cumsum()` function to keep a running tally:
+
+```{r counting line breaks}
+library(dplyr)
+
+emma <- emma |> 
+  mutate(par_num = cumsum(text == ""))
+
+head(emma, n = 15)
+```
+
+This code also chunk shows the pipe `|>` to be handy for passing one step to the next. Effectively, it means that the result of everything *before* the pipe `|>` gets placed inside the parentheses of whatever function comes *after* the pipe `|>`.
+
+### Dropping empty lines
+
+It's still not quite right, since all of the blank lines are being counted. So we'll drop all the blank lines and recount using a different measurement. First things first---the `filter()` function from `dplyr` makes it easy to select or to drop rows that meet some criteria. We'll tell it here to find rows that *don't* have a blank in the `text` column: 
+
+```{r dropping empty lines}
+emma <- emma |> 
+  filter(text != "")
+
+head(emma)
+```
+
+### Correcting the count
+
+The blank lines have been eradicated, but our paragraph numbers are all wrong! Using the `lag()` function from `dplyr` makes it easy to compare one cell with the value above it. Effectively, we're going to make a new running tally of every time the paragraph number changes using `cumsum()`. We could do all of this in one step, but it may make more sense to separate it out into multiple columns, which might be invisible without some scrolling:
+
+```{r attempt to fix numbering}
+emma <- emma |> 
+  mutate(
+    lag_num = lag(par_num),
+    new_par = lag_num != par_num,
+    adj_num = cumsum(new_par))
+
+head(emma)
+```
+
+This step *almost* works, but the `lag()` has nowhere to look to get a value for the first row. Lacking that, it returns an empty string. We'll need to add one more step to change the empty string into a zero. Piping `lag_num` into an `ifelse()` test lets us check to see if it's empty (`NA`) using `is.na()`; if it's empty, the test will return 0, but if it's not, it will return the value:
+
+```{r fixing bad numbering}
+emma <- emma |> 
+  mutate(
+    lag_num = lag(par_num) |> 
+      is.na() |> 
+      ifelse(0, lag(par_num)),
+    new_par = lag_num != par_num,
+    adj_num = cumsum(new_par))
+
+head(emma)
+```
+
+### Selecting, reordering, and renaming columns
+
+This new `adj_num` column looks right. Every new paragraph has a new number, and they progress as we'd expect. The other columns aren't needed, though, so we can drop the old `par_num`, `lag_num`, and `new_par` columns and then rename `adj_num` as `lag_num`. The `select()` function from `dplyr` is the easiest way to choose which columns we want to keep and the order we want to keep them. We can also rename columns as we select them, so we'll take the opportunity to rename `adj_num` as `par_num`:
+
+```{r selecting columns}
+emma <- emma |> 
+  select(doc_id,
+         par_num = adj_num,
+         text)
+  
+head(emma)
+```
+
+### Unnesting words
+
+The final step is to "unnest" the lines of text to have just one word per row. While we're at it, we might as well convert the words to lowercase. The handy `tidytext` package has just the function we need in `unnest_tokens()`:
+
+```{r unnesting tokens}
+library(tidytext)
+
+emma <- emma |> 
+  unnest_tokens(output = word, 
+                input = text)
+
+head(emma)
+```
+
+### Putting it all together
+
+We've successfully loaded up one text the hard way! Let's put it all in one step to see what it takes:
+
+```{r all together}
+emma <- data.frame(
+  doc_id = "emma",
+  text = readLines("austen/emma.txt")) |> 
+  mutate(par_num = cumsum(text == "")) |> 
+  filter(text != "") |> 
+  mutate(
+    lag_num = lag(par_num) |> 
+      is.na() |> 
+      ifelse(0, lag(par_num)),
+    new_par = lag_num != par_num,
+    adj_num = cumsum(new_par)) |> 
+  select(doc_id,
+         par_num = adj_num,
+         text) |> 
+  unnest_tokens(output = word, 
+                input = text)
+
+head(emma)
+```
+
+### Repeating for other files
+
+To load an entire folder of texts, we need to repeat this process for each and then combine the tables. Instead of doing this whole thing for every text in our data set, let's just do it for one additional novel. In the first couple lines, the `doc_id` will need to be adjusted, and the filename will need to point to the new text:
+
+```{r}
+persuasion <- data.frame(
+  doc_id = "persuasion",
+  text = readLines("austen/persuasion.txt")) |> 
+  mutate(par_num = cumsum(text == "")) |> 
+  filter(text != "") |> 
+  mutate(
+    lag_num = lag(par_num) |> 
+      is.na() |> 
+      ifelse(0, lag(par_num)),
+    new_par = lag_num != par_num,
+    adj_num = cumsum(new_par)) |> 
+  select(doc_id,
+         par_num = adj_num,
+         text) |> 
+  unnest_tokens(output = word, 
+                input = text)
+
+head(persuasion)
+```
+
+### Combining multiple tables
+
+Once multiple texts are loaded up, they can be combined into one table with `rbind()` to bind the rows together:
+
+```{r}
+combo <- rbind(emma, persuasion)
+
+head(combo)
+tail(combo)
+```
+
+## Reviewing the easy way
+
+The "hard" way of loading texts can take about 33 lines of code to load two files and combine them, with more lines as the number of files grows. The "easy" way using `tmtyro` takes just one line of code to prepare as many files as are in a folder:
+
+```{r easy way}
+austen_texts <- load_texts("austen/")
+
+head(austen_texts)
+
+tail(austen_texts)
+```
+
+### Say more, do less
+
+By changing some options, `load_texts()` will skip some of these transformations, presenting texts in mixed case and with one line per row in a column called `text`:
+
+```{r}
+load_texts("austen/", 
+           word = FALSE,
+           to_lower = FALSE) |>
+  head()
+```
+
+Because this version of the table hasn't been assigned a name with the assignment arrow `<-`, it hasn't been saved and exists only as a fleeting memory. 
+
+There are other options available, too, but they deserve closer consideration than can be offered in this document.
+
+### Summary of documents
+
+Once loaded, this corpus of texts by Jane Austen offers many possibilities for text mining and analysis.
+
+```{r echo=FALSE}
+austen_texts |> 
+  group_by(doc_id) |> 
+  summarize(paragraphs = max(par_num),
+            words = n()) |> 
+    ungroup() |> 
+  standardize_titles() |> 
+  rename(title = doc_id) |> 
+  gt::gt() |> 
+  gt::fmt_number(columns = 2:3,
+                 decimals = 0) |> 
+  gt::tab_spanner(label = "totals",
+                  columns = 2:3)
+```
+
+

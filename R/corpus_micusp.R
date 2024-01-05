@@ -1,6 +1,6 @@
-#' Retrieve a table of metadata from the Michigan Corpus of Upper-level Student Papers.
+#' Get MICUSP metadata
 #'
-#' Explore metadata of available MICUSP texts to choose a corpus. On first use, the function creates a folder in the working directory and downloads the "micusp_metadata.csv" file before opening it. Subsequent use of the function will load from the local copy.
+#' Explore metadata of available MICUSP (Michigan Corpus of Upper-level Student Papers) texts to choose a corpus. On first use, the function creates a folder in the working directory and downloads the "micusp_metadata.csv" file before opening it. Subsequent use of the function will load from the local copy.
 #'
 #' @param micusp_dir The name of the directory for storing local copies of MICUSP materials. Defaults to "micusp/".
 #'
@@ -10,9 +10,9 @@
 #'
 #' @examples
 #' \dontrun{
-#' get_micusp_metadata() |> View()
+#' micusp_metadata() |> head()
 #' }
-get_micusp_metadata <- function(micusp_dir = "micusp"){
+micusp_metadata <- function(micusp_dir = "micusp"){
   download_once("https://elicorpora.info/browse?mode=download&start=1&sort=dept&direction=desc",
                 filename = "micusp_metadata.csv",
                 destdir = micusp_dir)
@@ -48,9 +48,9 @@ parse_micusp_paper <- function(paperid,
     paste0(collapse = "\n")
 }
 
-#' Prepare a corpus of texts from the Michigan Corpus of Upper-level Student Papers.
+#' Get a MICUSP corpus
 #'
-#' The function accepts filters on columns from `micusp_metadata()` and downloads and parses texts locally if copies don't yet exist. It returns a table combining metadata and text data for further processing.
+#' The function accepts filters on columns from `micusp_metadata()` and downloads and parses MICUSP (Michigan Corpus of Upper-level Student Papers) texts locally if copies don't yet exist. It returns a table combining metadata and text data for further processing.
 #'
 #' @param ... A filter on rows and columns from `micusp_metadata()`. Accepted columns include the following: `paper_id`, `title`, `discipline`, `paper_type`, `student_level`, `sex`, `nativeness`, and `textual_features`.
 #'
@@ -60,12 +60,40 @@ parse_micusp_paper <- function(paperid,
 #'
 #' @examples
 #' \dontrun{
-#' physics_f <- get_micusp_corpus(discipline == "Physics", sex == "Female")
-#' physics_m <- get_micusp_corpus(discipline == "Physics", sex == "Female")
+#' physics_f <- micusp_corpus(discipline == "Physics", sex == "Female")
+#' physics_m <- micusp_corpus(discipline == "Physics", sex == "Male")
+#'
+#' discipline_by_sex <-
+#'   get_micusp_metadata() |>
+#'   dplyr::count(discipline, sex) |>
+#'   tidyr::pivot_wider(
+#'     names_from = "sex",
+#'     values_from = "n") |>
+#'   dplyr::mutate(
+#'     ratio_f = (Female) / (Male + Female)) |>
+#'     dplyr::arrange(ratio_f)
+#'
+#'  disciplines_low_f <-
+#'   discipline_by_sex |>
+#'   head(3) |>
+#'   dplyr::pull(discipline)
+#'
+#'  disciplines_low_m <-
+#'   discipline_by_sex |>
+#'   tail(3) |>
+#'   dplyr::pull(discipline)
+#'
+#' low_representation_f <- micusp_corpus(
+#'   sex == "Female",
+#'   discipline %in% disciplines_low_f)
+#'
+#'  low_representation_m <- micusp_corpus(
+#'   sex == "Male",
+#'   discipline %in% disciplines_low_m)
 #' }
-get_micusp_corpus <- function(...){
+micusp_corpus <- function(...){
   the_df <-
-    get_micusp_metadata() |>
+    micusp_metadata() |>
     dplyr::filter(...)
 
   the_urls <-

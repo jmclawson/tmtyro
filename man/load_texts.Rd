@@ -2,10 +2,10 @@
 % Please edit documentation in R/load_texts.R
 \name{load_texts}
 \alias{load_texts}
-\title{Load a folder of texts}
+\title{Load a folder or data frame of texts}
 \usage{
 load_texts(
-  folder = "data",
+  src = "data",
   name = ".txt",
   word = TRUE,
   lemma = FALSE,
@@ -18,7 +18,7 @@ load_texts(
 )
 }
 \arguments{
-\item{folder}{A directory containing prose texts. Defaults to "data".}
+\item{src}{Either a string identifying a directory containing texts or a data frame containing an unnested column called "text" and one column with a name ending in "_id". Defaults to "data" to load texts from that directory.}
 
 \item{name}{What naming pattern to search for in this folder. Defaults to ".txt".}
 
@@ -42,7 +42,7 @@ load_texts(
 A data frame with two to five columns and one row for each word (optionally, one row for each paragraph or one row for each line) in the corpus.
 }
 \description{
-\code{load_texts()} loads a corpus from a folder of texts and prepare it for further study using tidytext principles. By default, \code{load_texts()} will add paragraph numbers (suitable for prose), and unnest at the word level, but options exist to change these defaults for poetry, to avoid unnesting, and even to remove words that seem like proper nouns or to apply techniques of natural language processing for lemmatizing words or tagging their parts of speech.
+\code{load_texts()} loads a corpus from a folder of texts or a data frame and prepares it for further study using tidytext principles. By default, \code{load_texts()} will add paragraph numbers (suitable for prose), and unnest at the word level, but options exist to change these defaults for poetry, to avoid unnesting, and even to remove words that seem like proper nouns or to apply techniques of natural language processing for lemmatizing words or tagging their parts of speech.
 }
 \examples{
 \dontrun{

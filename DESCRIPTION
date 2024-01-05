@@ -40,3 +40,4 @@ Imports:
     topicmodels,
     viridis,
     wordcloud
+Config/Needs/website: rmarkdown
