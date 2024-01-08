@@ -239,16 +239,16 @@ get_corpus <- function(
 
   corpus_internal <- function(
     corpus,
-    name = ".txt",
-    word = TRUE,
-    lemma = FALSE,
-    lemma_replace = FALSE,
-    to_lower = TRUE,
-    remove_names = FALSE,
-    pos = FALSE,
-    poetry = FALSE,
-    paragraph = TRUE,
-    cache = TRUE) {
+    name,
+    word,
+    lemma,
+    lemma_replace,
+    to_lower,
+    remove_names,
+    pos,
+    poetry,
+    paragraph,
+    cache) {
     x_rds <- paste0(corpus, ".rds")
 
     if (file.exists(x_rds) & cache) {
@@ -279,7 +279,11 @@ get_corpus <- function(
   }
 
   corpus |>
-    purrr::map(\(x) {corpus_internal(x, ...)}) |>
+    purrr::map(\(x) {corpus_internal(
+      x, name, word,
+      lemma, lemma_replace, to_lower,
+      remove_names, pos, poetry,
+      paragraph, cache)}) |>
     dplyr::bind_rows()
 }
 

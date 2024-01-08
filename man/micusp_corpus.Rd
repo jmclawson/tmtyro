@@ -21,7 +21,7 @@ physics_f <- micusp_corpus(discipline == "Physics", sex == "Female")
 physics_m <- micusp_corpus(discipline == "Physics", sex == "Male")
 
 discipline_by_sex <-
-  get_micusp_metadata() |>
+  micusp_metadata() |>
   dplyr::count(discipline, sex) |>
   tidyr::pivot_wider(
     names_from = "sex",
