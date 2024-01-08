@@ -56,10 +56,12 @@ Without resorting to other packages, it can be tough to effect the same table. T
 
 ### Reading a file
 
-The first step is to read a text file into a table. The `data.frame()` and `readLines()` functions make this possible:
+The first step is to read a text file into a table. The `tibble()` function from the `tibble` package and the `readLines()` functions make this possible:
 
 ```{r reading a file}
-emma <- data.frame(
+library(tibble)
+
+emma <- tibble(
   doc_id = "emma",
   text = readLines("austen/emma.txt"))
 
@@ -170,8 +172,6 @@ emma <- data.frame(
          text) |> 
   unnest_tokens(output = word, 
                 input = text)
-
-head(emma)
 ```
 
 ### Repeating for other files
@@ -195,8 +195,6 @@ persuasion <- data.frame(
          text) |> 
   unnest_tokens(output = word, 
                 input = text)
-
-head(persuasion)
 ```
 
 ### Combining multiple tables
@@ -224,6 +222,16 @@ tail(austen_texts)
 
 ### Say more, do less
 
+By default, `load_texts()` will load and process an entire folder of texts. But by adjusting a few options, we can convince the it to do less. We can, for instance, get it to load a single file by naming it:
+
+```{r}
+load_texts("austen/",
+           name = "emma.txt") |> 
+  head()
+```
+
+(Because this version of the table hasn't been assigned a name with the assignment arrow `<-`, it hasn't been saved and exists only as a fleeting memory.)
+
 By changing some options, `load_texts()` will skip some of these transformations, presenting texts in mixed case and with one line per row in a column called `text`:
 
 ```{r}
@@ -232,8 +240,6 @@ load_texts("austen/",
            to_lower = FALSE) |>
   head()
 ```
-
-Because this version of the table hasn't been assigned a name with the assignment arrow `<-`, it hasn't been saved and exists only as a fleeting memory. 
 
 There are other options available, too, but they deserve closer consideration than can be offered in this document.
 
