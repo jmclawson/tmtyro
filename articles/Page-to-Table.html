@@ -165,46 +165,34 @@ each file, and then to stick them together in one combined table.</p>
 <h3 id="reading-a-file">Reading a file<a class="anchor" aria-label="anchor" href="#reading-a-file"></a>
 </h3>
 <p>The first step is to read a text file into a table. The
-<code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> and <code><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines()</a></code> functions make
-this possible:</p>
+<code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble()</a></code> function from the <code>tibble</code> package and
+the <code><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines()</a></code> functions make this possible:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">emma</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/" class="external-link">tibble</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">emma</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
 <span>  doc_id <span class="op">=</span> <span class="st">"emma"</span>,</span>
 <span>  text <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="st">"austen/emma.txt"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">emma</span>, n <span class="op">=</span> <span class="fl">15</span><span class="op">)</span></span>
-<span><span class="co">#&gt;    doc_id</span></span>
-<span><span class="co">#&gt; 1    emma</span></span>
-<span><span class="co">#&gt; 2    emma</span></span>
-<span><span class="co">#&gt; 3    emma</span></span>
-<span><span class="co">#&gt; 4    emma</span></span>
-<span><span class="co">#&gt; 5    emma</span></span>
-<span><span class="co">#&gt; 6    emma</span></span>
-<span><span class="co">#&gt; 7    emma</span></span>
-<span><span class="co">#&gt; 8    emma</span></span>
-<span><span class="co">#&gt; 9    emma</span></span>
-<span><span class="co">#&gt; 10   emma</span></span>
-<span><span class="co">#&gt; 11   emma</span></span>
-<span><span class="co">#&gt; 12   emma</span></span>
-<span><span class="co">#&gt; 13   emma</span></span>
-<span><span class="co">#&gt; 14   emma</span></span>
-<span><span class="co">#&gt; 15   emma</span></span>
-<span><span class="co">#&gt;                                                                       text</span></span>
-<span><span class="co">#&gt; 1                                                                         </span></span>
-<span><span class="co">#&gt; 2                                                                         </span></span>
-<span><span class="co">#&gt; 3                                                                 VOLUME I</span></span>
-<span><span class="co">#&gt; 4                                                                         </span></span>
-<span><span class="co">#&gt; 5                                                                         </span></span>
-<span><span class="co">#&gt; 6                                                                         </span></span>
-<span><span class="co">#&gt; 7                                                                         </span></span>
-<span><span class="co">#&gt; 8                                                                CHAPTER I</span></span>
-<span><span class="co">#&gt; 9                                                                         </span></span>
-<span><span class="co">#&gt; 10                                                                        </span></span>
-<span><span class="co">#&gt; 11 Emma Woodhouse, handsome, clever, and rich, with a comfortable home and</span></span>
-<span><span class="co">#&gt; 12        happy disposition, seemed to unite some of the best blessings of</span></span>
-<span><span class="co">#&gt; 13 existence; and had lived nearly twenty-one years in the world with very</span></span>
-<span><span class="co">#&gt; 14                                          little to distress or vex her.</span></span>
-<span><span class="co">#&gt; 15</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 15 × 2</span></span></span>
+<span><span class="co">#&gt;    doc_id text                                                                  </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                                 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> emma   <span style="color: #949494;">""</span>                                                                    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> emma   <span style="color: #949494;">""</span>                                                                    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> emma   <span style="color: #949494;">"</span>VOLUME I<span style="color: #949494;">"</span>                                                            </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> emma   <span style="color: #949494;">""</span>                                                                    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> emma   <span style="color: #949494;">""</span>                                                                    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> emma   <span style="color: #949494;">""</span>                                                                    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> emma   <span style="color: #949494;">""</span>                                                                    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> emma   <span style="color: #949494;">"</span>CHAPTER I<span style="color: #949494;">"</span>                                                           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> emma   <span style="color: #949494;">""</span>                                                                    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> emma   <span style="color: #949494;">""</span>                                                                    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> emma   <span style="color: #949494;">"</span>Emma Woodhouse, handsome, clever, and rich, with a comfortable home …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> emma   <span style="color: #949494;">"</span>happy disposition, seemed to unite some of the best blessings of<span style="color: #949494;">"</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> emma   <span style="color: #949494;">"</span>existence; and had lived nearly twenty-one years in the world with v…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> emma   <span style="color: #949494;">"</span>little to distress or vex her.<span style="color: #949494;">"</span>                                      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> emma   <span style="color: #949494;">""</span></span></span></code></pre></div>
 <p>Because we’ve used the assignment arrow <code>&lt;-</code> to assign
 the table to the name <code>emma</code>, we can reference it in later
 steps and even overwrite it by saving over the name.</p>
@@ -234,54 +222,24 @@ tally:</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>par_num <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumsum</a></span><span class="op">(</span><span class="va">text</span> <span class="op">==</span> <span class="st">""</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">emma</span>, n <span class="op">=</span> <span class="fl">15</span><span class="op">)</span></span>
-<span><span class="co">#&gt;    doc_id</span></span>
-<span><span class="co">#&gt; 1    emma</span></span>
-<span><span class="co">#&gt; 2    emma</span></span>
-<span><span class="co">#&gt; 3    emma</span></span>
-<span><span class="co">#&gt; 4    emma</span></span>
-<span><span class="co">#&gt; 5    emma</span></span>
-<span><span class="co">#&gt; 6    emma</span></span>
-<span><span class="co">#&gt; 7    emma</span></span>
-<span><span class="co">#&gt; 8    emma</span></span>
-<span><span class="co">#&gt; 9    emma</span></span>
-<span><span class="co">#&gt; 10   emma</span></span>
-<span><span class="co">#&gt; 11   emma</span></span>
-<span><span class="co">#&gt; 12   emma</span></span>
-<span><span class="co">#&gt; 13   emma</span></span>
-<span><span class="co">#&gt; 14   emma</span></span>
-<span><span class="co">#&gt; 15   emma</span></span>
-<span><span class="co">#&gt;                                                                       text</span></span>
-<span><span class="co">#&gt; 1                                                                         </span></span>
-<span><span class="co">#&gt; 2                                                                         </span></span>
-<span><span class="co">#&gt; 3                                                                 VOLUME I</span></span>
-<span><span class="co">#&gt; 4                                                                         </span></span>
-<span><span class="co">#&gt; 5                                                                         </span></span>
-<span><span class="co">#&gt; 6                                                                         </span></span>
-<span><span class="co">#&gt; 7                                                                         </span></span>
-<span><span class="co">#&gt; 8                                                                CHAPTER I</span></span>
-<span><span class="co">#&gt; 9                                                                         </span></span>
-<span><span class="co">#&gt; 10                                                                        </span></span>
-<span><span class="co">#&gt; 11 Emma Woodhouse, handsome, clever, and rich, with a comfortable home and</span></span>
-<span><span class="co">#&gt; 12        happy disposition, seemed to unite some of the best blessings of</span></span>
-<span><span class="co">#&gt; 13 existence; and had lived nearly twenty-one years in the world with very</span></span>
-<span><span class="co">#&gt; 14                                          little to distress or vex her.</span></span>
-<span><span class="co">#&gt; 15                                                                        </span></span>
-<span><span class="co">#&gt;    par_num</span></span>
-<span><span class="co">#&gt; 1        1</span></span>
-<span><span class="co">#&gt; 2        2</span></span>
-<span><span class="co">#&gt; 3        2</span></span>
-<span><span class="co">#&gt; 4        3</span></span>
-<span><span class="co">#&gt; 5        4</span></span>
-<span><span class="co">#&gt; 6        5</span></span>
-<span><span class="co">#&gt; 7        6</span></span>
-<span><span class="co">#&gt; 8        6</span></span>
-<span><span class="co">#&gt; 9        7</span></span>
-<span><span class="co">#&gt; 10       8</span></span>
-<span><span class="co">#&gt; 11       8</span></span>
-<span><span class="co">#&gt; 12       8</span></span>
-<span><span class="co">#&gt; 13       8</span></span>
-<span><span class="co">#&gt; 14       8</span></span>
-<span><span class="co">#&gt; 15       9</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 15 × 3</span></span></span>
+<span><span class="co">#&gt;    doc_id text                                                           par_num</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> emma   <span style="color: #949494;">""</span>                                                                   1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> emma   <span style="color: #949494;">""</span>                                                                   2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> emma   <span style="color: #949494;">"</span>VOLUME I<span style="color: #949494;">"</span>                                                           2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> emma   <span style="color: #949494;">""</span>                                                                   3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> emma   <span style="color: #949494;">""</span>                                                                   4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> emma   <span style="color: #949494;">""</span>                                                                   5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> emma   <span style="color: #949494;">""</span>                                                                   6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> emma   <span style="color: #949494;">"</span>CHAPTER I<span style="color: #949494;">"</span>                                                          6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> emma   <span style="color: #949494;">""</span>                                                                   7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> emma   <span style="color: #949494;">""</span>                                                                   8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> emma   <span style="color: #949494;">"</span>Emma Woodhouse, handsome, clever, and rich, with a comfortab…       8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> emma   <span style="color: #949494;">"</span>happy disposition, seemed to unite some of the best blessing…       8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> emma   <span style="color: #949494;">"</span>existence; and had lived nearly twenty-one years in the worl…       8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> emma   <span style="color: #949494;">"</span>little to distress or vex her.<span style="color: #949494;">"</span>                                     8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> emma   <span style="color: #949494;">""</span>                                                                   9</span></span></code></pre></div>
 <p>This code also chunk shows the pipe <code>|&gt;</code> to be handy
 for passing one step to the next. Effectively, it means that the result
 of everything <em>before</em> the pipe <code>|&gt;</code> gets placed
@@ -302,27 +260,15 @@ a blank in the <code>text</code> column:</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">text</span> <span class="op">!=</span> <span class="st">""</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">emma</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   doc_id</span></span>
-<span><span class="co">#&gt; 1   emma</span></span>
-<span><span class="co">#&gt; 2   emma</span></span>
-<span><span class="co">#&gt; 3   emma</span></span>
-<span><span class="co">#&gt; 4   emma</span></span>
-<span><span class="co">#&gt; 5   emma</span></span>
-<span><span class="co">#&gt; 6   emma</span></span>
-<span><span class="co">#&gt;                                                                      text</span></span>
-<span><span class="co">#&gt; 1                                                                VOLUME I</span></span>
-<span><span class="co">#&gt; 2                                                               CHAPTER I</span></span>
-<span><span class="co">#&gt; 3 Emma Woodhouse, handsome, clever, and rich, with a comfortable home and</span></span>
-<span><span class="co">#&gt; 4        happy disposition, seemed to unite some of the best blessings of</span></span>
-<span><span class="co">#&gt; 5 existence; and had lived nearly twenty-one years in the world with very</span></span>
-<span><span class="co">#&gt; 6                                          little to distress or vex her.</span></span>
-<span><span class="co">#&gt;   par_num</span></span>
-<span><span class="co">#&gt; 1       2</span></span>
-<span><span class="co">#&gt; 2       6</span></span>
-<span><span class="co">#&gt; 3       8</span></span>
-<span><span class="co">#&gt; 4       8</span></span>
-<span><span class="co">#&gt; 5       8</span></span>
-<span><span class="co">#&gt; 6       8</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 3</span></span></span>
+<span><span class="co">#&gt;   doc_id text                                                            par_num</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                             <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> emma   VOLUME I                                                              2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> emma   CHAPTER I                                                             6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> emma   Emma Woodhouse, handsome, clever, and rich, with a comfortable…       8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> emma   happy disposition, seemed to unite some of the best blessings …       8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> emma   existence; and had lived nearly twenty-one years in the world …       8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> emma   little to distress or vex her.                                        8</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="correcting-the-count">Correcting the count<a class="anchor" aria-label="anchor" href="#correcting-the-count"></a>
@@ -342,27 +288,15 @@ columns, which might be invisible without some scrolling:</p>
 <span>    adj_num <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumsum</a></span><span class="op">(</span><span class="va">new_par</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">emma</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   doc_id</span></span>
-<span><span class="co">#&gt; 1   emma</span></span>
-<span><span class="co">#&gt; 2   emma</span></span>
-<span><span class="co">#&gt; 3   emma</span></span>
-<span><span class="co">#&gt; 4   emma</span></span>
-<span><span class="co">#&gt; 5   emma</span></span>
-<span><span class="co">#&gt; 6   emma</span></span>
-<span><span class="co">#&gt;                                                                      text</span></span>
-<span><span class="co">#&gt; 1                                                                VOLUME I</span></span>
-<span><span class="co">#&gt; 2                                                               CHAPTER I</span></span>
-<span><span class="co">#&gt; 3 Emma Woodhouse, handsome, clever, and rich, with a comfortable home and</span></span>
-<span><span class="co">#&gt; 4        happy disposition, seemed to unite some of the best blessings of</span></span>
-<span><span class="co">#&gt; 5 existence; and had lived nearly twenty-one years in the world with very</span></span>
-<span><span class="co">#&gt; 6                                          little to distress or vex her.</span></span>
-<span><span class="co">#&gt;   par_num lag_num new_par adj_num</span></span>
-<span><span class="co">#&gt; 1       2      NA      NA      NA</span></span>
-<span><span class="co">#&gt; 2       6       2    TRUE      NA</span></span>
-<span><span class="co">#&gt; 3       8       6    TRUE      NA</span></span>
-<span><span class="co">#&gt; 4       8       8   FALSE      NA</span></span>
-<span><span class="co">#&gt; 5       8       8   FALSE      NA</span></span>
-<span><span class="co">#&gt; 6       8       8   FALSE      NA</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
+<span><span class="co">#&gt;   doc_id text                                    par_num lag_num new_par adj_num</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> emma   VOLUME I                                      2      <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>           <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> emma   CHAPTER I                                     6       2 TRUE         <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> emma   Emma Woodhouse, handsome, clever, and …       8       6 TRUE         <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> emma   happy disposition, seemed to unite som…       8       8 FALSE        <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> emma   existence; and had lived nearly twenty…       8       8 FALSE        <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> emma   little to distress or vex her.                8       8 FALSE        <span style="color: #BB0000;">NA</span></span></span></code></pre></div>
 <p>This step <em>almost</em> works, but the <code><a href="https://dplyr.tidyverse.org/reference/lead-lag.html" class="external-link">lag()</a></code> has
 nowhere to look to get a value for the first row. Lacking that, it
 returns an empty string. We’ll need to add one more step to change the
@@ -380,27 +314,15 @@ will return 0, but if it’s not, it will return the value:</p>
 <span>    adj_num <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumsum</a></span><span class="op">(</span><span class="va">new_par</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">emma</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   doc_id</span></span>
-<span><span class="co">#&gt; 1   emma</span></span>
-<span><span class="co">#&gt; 2   emma</span></span>
-<span><span class="co">#&gt; 3   emma</span></span>
-<span><span class="co">#&gt; 4   emma</span></span>
-<span><span class="co">#&gt; 5   emma</span></span>
-<span><span class="co">#&gt; 6   emma</span></span>
-<span><span class="co">#&gt;                                                                      text</span></span>
-<span><span class="co">#&gt; 1                                                                VOLUME I</span></span>
-<span><span class="co">#&gt; 2                                                               CHAPTER I</span></span>
-<span><span class="co">#&gt; 3 Emma Woodhouse, handsome, clever, and rich, with a comfortable home and</span></span>
-<span><span class="co">#&gt; 4        happy disposition, seemed to unite some of the best blessings of</span></span>
-<span><span class="co">#&gt; 5 existence; and had lived nearly twenty-one years in the world with very</span></span>
-<span><span class="co">#&gt; 6                                          little to distress or vex her.</span></span>
-<span><span class="co">#&gt;   par_num lag_num new_par adj_num</span></span>
-<span><span class="co">#&gt; 1       2       0    TRUE       1</span></span>
-<span><span class="co">#&gt; 2       6       2    TRUE       2</span></span>
-<span><span class="co">#&gt; 3       8       6    TRUE       3</span></span>
-<span><span class="co">#&gt; 4       8       8   FALSE       3</span></span>
-<span><span class="co">#&gt; 5       8       8   FALSE       3</span></span>
-<span><span class="co">#&gt; 6       8       8   FALSE       3</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
+<span><span class="co">#&gt;   doc_id text                                    par_num lag_num new_par adj_num</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> emma   VOLUME I                                      2       0 TRUE          1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> emma   CHAPTER I                                     6       2 TRUE          2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> emma   Emma Woodhouse, handsome, clever, and …       8       6 TRUE          3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> emma   happy disposition, seemed to unite som…       8       8 FALSE         3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> emma   existence; and had lived nearly twenty…       8       8 FALSE         3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> emma   little to distress or vex her.                8       8 FALSE         3</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="selecting-reordering-and-renaming-columns">Selecting, reordering, and renaming columns<a class="anchor" aria-label="anchor" href="#selecting-reordering-and-renaming-columns"></a>
@@ -421,20 +343,15 @@ rename <code>adj_num</code> as <code>par_num</code>:</p>
 <span>         <span class="va">text</span><span class="op">)</span></span>
 <span>  </span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">emma</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   doc_id par_num</span></span>
-<span><span class="co">#&gt; 1   emma       1</span></span>
-<span><span class="co">#&gt; 2   emma       2</span></span>
-<span><span class="co">#&gt; 3   emma       3</span></span>
-<span><span class="co">#&gt; 4   emma       3</span></span>
-<span><span class="co">#&gt; 5   emma       3</span></span>
-<span><span class="co">#&gt; 6   emma       3</span></span>
-<span><span class="co">#&gt;                                                                      text</span></span>
-<span><span class="co">#&gt; 1                                                                VOLUME I</span></span>
-<span><span class="co">#&gt; 2                                                               CHAPTER I</span></span>
-<span><span class="co">#&gt; 3 Emma Woodhouse, handsome, clever, and rich, with a comfortable home and</span></span>
-<span><span class="co">#&gt; 4        happy disposition, seemed to unite some of the best blessings of</span></span>
-<span><span class="co">#&gt; 5 existence; and had lived nearly twenty-one years in the world with very</span></span>
-<span><span class="co">#&gt; 6                                          little to distress or vex her.</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 3</span></span></span>
+<span><span class="co">#&gt;   doc_id par_num text                                                           </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                          </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> emma         1 VOLUME I                                                       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> emma         2 CHAPTER I                                                      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> emma         3 Emma Woodhouse, handsome, clever, and rich, with a comfortable…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> emma         3 happy disposition, seemed to unite some of the best blessings …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> emma         3 existence; and had lived nearly twenty-one years in the world …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> emma         3 little to distress or vex her.</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="unnesting-words">Unnesting words<a class="anchor" aria-label="anchor" href="#unnesting-words"></a>
@@ -451,13 +368,15 @@ we need in <code><a href="https://rdrr.io/pkg/tidytext/man/unnest_tokens.html" c
 <span>                input <span class="op">=</span> <span class="va">text</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">emma</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   doc_id par_num      word</span></span>
-<span><span class="co">#&gt; 1   emma       1    volume</span></span>
-<span><span class="co">#&gt; 2   emma       1         i</span></span>
-<span><span class="co">#&gt; 3   emma       2   chapter</span></span>
-<span><span class="co">#&gt; 4   emma       2         i</span></span>
-<span><span class="co">#&gt; 5   emma       3      emma</span></span>
-<span><span class="co">#&gt; 6   emma       3 woodhouse</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 3</span></span></span>
+<span><span class="co">#&gt;   doc_id par_num word     </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> emma         1 volume   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> emma         1 i        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> emma         2 chapter  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> emma         2 i        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> emma         3 emma     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> emma         3 woodhouse</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="putting-it-all-together">Putting it all together<a class="anchor" aria-label="anchor" href="#putting-it-all-together"></a>
@@ -480,16 +399,7 @@ in one step to see what it takes:</p>
 <span>         par_num <span class="op">=</span> <span class="va">adj_num</span>,</span>
 <span>         <span class="va">text</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/tidytext/man/unnest_tokens.html" class="external-link">unnest_tokens</a></span><span class="op">(</span>output <span class="op">=</span> <span class="va">word</span>, </span>
-<span>                input <span class="op">=</span> <span class="va">text</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">emma</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   doc_id par_num      word</span></span>
-<span><span class="co">#&gt; 1   emma       1    volume</span></span>
-<span><span class="co">#&gt; 2   emma       1         i</span></span>
-<span><span class="co">#&gt; 3   emma       2   chapter</span></span>
-<span><span class="co">#&gt; 4   emma       2         i</span></span>
-<span><span class="co">#&gt; 5   emma       3      emma</span></span>
-<span><span class="co">#&gt; 6   emma       3 woodhouse</span></span></code></pre></div>
+<span>                input <span class="op">=</span> <span class="va">text</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="repeating-for-other-files">Repeating for other files<a class="anchor" aria-label="anchor" href="#repeating-for-other-files"></a>
@@ -515,16 +425,7 @@ adjusted, and the filename will need to point to the new text:</p>
 <span>         par_num <span class="op">=</span> <span class="va">adj_num</span>,</span>
 <span>         <span class="va">text</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/tidytext/man/unnest_tokens.html" class="external-link">unnest_tokens</a></span><span class="op">(</span>output <span class="op">=</span> <span class="va">word</span>, </span>
-<span>                input <span class="op">=</span> <span class="va">text</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">persuasion</span><span class="op">)</span></span>
-<span><span class="co">#&gt;       doc_id par_num    word</span></span>
-<span><span class="co">#&gt; 1 persuasion       1 chapter</span></span>
-<span><span class="co">#&gt; 2 persuasion       1       i</span></span>
-<span><span class="co">#&gt; 3 persuasion       2     sir</span></span>
-<span><span class="co">#&gt; 4 persuasion       2  walter</span></span>
-<span><span class="co">#&gt; 5 persuasion       2  elliot</span></span>
-<span><span class="co">#&gt; 6 persuasion       2      of</span></span></code></pre></div>
+<span>                input <span class="op">=</span> <span class="va">text</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="combining-multiple-tables">Combining multiple tables<a class="anchor" aria-label="anchor" href="#combining-multiple-tables"></a>
@@ -586,10 +487,30 @@ code to prepare as many files as are in a folder:</p>
 <div class="section level3">
 <h3 id="say-more-do-less">Say more, do less<a class="anchor" aria-label="anchor" href="#say-more-do-less"></a>
 </h3>
+<p>By default, <code><a href="../reference/load_texts.html">load_texts()</a></code> will load and process an entire
+folder of texts. But by adjusting a few options, we can convince the it
+to do less. We can, for instance, get it to load a single file by naming
+it:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/load_texts.html">load_texts</a></span><span class="op">(</span><span class="st">"austen/"</span>,</span>
+<span>           name <span class="op">=</span> <span class="st">"emma.txt"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 3</span></span></span>
+<span><span class="co">#&gt;   doc_id par_num word     </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> emma         1 volume   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> emma         1 i        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> emma         2 chapter  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> emma         2 i        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> emma         3 emma     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> emma         3 woodhouse</span></span></code></pre></div>
+<p>(Because this version of the table hasn’t been assigned a name with
+the assignment arrow <code>&lt;-</code>, it hasn’t been saved and exists
+only as a fleeting memory.)</p>
 <p>By changing some options, <code><a href="../reference/load_texts.html">load_texts()</a></code> will skip some of
 these transformations, presenting texts in mixed case and with one line
 per row in a column called <code>text</code>:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/load_texts.html">load_texts</a></span><span class="op">(</span><span class="st">"austen/"</span>, </span>
 <span>           word <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>           to_lower <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -603,9 +524,6 @@ per row in a column called <code>text</code>:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> emma         3 happy disposition, seemed to unite some of the best blessings …</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> emma         3 existence; and had lived nearly twenty-one years in the world …</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> emma         3 little to distress or vex her.</span></span></code></pre></div>
-<p>Because this version of the table hasn’t been assigned a name with
-the assignment arrow <code>&lt;-</code>, it hasn’t been saved and exists
-only as a fleeting memory.</p>
 <p>There are other options available, too, but they deserve closer
 consideration than can be offered in this document.</p>
 </div>
