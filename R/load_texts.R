@@ -2,7 +2,7 @@
 #'
 #' `load_texts()` loads a corpus from a folder of texts or a data frame and prepares it for further study using tidytext principles. By default, `load_texts()` will add paragraph numbers (suitable for prose), and unnest at the word level, but options exist to change these defaults for poetry, to avoid unnesting, and even to remove words that seem like proper nouns or to apply techniques of natural language processing for lemmatizing words or tagging their parts of speech.
 #'
-#' @param src Either a string identifying a directory containing texts or a data frame containing an unnested column called "text" and one column with a name ending in "_id". Defaults to "data" to load texts from that directory.
+#' @param src Either a string identifying the name of a directory containing texts or a data frame containing an unnested column called "text" and one column with a name ending in "_id". Files should either be stored in a directory within the project folder or under the subdirectory called "data". Defaults to "data" to load texts from that directory.
 #' @param name What naming pattern to search for in this folder. Defaults to ".txt".
 #' @param word Whether to split one word per line. Defaults to TRUE.
 #' @param lemma Whether to lemmatize the text. When `word` is TRUE, adds a new column called `lemma`. This step can add a lot of time, so it defaults to FALSE.
@@ -45,22 +45,32 @@ load_texts <- function(
     poetry = FALSE,
     paragraph = TRUE) {
   if (length(class(src)) == 1 && "character" %in% class(src)) {
+    if (!dir.exists(src) & !dir.exists(paste0("data/",src))) {
+      stop(corpus_missing(src),
+           call. = FALSE)
+    } else if (dir.exists(src)) {
+      src_dir <- src
+    } else {
+      src_dir <- paste0("data/", src)
+    }
+
     the_files <-
-      list.files(path = paste0(src, "/"),
-                 pattern = name)
+      list.files(
+        path = paste0(src_dir, "/"),
+        pattern = name)
 
     full_corpus <-
       do.call(rbind,
               lapply(the_files,
                      load_one_text,
-                     directory = src,
+                     directory = src_dir,
                      poetry = poetry))
   } else {
     if (sum(stringr::str_detect(colnames(src), "_id")) == 1) {
       index_id <- grepl("_id", colnames(src))
       colnames(src)[index_id] <- "doc_id"
     } else {
-      stop('When using `load_texts()` on a data frame, exactly one column needs to have a column name ending with "_id". Please rename columns accordingly and try again.')
+      stop('When using `load_texts()` on an existing data frame, exactly one column needs to have a column name ending with "_id". Please rename columns accordingly and try again.')
     }
 
     full_corpus <- src
@@ -192,4 +202,90 @@ load_one_text <- function(file, directory, poetry = FALSE) {
   }
 
   return(df)
+}
+
+#' Prepare a corpus or corpora of texts
+#'
+#' `get_corpus()` works nearly identically as `load_texts()`, but it has two fundamental differences. First, it adds a "corpus" column to the resulting table to help with record keeping. Second, it adds an option for caching its output in a local RDS file, saved in the project directory.
+#'
+#' @inheritParams load_texts
+#' @param corpus Vector of any length, where each value is either a string identifying a directory of texts or the first part of a filename to a cached RDS file prepared by tmtyro.
+#' @param cache Whether to save a cached copy of the corpus. Some options like `pos = TRUE` and `lemma = TRUE` can add significant time to corpus preparation, so setting `cache = TRUE` saves the need to repeat steps each time a corpus is loaded. Defaults to TRUE.
+#'
+#' @returns A data frame with columns for corpus, doc_id, and other data.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#'   austen <- get_corpus("austen")
+#'
+#'   shakespeare <- get_corpus(
+#'     c("comedy",
+#'       "history",
+#'       "tragedy"))
+#' }
+get_corpus <- function(
+    corpus,
+    name = ".txt",
+    word = TRUE,
+    lemma = FALSE,
+    lemma_replace = FALSE,
+    to_lower = TRUE,
+    remove_names = FALSE,
+    pos = FALSE,
+    poetry = FALSE,
+    paragraph = TRUE,
+    cache = TRUE) {
+
+  corpus_internal <- function(
+    corpus,
+    name = ".txt",
+    word = TRUE,
+    lemma = FALSE,
+    lemma_replace = FALSE,
+    to_lower = TRUE,
+    remove_names = FALSE,
+    pos = FALSE,
+    poetry = FALSE,
+    paragraph = TRUE,
+    cache = TRUE) {
+    x_rds <- paste0(corpus, ".rds")
+
+    if (file.exists(x_rds) & cache) {
+      df <- readRDS(x_rds)
+    } else {
+      if (!dir.exists(corpus)) {
+        stop(corpus_missing(corpus, cache),
+             call. = FALSE)
+      }
+
+      df <- load_texts(
+        src = corpus,
+        name,
+        word,
+        lemma,
+        lemma_replace,
+        to_lower,
+        remove_names,
+        pos,
+        poetry,
+        paragraph)
+      if (cache) saveRDS(df, x_rds)
+    }
+
+    df |>
+      dplyr::mutate(corpus = corpus) |>
+      dplyr::relocate(corpus)
+  }
+
+  corpus |>
+    purrr::map(\(x) {corpus_internal(x, ...)}) |>
+    dplyr::bind_rows()
+}
+
+corpus_missing <- function(corpus, cache = FALSE) {
+  msg_1 <- stringr::str_glue("No directory or folder called '{corpus}/' could be found, neither in the working directory nor in the 'data/' subdirectory.")
+  msg2 <- ifelse(cache, stringr::str_glue("Additionally, no cache file 'data/{corpus}.RDS' was found."), "")
+  msg_action <- "Please relocate files and try again."
+  paste(msg_1, msg2, msg_action)
 }

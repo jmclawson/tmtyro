@@ -72,7 +72,7 @@ Because we've used the assignment arrow `<-` to assign the table to the name `em
 
 ### Counting Paragraphs
 
-This option *nearly* gets to the fleeting, unsaved table above. It has a lot of empty lines and it lacks paragraph markers, but these can be corrected. The `mutate()` function of the `dplyr` package eases the process of adding a new column, as for paragraph number. And blank lines offer a good way of counting paragraphs, using the `cumsum()` function to keep a running tally:
+This option results in a table with a lot of empty lines and without paragraph markers, but these can be corrected. The `mutate()` function of the `dplyr` package eases the process of adding a new column, such as for paragraph numbering. And blank lines offer a good way of counting paragraphs, using the `cumsum()` function to keep a running tally:
 
 ```{r counting line breaks}
 library(dplyr)
@@ -98,7 +98,7 @@ head(emma)
 
 ### Correcting the count
 
-The blank lines have been eradicated, but our paragraph numbers are all wrong! Using the `lag()` function from `dplyr` makes it easy to compare one cell with the value above it. Effectively, we're going to make a new running tally of every time the paragraph number changes using `cumsum()`. We could do all of this in one step, but it may make more sense to separate it out into multiple columns, which might be invisible without some scrolling:
+The blank lines have been eradicated, but the paragraph numbers are now wrong. Using the `lag()` function from `dplyr` makes it easy to compare one cell with the value above it. Effectively, we're going to make a new running tally of every time the paragraph number changes using `cumsum()`. We could do all of this in one step, but it may make more sense to separate it out into multiple columns:
 
 ```{r attempt to fix numbering}
 emma <- emma |> 
@@ -110,7 +110,7 @@ emma <- emma |>
 head(emma)
 ```
 
-This step *almost* works, but the `lag()` has nowhere to look to get a value for the first row. Lacking that, it returns an empty string. We'll need to add one more step to change the empty string into a zero. Piping `lag_num` into an `ifelse()` test lets us check to see if it's empty (`NA`) using `is.na()`; if it's empty, the test will return 0, but if it's not, it will return the value:
+This step *almost* works, but the `lag()` has nowhere to look to get a value for the first row. Lacking that, it returns an empty string. We'll need to add one more step to change the empty string into a zero. Piping `lag_num` into a logical test (`is.na()`) lets us check to see if it's empty (`NA`), returning a `TRUE` if so. Then, `ifelse()` branches the code in two directions: if `lag(par_num)` is empty, it will return the value `0`, but if it's not, it will return the value itself:
 
 ```{r fixing bad numbering}
 emma <- emma |> 
@@ -179,7 +179,7 @@ emma <- data.frame(
 To load an entire folder of texts, we need to repeat this process for each and then combine the tables. Instead of doing this whole thing for every text in our data set, let's just do it for one additional novel. In the first couple lines, the `doc_id` will need to be adjusted, and the filename will need to point to the new text:
 
 ```{r}
-persuasion <- data.frame(
+persuasion <- tibble(
   doc_id = "persuasion",
   text = readLines("austen/persuasion.txt")) |> 
   mutate(par_num = cumsum(text == "")) |> 
@@ -241,18 +241,19 @@ load_texts("austen/",
   head()
 ```
 
-There are other options available, too, but they deserve closer consideration than can be offered in this document.
+There are other options available, too, but they deserve closer consideration than can be offered in an introduction such as this one.
 
 ### Summary of documents
 
 Once loaded, this corpus of texts by Jane Austen offers many possibilities for text mining and analysis.
 
-```{r echo=FALSE}
+```{r}
 austen_texts |> 
   group_by(doc_id) |> 
-  summarize(paragraphs = max(par_num),
-            words = n()) |> 
-    ungroup() |> 
+  summarize(
+    paragraphs = max(par_num),
+    words = n()) |> 
+  ungroup() |> 
   standardize_titles() |> 
   rename(title = doc_id)
 ```

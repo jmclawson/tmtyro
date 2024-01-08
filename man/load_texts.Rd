@@ -18,7 +18,7 @@ load_texts(
 )
 }
 \arguments{
-\item{src}{Either a string identifying a directory containing texts or a data frame containing an unnested column called "text" and one column with a name ending in "_id". Defaults to "data" to load texts from that directory.}
+\item{src}{Either a string identifying the name of a directory containing texts or a data frame containing an unnested column called "text" and one column with a name ending in "_id". Files should either be stored in a directory within the project folder or under the subdirectory called "data". Defaults to "data" to load texts from that directory.}
 
 \item{name}{What naming pattern to search for in this folder. Defaults to ".txt".}
 

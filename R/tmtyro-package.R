@@ -1,4 +1,5 @@
 ## fixing "no visible binding" notes
+corpus <- temp <- NULL
 display <- temp <- NULL
 doc_id <- temp <- NULL
 docranksum <- temp <- NULL

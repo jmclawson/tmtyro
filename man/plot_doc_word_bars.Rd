@@ -57,9 +57,9 @@ austen |>
 
 austen |>
   mutate(
-    pos_pair = paste0(pos,"+",lead(pos)),
+    pos_pair = paste(pos, lead(pos)),
     `adjective + noun bigram` = paste(word, lead(word))) |>
-  filter(stringr::str_detect(pos_pair, "JJ[+]N")) |>
+  filter(stringr::str_detect(pos_pair, "JJ N")) |>
   standardize_titles() |>
   plot_doc_word_bars(
     num = 5,
