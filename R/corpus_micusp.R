@@ -50,9 +50,9 @@ parse_micusp_paper <- function(paperid,
 
 #' Get a MICUSP corpus
 #'
-#' The function accepts filters on columns from `micusp_metadata()` and downloads and parses MICUSP (Michigan Corpus of Upper-level Student Papers) texts locally if copies don't yet exist. It returns a table combining metadata and text data for further processing.
+#' The function accepts filters on columns from [micusp_metadata()] and downloads and parses MICUSP (Michigan Corpus of Upper-level Student Papers) texts locally if copies don't yet exist. It returns a table combining metadata and text data for further processing.
 #'
-#' @param ... A filter on rows and columns from `micusp_metadata()`. Accepted columns include the following: `paper_id`, `title`, `discipline`, `paper_type`, `student_level`, `sex`, `nativeness`, and `textual_features`.
+#' @param ... A filter on rows and columns from [micusp_metadata()]. Accepted columns include the following: `paper_id`, `title`, `discipline`, `paper_type`, `student_level`, `sex`, `nativeness`, and `textual_features`.
 #'
 #' @returns A data frame with 1 row for each document in the corpus and 9 columns. The first 8 columns contain metadata, and the final column called `text` contains the full text of each document.
 #'

@@ -2,7 +2,7 @@
 % Please edit documentation in R/lexical_variety.R
 \name{plot_ttr}
 \alias{plot_ttr}
-\title{Visualize type-token ratio over time}
+\title{Show type-token ratio over time}
 \usage{
 plot_ttr(
   df,
@@ -40,7 +40,7 @@ plot_ttr(
 A ggplot object
 }
 \description{
-Visualize type-token ratio over time
+Show type-token ratio over time
 }
 \examples{
 austen <- "austen.rds" |>

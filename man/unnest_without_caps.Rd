@@ -2,7 +2,7 @@
 % Please edit documentation in R/unnest_without_caps.R
 \name{unnest_without_caps}
 \alias{unnest_without_caps}
-\title{Split a column into tokens without names}
+\title{Split text into words and drop proper nouns}
 \usage{
 unnest_without_caps(df, output = "word", input = "text", to_lower = TRUE)
 }
@@ -19,7 +19,7 @@ unnest_without_caps(df, output = "word", input = "text", to_lower = TRUE)
 A data frame
 }
 \description{
-Split a column into tokens, flattening the table into one-token-per-row while omitting any token that is present only in a capitalized form.
+Split a column of text using \code{\link[tidytext:unnest_tokens]{tidytext::unnest_tokens()}}, flattening the table into one token per row while also omitting any token that is present only in a capitalized form.
 }
 \examples{
 \dontrun{

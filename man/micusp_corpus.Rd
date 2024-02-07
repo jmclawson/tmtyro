@@ -7,13 +7,13 @@
 micusp_corpus(...)
 }
 \arguments{
-\item{...}{A filter on rows and columns from \code{micusp_metadata()}. Accepted columns include the following: \code{paper_id}, \code{title}, \code{discipline}, \code{paper_type}, \code{student_level}, \code{sex}, \code{nativeness}, and \code{textual_features}.}
+\item{...}{A filter on rows and columns from \code{\link[=micusp_metadata]{micusp_metadata()}}. Accepted columns include the following: \code{paper_id}, \code{title}, \code{discipline}, \code{paper_type}, \code{student_level}, \code{sex}, \code{nativeness}, and \code{textual_features}.}
 }
 \value{
 A data frame with 1 row for each document in the corpus and 9 columns. The first 8 columns contain metadata, and the final column called \code{text} contains the full text of each document.
 }
 \description{
-The function accepts filters on columns from \code{micusp_metadata()} and downloads and parses MICUSP (Michigan Corpus of Upper-level Student Papers) texts locally if copies don't yet exist. It returns a table combining metadata and text data for further processing.
+The function accepts filters on columns from \code{\link[=micusp_metadata]{micusp_metadata()}} and downloads and parses MICUSP (Michigan Corpus of Upper-level Student Papers) texts locally if copies don't yet exist. It returns a table combining metadata and text data for further processing.
 }
 \examples{
 \dontrun{

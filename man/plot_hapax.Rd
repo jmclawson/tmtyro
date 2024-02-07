@@ -2,7 +2,7 @@
 % Please edit documentation in R/lexical_variety.R
 \name{plot_hapax}
 \alias{plot_hapax}
-\title{Visualize a sample of hapax legomena projected on faceted curves of vocabulary growth over time}
+\title{Project hapax legomena onto vocabulary growth}
 \usage{
 plot_hapax(
   df,
@@ -33,7 +33,7 @@ plot_hapax(
 A ggplot object
 }
 \description{
-Visualize a sample of hapax legomena projected on faceted curves of vocabulary growth over time
+\code{plot_hapax()} visualizes a sampling of hapax legomena projected on faceted curves of vocabulary growth over time
 }
 \examples{
 austen <- "austen.rds" |>

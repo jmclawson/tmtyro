@@ -1,6 +1,6 @@
-#' Split a column into tokens without names
+#' Split text into words and drop proper nouns
 #'
-#' Split a column into tokens, flattening the table into one-token-per-row while omitting any token that is present only in a capitalized form.
+#' Split a column of text using [tidytext::unnest_tokens()], flattening the table into one token per row while also omitting any token that is present only in a capitalized form.
 #'
 #' @param df A data frame
 #' @param output Output column to be created.

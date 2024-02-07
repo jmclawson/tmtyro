@@ -7,8 +7,8 @@ Authors@R:
 Description: Work with and analyze text for simple and complex 
     features. Adopting tidytext principles, tmtyro abstracts
     processes a few levels further to allow beginners to use
-    and to familiarize themselves with techniques before needing
-    to understand much code.
+    and to familiarize themselves with techniques before they
+    understand much code.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -32,7 +32,9 @@ Imports:
     rlang,
     rvest,
     scales,
+    stopwords,
     stringr,
+    textdata,
     textstem,
     tibble,
     tidyr,

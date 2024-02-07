@@ -2,7 +2,7 @@
 % Please edit documentation in R/lexical_variety.R
 \name{plot_htr}
 \alias{plot_htr}
-\title{Visualize hapax-token ratio over time}
+\title{Show hapax-token ratio over time}
 \usage{
 plot_htr(
   df,
@@ -40,7 +40,7 @@ plot_htr(
 A ggplot object
 }
 \description{
-Visualize hapax-token ratio over time
+Show hapax-token ratio over time
 }
 \examples{
 austen <- "austen.rds" |>

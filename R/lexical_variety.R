@@ -265,7 +265,7 @@ plot_vocabulary <- function(df, x = progress_words, by = doc_id, identity = doc_
     rlang::enquo(by), identity = rlang::enquo(identity), descriptive_labels, labeling)
 }
 
-#' Visualize type-token ratio over time
+#' Show type-token ratio over time
 #'
 #' @param df A tidy data frame, potentially containing a column called "doc_id" and "word"
 #' @param x The progress column to show. Default option is progress_percent, but progress_words is also appropriate.
@@ -305,7 +305,7 @@ plot_ttr <- function(df, x = progress_words, by = doc_id, identity = doc_id, des
     log_y)
 }
 
-#' Visualize hapax-token ratio over time
+#' Show hapax-token ratio over time
 #'
 #' @param df A tidy data frame, potentially containing a column called "doc_id" and "word"
 #' @param x The progress column to show. Default option is progress_percent, but progress_words is also appropriate.
@@ -341,7 +341,9 @@ plot_htr <- function(df, x = progress_words, by = doc_id, identity = doc_id, des
     log_y)
 }
 
-#' Visualize a sample of hapax legomena projected on faceted curves of vocabulary growth over time
+#' Project hapax legomena onto vocabulary growth
+#'
+#' `plot_hapax()` visualizes a sampling of hapax legomena projected on faceted curves of vocabulary growth over time
 #'
 #' @param df A tidy data frame, potentially containing columns called "doc_id" and "word"
 #' @param prop The proportion of hapax to sample. The chart can become illegible with proportions over ~1%
