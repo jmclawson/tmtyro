@@ -25,7 +25,13 @@
     <loc>https://jmclawson.github.io/tmtyro/index.html</loc>
   </url>
   <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/add_sentiment.html</loc>
+  </url>
+  <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/download_once.html</loc>
+  </url>
+  <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/drop_stopwords.html</loc>
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/get_corpus.html</loc>
