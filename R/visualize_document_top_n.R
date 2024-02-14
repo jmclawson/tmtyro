@@ -222,6 +222,7 @@ plot_doc_word_heatmap <- function(
 #' @param label_inside Whether to show the value as a label inside each bar; defaults to FALSE
 #' @param colorset The color palette to use, whether "default", "okabe", or one of the named qualitative palettes from Viridis or Color Brewer
 #' @param outline_color The color to use for the outside of each bar. By default, no color is used.
+#' @param na_rm Whether to drop empty features
 #'
 #' @returns A ggplot object
 #' @export
@@ -261,7 +262,8 @@ plot_doc_word_bars <- function(
     label_tweak = 2,
     label_inside = FALSE,
     colorset = "default",
-    outline_color = NA
+    outline_color = NA,
+    na_rm = TRUE
 ){
   precision <- label_tweak + 1
   offset <- label_tweak + 2
@@ -274,6 +276,11 @@ plot_doc_word_bars <- function(
       dplyr::mutate(
         n = n / sum(n),
         .by = {{ by }})
+  }
+
+  if (na_rm) {
+    df <- df |>
+      tidyr::drop_na({{ feature }})
   }
 
   df <- df |>
@@ -289,10 +296,39 @@ plot_doc_word_bars <- function(
         by = n,
         within = {{ by }}))
 
+  prefix <- deparse(substitute(feature))
+
+  if (percents) {
+    x_lab <- paste(prefix, "frequency")
+  } else {
+    x_lab <- paste(prefix, "count")
+  }
+
+  df |>
+    internal_plot_word_bars(
+      n, rlang::enquo(by), rlang::enquo(feature), percents, label, label_tweak, label_inside, colorset, outline_color) +
+    ggplot2::labs(x = x_lab)
+}
+
+internal_plot_word_bars <- function(
+    df,
+    x_value,
+    by,
+    feature,
+    percents,
+    label,
+    label_tweak,
+    label_inside,
+    colorset,
+    outline_color
+){
+  precision <- label_tweak + 1
+  offset <- label_tweak + 2
+
   the_plot <- df |>
-    ggplot2::ggplot(ggplot2::aes(x = n,
-               y = {{ feature }},
-               fill = {{ by }})) +
+    ggplot2::ggplot(ggplot2::aes(x = {{ x_value }},
+                                 y = !! feature,
+                                 fill = !! by)) +
     ggplot2::geom_col(
       show.legend = FALSE,
       color = outline_color)
@@ -337,18 +373,18 @@ plot_doc_word_bars <- function(
         labels = scales::label_percent(),
         expand = ggplot2::expansion(mult = c(0, 0.05))) +
       ggplot2::facet_wrap(ggplot2::vars({{ by }}),
-                 scales = "free_y") +
-      ggplot2::labs(x = stringr::str_glue("{deparse(substitute(feature))} frequency"),
-           y = NULL)
+                          scales = "free_y") +
+      ggplot2::labs(#x = stringr::str_glue("{deparse(substitute(feature))} frequency"),
+                    y = NULL)
   } else {
     the_plot <- the_plot +
       ggplot2::scale_x_continuous(
         labels = scales::label_comma(),
         expand = ggplot2::expansion(mult = c(0, 0.05))) +
       ggplot2::facet_wrap(ggplot2::vars({{ by }}),
-                 scales = "free") +
-      ggplot2::labs(x = stringr::str_glue("{deparse(substitute(feature))} count"),
-           y = NULL)
+                          scales = "free") +
+      ggplot2::labs(#x = stringr::str_glue("{deparse(substitute(feature))} count"),
+                    y = NULL)
   }
 
   viridis <- c(
@@ -411,7 +447,7 @@ plot_doc_word_bars <- function(
     the_plot <- the_plot +
       ggplot2::scale_fill_manual(
         values = c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7", "#999999", "#000000")
-)
+      )
   }
 
   the_plot +

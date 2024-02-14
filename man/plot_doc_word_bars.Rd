@@ -14,7 +14,8 @@ plot_doc_word_bars(
   label_tweak = 2,
   label_inside = FALSE,
   colorset = "default",
-  outline_color = NA
+  outline_color = NA,
+  na_rm = TRUE
 )
 }
 \arguments{
@@ -37,6 +38,8 @@ plot_doc_word_bars(
 \item{colorset}{The color palette to use, whether "default", "okabe", or one of the named qualitative palettes from Viridis or Color Brewer}
 
 \item{outline_color}{The color to use for the outside of each bar. By default, no color is used.}
+
+\item{na_rm}{Whether to drop empty features}
 }
 \value{
 A ggplot object

@@ -29,7 +29,7 @@ austen <- "austen.rds" |>
   readRDS()
 
 austen |>
-   add_sentiment("nrc") |>
+   add_sentiment() |>
    tidyr::drop_na() |>
    head()
 }

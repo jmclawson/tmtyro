@@ -15,7 +15,7 @@
 #'   readRDS()
 #'
 #' austen |>
-#'    add_sentiment("nrc") |>
+#'    add_sentiment() |>
 #'    tidyr::drop_na() |>
 #'    head()
 add_sentiment <- function(
