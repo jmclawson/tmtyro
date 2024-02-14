@@ -1,3 +1,22 @@
+#' Add measures for tf-idf
+#'
+#' @param df A tidy data frame, potentially containing columns called "doc_id" and "word"
+#' @param by A column containing document grouping
+#' @param feature A column containing the terms to be measured across document groupings
+#'
+#' @returns A summary of the original data frame, with rows for each document and term pairing and columns for document identifier, term, n (the number of times this term was used in this document), tf (term's frequency in this document), idf (inverse document frequency), and tf_idf (previous two columns combined).
+#' @export
+#'
+#' @examples
+#' library(tmtyro)
+#' library(dplyr)
+#'
+#' austen <- "austen.rds" |>
+#'   system.file(package = "tmtyro") |>
+#'   readRDS()
+#'
+#' austen |>
+#'   measure_tf_idf()
 measure_tf_idf <- function(df, by = doc_id, feature = word) {
   df |>
     dplyr::count({{ by }}, {{ feature }}) |>
@@ -8,6 +27,35 @@ measure_tf_idf <- function(df, by = doc_id, feature = word) {
     dplyr::arrange(dplyr::desc(tf_idf))
 }
 
+#' Visualize the top terms by tf-idf
+#'
+#' @param df A tidy data frame, potentially containing columns called "doc_id" and "word"
+#' @param num The number of terms to chart in each document
+#' @param by A column containing document grouping
+#' @param feature A column containing the terms to be measured across document groupings
+#' @param label Not yet working
+#' @param label_tweak Not yet working
+#' @param label_inside Not yet working
+#' @param colorset The color palette to use, whether "default", "okabe", or one of the named qualitative palettes from Viridis or Color Brewer
+#' @param outline_color The color to use for the outside of each bar. By default, no color is used.
+#'
+#' @returns A ggplot object
+#' @export
+#'
+#' @examples
+#' library(tmtyro)
+#' library(dplyr)
+#'
+#' austen <- "austen.rds" |>
+#'   system.file(package = "tmtyro") |>
+#'   readRDS()
+#'
+#' austen |>
+#'   plot_tf_idf()
+#'
+#' austen |>
+#'   filter(pos %in% c("NN", "NNS"))
+#'   plot_tf_idf(feature = lemma)
 plot_tf_idf <- function(
     df,
     num = 10,
