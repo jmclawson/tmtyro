@@ -53,6 +53,6 @@ austen |>
   plot_tf_idf()
 
 austen |>
-  filter(pos \%in\% c("NN", "NNS"))
+  filter(pos \%in\% c("NN", "NNS")) |>
   plot_tf_idf(feature = lemma)
 }
