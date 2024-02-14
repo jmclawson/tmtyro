@@ -52,6 +52,9 @@
     <loc>https://jmclawson.github.io/tmtyro/reference/measure_lexical_variety.html</loc>
   </url>
   <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/measure_tf_idf.html</loc>
+  </url>
+  <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/micusp_corpus.html</loc>
   </url>
   <url>
@@ -71,6 +74,9 @@
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/plot_htr.html</loc>
+  </url>
+  <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/plot_tf_idf.html</loc>
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/plot_topic_wordcloud.html</loc>
