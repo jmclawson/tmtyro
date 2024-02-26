@@ -489,12 +489,12 @@ code to prepare as many files as are in a folder:</p>
 <h3 id="say-more-do-less">Say more, do less<a class="anchor" aria-label="anchor" href="#say-more-do-less"></a>
 </h3>
 <p>By default, <code><a href="../reference/load_texts.html">load_texts()</a></code> will load and process an entire
-folder of texts. But by adjusting a few options, we can convince the it
-to do less. We can, for instance, get it to load a single file by naming
-it:</p>
+folder of texts. But by adjusting a few options, we can convince it to
+do less. We can, for instance, load a single file by describing part of
+the file name:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/load_texts.html">load_texts</a></span><span class="op">(</span><span class="st">"austen/"</span>,</span>
-<span>           name <span class="op">=</span> <span class="st">"emma.txt"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>           name <span class="op">=</span> <span class="st">"emma"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 3</span></span></span>
 <span><span class="co">#&gt;   doc_id par_num word     </span></span>
@@ -532,8 +532,8 @@ one.</p>
 <div class="section level3">
 <h3 id="summary-of-documents">Summary of documents<a class="anchor" aria-label="anchor" href="#summary-of-documents"></a>
 </h3>
-<p>Once loaded, this corpus of texts by Jane Austen offers many
-possibilities for text mining and analysis.</p>
+<p>Once loaded, a corpus of texts offers many possibilities for further
+study.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">austen_texts</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">doc_id</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
