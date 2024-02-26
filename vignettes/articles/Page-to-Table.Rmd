@@ -222,11 +222,11 @@ tail(austen_texts)
 
 ### Say more, do less
 
-By default, `load_texts()` will load and process an entire folder of texts. But by adjusting a few options, we can convince the it to do less. We can, for instance, get it to load a single file by naming it:
+By default, `load_texts()` will load and process an entire folder of texts. But by adjusting a few options, we can convince it to do less. We can, for instance, load a single file by describing part of the file name:
 
 ```{r}
 load_texts("austen/",
-           name = "emma.txt") |> 
+           name = "emma") |> 
   head()
 ```
 
@@ -245,7 +245,7 @@ There are other options available, too, but they deserve closer consideration th
 
 ### Summary of documents
 
-Once loaded, this corpus of texts by Jane Austen offers many possibilities for text mining and analysis.
+Once loaded, a corpus of texts offers many possibilities for further study.
 
 ```{r}
 austen_texts |> 

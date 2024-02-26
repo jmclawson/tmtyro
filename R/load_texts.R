@@ -183,7 +183,7 @@ load_one_text <- function(file, directory, poetry = FALSE) {
   df <-
     tibble::tibble(
       doc_id = stringr::str_remove_all(file, "[.].*"),
-      text = readLines(paste0(directory, "/", file))) |>
+      text = readLines(paste0(directory, "/", file), warn = FALSE)) |>
     dplyr::filter(!(text == "" & dplyr::lead(text) == ""))
 
   if (!poetry) {
