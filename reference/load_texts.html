@@ -65,7 +65,8 @@
 <span>  remove_names <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  pos <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  poetry <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  paragraph <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  paragraph <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  n <span class="op">=</span> <span class="fl">1L</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -110,12 +111,16 @@
 <dt>paragraph</dt>
 <dd><p>Whether to detect paragraph breaks for prose. Defaults to TRUE.</p></dd>
 
+
+<dt>n</dt>
+<dd><p>The number of words per row. By default, <code>load_texts()</code> unnests a text one word at a time using a column called <code>word</code>. When <code>n</code> is a value greater than 1, <code>load_texts()</code> will instead use <code><a href="https://rdrr.io/pkg/tidytext/man/unnest_tokens.html" class="external-link">tidytext::unnest_tokens()</a></code> with <code>token = "ngrams"</code> to create a column called <code>ngram</code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>A data frame with two to five columns and one row for each word (optionally, one row for each paragraph or one row for each line) in the corpus.</p>
+<p>A data frame with two to five columns and one row for each token (optionally, one row for each paragraph or one row for each line) in the corpus.</p>
     </div>
 
     <div class="section level2">

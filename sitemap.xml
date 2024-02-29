@@ -25,10 +25,16 @@
     <loc>https://jmclawson.github.io/tmtyro/index.html</loc>
   </url>
   <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/add_lexical_variety.html</loc>
+  </url>
+  <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/add_sentiment.html</loc>
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/download_once.html</loc>
+  </url>
+  <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/drop_empty.html</loc>
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/drop_stopwords.html</loc>
@@ -47,12 +53,6 @@
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/make_topic_model.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/measure_lexical_variety.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/measure_tf_idf.html</loc>
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/micusp_corpus.html</loc>
@@ -92,6 +92,9 @@
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/standardize_titles.html</loc>
+  </url>
+  <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/summarize_tf_idf.html</loc>
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/tmtyro-package.html</loc>
