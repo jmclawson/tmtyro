@@ -52,5 +52,6 @@ words <- temp <- NULL
 #' @importFrom textdata lexicon_nrc
 #' @importFrom textdata lexicon_nrc_eil
 #' @importFrom textdata lexicon_nrc_vad
+#' @importFrom tidyr drop_na
 ## usethis namespace: end
 NULL

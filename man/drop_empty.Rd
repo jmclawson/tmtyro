@@ -3,9 +3,12 @@
 \name{drop_empty}
 \alias{drop_empty}
 \alias{tidyr::drop_na}
+\alias{drop_na}
 \title{Drop rows containing missing values}
 \usage{
 drop_empty(data, ...)
+
+drop_na(data, ...)
 }
 \arguments{
 \item{data}{A data frame}
@@ -13,5 +16,5 @@ drop_empty(data, ...)
 \item{...}{Columns to inspect for missing values. If empty, all columns are used.}
 }
 \description{
-\code{drop_empty()} drops rows where any column specified by \code{...} contains a missing value. Internally, the function repurposes \code{\link[tidyr:drop_na]{tidyr::drop_na()}}.
+Leave \code{...} blank to drop rows containing any missing values, or specify column names to filter specific variables. \code{drop_empty()} repurposes \code{\link[tidyr:drop_na]{tidyr::drop_na()}}.
 }
