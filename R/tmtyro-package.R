@@ -43,6 +43,7 @@ words <- temp <- NULL
 "_PACKAGE"
 
 ## usethis namespace: start
+#' @importFrom dplyr count
 #' @importFrom rlang :=
 #' @importFrom stopwords stopwords
 #' @importFrom textdata lexicon_afinn

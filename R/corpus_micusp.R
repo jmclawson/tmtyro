@@ -65,7 +65,7 @@ parse_micusp_paper <- function(paperid,
 #'
 #' discipline_by_sex <-
 #'   micusp_metadata() |>
-#'   dplyr::count(discipline, sex) |>
+#'   count(discipline, sex) |>
 #'   tidyr::pivot_wider(
 #'     names_from = "sex",
 #'     values_from = "n") |>
