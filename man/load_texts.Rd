@@ -14,7 +14,8 @@ load_texts(
   remove_names = FALSE,
   pos = FALSE,
   poetry = FALSE,
-  paragraph = TRUE
+  paragraph = TRUE,
+  n = 1L
 )
 }
 \arguments{
@@ -37,9 +38,11 @@ load_texts(
 \item{poetry}{Whether to detect and indicate stanza breaks and line breaks. Defaults to FALSE.}
 
 \item{paragraph}{Whether to detect paragraph breaks for prose. Defaults to TRUE.}
+
+\item{n}{The number of words per row. By default, \code{load_texts()} unnests a text one word at a time using a column called \code{word}. When \code{n} is a value greater than 1, \code{load_texts()} will instead use \code{\link[tidytext:unnest_tokens]{tidytext::unnest_tokens()}} with \code{token = "ngrams"} to create a column called \code{ngram}.}
 }
 \value{
-A data frame with two to five columns and one row for each word (optionally, one row for each paragraph or one row for each line) in the corpus.
+A data frame with two to five columns and one row for each token (optionally, one row for each paragraph or one row for each line) in the corpus.
 }
 \description{
 \code{load_texts()} loads a corpus from a folder of texts or a data frame and prepares it for further study using tidytext principles. By default, \code{load_texts()} will add paragraph numbers (suitable for prose), and unnest at the word level, but options exist to change these defaults for poetry, to avoid unnesting, and even to remove words that seem like proper nouns or to apply techniques of natural language processing for lemmatizing words or tagging their parts of speech.

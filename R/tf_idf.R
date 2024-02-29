@@ -1,4 +1,6 @@
-#' Add measures for tf-idf
+#' Compare usage across a corpus
+#'
+#' `summarize_tf_idf()` prepares a summary table for each term in a corpus, including their frequencies by document and "tf-idf" measurements for comparing the relative importance in comparison to other documents in a set.
 #'
 #' @param df A tidy data frame, potentially containing columns called "doc_id" and "word"
 #' @param by A column containing document grouping
@@ -16,8 +18,8 @@
 #'   readRDS()
 #'
 #' austen |>
-#'   measure_tf_idf()
-measure_tf_idf <- function(df, by = doc_id, feature = word) {
+#'   summarize_tf_idf()
+summarize_tf_idf <- function(df, by = doc_id, feature = word) {
   df |>
     dplyr::count({{ by }}, {{ feature }}) |>
     tidytext::bind_tf_idf(
@@ -69,7 +71,7 @@ plot_tf_idf <- function(
 ){
   if (!"tf_idf" %in% colnames(df)) {
     df <- df |>
-      measure_tf_idf(by = {{ by }}, feature = {{ feature }})
+      summarize_tf_idf(by = {{ by }}, feature = {{ feature }})
   }
 
   df <- df |>

@@ -12,8 +12,9 @@
 #' @param pos Whether to add a column for part-of-speech tag. This step can add a lot of time, so it defaults to FALSE.
 #' @param poetry Whether to detect and indicate stanza breaks and line breaks. Defaults to FALSE.
 #' @param paragraph Whether to detect paragraph breaks for prose. Defaults to TRUE.
+#' @param n The number of words per row. By default, `load_texts()` unnests a text one word at a time using a column called `word`. When `n` is a value greater than 1, `load_texts()` will instead use [tidytext::unnest_tokens()] with `token = "ngrams"` to create a column called `ngram`.
 #'
-#' @returns A data frame with two to five columns and one row for each word (optionally, one row for each paragraph or one row for each line) in the corpus.
+#' @returns A data frame with two to five columns and one row for each token (optionally, one row for each paragraph or one row for each line) in the corpus.
 #' @export
 #'
 #' @examples
@@ -43,7 +44,8 @@ load_texts <- function(
     remove_names = FALSE,
     pos = FALSE,
     poetry = FALSE,
-    paragraph = TRUE) {
+    paragraph = TRUE,
+    n = 1L) {
   if (length(class(src)) == 1 && "character" %in% class(src)) {
     if (!dir.exists(src) & !dir.exists(paste0("data/",src))) {
       stop(corpus_missing(src),
@@ -77,7 +79,7 @@ load_texts <- function(
   }
 
   full_corpus <- full_corpus |>
-    tidy_texts_internal(word, lemma, lemma_replace, to_lower, remove_names, pos)
+    tidy_texts_internal(word, lemma, lemma_replace, to_lower, remove_names, pos, n)
 
   if (!paragraph & !poetry) {
     full_corpus <- full_corpus |>
@@ -87,7 +89,15 @@ load_texts <- function(
   return(full_corpus)
 }
 
-tidy_texts_internal <- function(df, word, lemma, lemma_replace, to_lower, remove_names, pos = FALSE) {
+tidy_texts_internal <- function(df, word, lemma, lemma_replace, to_lower, remove_names, pos = FALSE, n = 1) {
+
+  if (n > 1) {
+    if (remove_names) {
+      warning("`remove_names` is incompatible with n > 1. Consider filtering the `ngram` column manually.")
+    }
+    word <- FALSE
+    remove_names <- FALSE
+  }
 
   if (pos) {
     df <- df |>
@@ -97,6 +107,11 @@ tidy_texts_internal <- function(df, word, lemma, lemma_replace, to_lower, remove
   if (word & !remove_names) {
     df <- df |>
       tidytext::unnest_tokens(word, text, to_lower = FALSE)
+  }
+
+  if (n > 1) {
+    df <- df |>
+      tidytext::unnest_tokens(ngram, text, to_lower = FALSE, token = "ngrams", n = n)
   }
 
   if (word & remove_names) {
@@ -112,9 +127,24 @@ tidy_texts_internal <- function(df, word, lemma, lemma_replace, to_lower, remove
       tidyr::separate(word, into = c("word", "pos"), sep = "__", fill = "right")
   }
 
+  if (pos & n > 1) {
+    df <- df |>
+      dplyr::mutate(
+        pos = ngram |>
+          stringr::str_remove_all("\\b[a-zA-Z]+__"),
+        ngram = ngram |>
+          stringr::str_remove_all("__[a-zA-Z]+\\b")) |>
+      relocate(pos, .after = ngram)
+  }
+
   if (lemma & word) {
     df <- df |>
       dplyr::mutate(lemma = textstem::lemmatize_words(word))
+  }
+
+  if (lemma & n > 1) {
+    df <- df |>
+      dplyr::mutate(lemma = textstem::lemmatize_strings(ngram))
   }
 
   if (lemma & word & lemma_replace) {
@@ -123,14 +153,20 @@ tidy_texts_internal <- function(df, word, lemma, lemma_replace, to_lower, remove
       dplyr::select(-lemma)
   }
 
-  if (lemma & !word) {
+  if (lemma & n > 1 & lemma_replace) {
+    df <- df |>
+      dplyr::mutate(ngram = lemma) |>
+      dplyr::select(-lemma)
+  }
+
+  if (lemma & !word & !n > 1) {
     df <- df |>
       dplyr::mutate(text = textstem::lemmatize_strings(text))
   }
 
   if (to_lower) {
     df <- df |>
-      dplyr::mutate(dplyr::across(dplyr::any_of(c("word", "lemma", "text")), tolower))
+      dplyr::mutate(dplyr::across(dplyr::any_of(c("word", "lemma", "text", "ngram")), tolower))
   }
 
   if (pos) {

@@ -24,7 +24,7 @@
 #' ##### Standardizing a data frame #####
 #'
 #' austen_measured <- austen |>
-#'   measure_lexical_variety()
+#'   add_lexical_variety()
 #'
 #' # Before `standardize_titles()`
 #' austen_measured |>

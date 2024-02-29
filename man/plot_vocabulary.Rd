@@ -45,7 +45,7 @@ austen <- "austen.rds" |>
   readRDS()
 
 austen_measured <- austen |>
-  measure_lexical_variety()
+  add_lexical_variety()
 
 austen_measured |>
   standardize_titles() |>
@@ -59,7 +59,7 @@ austen_measured |>
   micusp_corpus(
     discipline \%in\% c("Physics", "Economics")) |>
     load_texts() |>
-    measure_lexical_variety() |>
+    add_lexical_variety() |>
     plot_vocabulary(by = discipline)
 }
 }

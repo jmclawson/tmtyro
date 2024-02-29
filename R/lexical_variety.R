@@ -168,7 +168,7 @@ internal_plot_engine <- function(
 
 #' Measure lexical variety
 #'
-#' `measure_lexical_variety()` augments a tidy text table with columns describing the lexical variety of the corpus. Among other things, checks for uniqueness and size of vocabulary, with additional ratios reporting these measurements in relation to document size.
+#' `add_lexical_variety()` augments a tidy text table with columns describing the lexical variety of the corpus. Among other things, checks for uniqueness and size of vocabulary, with additional ratios reporting these measurements in relation to document size.
 #'
 #' @param df A tidy data frame, potentially containing columns called "doc_id" and "word"
 #' @param by A grouping column
@@ -192,9 +192,9 @@ internal_plot_engine <- function(
 #'   readRDS()
 #'
 #' austen |>
-#'    measure_lexical_variety() |>
+#'    add_lexical_variety() |>
 #'    head()
-measure_lexical_variety <- function(df, by = doc_id, word = word) {
+add_lexical_variety <- function(df, by = doc_id, word = word) {
   df |>
     dplyr::ungroup() |>
     dplyr::group_by({{ by }}) |>
@@ -241,7 +241,7 @@ measure_lexical_variety <- function(df, by = doc_id, word = word) {
 #'   readRDS()
 #'
 #' austen_measured <- austen |>
-#'   measure_lexical_variety()
+#'   add_lexical_variety()
 #'
 #' austen_measured |>
 #'   standardize_titles() |>
@@ -255,7 +255,7 @@ measure_lexical_variety <- function(df, by = doc_id, word = word) {
 #'   micusp_corpus(
 #'     discipline %in% c("Physics", "Economics")) |>
 #'     load_texts() |>
-#'     measure_lexical_variety() |>
+#'     add_lexical_variety() |>
 #'     plot_vocabulary(by = discipline)
 #' }
 plot_vocabulary <- function(df, x = progress_words, by = doc_id, identity = doc_id, descriptive_labels = TRUE, labeling = c("point", "inset", "inline", "axis")){
@@ -289,7 +289,7 @@ plot_vocabulary <- function(df, x = progress_words, by = doc_id, identity = doc_
 #'   readRDS()
 #'
 #' austen_measured <- austen |>
-#'   measure_lexical_variety()
+#'   add_lexical_variety()
 #'
 #' austen_measured |>
 #'   standardize_titles() |>
@@ -329,7 +329,7 @@ plot_ttr <- function(df, x = progress_words, by = doc_id, identity = doc_id, des
 #'   readRDS()
 #'
 #' austen_measured <- austen |>
-#'   measure_lexical_variety()
+#'   add_lexical_variety()
 #'
 #' austen_measured |>
 #'   standardize_titles() |>
@@ -362,7 +362,7 @@ plot_htr <- function(df, x = progress_words, by = doc_id, identity = doc_id, des
 #'   readRDS()
 #'
 #' austen_measured <- austen |>
-#'   measure_lexical_variety()
+#'   add_lexical_variety()
 #'
 #' austen_measured |>
 #'   standardize_titles() |>
