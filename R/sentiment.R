@@ -58,5 +58,5 @@ add_sentiment <- function(
   }
 
   df |>
-    dplyr::left_join(lex_df)
+    dplyr::left_join(lex_df, by = {{ word }})
 }
