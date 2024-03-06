@@ -275,11 +275,13 @@ plot_doc_word_bars <- function(
 
   if (!"n" %in% colnames(df)) {
     df <- df |>
-      dplyr::count({{ by }}, {{ feature }})
+      dplyr::count({{ by }}, {{ feature }}) |>
+      dplyr::ungroup()
   }
 
   if (percents) {
     df <- df |>
+      dplyr::ungroup() |>
       dplyr::mutate(
         n = n / sum(n),
         .by = {{ by }})

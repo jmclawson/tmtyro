@@ -22,6 +22,7 @@
 summarize_tf_idf <- function(df, by = doc_id, feature = word) {
   df |>
     dplyr::count({{ by }}, {{ feature }}) |>
+    dplyr::ungroup() |>
     tidytext::bind_tf_idf(
       term = {{ feature }},
       document = {{ by }},
