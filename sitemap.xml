@@ -43,6 +43,9 @@
     <loc>https://jmclawson.github.io/tmtyro/reference/get_corpus.html</loc>
   </url>
   <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/get_micusp_corpus.html</loc>
+  </url>
+  <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/index.html</loc>
   </url>
   <url>
@@ -53,9 +56,6 @@
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/make_topic_model.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/micusp_corpus.html</loc>
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/micusp_metadata.html</loc>
@@ -89,6 +89,9 @@
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/pos_tags.html</loc>
+  </url>
+  <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/reexports.html</loc>
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/standardize_titles.html</loc>
