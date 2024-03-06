@@ -56,7 +56,7 @@ austen_measured |>
   plot_vocabulary()
 
 \dontrun{
-  micusp_corpus(
+  get_micusp_corpus(
     discipline \%in\% c("Physics", "Economics")) |>
     load_texts() |>
     add_lexical_variety() |>

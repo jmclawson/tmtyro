@@ -252,7 +252,7 @@ add_lexical_variety <- function(df, by = doc_id, word = word) {
 #'   plot_vocabulary()
 #'
 #' \dontrun{
-#'   micusp_corpus(
+#'   get_micusp_corpus(
 #'     discipline %in% c("Physics", "Economics")) |>
 #'     load_texts() |>
 #'     add_lexical_variety() |>

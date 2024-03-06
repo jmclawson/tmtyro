@@ -60,8 +60,8 @@ parse_micusp_paper <- function(paperid,
 #'
 #' @examples
 #' \dontrun{
-#' physics_f <- micusp_corpus(discipline == "Physics", sex == "Female")
-#' physics_m <- micusp_corpus(discipline == "Physics", sex == "Male")
+#' physics_f <- get_micusp_corpus(discipline == "Physics", sex == "Female")
+#' physics_m <- get_micusp_corpus(discipline == "Physics", sex == "Male")
 #'
 #' discipline_by_sex <-
 #'   micusp_metadata() |>
@@ -83,15 +83,15 @@ parse_micusp_paper <- function(paperid,
 #'   tail(3) |>
 #'   dplyr::pull(discipline)
 #'
-#' low_representation_f <- micusp_corpus(
+#' low_representation_f <- get_micusp_corpus(
 #'   sex == "Female",
 #'   discipline %in% disciplines_low_f)
 #'
-#'  low_representation_m <- micusp_corpus(
+#'  low_representation_m <- get_micusp_corpus(
 #'   sex == "Male",
 #'   discipline %in% disciplines_low_m)
 #' }
-micusp_corpus <- function(...){
+get_micusp_corpus <- function(...){
   the_df <-
     micusp_metadata() |>
     dplyr::filter(...)

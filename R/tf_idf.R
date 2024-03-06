@@ -94,7 +94,7 @@ plot_tf_idf <- function(
     prefix <- deparse(substitute(feature))
   }
 
-  x_lab <- paste(prefix, "frequency–inverse document frequency")
+  x_lab <- paste(prefix, "frequency\u2013inverse document frequency")
 
   df |>
     internal_plot_word_bars(

@@ -39,6 +39,7 @@ plot_doc_word_heatmap <- function(
     line_color = "gray"){
   the_df <- df |>
     dplyr::count({{ by }}, {{ feature }}) |>
+    dplyr::ungroup() |>
     dplyr::slice_max(
       n = num,
       by = {{ by }},
@@ -210,6 +211,10 @@ plot_doc_word_heatmap <- function(
   }
 }
 
+#' @importFrom dplyr count
+#' @export
+dplyr::count
+
 #' Plot bar graphs of frequent features
 #'
 #' @param df A tidy data frame, potentially containing columns called "doc_id" and "word"
@@ -268,8 +273,10 @@ plot_doc_word_bars <- function(
   precision <- label_tweak + 1
   offset <- label_tweak + 2
 
-  df <- df |>
-    dplyr::count({{ by }}, {{ feature }})
+  if (!"n" %in% colnames(df)) {
+    df <- df |>
+      dplyr::count({{ by }}, {{ feature }})
+  }
 
   if (percents) {
     df <- df |>
@@ -284,6 +291,7 @@ plot_doc_word_bars <- function(
   }
 
   df <- df |>
+    dplyr::ungroup() |>
     dplyr::slice_max(
       order_by = n,
       n = num,
