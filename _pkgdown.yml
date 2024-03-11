@@ -18,6 +18,10 @@ reference:
   - starts_with("drop_")
   - starts_with("summarize_")
   - starts_with("standardize_")
+- title: N-grams
+  desc: Work with phrases and sequences.
+- contents:
+  - ends_with("_ngrams")
 - title: Model
   desc: Model complex relationships in a corpus.
 - contents:
