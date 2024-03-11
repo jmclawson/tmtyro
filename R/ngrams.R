@@ -16,6 +16,15 @@
 #'   my_bigrams <- my_corpus |>
 #'     add_ngrams(3)
 #' }
+#'
+#' austen <- "austen.rds" |>
+#'   system.file(package = "tmtyro") |>
+#'   readRDS()
+#'
+#' austen |>
+#'   add_ngrams(2) |>
+#'   head()
+
 add_ngrams <- function(df, n = 1:2, feature = word, keep = FALSE, collapse = FALSE){
 
   make_range <- function(n = 6) {
@@ -67,6 +76,15 @@ add_ngrams <- function(df, n = 1:2, feature = word, keep = FALSE, collapse = FAL
 #'     add_ngrams(collapse = FALSE) |>
 #'     combine_ngrams()
 #' }
+#'
+#' austen <- "austen.rds" |>
+#'   system.file(package = "tmtyro") |>
+#'   readRDS()
+#'
+#' austen |>
+#'   add_ngrams(2) |>
+#'   combine_ngrams() |>
+#'   head()
 combine_ngrams <- function(df, feature = word, keep = FALSE){
   col_string <- deparse(substitute(feature))
 
@@ -121,6 +139,16 @@ combine_ngrams <- function(df, feature = word, keep = FALSE){
 #'   my_bigrams <- my_corpus |>
 #'     separate_ngrams()
 #' }
+#'
+#' austen <- "austen.rds" |>
+#'   system.file(package = "tmtyro") |>
+#'   readRDS()
+#'
+#' austen |>
+#'   add_ngrams(2) |>
+#'   combine_ngrams() |>
+#'   separate_ngrams() |>
+#'   head()
 separate_ngrams <- function(df, names_prefix = "word") {
   if(!"ngram" %in% colnames(df)){
     cli::cli_abort("`separate_ngrams()` only works on tables with an `ngram` column.")
@@ -171,6 +199,19 @@ separate_ngrams <- function(df, names_prefix = "word") {
 #'   plot_ngrams()
 #'
 #' }
+#'
+#' austen <- "austen.rds" |>
+#'   system.file(package = "tmtyro") |>
+#'   readRDS()
+#'
+#' austen |>
+#'   plot_ngrams()
+#'
+#' austen |>
+#'   add_ngrams(2) |>
+#'   drop_stopwords(word_1) |>
+#'   drop_stopwords(word_2) |>
+#'   plot_ngrams()
 plot_ngrams <- function(
     df,
     feature = word,

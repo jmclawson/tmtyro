@@ -27,4 +27,13 @@ Combine ngram columns
     add_ngrams(collapse = FALSE) |>
     combine_ngrams()
 }
+
+austen <- "austen.rds" |>
+  system.file(package = "tmtyro") |>
+  readRDS()
+
+austen |>
+  add_ngrams(2) |>
+  combine_ngrams() |>
+  head()
 }

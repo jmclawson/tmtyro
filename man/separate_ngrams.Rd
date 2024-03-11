@@ -24,4 +24,14 @@ Separate one word per column
   my_bigrams <- my_corpus |>
     separate_ngrams()
 }
+
+austen <- "austen.rds" |>
+  system.file(package = "tmtyro") |>
+  readRDS()
+
+austen |>
+  add_ngrams(2) |>
+  combine_ngrams() |>
+  separate_ngrams() |>
+  head()
 }

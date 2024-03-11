@@ -58,4 +58,17 @@ df |>
   plot_ngrams()
 
 }
+
+austen <- "austen.rds" |>
+  system.file(package = "tmtyro") |>
+  readRDS()
+
+austen |>
+  plot_ngrams()
+
+austen |>
+  add_ngrams(2) |>
+  drop_stopwords(word_1) |>
+  drop_stopwords(word_2) |>
+  plot_ngrams()
 }

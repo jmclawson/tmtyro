@@ -30,4 +30,12 @@ Add ngram columns
   my_bigrams <- my_corpus |>
     add_ngrams(3)
 }
+
+austen <- "austen.rds" |>
+  system.file(package = "tmtyro") |>
+  readRDS()
+
+austen |>
+  add_ngrams(2) |>
+  head()
 }
