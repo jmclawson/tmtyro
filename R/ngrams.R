@@ -211,8 +211,8 @@ separate_ngrams <- function(df, names_prefix = "word") {
 #'
 #' austen |>
 #'   add_ngrams(2) |>
-#'   drop_stopwords(word_1) |>
-#'   drop_stopwords(word_2) |>
+#'   drop_stopwords(feature = word_1) |>
+#'   drop_stopwords(feature = word_2) |>
 #'   plot_ngrams()
 #'
 #' austen |>
