@@ -172,7 +172,7 @@ internal_plot_engine <- function(
 #'
 #' @param df A tidy data frame, potentially containing columns called "doc_id" and "word"
 #' @param by A grouping column
-#' @param word A column of words containing one word per row
+#' @param feature A column of words containing one word per row
 #'
 #' @returns A data frame with 7 added columns
 #' , the first two logical and the rest numeric:
@@ -194,18 +194,18 @@ internal_plot_engine <- function(
 #' austen |>
 #'    add_lexical_variety() |>
 #'    head()
-add_lexical_variety <- function(df, by = doc_id, word = word) {
+add_lexical_variety <- function(df, by = doc_id, feature = word) {
   df |>
     dplyr::ungroup() |>
     dplyr::group_by({{ by }}) |>
     dplyr::mutate(
-      new_word = !duplicated({{ word }}),
+      new_word = !duplicated({{ feature }}),
       vocabulary = cumsum(new_word), # total lexical variety
       ttr = vocabulary / dplyr::row_number(), # type to term ratio
       progress_words = dplyr::row_number(),
       progress_percent = progress_words / max(progress_words)) |>
     dplyr::ungroup() |>
-    dplyr::group_by({{ by }}, {{ word }}) |>
+    dplyr::group_by({{ by }}, {{ feature }}) |>
     dplyr::mutate(
       hapax = dplyr::if_else(dplyr::n() == 1, TRUE, FALSE),
       .after = new_word) |>

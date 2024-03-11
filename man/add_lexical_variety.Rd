@@ -4,14 +4,14 @@
 \alias{add_lexical_variety}
 \title{Measure lexical variety}
 \usage{
-add_lexical_variety(df, by = doc_id, word = word)
+add_lexical_variety(df, by = doc_id, feature = word)
 }
 \arguments{
 \item{df}{A tidy data frame, potentially containing columns called "doc_id" and "word"}
 
 \item{by}{A grouping column}
 
-\item{word}{A column of words containing one word per row}
+\item{feature}{A column of words containing one word per row}
 }
 \value{
 A data frame with 7 added columns

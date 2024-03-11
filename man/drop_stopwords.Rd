@@ -4,14 +4,14 @@
 \alias{drop_stopwords}
 \title{Remove stopwords}
 \usage{
-drop_stopwords(df, wordlist = stopwords::stopwords(), word = word)
+drop_stopwords(df, wordlist = stopwords::stopwords(), feature = word)
 }
 \arguments{
 \item{df}{A tidy data frame, potentially containing a column called "word"}
 
 \item{wordlist}{A list of stopwords}
 
-\item{word}{A column of words containing one word per row to be checked for stopwords.}
+\item{feature}{A column of words containing one word per row to be checked for stopwords.}
 }
 \value{
 The original data frame with fewer rows.
