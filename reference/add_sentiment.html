@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tmtyro</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.2.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,7 +58,7 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">add_sentiment</span><span class="op">(</span></span>
 <span>  <span class="va">df</span>,</span>
 <span>  lexicon <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"bing"</span>, <span class="st">"afinn"</span>, <span class="st">"loughran"</span>, <span class="st">"nrc"</span>, <span class="st">"nrc_eil"</span>, <span class="st">"nrc_vad"</span><span class="op">)</span>,</span>
-<span>  word <span class="op">=</span> <span class="va">word</span></span>
+<span>  feature <span class="op">=</span> <span class="va">word</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -72,7 +72,7 @@
 <dd><p>The sentiment lexicon to use from the tidytext package. Options include "bing", "afinn", "loughran", "nrc", "nrc_eil", or "nrc_vad".</p></dd>
 
 
-<dt>word</dt>
+<dt>feature</dt>
 <dd><p>A column of words containing one word per row, to be used for dictionary look-up.</p></dd>
 
 </dl></div>

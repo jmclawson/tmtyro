@@ -28,7 +28,13 @@
     <loc>https://jmclawson.github.io/tmtyro/reference/add_lexical_variety.html</loc>
   </url>
   <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/add_ngrams.html</loc>
+  </url>
+  <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/add_sentiment.html</loc>
+  </url>
+  <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/combine_ngrams.html</loc>
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/download_once.html</loc>
@@ -76,6 +82,9 @@
     <loc>https://jmclawson.github.io/tmtyro/reference/plot_htr.html</loc>
   </url>
   <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/plot_ngrams.html</loc>
+  </url>
+  <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/plot_tf_idf.html</loc>
   </url>
   <url>
@@ -92,6 +101,9 @@
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/reexports.html</loc>
+  </url>
+  <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/separate_ngrams.html</loc>
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/standardize_titles.html</loc>
