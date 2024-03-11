@@ -4,7 +4,7 @@
 #'
 #' @param df A tidy data frame, potentially containing a column called "word"
 #' @param lexicon The sentiment lexicon to use from the [tidytext] package. Options include "bing", "afinn", "loughran", "nrc", "nrc_eil", or "nrc_vad".
-#' @param word A column of words containing one word per row, to be used for dictionary look-up.
+#' @param feature A column of words containing one word per row, to be used for dictionary look-up.
 #'
 #' @returns The original data frame with one or more sentiment columns added.
 #' @export
@@ -22,7 +22,7 @@ add_sentiment <- function(
     df,
     lexicon = c("bing", "afinn", "loughran",
                 "nrc", "nrc_eil", "nrc_vad"),
-    word = word) {
+    feature = word) {
   lex <- match.arg(lexicon)
 
   lex_df <- switch(lex,
@@ -35,7 +35,7 @@ add_sentiment <- function(
     stop("Unexpected lexicon", call. = FALSE)
   ) |>
     janitor::clean_names() |>
-    dplyr::rename({{ word }} := word)
+    dplyr::rename({{ feature }} := word)
 
   if (lex == "afinn") {
     lex_df <- lex_df |>
@@ -51,12 +51,12 @@ add_sentiment <- function(
                     sentiment_dominance = dominance)
   }
 
-  if (any(colnames(dplyr::select(lex_df, -{{ word }})) %in% colnames(df))) {
+  if (any(colnames(dplyr::select(lex_df, -{{ feature }})) %in% colnames(df))) {
     stop("The following sentiment columns already exist:",
-         intersect(colnames(dplyr::select(lex_df, -{{ word }})),
+         intersect(colnames(dplyr::select(lex_df, -{{ feature }})),
                    colnames(df)))
   }
 
   df |>
-    dplyr::left_join(lex_df, by = {{ word }})
+    dplyr::left_join(lex_df, by = {{ feature }})
 }

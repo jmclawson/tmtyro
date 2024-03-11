@@ -7,7 +7,7 @@
 add_sentiment(
   df,
   lexicon = c("bing", "afinn", "loughran", "nrc", "nrc_eil", "nrc_vad"),
-  word = word
+  feature = word
 )
 }
 \arguments{
@@ -15,7 +15,7 @@ add_sentiment(
 
 \item{lexicon}{The sentiment lexicon to use from the \link{tidytext} package. Options include "bing", "afinn", "loughran", "nrc", "nrc_eil", or "nrc_vad".}
 
-\item{word}{A column of words containing one word per row, to be used for dictionary look-up.}
+\item{feature}{A column of words containing one word per row, to be used for dictionary look-up.}
 }
 \value{
 The original data frame with one or more sentiment columns added.

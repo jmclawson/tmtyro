@@ -14,6 +14,8 @@ n <- temp <- NULL
 n2 <- temp <- NULL
 n3 <- temp <- NULL
 n_smooth <- temp <- NULL
+name <- temp <- NULL
+ngram <- temp <- NULL
 new_word <- temp <- NULL
 paper_id <- temp <- NULL
 par_num <- temp <- NULL
@@ -26,6 +28,7 @@ set_id <- temp <- NULL
 stanza_num <- temp <- NULL
 term <- temp <- NULL
 text <- temp <- NULL
+tf_idf <- temp <- NULL
 title <- temp <- NULL
 topic <- temp <- NULL
 topic_mean <- temp <- NULL

@@ -134,7 +134,7 @@ tidy_texts_internal <- function(df, word, lemma, lemma_replace, to_lower, remove
           stringr::str_remove_all("\\b[a-zA-Z]+__"),
         ngram = ngram |>
           stringr::str_remove_all("__[a-zA-Z]+\\b")) |>
-      relocate(pos, .after = ngram)
+      dplyr::relocate(pos, .after = ngram)
   }
 
   if (lemma & word) {
