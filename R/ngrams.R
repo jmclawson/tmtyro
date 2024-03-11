@@ -35,7 +35,7 @@ add_ngrams <- function(df, n = 1:2, feature = word, keep = FALSE, collapse = FAL
   n <- make_range(n) - 1
 
   map_lead <- n |>
-    purrr::map(~purrr::partial(lead, n = .x))
+    purrr::map(~purrr::partial(dplyr::lead, n = .x))
 
   the_df <- df |>
     dplyr::mutate(dplyr::across(.cols = {{ feature }},
@@ -165,6 +165,8 @@ separate_ngrams <- function(df, names_prefix = "word") {
 
 #' Visualize ngram chains
 #'
+#' Mildly adapted from [Text Mining with R](https://www.tidytextmining.com), by Julia Silge and David Robinson
+#'
 #' @param df A tidy data frame potentially containing a column called "word" or columns called "word_1" and "word_2".
 #' @param feature The feature to use when constructing ngrams
 #' @param random_seed Whether to randomize the creation of the network chart.
@@ -212,6 +214,10 @@ separate_ngrams <- function(df, names_prefix = "word") {
 #'   drop_stopwords(word_1) |>
 #'   drop_stopwords(word_2) |>
 #'   plot_ngrams()
+#'
+#' austen |>
+#'   dplyr::filter(doc_id == "northanger") |>
+#'   plot_ngrams(top_n = 90, node_color = "lightgreen")
 plot_ngrams <- function(
     df,
     feature = word,
@@ -244,8 +250,9 @@ plot_ngrams <- function(
     igraph::graph_from_data_frame() |>
     ggraph::ggraph(layout = "fr") +
     ggraph::geom_edge_link(
+      ggplot2::aes(edge_alpha = n),
       color = edge_color,
-      show.legend = TRUE,
+      show.legend = FALSE,
       arrow = ggplot2::arrow(
         type = "closed",
         length = ggplot2::unit(.10, "inches")),

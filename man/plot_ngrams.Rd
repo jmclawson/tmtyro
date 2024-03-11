@@ -33,7 +33,7 @@ plot_ngrams(
 A ggplot2 object
 }
 \description{
-Visualize ngram chains
+Mildly adapted from \href{https://www.tidytextmining.com}{Text Mining with R}, by Julia Silge and David Robinson
 }
 \examples{
 \dontrun{
@@ -71,4 +71,8 @@ austen |>
   drop_stopwords(word_1) |>
   drop_stopwords(word_2) |>
   plot_ngrams()
+
+austen |>
+  dplyr::filter(doc_id == "northanger") |>
+  plot_ngrams(top_n = 90, node_color = "lightgreen")
 }
