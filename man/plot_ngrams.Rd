@@ -10,7 +10,7 @@ plot_ngrams(
   random_seed = TRUE,
   set_seed = NULL,
   node_color = "lightblue",
-  edge_color = "gray",
+  edge_color = NULL,
   top_n = 25
 )
 }
@@ -25,7 +25,7 @@ plot_ngrams(
 
 \item{node_color}{The color of the nodes}
 
-\item{edge_color}{The color of the edges}
+\item{edge_color}{The color of the edges. When the \code{ggraph} package is not loaded, the default \code{edge_color=NULL} setting presents edges as gray. When that package is is loaded, a \code{NULL} edge color colors edges black. Whatever the color defined by this parameter, loading \code{ggraph} enables transparency to show strength of each bigram connection.}
 
 \item{top_n}{The number of pairs to visualize}
 }
@@ -62,6 +62,11 @@ df |>
 austen <- "austen.rds" |>
   system.file(package = "tmtyro") |>
   readRDS()
+
+austen |>
+  plot_ngrams()
+
+library(ggraph)
 
 austen |>
   plot_ngrams()

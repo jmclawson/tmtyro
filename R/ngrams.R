@@ -172,7 +172,7 @@ separate_ngrams <- function(df, names_prefix = "word") {
 #' @param random_seed Whether to randomize the creation of the network chart.
 #' @param set_seed A specific seed to use if not random
 #' @param node_color The color of the nodes
-#' @param edge_color The color of the edges
+#' @param edge_color The color of the edges. When the `ggraph` package is not loaded, the default `edge_color=NULL` setting presents edges as gray. When that package is is loaded, a `NULL` edge color colors edges black. Whatever the color defined by this parameter, loading `ggraph` enables transparency to show strength of each bigram connection.
 #' @param top_n The number of pairs to visualize
 #'
 #' @returns A ggplot2 object
@@ -209,6 +209,11 @@ separate_ngrams <- function(df, names_prefix = "word") {
 #' austen |>
 #'   plot_ngrams()
 #'
+#' library(ggraph)
+#'
+#' austen |>
+#'   plot_ngrams()
+#'
 #' austen |>
 #'   add_ngrams(2) |>
 #'   drop_stopwords(feature = word_1) |>
@@ -224,8 +229,16 @@ plot_ngrams <- function(
     random_seed = TRUE,
     set_seed = NULL,
     node_color = "lightblue",
-    edge_color = "gray",
+    edge_color = NULL,
     top_n = 25) {
+
+  if (is.null(edge_color)) {
+    if ("ggraph" %in% (.packages())) {
+      edge_color <- "black"
+    } else {
+      edge_color <- "gray"
+    }
+  }
 
   if (!random_seed & is.null(set_seed)) {
     set.seed(2016)
@@ -242,15 +255,24 @@ plot_ngrams <- function(
       add_ngrams()
   }
 
-  df |>
+  df_export <- df |>
     dplyr::count(dplyr::across(
       glue::glue("{col_string}_1"):glue::glue("{col_string}_2")),
       sort = TRUE) |>
-    dplyr::slice_head(n = top_n) |>
-    igraph::graph_from_data_frame() |>
+    dplyr::slice_head(n = top_n)
+
+  df_export <<- df_export
+
+  df_export_2 <-
+    df_export |>
+    igraph::graph_from_data_frame()
+
+  df_export_2 <<- df_export_2
+
+  df_export_2 |>
     ggraph::ggraph(layout = "fr") +
     ggraph::geom_edge_link(
-      ggplot2::aes(edge_alpha = n),
+      ggplot2::aes(alpha = n),
       color = edge_color,
       show.legend = FALSE,
       arrow = ggplot2::arrow(
