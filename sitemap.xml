@@ -67,6 +67,9 @@
     <loc>https://jmclawson.github.io/tmtyro/reference/micusp_metadata.html</loc>
   </url>
   <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/plot_bigrams.html</loc>
+  </url>
+  <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/plot_doc_word_bars.html</loc>
   </url>
   <url>
@@ -80,9 +83,6 @@
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/plot_htr.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/plot_ngrams.html</loc>
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/plot_tf_idf.html</loc>
