@@ -22,6 +22,7 @@ reference:
   desc: Work with phrases and sequences.
 - contents:
   - ends_with("_ngrams")
+  - ends_with("_bigrams")
 - title: Model
   desc: Model complex relationships in a corpus.
 - contents:

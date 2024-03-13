@@ -163,9 +163,9 @@ separate_ngrams <- function(df, names_prefix = "word") {
 }
 
 
-#' Visualize ngram chains
+#' Visualize bigram chains
 #'
-#' Mildly adapted from [Text Mining with R](https://www.tidytextmining.com), by Julia Silge and David Robinson
+#' Adapted from `[visualize_bigrams()](https://www.tidytextmining.com/ngrams#visualizing-bigrams-in-other-texts)` in Julia Silge and David Robinson's *Text Mining with R.
 #'
 #' @param df A tidy data frame potentially containing a column called "word" or columns called "word_1" and "word_2".
 #' @param feature The feature to use when constructing ngrams
@@ -182,23 +182,23 @@ separate_ngrams <- function(df, names_prefix = "word") {
 #' \dontrun{
 #' # It isn't necessary to use add_ngrams()
 #' df |>
-#'   plot_ngrams()
+#'   plot_bigrams()
 #'
 #' # Adding them first allows for filtering steps
 #' df |>
 #'   add_ngrams() |>
 #'   drop_stopwords(word_1) |>
 #'   drop_stopwords(word_2) |>
-#'   plot_ngrams()
+#'   plot_bigrams()
 #'
 #' # Only bigrams influence the visualization These show the same networks:
 #' df |>
 #'   add_ngrams(2) |>
-#'   plot_ngrams()
+#'   plot_bigrams()
 #'
 #' df |>
 #'   add_ngrams(4) |>
-#'   plot_ngrams()
+#'   plot_bigrams()
 #'
 #' }
 #'
@@ -207,23 +207,24 @@ separate_ngrams <- function(df, names_prefix = "word") {
 #'   readRDS()
 #'
 #' austen |>
-#'   plot_ngrams()
+#'   plot_bigrams()
 #'
+#' # Loading `ggraph` enables edge to show connection strengths
 #' library(ggraph)
 #'
 #' austen |>
-#'   plot_ngrams()
+#'   plot_bigrams()
 #'
 #' austen |>
 #'   add_ngrams(2) |>
 #'   drop_stopwords(feature = word_1) |>
 #'   drop_stopwords(feature = word_2) |>
-#'   plot_ngrams()
+#'   plot_bigrams()
 #'
 #' austen |>
 #'   dplyr::filter(doc_id == "northanger") |>
-#'   plot_ngrams(top_n = 90, node_color = "lightgreen")
-plot_ngrams <- function(
+#'   plot_bigrams(top_n = 90, node_color = "lightgreen")
+plot_bigrams <- function(
     df,
     feature = word,
     random_seed = TRUE,
@@ -261,13 +262,9 @@ plot_ngrams <- function(
       sort = TRUE) |>
     dplyr::slice_head(n = top_n)
 
-  df_export <<- df_export
-
   df_export_2 <-
     df_export |>
     igraph::graph_from_data_frame()
-
-  df_export_2 <<- df_export_2
 
   df_export_2 |>
     ggraph::ggraph(layout = "fr") +
@@ -275,8 +272,9 @@ plot_ngrams <- function(
       ggplot2::aes(alpha = n),
       color = edge_color,
       show.legend = FALSE,
+      lineend = "round",
+      linejoin = "mitre",
       arrow = ggplot2::arrow(
-        type = "closed",
         length = ggplot2::unit(.10, "inches")),
       end_cap = ggraph::circle(.07, "inches")) +
     ggraph::geom_node_point(
@@ -287,5 +285,3 @@ plot_ngrams <- function(
       vjust = 0.5, hjust = 0.5) +
     ggplot2::theme_void()
 }
-
-
