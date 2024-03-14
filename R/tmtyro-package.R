@@ -47,6 +47,8 @@ words <- temp <- NULL
 
 ## usethis namespace: start
 #' @importFrom dplyr count
+#' @importFrom gutenbergr gutenberg_download
+#' @importFrom gutenbergr gutenberg_get_mirror
 #' @importFrom rlang :=
 #' @importFrom stopwords stopwords
 #' @importFrom textdata lexicon_afinn

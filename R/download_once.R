@@ -31,6 +31,9 @@ download_once <- function(
   filepath <- file.path(destdir, the_filename)
 
   if(!file.exists(filepath)) {
-    utils::download.file(url, destfile = filepath)
+    status <- 1
+    tryCatch(status <- utils::download.file(url, destfile = filepath), error = function(e) return(NULL))
+    if (status != 0) filepath <- NULL
   }
+  invisible(filepath)
 }
