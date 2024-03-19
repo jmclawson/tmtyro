@@ -37,20 +37,18 @@ unnest_without_caps <- function(
                             to_lower = FALSE)
 
   big <- full |>
-    dplyr::filter(stringr::str_detect({{output}},
-                                      "^[A-Z]")) |>
     dplyr::pull({{output}}) |>
+    {\(x) x[stringr::str_detect(x, "^[A-Z]")]}() |>
     unique()
 
   small <- full |>
-    dplyr::filter(stringr::str_detect({{output}},
-                                      "^[a-z]")) |>
     dplyr::pull({{output}}) |>
+    {\(x) x[stringr::str_detect(x, "^[a-z]")]}() |>
     unique()
 
   only_caps <- base::setdiff(tolower(big), small)
 
   df |>
     tidytext::unnest_tokens({{output}}, {{input}}, to_lower = to_lower) |>
-    dplyr::filter(!tolower({{output}}) %in% tolower(only_caps))
+    dplyr::filter(!tolower(!!as.name(output)) %in% tolower(only_caps))
 }

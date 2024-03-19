@@ -4,7 +4,14 @@
 \alias{add_ngrams}
 \title{Add ngram columns}
 \usage{
-add_ngrams(df, n = 1:2, feature = word, keep = FALSE, collapse = FALSE)
+add_ngrams(
+  df,
+  n = 1:2,
+  feature = word,
+  keep = FALSE,
+  collapse = FALSE,
+  by = doc_id
+)
 }
 \arguments{
 \item{df}{A tidy data frame, potentially containing a column called "word"}
@@ -16,6 +23,8 @@ add_ngrams(df, n = 1:2, feature = word, keep = FALSE, collapse = FALSE)
 \item{keep}{Whether to keep the original feature column}
 
 \item{collapse}{Whether to join the ngram parts into a single column called "ngram"}
+
+\item{by}{A grouping column identifying a document, such as \code{doc_id}.}
 }
 \value{
 The original data frame with columns added for subsequent parts of ngrams

@@ -5,6 +5,7 @@
 #' @param feature The feature to use when constructing ngrams
 #' @param keep Whether to keep the original feature column
 #' @param collapse Whether to join the ngram parts into a single column called "ngram"
+#' @param by A grouping column identifying a document, such as `doc_id`.
 #'
 #' @returns The original data frame with columns added for subsequent parts of ngrams
 #' @export
@@ -25,7 +26,7 @@
 #'   add_ngrams(2) |>
 #'   head()
 
-add_ngrams <- function(df, n = 1:2, feature = word, keep = FALSE, collapse = FALSE){
+add_ngrams <- function(df, n = 1:2, feature = word, keep = FALSE, collapse = FALSE, by = doc_id){
 
   make_range <- function(n = 6) {
     if(length(n)==1) {n <- 1:n}
@@ -37,10 +38,22 @@ add_ngrams <- function(df, n = 1:2, feature = word, keep = FALSE, collapse = FAL
   map_lead <- n |>
     purrr::map(~purrr::partial(dplyr::lead, n = .x))
 
+  by_col <- deparse(substitute(by))
+
+  if (by_col %in% colnames(df)) {
+    the_df <- df |>
+      dplyr::ungroup() |>
+      dplyr::group_by({{ by }})
+  } else {
+    the_df <- df |>
+      dplyr::ungroup()
+  }
+
   the_df <- df |>
     dplyr::mutate(dplyr::across(.cols = {{ feature }},
-                  .fns = map_lead,
-                  .names = "{.col}_{n+1}"))
+                                .fns = map_lead,
+                                .names = "{.col}_{n+1}")) |>
+    dplyr::ungroup()
 
   if (!keep) {
     the_df <- the_df |>

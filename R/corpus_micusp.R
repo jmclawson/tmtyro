@@ -114,5 +114,6 @@ get_micusp_corpus <- function(...){
 
   the_df |>
     dplyr::rowwise() |>
-    dplyr::mutate(text = parse_micusp_paper(paper_id))
+    dplyr::mutate(text = parse_micusp_paper(paper_id)) |>
+    dplyr::ungroup()
 }

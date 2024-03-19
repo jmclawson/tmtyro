@@ -4,10 +4,10 @@
 \alias{plot_topic_wordcloud}
 \title{Plot topic wordclouds}
 \usage{
-plot_topic_wordcloud(df, topics = NULL, crop = TRUE, savedir = "plots")
+plot_topic_wordcloud(lda, topics = NULL, crop = TRUE, savedir = "plots")
 }
 \arguments{
-\item{df}{A loaded topic model}
+\item{lda}{The topic model to be used.}
 
 \item{topics}{Topic numbers to be visualized. If left undefined, all topics will be visualized}
 
@@ -23,9 +23,21 @@ Graphic(s) prepared with \code{knitr} for Quarto or RMarkdown
 }
 \examples{
 \dontrun{
-mysteries <- load_texts("mystery-novels", word = FALSE)
+austen <-
+  get_gutenberg_corpus(c(105, 121, 141, 158, 161, 946, 1342)) |>
+  select(doc_id = title, text)
 
-mysteries_lda <- mysteries |>
-  make_topic_model(k = 10)
-  }
+# Creating the topic model for the package
+austen_lda <- make_topic_model(austen, k = 30)
+
+saveRDS(austen_lda, "inst/austen_lda.rds")
+}
+
+# Loading from the package
+austen_lda <- "austen_lda.rds" |>
+  system.file(package = "tmtyro") |>
+  readRDS()
+
+austen_lda |>
+  plot_topic_wordcloud(topic = 28)
 }

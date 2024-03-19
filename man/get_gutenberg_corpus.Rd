@@ -28,7 +28,7 @@ A data frame with one row for each line of the texts in the corpus.
 }
 \description{
 \code{get_gutenberg_corpus()} improves upon the functionality
-of \link[gutenbergr:gutenberg_download]{gutenbergr::gutenberg_download} in two key ways. First,
+of \code{\link[gutenbergr:gutenberg_download]{gutenbergr::gutenberg_download()}} in two key ways. First,
 it downloads the ".txt" format of ebooks rather than the
 ".zip" format. This change improves coverage dramatically.
 This change was made with consideration for server bandwidth,

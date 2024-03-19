@@ -1,7 +1,7 @@
 #' Build and load a corpus from Project Gutenberg
 #'
 #' `get_gutenberg_corpus()` improves upon the functionality
-#' of [gutenbergr::gutenberg_download] in two key ways. First,
+#' of [gutenbergr::gutenberg_download()] in two key ways. First,
 #' it downloads the ".txt" format of ebooks rather than the
 #' ".zip" format. This change improves coverage dramatically.
 #' This change was made with consideration for server bandwidth,
@@ -29,7 +29,6 @@ get_gutenberg_corpus <- function(gutenberg_id, dir = "gutenberg",
                                  mirror = NULL,
                                  meta_fields = c("title", "author"),
                                  ...) {
-
   # adapted from gutenberg_download
   if (is.null(mirror)) {
     mirror <- gutenbergr::gutenberg_get_mirror(verbose = FALSE)
@@ -115,9 +114,44 @@ get_gutenberg_corpus <- function(gutenberg_id, dir = "gutenberg",
 
   # send filenames to gutenberg_download
   ids <- sort(id)
-  collapsed_ids <- paste0(ids, collapse = "|")
+  collapsed_ids <- paste0("/", ids, ".txt", collapse = "|")
   guten_files <- dir(path = dir, full.names = TRUE) |>
     {\(x) x[grepl(collapsed_ids, x)]}()
 
   gutenbergr::gutenberg_download(ids, files = guten_files, meta_fields = meta_fields, ...)
 }
+
+is_uppercase <- function(string, nums = FALSE){
+  if (nums) {
+    tester <- "[^A-Z 0-9]"
+  } else {
+    tester <- "[^A-Z ]"
+  }
+  gsub(tester, "", string) == string
+}
+
+is_number <- function(string){
+  check_roman <- function(string) {
+    string <- toupper(string)
+    all(
+      grepl("^M{0,3}C?M?D?X?C{,4}X?L?I?X{,4}I?V?I{,4}$", string),
+      !grepl("CMD", string),
+      !grepl("CMC", string), !grepl("CDC", string),
+      !grepl("XCL", string),
+      !grepl("XCX", string), !grepl("XLX", string),
+      !grepl("IXI", string), !grepl("IVI", string)
+    )
+  }
+  if (is.numeric(string)) {
+    return(TRUE)
+  } else if (check_roman(string)) {
+    return(TRUE)
+  } else {
+    return(FALSE)
+  }
+}
+
+add_parts <- function(df, feature = text, by = doc_id){
+
+}
+

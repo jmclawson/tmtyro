@@ -4,12 +4,12 @@
 \alias{make_topic_model}
 \title{Construct a topic model}
 \usage{
-make_topic_model(df, doc_id = title, sample_size = 1000, k = 15)
+make_topic_model(df, by = doc_id, sample_size = 1000, k = 15)
 }
 \arguments{
-\item{df}{A data frame with unnested text in a "word" column.}
+\item{df}{A data frame with nested text in a "text" column.}
 
-\item{doc_id}{The column for identifying each document. By default, the "title" column will be used.}
+\item{by}{The column for identifying each document. By default, the "title" column will be used.}
 
 \item{sample_size}{The sample size for each document chunk. By default, samples will include 1000 words.}
 

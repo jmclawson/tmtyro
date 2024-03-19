@@ -9,8 +9,8 @@
 #' 6. converts the table of frequencies into a document term matrix
 #' 7. builds a topic model with `k` topics
 #'
-#' @param df A data frame with unnested text in a "word" column.
-#' @param doc_id The column for identifying each document. By default, the "title" column will be used.
+#' @param df A data frame with nested text in a "text" column.
+#' @param by The column for identifying each document. By default, the "title" column will be used.
 #' @param sample_size The sample size for each document chunk. By default, samples will include 1000 words.
 #' @param k The number of topics to search for. By default, 15 topics will be sought.
 #'
@@ -26,33 +26,33 @@
 #'   }
 make_topic_model <- function(
     df,
-    doc_id = title,
+    by = doc_id,
     sample_size = 1000,
     k = 15) {
 
   set_doc_samples <- function(
     df,
     size = 1000,
-    doc_id = title,
+    by = doc_id,
     set_min = NULL,
     collapse_cols = TRUE) {
 
     df <- df |>
-      dplyr::group_by({{doc_id}}) |>
+      dplyr::group_by({{ by }}) |>
       dplyr::mutate(set_id =
                ceiling(dplyr::row_number()/size)) |>
       dplyr::ungroup()
 
     if (!is.null(set_min)) {
       df <- df |>
-        dplyr::group_by({{doc_id}}) |>
+        dplyr::group_by({{ by }}) |>
         dplyr::mutate(set_count = dplyr::n()) |>
         dplyr::filter(set_count > set_min)
     }
 
     if(collapse_cols) {
       df <- df |>
-        tidyr::unite({{doc_id}}, {{doc_id}}, set_id)
+        tidyr::unite({{ by }}, {{ by }}, set_id)
     }
 
     return(df)
@@ -60,12 +60,11 @@ make_topic_model <- function(
 
   df |>
     unnest_without_caps() |>
-    set_doc_samples(doc_id = {{doc_id}},
-                    size = sample_size) |>
+    set_doc_samples(sample_size, {{ by }}) |>
     dplyr::anti_join(tidytext::get_stopwords()) |>
-    dplyr::count({{doc_id}}, word, sort = TRUE) |>
+    dplyr::count({{ by }}, word, sort = TRUE) |>
     dplyr::rename(
-      document = {{doc_id}},
+      document = {{ by }},
       term = word,
       value = n) |>
     tidytext::cast_dtm(document, term, value) |>
@@ -77,11 +76,11 @@ make_topic_model <- function(
 
 #' Plot topic distributions
 #'
-#' `plot_document_topics()` prepares a visualization for exploring the most significant topics in each document over time.
+#' `plot_topic_distributions()` prepares a visualization for exploring the most significant topics in each document over time.
 #'
 #' @param lda The topic model to be used.
 #' @param top_n The number of topics to visualize. By default, the top 4 topics in each document will be shown.
-#' @param direct_label By default, directly labeles topic numbers on the chart. Set it to FALSE to show a legend corresponding to each color.
+#' @param direct_label By default, directly labels topic numbers on the chart. Set it to FALSE to show a legend corresponding to each color.
 #' @param title By default, the function will add a title to the chart, corresponding to the name of the object passed to the `lda` parameter. Set it to FALSE to return a chart with no title.
 #' @param save By default, the visualization will be saved. Set to FALSE to skip saving.
 #' @param saveas The filetype for saving resulting visualizations. By default, the files will be in "png" format, but other options such as "pdf" or "jpg will also work.
@@ -94,14 +93,23 @@ make_topic_model <- function(
 #'
 #' @examples
 #' \dontrun{
-#' mysteries <- load_texts("mystery-novels", word = FALSE)
+#' austen <-
+#'   get_gutenberg_corpus(c(105, 121, 141, 158, 161, 946, 1342)) |>
+#'   select(doc_id = title, text)
 #'
-#' mysteries_lda <- mysteries |>
-#'   make_topic_model(k = 10)
+#' # Creating the topic model for the package
+#' austen_lda <- make_topic_model(austen, k = 30)
 #'
-#' plot_document_topics(mysteries_lda)
+#' austen_lda |> saveRDS("inst/austen_lda.rds")
 #' }
-plot_document_topics <- function(
+#'
+#' # Loading from the package
+#' austen_lda <- "austen_lda.rds" |>
+#'   system.file(package = "tmtyro") |>
+#'   readRDS()
+#'
+#' plot_topic_distributions(austen_lda)
+plot_topic_distributions <- function(
     lda,
     top_n = 4,
     direct_label = TRUE,
@@ -116,24 +124,68 @@ plot_document_topics <- function(
 
   plot_topic_parts <- function(df,
                                direct_label = TRUE) {
+    n_topics <- df |>
+      dplyr::select(doc_id, topic) |>
+      dplyr::distinct() |>
+      dplyr::count(doc_id) |>
+      dplyr::pull(n) |>
+      mean(na.rm = TRUE)
+
+    n_docs <- df |>
+      dplyr::pull(doc_id) |>
+      unique() |>
+      length()
+
+    doc_topics <- df |>
+      dplyr::group_by(doc_id, topic) |>
+      dplyr::summarize(n = median(n)) |>
+      dplyr::arrange(-n) |>
+      dplyr::mutate(topics = paste(topic, collapse = ", ")) |>
+      dplyr::ungroup() |>
+      dplyr::select(doc_id, topics) |>
+      dplyr::distinct() |>
+      dplyr::mutate(facet_label = paste0(doc_id, " (", topics, ")")) |>
+      {\(x) x$facet_label |> setNames(x$doc_id)}()
+
+    doc_labeller <- function(variable,value){
+      return(ggplot2::labeller(groupwrap = ggplot2::label_wrap_gen(6))(doc_topics[value]))
+    }
+
+    label_breaks <- n_topics |>
+      {\(x) ((1:x/(x - 1)) - (1/(x - 1))) * 0.95}()
+
     plot <- df |>
       ggplot2::ggplot(ggplot2::aes(x = set, y = n))
 
+    expand_var <- 0.1
+
     if (direct_label) {
+      expand_var <- 0.01
+      df_text <- df |>
+        dplyr::group_by(doc_id) |>
+        dplyr::filter(set == max(set)) |>
+        dplyr::arrange(dplyr::desc(topic)) |>
+        dplyr::mutate(
+          n = cumsum(n),
+          # set = set + (3000 * (dplyr::row_number() - 1)),
+          label_y = label_breaks)
+
+      label_offset <- df_text |>
+        dplyr::pull(set) |>
+        max() |>
+        {\(x) ((x * 1.15) - x) / n_topics}()
+
+      df_text <- df_text |>
+        dplyr::mutate(set = set + (label_offset * (dplyr::row_number() - 1)))
+
       plot <- plot +
         ggplot2::geom_area(ggplot2::aes(fill = as.factor(topic)),
                   show.legend = FALSE) +
         ggplot2::geom_text(
-          data = df |>
-            dplyr::group_by(doc_id) |>
-            dplyr::filter(set == max(set)) |>
-            dplyr::arrange(dplyr::desc(topic)) |>
-            dplyr::mutate(n = cumsum(n),
-                   set = set + (3000 * (
-                     dplyr::row_number() - 1
-                   ))),
+          data = df_text,
           ggplot2::aes(x = set + 800,
               label = topic,
+              # y = label_y,
               color = as.factor(topic)),
           show.legend = FALSE,
           hjust = 0
@@ -147,8 +199,10 @@ plot_document_topics <- function(
       ggplot2::facet_wrap(~ doc_id,
                  strip.position = "top",
                  ncol = 1,
-                 labeller = ggplot2::labeller(groupwrap = ggplot2::label_wrap_gen(6))) +
-      ggplot2::scale_x_continuous(expand = ggplot2::expansion(c(0, 0.1)),
+                 labeller = ggplot2::labeller(
+                   groupwrap = ggplot2::label_wrap_gen(6),
+                   doc_id = doc_topics)) +
+      ggplot2::scale_x_continuous(expand = ggplot2::expansion(c(0, expand_var)),
                          labels = scales::label_comma()) +
       ggplot2::theme_minimal() +
       ggplot2::labs(y = ggplot2::element_blank(),
@@ -171,7 +225,7 @@ plot_document_topics <- function(
   k <- attributes(lda)$k
 
   plot <- lda |>
-    prep_document_topics(top_n = top_n,
+    prep_topic_distributions(top_n = top_n,
                          omit = omit,
                          smooth = smooth) |>
     plot_topic_parts(direct_label = direct_label)
@@ -189,7 +243,7 @@ plot_document_topics <- function(
                        " - document topics",
                        ".",
                        saveas)
-    if (!saveas %in% c("pdf", "png")) {
+    if (saveas %in% c("pdf", "png")) {
       ggplot2::ggsave(filename,
              plot = plot,
              dpi = 300,
@@ -202,7 +256,7 @@ plot_document_topics <- function(
 }
 
 # Used internally
-prep_document_topics <- function(
+prep_topic_distributions <- function(
     lda,
     top_n = 4,
     omit = NULL,
@@ -275,7 +329,7 @@ prep_document_topics <- function(
 
 #' Explore topics interactively
 #'
-#' `interactive_document_topics()` uses plotly to prepare an interactive visualization to explore a topic model, showing the top "n" topics in each document. This kind of visualization is for use in the interactive IDE or as a web page.
+#' `interactive_topic_distributions()` uses plotly to prepare an interactive visualization to explore a topic model, showing the top "n" topics in each document. This kind of visualization is for use in the interactive IDE or as a web page.
 #'
 #' @param lda The topic model to be used.
 #' @param top_n The number of topics to visualize. By default, the top 4 topics in each document will be shown.
@@ -289,14 +343,23 @@ prep_document_topics <- function(
 #'
 #' @examples
 #' \dontrun{
-#' mysteries <- load_texts("mystery-novels", word = FALSE)
+#' austen <-
+#'   get_gutenberg_corpus(c(105, 121, 141, 158, 161, 946, 1342)) |>
+#'   select(doc_id = title, text)
 #'
-#' mysteries_lda <- mysteries |>
-#'   make_topic_model(k = 10)
+#' # Creating the topic model for the package
+#' austen_lda <- make_topic_model(austen, k = 30)
 #'
-#' interactive_document_topics(mysteries_lda, top_n = 5)
+#' saveRDS(austen_lda, "inst/austen_lda.rds")
 #' }
-interactive_document_topics <- function(
+#'
+#' # Loading from the package
+#' austen_lda <- "austen_lda.rds" |>
+#'   system.file(package = "tmtyro") |>
+#'   readRDS()
+#'
+#' interactive_topic_distributions(austen_lda)
+interactive_topic_distributions <- function(
     lda,
     top_n = 4,
     title = FALSE,
@@ -307,7 +370,7 @@ interactive_document_topics <- function(
   df_string <- deparse(substitute(lda))
 
   plot <- lda |>
-    prep_document_topics(top_n, omit = omit, smooth = smooth) |>
+    prep_topic_distributions(top_n, omit = omit, smooth = smooth) |>
     dplyr::mutate(
       # Shorten title to first word, dropping articles and prepositions
       doc_id = doc_id |>
@@ -352,17 +415,50 @@ interactive_document_topics <- function(
     suppressWarnings()
 }
 
+#' Plot bars for words in each topic
+#'
+#' @param lda The topic model to be used.
+#' @param topics The topid numbers to view
+#' @param top_n The number of words to show for each topic
+#' @param expand_bars Whether to stretch the bars the length of the X-axis for each facet
+#' @param save By default, the visualization will be saved. Set to FALSE to skip saving.
+#' @param saveas The filetype for saving resulting visualizations. By default, the files will be in "png" format, but other options such as "pdf" or "jpg will also work.
+#' @param savedir The directory for saving output images. By default, this is set to "plots/".
+#'
+#' @returns A ggplot2 visualization showing the top words in each of the chosen topics.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' austen <-
+#'   get_gutenberg_corpus(c(105, 121, 141, 158, 161, 946, 1342)) |>
+#'   select(doc_id = title, text)
+#'
+#' # Creating the topic model for the package
+#' austen_lda <- make_topic_model(austen, k = 30)
+#'
+#' saveRDS(austen_lda, "inst/austen_lda.rds")
+#' }
+#'
+#' # Loading from the package
+#' austen_lda <- "austen_lda.rds" |>
+#'   system.file(package = "tmtyro") |>
+#'   readRDS()
+#'
+#' austen_lda |>
+#'   plot_topic_bars(topics = c(6, 15, 19))
 plot_topic_bars <- function(
-    df,
+    lda,
     topics,
     top_n = 10,
     expand_bars = TRUE,
     save = TRUE,
+    saveas = "png",
     savedir = "plots") {
 
-  df_string <- deparse(substitute(df))
+  lda_string <- deparse(substitute(lda))
 
-  plot <- tidytext::tidy(df) |>
+  plot <- tidytext::tidy(lda) |>
     dplyr::filter(topic %in% topics) |>
     dplyr::mutate(topic = paste("topic", topic) |>
              factor(levels = paste("topic", topics))) |>
@@ -377,7 +473,7 @@ plot_topic_bars <- function(
     tidytext::scale_y_reordered() +
     ggplot2::labs(y = NULL,
          x = NULL,
-         title = df_string) +
+         title = lda_string) +
     ggplot2::theme_minimal() +
     ggplot2::theme(axis.text.x = ggplot2::element_blank(),
           panel.grid = ggplot2::element_blank())
@@ -394,12 +490,20 @@ plot_topic_bars <- function(
     ifelse(!dir.exists(file.path(savedir)),
            dir.create(file.path(savedir)),
            FALSE)
-    filename <- paste0(savedir,"/",
-                       df_string,
+    filename <- paste0(savedir, "/",
+                       lda_string,
                        " - topics ",
                        paste0(topics, collapse=", "),
-                       ".png")
-    ggplot2::ggsave(filename, plot=plot)
+                       ".",
+                       saveas)
+    if (saveas %in% c("pdf", "png")) {
+      ggplot2::ggsave(filename,
+                      plot = plot,
+                      dpi = 300,
+                      bg = "white")
+    } else {
+      ggplot2::ggsave(filename, plot = plot, dpi = 300)
+    }
   }
   plot
 }
@@ -408,7 +512,7 @@ plot_topic_bars <- function(
 #'
 #' `plot_topic_wordcloud()` prepares, saves, and displays word clouds of topics in a topic model. The function can display word clouds of one or more specific topics, or it can show word clouds for every topic.
 #'
-#' @param df A loaded topic model
+#' @param lda The topic model to be used.
 #' @param topics Topic numbers to be visualized. If left undefined, all topics will be visualized
 #' @param crop Whether to remove white space from visualized word clouds
 #' @param savedir The directory to save plots in. Defaults to "plots"
@@ -418,48 +522,60 @@ plot_topic_bars <- function(
 #'
 #' @examples
 #' \dontrun{
-#' mysteries <- load_texts("mystery-novels", word = FALSE)
+#' austen <-
+#'   get_gutenberg_corpus(c(105, 121, 141, 158, 161, 946, 1342)) |>
+#'   select(doc_id = title, text)
 #'
-#' mysteries_lda <- mysteries |>
-#'   make_topic_model(k = 10)
-#'   }
+#' # Creating the topic model for the package
+#' austen_lda <- make_topic_model(austen, k = 30)
+#'
+#' saveRDS(austen_lda, "inst/austen_lda.rds")
+#' }
+#'
+#' # Loading from the package
+#' austen_lda <- "austen_lda.rds" |>
+#'   system.file(package = "tmtyro") |>
+#'   readRDS()
+#'
+#' austen_lda |>
+#'   plot_topic_wordcloud(topic = 28)
 plot_topic_wordcloud <- function(
-    df,
+    lda,
     topics = NULL,
     crop = TRUE,
     savedir = "plots") {
 
   save_topic_wordcloud <- function(
-    df,
+    lda,
     topics = NULL,
     dir = "plots",
     count = 150,
-    df_string = NULL){
+    lda_string = NULL){
 
-    if(is.null(df_string)) {
-      df_string <- deparse(substitute(df))
-      cat("df_string was null!")
+    if(is.null(lda_string)) {
+      df_string <- deparse(substitute(lda))
+      cat("lda_string was null!")
     }
 
-    df <- tidytext::tidy(df)
+    lda <- tidytext::tidy(lda)
 
     if(!is.null(topics)) {
-      df <- df |> dplyr::filter(topic %in% topics)
+      lda <- lda |> dplyr::filter(topic %in% topics)
     }
 
     ifelse(!dir.exists(file.path(dir)),
            dir.create(file.path(dir)),
            FALSE)
 
-    for(t in unique(df$topic)){
-      filename <- paste0(dir,"/", df_string, " - topic ", t, ".png")
+    for(t in unique(lda$topic)){
+      filename <- paste0(dir,"/", lda_string, " - topic ", t, ".png")
       grDevices::png(filename, width = 12,
           height = 8, units = "in",
           res = 300)
-      wordcloud::wordcloud(words = df |>
+      wordcloud::wordcloud(words = lda |>
                   dplyr::filter(topic == t) |>
                   dplyr::pull(term),
-                freq = df |>
+                freq = lda |>
                   dplyr::filter(topic == t) |>
                   dplyr::pull(beta),
                 max.words = count,
@@ -473,14 +589,14 @@ plot_topic_wordcloud <- function(
     }
   }
 
-  df_string <- deparse(substitute(df))
+  lda_string <- deparse(substitute(lda))
 
-  save_topic_wordcloud(df, topics, df_string = df_string)
+  save_topic_wordcloud(lda, topics, lda_string = lda_string)
 
   if (!is.null(topics)) {
-    paths <- paste0(savedir,"/", df_string, " - topic ", topics, ".png")
+    paths <- paste0(savedir,"/", lda_string, " - topic ", topics, ".png")
   } else {
-    paths <- list.files(savedir, pattern = paste0(df_string, " - topic "),
+    paths <- list.files(savedir, pattern = paste0(lda_string, " - topic "),
                         full.names = TRUE)
   }
 
