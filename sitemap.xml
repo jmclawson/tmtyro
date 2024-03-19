@@ -58,7 +58,7 @@
     <loc>https://jmclawson.github.io/tmtyro/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/interactive_document_topics.html</loc>
+    <loc>https://jmclawson.github.io/tmtyro/reference/interactive_topic_distributions.html</loc>
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/load_texts.html</loc>
@@ -79,9 +79,6 @@
     <loc>https://jmclawson.github.io/tmtyro/reference/plot_doc_word_heatmap.html</loc>
   </url>
   <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/plot_document_topics.html</loc>
-  </url>
-  <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/plot_hapax.html</loc>
   </url>
   <url>
@@ -89,6 +86,12 @@
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/plot_tf_idf.html</loc>
+  </url>
+  <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/plot_topic_bars.html</loc>
+  </url>
+  <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/plot_topic_distributions.html</loc>
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/plot_topic_wordcloud.html</loc>
