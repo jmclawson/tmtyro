@@ -236,7 +236,7 @@ separate_ngrams <- function(df, names_prefix = "word") {
 #'
 #' austen |>
 #'   dplyr::filter(doc_id == "northanger") |>
-#'   plot_bigrams(top_n = 90, node_color = "lightgreen")
+#'   plot_bigrams(top_n = 80, node_color = "lightgreen")
 plot_bigrams <- function(
     df,
     feature = word,

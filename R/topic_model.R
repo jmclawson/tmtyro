@@ -267,7 +267,7 @@ prep_topic_distributions <- function(
   k <- attributes(lda)$k
 
   doc_tops <- lda |>
-    tidytext::tidy(matrix = "gamma") |>
+    tidy_lda(matrix = "gamma") |>
     tidyr::separate(document,
              c("title", "set"),
              sep = "_") |>
@@ -298,7 +298,7 @@ prep_topic_distributions <- function(
 
   top_terms <-
     lda |>
-    tidytext::tidy() |>
+    tidy_lda() |>
     dplyr::group_by(topic) |>
     dplyr::arrange(dplyr::desc(beta)) |>
     dplyr::slice_head(n = 10) |>
@@ -458,7 +458,7 @@ plot_topic_bars <- function(
 
   lda_string <- deparse(substitute(lda))
 
-  plot <- tidytext::tidy(lda) |>
+  plot <- tidy_lda(lda) |>
     dplyr::filter(topic %in% topics) |>
     dplyr::mutate(topic = paste("topic", topic) |>
              factor(levels = paste("topic", topics))) |>
@@ -557,7 +557,7 @@ plot_topic_wordcloud <- function(
       cat("lda_string was null!")
     }
 
-    lda <- tidytext::tidy(lda)
+    lda <- tidy_lda(lda)
 
     if(!is.null(topics)) {
       lda <- lda |> dplyr::filter(topic %in% topics)
@@ -606,4 +606,47 @@ plot_topic_wordcloud <- function(
   } else {
     knitr::include_graphics(paths)
   }
+}
+
+# modified from tidytext:::tidy_topicmodels() to avoid reshape2::melt()
+tidy_lda <- function(x, matrix = c("beta", "gamma"), log = FALSE, ...) {
+  matrix <- match.arg(matrix)
+  if (matrix == "gamma") {
+    mat <- x@gamma
+  }
+  else {
+    mat <- x@beta
+  }
+
+  ret <- mat |>
+    as.data.frame.table() |>
+    tibble::as_tibble()
+
+  if (matrix == "beta") {
+    ret <- ret |>
+      dplyr::mutate(
+        topic = as.numeric(Var1),
+        term = x@terms[as.numeric(Var2)],
+        beta = Freq,
+        .keep = "none")
+  } else {
+    ret <- ret |>
+      dplyr::mutate(
+        document = as.numeric(Var1),
+        topic = as.numeric(Var2),
+        gamma = Freq,
+        .keep = "none")
+    if (!is.null(x@documents)) {
+      ret$document <- x@documents[ret$document]
+    }
+  }
+
+  if (matrix == "beta" && !log) {
+    ret[[matrix]] <- exp(ret[[matrix]])
+  }
+  else if (matrix == "gamma" && log) {
+    ret[[matrix]] <- log(ret[[matrix]])
+  }
+
+  return(ret)
 }

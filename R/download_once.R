@@ -6,6 +6,7 @@
 #' @param filename The file name to be saved locally. In many cases this parameter isn't necessary, since the file name can automatically be parsed from the URL, but some web addresses will obscure it.
 #' @param destdir The destination directory to save the file. By default, this is the "data/" folder, which will be created if it doesn't yet exist.
 #'
+#' @returns Path to the local file, returned invisibly
 #' @export
 #'
 #' @examples

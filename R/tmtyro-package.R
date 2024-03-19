@@ -7,6 +7,7 @@ doc_id <- temp <- NULL
 docranksum <- temp <- NULL
 document <- temp <- NULL
 dominance <- temp <- NULL
+Freq <- temp <- NULL
 hapax <- temp <- NULL
 htr <- temp <- NULL
 line_num <- temp <- NULL
@@ -39,6 +40,8 @@ ttr <- temp <- NULL
 type <- temp <- NULL
 valence <- temp <- NULL
 value <- temp <- NULL
+Var1 <- temp <- NULL
+Var2 <- temp <- NULL
 vocabulary <- temp <- NULL
 word <- temp <- NULL
 words <- temp <- NULL

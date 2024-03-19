@@ -13,6 +13,9 @@ download_once(url, filename = NULL, destdir = "data")
 
 \item{destdir}{The destination directory to save the file. By default, this is the "data/" folder, which will be created if it doesn't yet exist.}
 }
+\value{
+Path to the local file, returned invisibly
+}
 \description{
 \code{download_once()} checks for a local copy of a file found online. If a copy doesn't exist, it downloads a copy for local use.
 }
