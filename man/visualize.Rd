@@ -11,13 +11,13 @@ visualize(.data, ..., type = NULL)
 
 \item{...}{optional parameters}
 
-\item{type}{visualization type preferred, used after \code{\link[=add_lexical_variety]{add_lexical_variety()}} and (eventually) \code{\link[=make_topic_model]{make_topic_model()}}}
+\item{type}{visualization type preferred, useful after \code{\link[=add_lexical_variety]{add_lexical_variety()}} or \code{\link[=make_topic_model]{make_topic_model()}}}
 }
 \value{
 a ggplot2 object
 }
 \description{
-Visualize output
+\code{visualize()} is context sensitive and will choose an appropriate function for visualization, based on the previous functions used. This function will automatically resolve to one of the following: \code{\link[=plot_doc_word_bars]{plot_doc_word_bars()}}, \code{\link[=plot_bigrams]{plot_bigrams()}}, \code{\link[=plot_vocabulary]{plot_vocabulary()}}, \code{\link[=plot_ttr]{plot_ttr()}}, \code{\link[=plot_htr]{plot_htr()}}, \code{\link[=plot_tf_idf]{plot_tf_idf()}}, \code{\link[=plot_topic_distributions]{plot_topic_distributions()}}, \code{\link[=plot_topic_bars]{plot_topic_bars()}}, or \code{\link[=plot_topic_wordcloud]{plot_topic_wordcloud()}}.
 }
 \examples{
 austen <- "austen.rds" |>
@@ -29,9 +29,6 @@ austen |>
    visualize()
 
 # Applying `tmtyro` functions will choose an appropriate visualization
-austen |>
-   add_sentiment() |>
-   visualize()
 
 austen |>
    add_ngrams() |>
@@ -50,6 +47,12 @@ austen |>
    add_lexical_variety() |>
    visualize()
 
+if (FALSE) { # sentiment requires interaction on first load
+  austen |>
+     add_sentiment() |>
+     visualize()
+}
+
 # Some visualizations are specified with the `type` argument
 austen |>
    add_lexical_variety() |>
@@ -62,9 +65,9 @@ austen |>
 # Other arguments get passed along
 austen |>
    add_ngrams() |>
-   visualize(node_color = "yellow", top_n = 50)
+   visualize(node_color = "yellow", top_n = 25)
 
 austen |>
    add_lexical_variety() |>
-   visualize()
+   visualize(labeling = "inline")
 }

@@ -6,7 +6,8 @@ internal_plot_engine <- function(
     identity = doc_id,
     descriptive_labels = TRUE,
     labeling = c("point", "inset", "inline", "axis"),
-    log_y = FALSE){
+    log_y = FALSE,
+    skip_print = FALSE){
   if (is.null(identity)) {
     identity <- by
   }
@@ -163,7 +164,12 @@ internal_plot_engine <- function(
       ggplot2::labs(x = "progress") +
       suppressWarnings(ggplot2::theme(axis.text.x  = ggplot2::element_text(hjust = c(0, 0.5, 1))))
   }
-  suppressWarnings(print(the_plot))
+
+  if (!skip_print) {
+    suppressWarnings(print(the_plot))
+  } else {
+    the_plot
+  }
 }
 
 #' Measure lexical variety
@@ -261,9 +267,13 @@ add_lexical_variety <- function(df, by = doc_id, feature = word) {
 #' }
 plot_vocabulary <- function(df, x = progress_words, by = doc_id, identity = doc_id, descriptive_labels = TRUE, labeling = c("point", "inset", "inline", "axis")){
 
+  viz_attr <- attr(df, "visualize")
+  if (is.null(viz_attr)) viz_attr <- FALSE
+
   internal_plot_engine(
     df, rlang::enquo(x), y = rlang::expr(vocabulary),
-    rlang::enquo(by), identity = rlang::enquo(identity), descriptive_labels, labeling)
+    rlang::enquo(by), identity = rlang::enquo(identity),
+    descriptive_labels, labeling, skip_print = viz_attr)
 }
 
 #' Show type-token ratio over time
@@ -300,10 +310,14 @@ plot_vocabulary <- function(df, x = progress_words, by = doc_id, identity = doc_
 #'   standardize_titles() |>
 #'   plot_ttr()
 plot_ttr <- function(df, x = progress_words, by = doc_id, identity = doc_id, descriptive_labels = TRUE, labeling = c("point", "inline", "axis", "inset"), log_y = TRUE){
+
+  viz_attr <- attr(df, "visualize")
+  if (is.null(viz_attr)) viz_attr <- FALSE
+
   internal_plot_engine(
     df, rlang::enquo(x), y = rlang::expr(ttr),
     rlang::enquo(by), rlang::enquo(identity), descriptive_labels, labeling,
-    log_y)
+    log_y, skip_print = viz_attr)
 }
 
 #' Show hapax-token ratio over time
@@ -336,10 +350,14 @@ plot_ttr <- function(df, x = progress_words, by = doc_id, identity = doc_id, des
 #'   standardize_titles() |>
 #'   plot_htr()
 plot_htr <- function(df, x = progress_words, by = doc_id, identity = doc_id, descriptive_labels = TRUE, labeling = c("point", "inline", "axis", "inset"), log_y = TRUE){
+
+  viz_attr <- attr(df, "visualize")
+  if (is.null(viz_attr)) viz_attr <- FALSE
+
   internal_plot_engine(
     df, rlang::enquo(x), y = rlang::expr(htr),
     rlang::enquo(by), identity = rlang::enquo(identity), descriptive_labels, labeling,
-    log_y)
+    log_y, skip_print = viz_attr)
 }
 
 #' Project hapax legomena onto vocabulary growth

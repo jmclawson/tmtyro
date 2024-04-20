@@ -176,7 +176,12 @@ plot_topic_distributions <- function(
     omit = NULL,
     smooth = TRUE) {
 
-  df_string <- deparse(substitute(lda))
+  if (rlang::is_string(lda)) {
+    df_string <- lda
+    lda <- get(df_string)
+  } else {
+    df_string <- deparse(substitute(lda))
+  }
 
   plot_topic_parts <- function(df,
                                direct_label = TRUE) {
@@ -324,11 +329,15 @@ prep_topic_distributions <- function(
 
   doc_tops <- lda |>
     tidy_lda(matrix = "gamma") |>
-    tidyr::separate(document,
-             c("title", "set"),
-             sep = "_") |>
-    dplyr::mutate(set = as.integer(set),
-           ordered = TRUE) |>
+    dplyr::mutate(
+      set = document |>
+        stringr::str_extract("\\d+$") |>
+        as.integer(),
+      title = document |>
+        stringr::str_remove_all("_\\d+$"),
+      ordered = TRUE) |>
+    dplyr::select(-document) |>
+    dplyr::relocate(title, set) |>
     dplyr::group_by(title, topic) |>
     dplyr::mutate(topic_mean = mean(gamma,
                              na.rm = TRUE))
@@ -512,7 +521,12 @@ plot_topic_bars <- function(
     saveas = "png",
     savedir = "plots") {
 
-  lda_string <- deparse(substitute(lda))
+  if (rlang::is_string(lda)) {
+    lda_string <- lda
+    lda <- get(lda_string)
+  } else {
+    lda_string <- deparse(substitute(lda))
+  }
 
   plot <- tidy_lda(lda) |>
     dplyr::filter(topic %in% topics) |>
@@ -645,7 +659,12 @@ plot_topic_wordcloud <- function(
     }
   }
 
-  lda_string <- deparse(substitute(lda))
+  if (rlang::is_string(lda)) {
+    lda_string <- lda
+    lda <- get(lda_string)
+  } else {
+    lda_string <- deparse(substitute(lda))
+  }
 
   save_topic_wordcloud(lda, topics, lda_string = lda_string)
 
