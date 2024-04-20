@@ -64,6 +64,9 @@
     <loc>https://jmclawson.github.io/tmtyro/reference/load_texts.html</loc>
   </url>
   <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/load_topic_model.html</loc>
+  </url>
+  <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/make_topic_model.html</loc>
   </url>
   <url>
@@ -122,5 +125,8 @@
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/unnest_without_caps.html</loc>
+  </url>
+  <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/visualize.html</loc>
   </url>
 </urlset>
