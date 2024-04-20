@@ -4,7 +4,7 @@
 \alias{make_topic_model}
 \title{Construct a topic model}
 \usage{
-make_topic_model(df, by = doc_id, sample_size = 1000, k = 15)
+make_topic_model(df, by = doc_id, sample_size = 1000, k = 15, cache = TRUE)
 }
 \arguments{
 \item{df}{A data frame with nested text in a "text" column.}
@@ -14,6 +14,8 @@ make_topic_model(df, by = doc_id, sample_size = 1000, k = 15)
 \item{sample_size}{The sample size for each document chunk. By default, samples will include 1000 words.}
 
 \item{k}{The number of topics to search for. By default, 15 topics will be sought.}
+
+\item{cache}{Whether to cache the resulting model as an RDS file in the "data/" folder. Set to \code{TRUE} by default. Delete this RDS file to create a new model.}
 }
 \value{
 A topic model.

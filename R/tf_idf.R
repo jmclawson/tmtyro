@@ -27,7 +27,8 @@ summarize_tf_idf <- function(df, by = doc_id, feature = word) {
       term = {{ feature }},
       document = {{ by }},
       n = n) |>
-    dplyr::arrange(dplyr::desc(tf_idf))
+    dplyr::arrange(dplyr::desc(tf_idf)) |>
+    log_function("summarize_tf_idf")
 }
 
 #' Visualize the top terms by tf-idf
@@ -73,6 +74,12 @@ plot_tf_idf <- function(
   if (!"tf_idf" %in% colnames(df)) {
     df <- df |>
       summarize_tf_idf(by = {{ by }}, feature = {{ feature }})
+  }
+
+  feature_col <- deparse(substitute(feature))
+  if (!feature_col %in% colnames(df)) {
+    target <- colnames(df)[!colnames(df) %in% c("doc_id", "n", "tf", "idf", "tf_idf")][1]
+    feature <- as.name(target)
   }
 
   df <- df |>

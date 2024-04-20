@@ -69,7 +69,8 @@ add_ngrams <- function(df, n = 1:2, feature = word, keep = FALSE, collapse = FAL
         sep = " ")
   }
 
-  the_df
+  the_df |>
+    log_function("add_ngrams")
 }
 
 #' Combine ngram columns
@@ -99,7 +100,13 @@ add_ngrams <- function(df, n = 1:2, feature = word, keep = FALSE, collapse = FAL
 #'   combine_ngrams() |>
 #'   head()
 combine_ngrams <- function(df, feature = word, keep = FALSE){
+  # browser()
   col_string <- deparse(substitute(feature))
+  if (!paste0(col_string,"_1") %in% colnames(df)) {
+    col_string <- colnames(df)[grepl("_1",colnames(df))][1] |>
+      stringr::str_remove_all("_1")
+    feature <- as.name(col_string)
+  }
 
   col_names <- df |>
     dplyr::select(tidyr::starts_with(paste0(col_string,"_"))) |>
@@ -134,7 +141,9 @@ combine_ngrams <- function(df, feature = word, keep = FALSE){
         glue::glue("{col_string}_{feature_range[1]}"):glue::glue("{col_string}_{feature_range[2]}"),
         sep = " ")
   }
-  the_df
+
+  the_df |>
+    log_function("combine_ngrams")
 }
 
 #' Separate one word per column
@@ -172,7 +181,8 @@ separate_ngrams <- function(df, names_prefix = "word") {
     tidyr::separate_wider_delim(
       {{ names_prefix }},
       delim = " ",
-      names_sep = "_")
+      names_sep = "_") |>
+    log_function("separate_ngrams")
 }
 
 
