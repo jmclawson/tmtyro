@@ -220,7 +220,7 @@ add_lexical_variety <- function(df, by = doc_id, feature = word) {
       htr = cumsum(hapax) / dplyr::row_number(),
       .by = {{ by }},
       .after = ttr) |>
-    log_function("add_lexical_variety")
+    log_function()
 }
 
 #' Show vocabulary growth

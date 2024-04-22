@@ -77,7 +77,7 @@ make_topic_model <- function(
                        initialize = "random"))
 
   the_model |>
-    log_function("make_topic_model")
+    log_function()
 }
 
 #' Load (or cache and load) a topic model
@@ -483,7 +483,7 @@ interactive_topic_distributions <- function(
 #' Plot bars for words in each topic
 #'
 #' @param lda The topic model to be used.
-#' @param topics The topid numbers to view
+#' @param topics The topic numbers to view
 #' @param top_n The number of words to show for each topic
 #' @param expand_bars Whether to stretch the bars the length of the X-axis for each facet
 #' @param save By default, the visualization will be saved. Set to FALSE to skip saving.

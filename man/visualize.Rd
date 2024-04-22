@@ -9,15 +9,43 @@ visualize(.data, ..., type = NULL)
 \arguments{
 \item{.data}{data processed with one or more functions from \code{tmtyro}}
 
-\item{...}{optional parameters}
+\item{...}{
+  Arguments passed on to \code{\link[=plot_doc_word_bars]{plot_doc_word_bars}}, \code{\link[=plot_bigrams]{plot_bigrams}}, \code{\link[=plot_vocabulary]{plot_vocabulary}}, \code{\link[=plot_ttr]{plot_ttr}}, \code{\link[=plot_htr]{plot_htr}}, \code{\link[=plot_topic_distributions]{plot_topic_distributions}}, \code{\link[=plot_topic_bars]{plot_topic_bars}}, \code{\link[=plot_topic_wordcloud]{plot_topic_wordcloud}}
+  \describe{
+    \item{\code{num}}{The number of features to show}
+    \item{\code{by}}{The column used for document grouping, with doc_id as the default}
+    \item{\code{feature}}{The column to measure, as in "word" or "lemma"}
+    \item{\code{percents}}{Whether to display word frequencies as percentage instead of raw counts; defaults to TRUE}
+    \item{\code{label}}{Whether to show the value as a label with each bar; defaults to FALSE}
+    \item{\code{label_tweak}}{The numeric value by which to tweak the label, if shown. For percentages, this value adjusts the decimal-point precision. For raw counts, this value adjusts labels' offset from the bars}
+    \item{\code{label_inside}}{Whether to show the value as a label inside each bar; defaults to FALSE}
+    \item{\code{na_rm}}{Whether to drop empty features}
+    \item{\code{random_seed}}{Whether to randomize the creation of the network chart.}
+    \item{\code{set_seed}}{A specific seed to use if not random}
+    \item{\code{node_color}}{The color of the nodes}
+    \item{\code{edge_color}}{The color of the edges. When the \code{ggraph} package is not loaded, the default \code{edge_color=NULL} setting presents edges as gray. When that package is is loaded, a \code{NULL} edge color colors edges black. Whatever the color defined by this parameter, loading \code{ggraph} enables transparency to show strength of each bigram connection.}
+    \item{\code{top_n}}{The number of pairs to visualize}
+    \item{\code{identity}}{A grouping column for lines}
+    \item{\code{descriptive_labels}}{A toggle for disabling descriptive labels of progress_percent on the X-axis}
+    \item{\code{labeling}}{Options for labeling groups:
+\itemize{
+\item \code{"point"} labels the final value
+\item \code{"inline"} prints the label within a smoothed curve
+\item \code{"axis"} prints labels where a secondary Y-axis might go
+\item \code{"inset"} prints a legend within the plot area
+\item Anything else prints a legend to the right of the plot area.
+}}
+    \item{\code{log_y}}{A toggle for logarithmic scaling to the Y-axis; defaults to TRUE}
+    \item{\code{topics}}{The topic numbers to view}
+  }}
 
-\item{type}{visualization type preferred, useful after \code{\link[=add_lexical_variety]{add_lexical_variety()}} or \code{\link[=make_topic_model]{make_topic_model()}}}
+\item{type}{visualization type preferred, useful after \code{\link[=add_lexical_variety]{add_lexical_variety()}} or \code{\link[=make_topic_model]{make_topic_model()}} or to specify "heatmap" for \code{\link[=plot_doc_word_heatmap]{plot_doc_word_heatmap()}}}
 }
 \value{
 a ggplot2 object
 }
 \description{
-\code{visualize()} is context sensitive and will choose an appropriate function for visualization, based on the previous functions used. This function will automatically resolve to one of the following: \code{\link[=plot_doc_word_bars]{plot_doc_word_bars()}}, \code{\link[=plot_bigrams]{plot_bigrams()}}, \code{\link[=plot_vocabulary]{plot_vocabulary()}}, \code{\link[=plot_ttr]{plot_ttr()}}, \code{\link[=plot_htr]{plot_htr()}}, \code{\link[=plot_tf_idf]{plot_tf_idf()}}, \code{\link[=plot_topic_distributions]{plot_topic_distributions()}}, \code{\link[=plot_topic_bars]{plot_topic_bars()}}, or \code{\link[=plot_topic_wordcloud]{plot_topic_wordcloud()}}.
+\code{visualize()} is context sensitive and will choose an appropriate function for visualization, based on the previous functions used. This function will automatically resolve to one of the following: \code{\link[=plot_doc_word_bars]{plot_doc_word_bars()}}, \code{\link[=plot_doc_word_heatmap]{plot_doc_word_heatmap()}}, \code{\link[=plot_bigrams]{plot_bigrams()}}, \code{\link[=plot_vocabulary]{plot_vocabulary()}}, \code{\link[=plot_ttr]{plot_ttr()}}, \code{\link[=plot_htr]{plot_htr()}}, \code{\link[=plot_tf_idf]{plot_tf_idf()}}, \code{\link[=plot_topic_distributions]{plot_topic_distributions()}}, \code{\link[=plot_topic_bars]{plot_topic_bars()}}, or \code{\link[=plot_topic_wordcloud]{plot_topic_wordcloud()}}.
 }
 \examples{
 austen <- "austen.rds" |>

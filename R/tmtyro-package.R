@@ -53,6 +53,7 @@ words <- temp <- NULL
 #' @importFrom dplyr count
 #' @importFrom gutenbergr gutenberg_download
 #' @importFrom gutenbergr gutenberg_get_mirror
+#' @importFrom RColorBrewer brewer.pal.info
 #' @importFrom rlang :=
 #' @importFrom stats median
 #' @importFrom stats setNames

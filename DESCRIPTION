@@ -33,6 +33,7 @@ Imports:
     openNLP,
     plotly,
     purrr,
+    RColorBrewer,
     readr,
     rlang,
     rvest,

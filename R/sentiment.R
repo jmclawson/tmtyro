@@ -58,5 +58,5 @@ add_sentiment <- function(
   }
 
   suppressMessages(dplyr::left_join(df, lex_df, by = {{ feature }})) |>
-    log_function("add_sentiment")
+    log_function()
 }

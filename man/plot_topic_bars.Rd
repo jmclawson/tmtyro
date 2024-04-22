@@ -17,7 +17,7 @@ plot_topic_bars(
 \arguments{
 \item{lda}{The topic model to be used.}
 
-\item{topics}{The topid numbers to view}
+\item{topics}{The topic numbers to view}
 
 \item{top_n}{The number of words to show for each topic}
 

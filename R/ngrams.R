@@ -70,7 +70,7 @@ add_ngrams <- function(df, n = 1:2, feature = word, keep = FALSE, collapse = FAL
   }
 
   the_df |>
-    log_function("add_ngrams")
+    log_function()
 }
 
 #' Combine ngram columns
@@ -143,7 +143,7 @@ combine_ngrams <- function(df, feature = word, keep = FALSE){
   }
 
   the_df |>
-    log_function("combine_ngrams")
+    log_function()
 }
 
 #' Separate one word per column
@@ -182,7 +182,7 @@ separate_ngrams <- function(df, names_prefix = "word") {
       {{ names_prefix }},
       delim = " ",
       names_sep = "_") |>
-    log_function("separate_ngrams")
+    log_function()
 }
 
 

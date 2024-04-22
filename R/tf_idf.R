@@ -28,7 +28,7 @@ summarize_tf_idf <- function(df, by = doc_id, feature = word) {
       document = {{ by }},
       n = n) |>
     dplyr::arrange(dplyr::desc(tf_idf)) |>
-    log_function("summarize_tf_idf")
+    log_function()
 }
 
 #' Visualize the top terms by tf-idf
