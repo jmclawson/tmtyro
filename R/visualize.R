@@ -214,7 +214,12 @@ last_function <- function(x) {
 #'   visualize() |>
 #'   change_colors()
 #'
-#' # Brewer's "BuGn" palette is applied to sequential data
+#' austen |>
+#'   add_lexical_variety() |>
+#'   visualize(labeling = "axis") |>
+#'   change_colors()
+#'
+#' # Brewer's "BuGn" palette is applied to sequential data by default
 #' austen |>
 #'   visualize(type = "heatmap") |>
 #'   change_colors()
@@ -232,6 +237,7 @@ last_function <- function(x) {
 #'   visualize(type = "heatmap") |>
 #'   change_colors("viridis", palette = "mako")
 #'
+#' # Manually listing colors will adopt them. When the number of colors differs from what's needed, other colors will be filled in between.
 #' austen |>
 #'   visualize() |>
 #'   change_colors(c("brown", "red", "orange", "yellow", "#aaff00"))
