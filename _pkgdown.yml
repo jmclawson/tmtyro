@@ -31,6 +31,7 @@ reference:
   desc: Visualize features of texts.
 - contents:
   - visualize
+  - change_colors
   - starts_with("plot_")
   - starts_with("interactive_")
 - title: Data
