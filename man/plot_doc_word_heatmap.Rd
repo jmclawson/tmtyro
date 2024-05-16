@@ -4,16 +4,7 @@
 \alias{plot_doc_word_heatmap}
 \title{Plot a heatmap of ranked features}
 \usage{
-plot_doc_word_heatmap(
-  df,
-  num = 10,
-  by = doc_id,
-  feature = word,
-  label = TRUE,
-  na_color = "white",
-  colorset = "viridis",
-  line_color = "gray"
-)
+plot_doc_word_heatmap(df, num = 10, by = doc_id, feature = word, label = TRUE)
 }
 \arguments{
 \item{df}{A tidy data frame, potentially containing columns called "doc_id" and "word"}
@@ -25,12 +16,6 @@ plot_doc_word_heatmap(
 \item{feature}{The column to measure, as in "word" or "lemma"}
 
 \item{label}{Whether to show the rank as a label in the heatmap}
-
-\item{na_color}{The color to show NA values; default is "white"}
-
-\item{colorset}{The viridis color palette to use; alternatively, a two-item vector of colors to use as gradient}
-
-\item{line_color}{The color of grid lines in the heatmap}
 }
 \value{
 A ggplot object
@@ -52,6 +37,6 @@ austen |>
 
 austen |>
   filter(pos \%in\% c("JJ", "RB")) |>
-  plot_doc_word_heatmap(feature = lemma, colorset = c("white", "red"))
+  plot_doc_word_heatmap(feature = lemma)
 
 }

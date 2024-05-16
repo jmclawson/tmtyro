@@ -14,7 +14,10 @@
 #'
 #' austen |>
 #'    drop_stopwords()
-drop_stopwords <- function(df, wordlist = stopwords::stopwords(), feature = word) {
+drop_stopwords <- function(df, wordlist = NULL, feature = word) {
+  if (is.null(wordlist)) {
+    wordlist <- tidytext::get_stopwords()$word
+  }
   df |>
     dplyr::filter(!tolower({{ feature }}) %in% wordlist)
 }

@@ -29,6 +29,6 @@ cache_get <- function(object, dir = "data") {
   if(file.exists(rds_path)) {
     readRDS(rds_path)
   } else {
-    stop(glue::glue("No RDS file exists at {rds_path}."))
+    stop(paste0("No RDS file exists at ", rds_path, "."))
   }
 }

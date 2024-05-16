@@ -28,7 +28,7 @@ summarize_tf_idf <- function(df, by = doc_id, feature = word) {
       document = {{ by }},
       n = n) |>
     dplyr::arrange(dplyr::desc(tf_idf)) |>
-    log_function()
+    add_class("tf_idf")
 }
 
 #' Visualize the top terms by tf-idf
@@ -40,8 +40,6 @@ summarize_tf_idf <- function(df, by = doc_id, feature = word) {
 #' @param label Not yet working
 #' @param label_tweak Not yet working
 #' @param label_inside Not yet working
-#' @param colorset The color palette to use, whether "default", "okabe", or one of the named qualitative palettes from Viridis or Color Brewer
-#' @param outline_color The color to use for the outside of each bar. By default, no color is used.
 #'
 #' @returns A ggplot object
 #' @export
@@ -67,9 +65,7 @@ plot_tf_idf <- function(
     feature = word,
     label = FALSE,
     label_tweak = 2,
-    label_inside = FALSE,
-    colorset = "default",
-    outline_color = NA
+    label_inside = FALSE
 ){
   if (!"tf_idf" %in% colnames(df)) {
     df <- df |>
@@ -104,8 +100,16 @@ plot_tf_idf <- function(
 
   x_lab <- paste(prefix, "frequency\u2013inverse document frequency")
 
-  df |>
+  the_plot <- df |>
     internal_plot_word_bars(
-    tf_idf, rlang::enquo(by), rlang::enquo(feature), FALSE, label, label_tweak, label_inside, colorset, outline_color) +
+    tf_idf, rlang::enquo(by), rlang::enquo(feature), FALSE, label, label_tweak, label_inside) +
     ggplot2::labs(x = x_lab)
+
+  if (length(unique(df[[deparse(substitute(by))]])) > 1) {
+    the_plot <- the_plot +
+      ggplot2::facet_wrap(ggplot2::vars({{ by }}),
+                          scales = "free")
+  }
+
+  the_plot
 }

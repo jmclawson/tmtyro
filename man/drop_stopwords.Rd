@@ -4,7 +4,7 @@
 \alias{drop_stopwords}
 \title{Remove stopwords}
 \usage{
-drop_stopwords(df, wordlist = stopwords::stopwords(), feature = word)
+drop_stopwords(df, wordlist = NULL, feature = word)
 }
 \arguments{
 \item{df}{A tidy data frame, potentially containing a column called "word"}

@@ -11,9 +11,7 @@ plot_tf_idf(
   feature = word,
   label = FALSE,
   label_tweak = 2,
-  label_inside = FALSE,
-  colorset = "default",
-  outline_color = NA
+  label_inside = FALSE
 )
 }
 \arguments{
@@ -30,10 +28,6 @@ plot_tf_idf(
 \item{label_tweak}{Not yet working}
 
 \item{label_inside}{Not yet working}
-
-\item{colorset}{The color palette to use, whether "default", "okabe", or one of the named qualitative palettes from Viridis or Color Brewer}
-
-\item{outline_color}{The color to use for the outside of each bar. By default, no color is used.}
 }
 \value{
 A ggplot object

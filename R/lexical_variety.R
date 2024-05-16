@@ -29,6 +29,7 @@ internal_plot_engine <- function(
                group = {{ identity }}))
 
   if (labeling == "inline") {
+    rlang::check_installed("geomtextpath", reason = "for inline labeling")
     if (y_check == "htr") {
       the_plot <- the_plot +
         geomtextpath::geom_textline(
@@ -56,17 +57,29 @@ internal_plot_engine <- function(
     the_plot <- the_plot +
       ggplot2::geom_line() +
       ggplot2::geom_point(data = max_x) +
-      ggrepel::geom_label_repel(
-        data = max_x,
-        ggplot2::aes(label = {{ by }}),
-        force_pull = 0.7,
-        min.segment.length = 0.3,
-        fill = ggplot2::alpha(c("white"),0.5),
-        label.size = NA) +
       ggplot2::theme_minimal() +
       ggplot2::theme(legend.position = "none",
-            panel.grid.major.x = ggplot2::element_blank(),
-            panel.grid.minor = ggplot2::element_blank())
+                     panel.grid.major.x = ggplot2::element_blank(),
+                     panel.grid.minor = ggplot2::element_blank())
+
+    if (rlang::is_installed("ggrepel")) {
+      the_plot <- the_plot +
+        ggrepel::geom_label_repel(
+          data = max_x,
+          ggplot2::aes(label = {{ by }}),
+          force_pull = 0.7,
+          min.segment.length = 0.3,
+          fill = ggplot2::alpha(c("white"),0.5),
+          label.size = NA)
+    } else {
+      the_plot <- the_plot +
+        ggplot2::geom_label(
+          data = max_x,
+          ggplot2::aes(label = {{ by }}),
+          fill = ggplot2::alpha(c("white"),0.5),
+          label.size = NA)
+    }
+
   } else if (labeling == "axis") {
     sec_y <- df |>
       dplyr::slice_max(order_by = {{ x }}, n = 1, by = {{ by }}) |>
@@ -220,7 +233,7 @@ add_lexical_variety <- function(df, by = doc_id, feature = word) {
       htr = cumsum(hapax) / dplyr::row_number(),
       .by = {{ by }},
       .after = ttr) |>
-    log_function()
+    add_class("lexical_variety")
 }
 
 #' Show vocabulary growth
@@ -265,15 +278,23 @@ add_lexical_variety <- function(df, by = doc_id, feature = word) {
 #'     add_lexical_variety() |>
 #'     plot_vocabulary(by = discipline)
 #' }
-plot_vocabulary <- function(df, x = progress_words, by = doc_id, identity = doc_id, descriptive_labels = TRUE, labeling = c("point", "inset", "inline", "axis")){
+plot_vocabulary <- function(df, x = progress_words, by = doc_id, identity = NULL, descriptive_labels = TRUE, labeling = c("point", "inset", "inline", "axis")){
 
   viz_attr <- attr(df, "visualize")
   if (is.null(viz_attr)) viz_attr <- FALSE
 
-  internal_plot_engine(
-    df, rlang::enquo(x), y = rlang::expr(vocabulary),
-    rlang::enquo(by), identity = rlang::enquo(identity),
-    descriptive_labels, labeling, skip_print = viz_attr)
+  if (is.null(identity)) {
+    internal_plot_engine(
+      df, rlang::enquo(x), y = rlang::expr(vocabulary),
+      rlang::enquo(by), identity = rlang::enquo(by),
+      descriptive_labels, labeling, skip_print = viz_attr)
+  } else {
+    internal_plot_engine(
+      df, rlang::enquo(x), y = rlang::expr(vocabulary),
+      rlang::enquo(by), identity = rlang::enquo(identity),
+      descriptive_labels, labeling, skip_print = viz_attr)
+  }
+
 }
 
 #' Show type-token ratio over time
@@ -309,15 +330,23 @@ plot_vocabulary <- function(df, x = progress_words, by = doc_id, identity = doc_
 #' austen_measured |>
 #'   standardize_titles() |>
 #'   plot_ttr()
-plot_ttr <- function(df, x = progress_words, by = doc_id, identity = doc_id, descriptive_labels = TRUE, labeling = c("point", "inline", "axis", "inset"), log_y = TRUE){
+plot_ttr <- function(df, x = progress_words, by = doc_id, identity = NULL, descriptive_labels = TRUE, labeling = c("point", "inline", "axis", "inset"), log_y = TRUE){
 
   viz_attr <- attr(df, "visualize")
   if (is.null(viz_attr)) viz_attr <- FALSE
 
-  internal_plot_engine(
-    df, rlang::enquo(x), y = rlang::expr(ttr),
-    rlang::enquo(by), rlang::enquo(identity), descriptive_labels, labeling,
-    log_y, skip_print = viz_attr)
+  if (is.null(identity)) {
+    internal_plot_engine(
+      df, rlang::enquo(x), y = rlang::expr(ttr),
+      rlang::enquo(by), rlang::enquo(by), descriptive_labels, labeling,
+      log_y, skip_print = viz_attr)
+  } else {
+    internal_plot_engine(
+      df, rlang::enquo(x), y = rlang::expr(ttr),
+      rlang::enquo(by), rlang::enquo(identity), descriptive_labels, labeling,
+      log_y, skip_print = viz_attr)
+  }
+
 }
 
 #' Show hapax-token ratio over time
@@ -354,10 +383,17 @@ plot_htr <- function(df, x = progress_words, by = doc_id, identity = doc_id, des
   viz_attr <- attr(df, "visualize")
   if (is.null(viz_attr)) viz_attr <- FALSE
 
-  internal_plot_engine(
-    df, rlang::enquo(x), y = rlang::expr(htr),
-    rlang::enquo(by), identity = rlang::enquo(identity), descriptive_labels, labeling,
-    log_y, skip_print = viz_attr)
+  if (is.null(identity)) {
+    internal_plot_engine(
+      df, rlang::enquo(x), y = rlang::expr(htr),
+      rlang::enquo(by), identity = rlang::enquo(by), descriptive_labels, labeling,
+      log_y, skip_print = viz_attr)
+  } else {
+    internal_plot_engine(
+      df, rlang::enquo(x), y = rlang::expr(htr),
+      rlang::enquo(by), identity = rlang::enquo(identity), descriptive_labels, labeling,
+      log_y, skip_print = viz_attr)
+  }
 }
 
 #' Project hapax legomena onto vocabulary growth

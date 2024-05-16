@@ -1,6 +1,7 @@
 ## fixing "no visible binding" notes
 affect_dimension <- temp <- NULL
 arousal <- temp <- NULL
+category <- temp <- NULL
 corpus <- temp <- NULL
 display <- temp <- NULL
 doc_id <- temp <- NULL
@@ -22,7 +23,9 @@ paper_id <- temp <- NULL
 par_num <- temp <- NULL
 progress_words <- temp <- NULL
 ranksum <- temp <- NULL
+reorder <- temp <- NULL
 score <- temp <- NULL
+sentiment <- temp <- NULL
 set <- temp <- NULL
 set_count <- temp <- NULL
 set_id <- temp <- NULL
@@ -51,13 +54,12 @@ words <- temp <- NULL
 
 ## usethis namespace: start
 #' @importFrom dplyr count
+#' @importFrom grDevices colorRampPalette
 #' @importFrom gutenbergr gutenberg_download
 #' @importFrom gutenbergr gutenberg_get_mirror
-#' @importFrom RColorBrewer brewer.pal.info
 #' @importFrom rlang :=
 #' @importFrom stats median
 #' @importFrom stats setNames
-#' @importFrom stopwords stopwords
 #' @importFrom textdata lexicon_afinn
 #' @importFrom textdata lexicon_bing
 #' @importFrom textdata lexicon_loughran

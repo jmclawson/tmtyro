@@ -5,9 +5,6 @@
 #' @param by The column used for document grouping, with doc_id as the default
 #' @param feature The column to measure, as in "word" or "lemma"
 #' @param label Whether to show the rank as a label in the heatmap
-#' @param na_color The color to show NA values; default is "white"
-#' @param colorset The viridis color palette to use; alternatively, a two-item vector of colors to use as gradient
-#' @param line_color The color of grid lines in the heatmap
 #'
 #' @returns A ggplot object
 #' @export
@@ -26,17 +23,14 @@
 #'
 #' austen |>
 #'   filter(pos %in% c("JJ", "RB")) |>
-#'   plot_doc_word_heatmap(feature = lemma, colorset = c("white", "red"))
+#'   plot_doc_word_heatmap(feature = lemma)
 #'
 plot_doc_word_heatmap <- function(
     df,
     num = 10,
     by = doc_id,
     feature = word,
-    label = TRUE,
-    na_color = "white",
-    colorset = "viridis",
-    line_color = "gray"){
+    label = TRUE){
   the_df <- df |>
     dplyr::count({{ by }}, {{ feature }}) |>
     dplyr::ungroup() |>
@@ -100,7 +94,7 @@ plot_doc_word_heatmap <- function(
         ggplot2::aes(fill = true_rank |>
               as.character() |>
               as.numeric()),
-        color = line_color,
+        color = "gray",
         show.legend = FALSE) +
       ggplot2::geom_text(
         data = ~ dplyr::filter(.x, !is.na(true_rank)),
@@ -111,87 +105,14 @@ plot_doc_word_heatmap <- function(
   } else {
     the_plot <- the_plot +
       ggplot2::geom_tile(ggplot2::aes(fill = true_rank),
-                         color = line_color)
+                         color = "gray")
   }
 
-    viridis <- c(
-      LETTERS[1:8],
-      "magma",
-      "inferno",
-      "plasma",
-      "viridis",
-      "cividis",
-      "rocket",
-      "mako",
-      "turbo")
-    brewer <- c(
-      1:18,
-      "BrBG",
-      "PiYG",
-      "PRGn",
-      "PuOr",
-      "RdBu",
-      "RdGy",
-      "RdYlBu",
-      "RdYlGn",
-      "Spectral",
-      "Accent",
-      "Dark2",
-      "Paired",
-      "Pastel1",
-      "Pastel2",
-      "Set1",
-      "Set2",
-      "Set3",
-      "Blues",
-      "BuGn",
-      "BuPu",
-      "GnBu",
-      "Greens",
-      "Greys",
-      "Oranges",
-      "OrRd",
-      "PuBu",
-      "PuBuGn",
-      "PuRd",
-      "Purples",
-      "RdPu",
-      "Reds",
-      "YlGn",
-      "YlGnBu",
-      "YlOrBr",
-      "YlOrRd")
-
-    if(length(colorset) == 2) {
-      if(colorset[2] == "white"){
-        text_low <- "black"
-        text_high <- "white"
-      } else {
-        text_low <- "white"
-        text_high <- "black"
-      }
-      the_plot <- the_plot +
-        ggplot2::scale_fill_gradient(na.value = na_color,
-                            low = colorset[2],
-                            high = colorset[1]) +
-        ggplot2::scale_color_manual(values = c(text_low, text_high))
-  } else if (length(colorset) == 1 && colorset %in% viridis) {
-    the_plot <- the_plot +
-      ggplot2::scale_fill_viridis_c(
-        option = colorset,
-        na.value = na_color) +
-      ggplot2::scale_color_manual(values = c("white", "black"))
-  } else if (length(colorset) == 1 && colorset %in% brewer) {
-    the_plot <- the_plot +
-      ggplot2::scale_fill_distiller(
-        type = "seq",
-        palette = colorset,
-        na.value = na_color) +
-      ggplot2::scale_color_manual(values = c("white", "black"))
-  } else {
-    the_plot <- the_plot +
-      ggplot2::scale_color_manual(values = c("white", "black"))
-  }
+  the_plot <- the_plot +
+    ggplot2::scale_fill_viridis_c(
+      option = "viridis",
+      na.value = "white") +
+    ggplot2::scale_color_manual(values = c("white", "black"))
 
   the_plot <- the_plot +
     ggplot2::scale_x_discrete(position = "top",
@@ -225,8 +146,6 @@ dplyr::count
 #' @param label Whether to show the value as a label with each bar; defaults to FALSE
 #' @param label_tweak The numeric value by which to tweak the label, if shown. For percentages, this value adjusts the decimal-point precision. For raw counts, this value adjusts labels' offset from the bars
 #' @param label_inside Whether to show the value as a label inside each bar; defaults to FALSE
-#' @param colorset The color palette to use, whether "default", "okabe", or one of the named qualitative palettes from Viridis or Color Brewer
-#' @param outline_color The color to use for the outside of each bar. By default, no color is used.
 #' @param na_rm Whether to drop empty features
 #'
 #' @returns A ggplot object
@@ -252,7 +171,6 @@ dplyr::count
 #'   plot_doc_word_bars(
 #'     num = 5,
 #'     feature = `adjective + noun bigram`,
-#'     colorset = "Pastel2",
 #'     percents = FALSE,
 #'     label = TRUE,
 #'     label_inside = TRUE,
@@ -266,8 +184,6 @@ plot_doc_word_bars <- function(
     label = FALSE,
     label_tweak = 2,
     label_inside = FALSE,
-    colorset = "default",
-    outline_color = NA,
     na_rm = TRUE
 ){
   precision <- label_tweak + 1
@@ -314,9 +230,23 @@ plot_doc_word_bars <- function(
     x_lab <- paste(prefix, "count")
   }
 
-  df |>
+  the_plot <- df |>
     internal_plot_word_bars(
-      n, rlang::enquo(by), rlang::enquo(feature), percents, label, label_tweak, label_inside, colorset, outline_color) +
+      n, rlang::enquo(by), rlang::enquo(feature), percents, label, label_tweak, label_inside)
+
+  if (length(unique(df[[deparse(substitute(by))]])) > 1) {
+    if (percents) {
+      the_plot <- the_plot +
+        ggplot2::facet_wrap(ggplot2::vars({{ by }}),
+                            scales = "free_y")
+    } else {
+      the_plot <- the_plot +
+        ggplot2::facet_wrap(ggplot2::vars({{ by }}),
+                            scales = "free")
+    }
+  }
+
+  the_plot +
     ggplot2::labs(x = x_lab)
 }
 
@@ -328,9 +258,7 @@ internal_plot_word_bars <- function(
     percents,
     label,
     label_tweak,
-    label_inside,
-    colorset,
-    outline_color
+    label_inside
 ){
   precision <- label_tweak + 1
   offset <- label_tweak + 2
@@ -341,7 +269,7 @@ internal_plot_word_bars <- function(
                                  fill = !! by)) +
     ggplot2::geom_col(
       show.legend = FALSE,
-      color = outline_color)
+      color = NA)
 
   if (label & percents & !label_inside) {
     the_plot <- the_plot +
@@ -381,84 +309,29 @@ internal_plot_word_bars <- function(
     the_plot <- the_plot +
       ggplot2::scale_x_continuous(
         labels = scales::label_percent(),
-        expand = ggplot2::expansion(mult = c(0, 0.05))) +
-      ggplot2::facet_wrap(ggplot2::vars({{ by }}),
-                          scales = "free_y") +
-      ggplot2::labs(#x = stringr::str_glue("{deparse(substitute(feature))} frequency"),
-                    y = NULL)
+        expand = ggplot2::expansion(mult = c(0, 0.05)))
+
+    if (length(unique(df[[deparse(substitute(by))]])) > 1) {
+      the_plot <- the_plot +
+        ggplot2::facet_wrap(ggplot2::vars({{ by }}),
+                            scales = "free_y")
+    }
+
   } else {
     the_plot <- the_plot +
       ggplot2::scale_x_continuous(
         labels = scales::label_comma(),
-        expand = ggplot2::expansion(mult = c(0, 0.05))) +
-      ggplot2::facet_wrap(ggplot2::vars({{ by }}),
-                          scales = "free") +
-      ggplot2::labs(#x = stringr::str_glue("{deparse(substitute(feature))} count"),
-                    y = NULL)
+        expand = ggplot2::expansion(mult = c(0, 0.05)))
+
+    if (length(unique(df[[deparse(substitute(by))]])) > 1) {
+      the_plot <- the_plot +
+        ggplot2::facet_wrap(ggplot2::vars({{ by }}),
+                            scales = "free")
+    }
   }
 
-  viridis <- c(
-    LETTERS[1:8],
-    "magma",
-    "inferno",
-    "plasma",
-    "viridis",
-    "cividis",
-    "rocket",
-    "mako",
-    "turbo")
-  brewer <- c(
-    1:8,
-    "BrBG",
-    "PiYG",
-    "PRGn",
-    "PuOr",
-    "RdBu",
-    "RdGy",
-    "RdYlBu",
-    "RdYlGn",
-    "Spectral",
-    "Accent",
-    "Dark2",
-    "Paired",
-    "Pastel1",
-    "Pastel2",
-    "Set1",
-    "Set2",
-    "Set3",
-    "Blues",
-    "BuGn",
-    "BuPu",
-    "GnBu",
-    "Greens",
-    "Greys",
-    "Oranges",
-    "OrRd",
-    "PuBu",
-    "PuBuGn",
-    "PuRd",
-    "Purples",
-    "RdPu",
-    "Reds",
-    "YlGn",
-    "YlGnBu",
-    "YlOrBr",
-    "YlOrRd")
-  if (length(colorset) == 1 && colorset %in% viridis) {
-    the_plot <- the_plot +
-      ggplot2::scale_fill_viridis_d(
-        option = colorset)
-  } else if (length(colorset) == 1 && colorset %in% brewer) {
-    the_plot <- the_plot +
-      ggplot2::scale_fill_brewer(
-        type = "qual",
-        palette = colorset)
-  } else if (length(colorset) == 1 && stringr::str_detect(colorset, "okabe")) {
-    the_plot <- the_plot +
-      ggplot2::scale_fill_manual(
-        values = c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7", "#999999", "#000000")
-      )
-  }
+  the_plot <- the_plot +
+    ggplot2::labs(y = NULL)
 
   the_plot +
     tidytext::scale_y_reordered() +

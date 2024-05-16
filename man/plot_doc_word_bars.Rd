@@ -13,8 +13,6 @@ plot_doc_word_bars(
   label = FALSE,
   label_tweak = 2,
   label_inside = FALSE,
-  colorset = "default",
-  outline_color = NA,
   na_rm = TRUE
 )
 }
@@ -34,10 +32,6 @@ plot_doc_word_bars(
 \item{label_tweak}{The numeric value by which to tweak the label, if shown. For percentages, this value adjusts the decimal-point precision. For raw counts, this value adjusts labels' offset from the bars}
 
 \item{label_inside}{Whether to show the value as a label inside each bar; defaults to FALSE}
-
-\item{colorset}{The color palette to use, whether "default", "okabe", or one of the named qualitative palettes from Viridis or Color Brewer}
-
-\item{outline_color}{The color to use for the outside of each bar. By default, no color is used.}
 
 \item{na_rm}{Whether to drop empty features}
 }
@@ -67,7 +61,6 @@ austen |>
   plot_doc_word_bars(
     num = 5,
     feature = `adjective + noun bigram`,
-    colorset = "Pastel2",
     percents = FALSE,
     label = TRUE,
     label_inside = TRUE,

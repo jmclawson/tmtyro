@@ -9,19 +9,22 @@ change_colors(
   colorset = "brewer",
   palette = 2,
   kind = "qualitative",
-  direction = 1
+  direction = 1,
+  start = 1
 )
 }
 \arguments{
 \item{x}{A visualization made with \code{\link[=visualize]{visualize()}}}
 
-\item{colorset}{Either "brewer", "viridis", or a vector of colors.}
+\item{colorset}{Either "brewer", "viridis", "okabe-ito" or a vector of colors.}
 
 \item{palette}{The number or name of palette (dependent on setting \code{colorset} to either "brewer" or "viridis")}
 
 \item{kind}{Used only for Brewer palettes to match numbered palette with the specific subset}
 
 \item{direction}{The direction colors should be applied to the data. Setting to anything other than 1 will reverse the order.}
+
+\item{start}{Useful for predefined colorsets from Okabe-Ito and Brewer to start from a color other than 1}
 }
 \value{
 A ggplot2 object
@@ -62,7 +65,9 @@ austen |>
   visualize(type = "heatmap") |>
   change_colors("viridis", palette = "mako")
 
-# Manually listing colors will adopt them. When the number of colors differs from what's needed, other colors will be filled in between.
+# Manually listing colors will adopt them. When
+# the number of colors differs from what's needed,
+# other colors will be filled in between.
 austen |>
   visualize() |>
   change_colors(c("brown", "red", "orange", "yellow", "#aaff00"))

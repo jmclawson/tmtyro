@@ -76,8 +76,7 @@ make_topic_model <- function(
         control = list(best = TRUE,
                        initialize = "random"))
 
-  the_model |>
-    log_function()
+  the_model
 }
 
 #' Load (or cache and load) a topic model
@@ -431,8 +430,14 @@ interactive_topic_distributions <- function(
     height = NULL,
     omit = NULL,
     smooth = TRUE) {
+  rlang::check_installed("plotly", reason = "to use ggplotly()")
 
-  df_string <- deparse(substitute(lda))
+  if (rlang::is_string(lda)) {
+    df_string <- lda
+    lda <- get(df_string)
+  } else {
+    df_string <- deparse(substitute(lda))
+  }
 
   plot <- lda |>
     prep_topic_distributions(top_n, omit = omit, smooth = smooth) |>
@@ -445,10 +450,10 @@ interactive_topic_distributions <- function(
         sapply(`[`, 1) |>
         stringr::str_extract("[A-Za-z]+"),
       topic = as.factor(topic)) |>
-    ggplot2::ggplot(ggplot2::aes(x = set, y = n)) +
+    ggplot2::ggplot(ggplot2::aes(
+      x = set, y = n, text = display)) +
     ggplot2::geom_area(ggplot2::aes(fill = topic,
-                  color = topic,
-                  text = display),
+                  color = topic),
               show.legend = FALSE) +
     ggplot2::facet_grid(doc_id ~ .,
                labeller = ggplot2::labeller(groupwrap = ggplot2::label_wrap_gen(6))) +
@@ -614,6 +619,8 @@ plot_topic_wordcloud <- function(
     topics = NULL,
     crop = TRUE,
     savedir = "plots") {
+
+  rlang::check_installed("wordcloud", reason = "to use `wordcloud()`")
 
   save_topic_wordcloud <- function(
     lda,

@@ -8,3 +8,7 @@
 ^\.github$
 ^vignettes/articles$
 ^data-raw$
+data/.*[.]rds
+plots/
+inst/austen/
+gutenberg/

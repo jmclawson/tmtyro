@@ -65,12 +65,12 @@ add_ngrams <- function(df, n = 1:2, feature = word, keep = FALSE, collapse = FAL
     the_df <- the_df |>
       tidyr::unite(
         "ngram",
-        glue::glue("{col_string}_{min(n+1)}"):glue::glue("{col_string}_{max(n+1)}"),
+        stringr::str_glue("{col_string}_{min(n+1)}"):stringr::str_glue("{col_string}_{max(n+1)}"),
         sep = " ")
   }
 
   the_df |>
-    log_function()
+    add_class("ngrams")
 }
 
 #' Combine ngram columns
@@ -127,23 +127,15 @@ combine_ngrams <- function(df, feature = word, keep = FALSE){
     as.numeric() |>
     range()
 
-  if (keep) {
-    the_df <- df |>
-      tidyr::unite(
-        "ngram",
-        glue::glue("{col_string}_{feature_range[1]}"):glue::glue("{col_string}_{feature_range[2]}"),
-        sep = " ",
-        remove = FALSE)
-  } else {
-    the_df <- df |>
-      tidyr::unite(
-        "ngram",
-        glue::glue("{col_string}_{feature_range[1]}"):glue::glue("{col_string}_{feature_range[2]}"),
-        sep = " ")
-  }
+  the_df <- df |>
+    tidyr::unite(
+      "ngram",
+      stringr::str_glue("{col_string}_{feature_range[1]}"):stringr::str_glue("{col_string}_{feature_range[2]}"),
+      sep = " ",
+      remove = !keep)
 
   the_df |>
-    log_function()
+    add_class("combined_ngrams", remove = "ngrams")
 }
 
 #' Separate one word per column
@@ -182,7 +174,7 @@ separate_ngrams <- function(df, names_prefix = "word") {
       {{ names_prefix }},
       delim = " ",
       names_sep = "_") |>
-    log_function()
+    add_class("ngrams", remove = "combined_ngrams")
 }
 
 
@@ -274,14 +266,14 @@ plot_bigrams <- function(
 
   col_string <- deparse(substitute(feature))
 
-  if (!glue::glue("{col_string}_2") %in% colnames(df)) {
+  if (!stringr::str_glue("{col_string}_2") %in% colnames(df)) {
     df <- df |>
       add_ngrams()
   }
 
   df_export <- df |>
     dplyr::count(dplyr::across(
-      glue::glue("{col_string}_1"):glue::glue("{col_string}_2")),
+      stringr::str_glue("{col_string}_1"):stringr::str_glue("{col_string}_2")),
       sort = TRUE) |>
     dplyr::slice_head(n = top_n)
 

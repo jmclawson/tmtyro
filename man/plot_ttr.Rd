@@ -8,7 +8,7 @@ plot_ttr(
   df,
   x = progress_words,
   by = doc_id,
-  identity = doc_id,
+  identity = NULL,
   descriptive_labels = TRUE,
   labeling = c("point", "inline", "axis", "inset"),
   log_y = TRUE

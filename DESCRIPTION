@@ -1,6 +1,6 @@
 Package: tmtyro
 Title: tmtyro: Simplified Workflows for Text Mining Tyros
-Version: 0.0.5.9000
+Version: 0.0.6.9000
 Authors@R: 
     person("James", "Clawson", , "clawson@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0009-0008-6756-0607"))
@@ -12,44 +12,44 @@ Description: Work with and analyze text for simple and complex
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 URL: https://github.com/jmclawson/tmtyro, https://jmclawson.github.io/tmtyro/
 BugReports: https://github.com/jmclawson/tmtyro/issues
 Imports: 
     cli,
     dplyr,
     forcats,
-    geomtextpath,
     ggh4x,
     ggplot2,
     ggraph,
-    ggrepel,
-    glue,
+    grDevices,
     gutenbergr,
     igraph,
     janitor,
     knitr,
-    NLP,
-    openNLP,
-    plotly,
     purrr,
-    RColorBrewer,
     readr,
     rlang,
     rvest,
     scales,
     stats,
-    stopwords,
     stringr,
     textdata,
-    textstem,
     tibble,
     tidyr,
     tidytext,
     topicmodels,
-    viridis,
-    wordcloud
+    viridis
 Config/Needs/website: rmarkdown
 Depends: 
     R (>= 2.10)
 LazyData: true
+Suggests: 
+    geomtextpath,
+    ggrepel,
+    NLP,
+    openNLP,
+    plotly,
+    RColorBrewer,
+    textstem,
+    wordcloud

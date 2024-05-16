@@ -86,7 +86,8 @@ load_texts <- function(
       dplyr::select(-par_num)
   }
 
-  return(full_corpus)
+  full_corpus |>
+    add_class("tmtyro")
 }
 
 tidy_texts_internal <- function(df, word, lemma, lemma_replace, to_lower, remove_names, pos = FALSE, n = 1) {
@@ -138,11 +139,13 @@ tidy_texts_internal <- function(df, word, lemma, lemma_replace, to_lower, remove
   }
 
   if (lemma & word) {
+    rlang::check_installed("textstem")
     df <- df |>
       dplyr::mutate(lemma = textstem::lemmatize_words(word))
   }
 
   if (lemma & n > 1) {
+    rlang::check_installed("textstem")
     df <- df |>
       dplyr::mutate(lemma = textstem::lemmatize_strings(ngram))
   }
@@ -160,6 +163,7 @@ tidy_texts_internal <- function(df, word, lemma, lemma_replace, to_lower, remove
   }
 
   if (lemma & !word & !n > 1) {
+    rlang::check_installed("textstem")
     df <- df |>
       dplyr::mutate(text = textstem::lemmatize_strings(text))
   }
@@ -178,6 +182,7 @@ tidy_texts_internal <- function(df, word, lemma, lemma_replace, to_lower, remove
 }
 
 annotate_pos <- function(df){
+  rlang::check_installed(c("NLP", "openNLP"))
   ##### NLP section #####
   sent_token_annotator <- openNLP::Maxent_Sent_Token_Annotator()
   word_token_annotator <- openNLP::Maxent_Word_Token_Annotator()

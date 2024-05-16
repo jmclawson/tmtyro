@@ -65,7 +65,7 @@ get_gutenberg_corpus <- function(gutenberg_id, dir = "gutenberg",
     base_id <- stringr::str_extract(base_url, "[0-9]*$")
     for (suffix in c("-8", "-0")) {
       Sys.sleep(2)
-      new_url <- glue::glue("{base_url}{suffix}.txt")
+      new_url <- stringr::str_glue("{base_url}{suffix}.txt")
       ret <- suppressWarnings(download_once(new_url,
                                             filename = paste0(base_id, ".txt"),
                                             destdir = dir))
@@ -222,7 +222,7 @@ parse_gutenberg_html <- function(html) {
 
   get_maintitle <- function(html = "gutenberg/144.html"){
     if (is.numeric(html)) {
-      html <- glue::glue("gutenberg/{html}.html")
+      html <- stringr::str_glue("gutenberg/{html}.html")
     }
 
     html |>
@@ -328,8 +328,8 @@ parse_gutenberg_html <- function(html) {
         ) |>
         dplyr::mutate(
           xpathy = dplyr::case_when(
-            !is.na(dplyr::lead(level)) ~ glue::glue("//p[preceding-sibling::{level}[a[@name='{id}']] and following-sibling::{dplyr::lead(level)}[a[@name='{dplyr::lead(id)}']]]"),
-            TRUE ~ glue::glue("//p[preceding-sibling::*[child::a[@name='{id}']]]")) |>
+            !is.na(dplyr::lead(level)) ~ stringr::str_glue("//p[preceding-sibling::{level}[a[@name='{id}']] and following-sibling::{dplyr::lead(level)}[a[@name='{dplyr::lead(id)}']]]"),
+            TRUE ~ stringr::str_glue("//p[preceding-sibling::*[child::a[@name='{id}']]]")) |>
             as.character()) |>
         dplyr::rowwise() |>
         dplyr::mutate(
@@ -374,8 +374,8 @@ parse_gutenberg_html <- function(html) {
       section = headers) |>
       dplyr::mutate(
         xpathy = dplyr::case_when(
-          !is.na(dplyr::lead(id)) ~ glue::glue('//p[preceding-sibling::a[@name="{id}"] and following-sibling::a[@name="{dplyr::lead(id)}"]]'),
-          TRUE ~ glue::glue('//p[preceding-sibling::a[@name="{id}"]]')
+          !is.na(dplyr::lead(id)) ~ stringr::str_glue('//p[preceding-sibling::a[@name="{id}"] and following-sibling::a[@name="{dplyr::lead(id)}"]]'),
+          TRUE ~ stringr::str_glue('//p[preceding-sibling::a[@name="{id}"]]')
       )) |>
       dplyr::rowwise() |>
       dplyr::mutate(
@@ -441,8 +441,8 @@ parse_gutenberg_html <- function(html) {
       level = h_levels) |>
       dplyr::mutate(
         xpathy = dplyr::case_when(
-          !is.na(dplyr::lead(level)) ~ glue::glue("//p[preceding-sibling::{level}[text()=\"{section}\"] and following-sibling::{dplyr::lead(level)}[text()=\"{dplyr::lead(section)}\"]]"),
-          TRUE ~ glue::glue("//p[preceding-sibling::{level}[text()=\"{section}\"]]")) |> as.character()) |>
+          !is.na(dplyr::lead(level)) ~ stringr::str_glue("//p[preceding-sibling::{level}[text()=\"{section}\"] and following-sibling::{dplyr::lead(level)}[text()=\"{dplyr::lead(section)}\"]]"),
+          TRUE ~ stringr::str_glue("//p[preceding-sibling::{level}[text()=\"{section}\"]]")) |> as.character()) |>
       dplyr::rowwise() |>
       dplyr::mutate(
         text = get_pars(readed, xpathy)) |>
@@ -450,6 +450,48 @@ parse_gutenberg_html <- function(html) {
       dplyr::select(-c(level, xpathy))
 
     return(toc_df)
+  }
+
+parse_newly <- function(html){
+  found <- html |>
+    rvest::read_html() |>
+    rvest::html_elements("h1, h2, h3, h4, p")
+
+  types <- found |>
+    rvest::html_name()
+
+  contents <- found |>
+    rvest::html_text2() |>
+    stringr::str_replace_all("\n", " ") |>
+    stringr::str_replace_all("\r", " ") |>
+    stringr::str_replace_all("[ ]+", " ") |>
+    trimws()
+
+  table <- data.frame(tag = types, text = contents) |>
+    tibble::as_tibble() |>
+    dplyr::mutate(
+      h1 = dplyr::if_else(tag == "h1", text, NA_character_),
+      h2 = dplyr::if_else(tag == "h2", text, NA_character_),
+      h3 = dplyr::if_else(tag == "h3", text, NA_character_),
+      h4 = dplyr::if_else(tag == "h4", text, NA_character_),
+      .before = text
+    ) |>
+    dplyr::mutate(
+      text = dplyr::if_else(tag == "p", text, NA_character_)
+    ) |>
+    dplyr::select(-tag) |>
+    tidyr::fill(h1, h2, h3, h4) |>
+    tidyr::drop_na(text) |>
+    janitor::remove_empty("cols") |>
+    dplyr::select(where(
+      ~dplyr::n_distinct(.) > 1
+    ))
+
+  section_names <- colnames(table)[colnames(table) != "text"]
+
+  colnames(table)[colnames(table) != "text"][1:ifelse(length(section_names) >= 3, 3, length(section_names))] <- c("section", "subsection", "subsubsection")[1:length(section_names)]
+
+  table
 }
 
 
