@@ -7,6 +7,7 @@
 #' @param label Whether to show the rank as a label in the heatmap
 #'
 #' @returns A ggplot object
+#' @family visualizing helpers
 #' @export
 #'
 #' @examples
@@ -149,6 +150,7 @@ dplyr::count
 #' @param na_rm Whether to drop empty features
 #'
 #' @returns A ggplot object
+#' @family visualizing helpers
 #' @export
 #'
 #' @examples

@@ -334,3 +334,38 @@ corpus_missing <- function(corpus, cache = FALSE) {
   msg_action <- "Please relocate files and try again."
   paste(msg_1, msg2, msg_action)
 }
+
+#' Choose a new doc_id column
+#'
+#' @param data A data frame, potentially with a `doc_id` column
+#' @param column The column that will become the new identifier
+#' @param drop Whether to drop the prior `doc_id` column or retain it
+#'
+#' @returns A data frame with a new doc_id column
+#' @export
+#'
+#' @examples
+#' if (FALSE) {
+#'   corpus |>
+#'     load_texts() |>
+#'     identify_by(author, drop = FALSE)
+#' }
+identify_by <- function(data, column, drop = TRUE) {
+  cols <- colnames(data)
+  relevant <- deparse(substitute(column))
+  if (relevant != "doc_id") {
+    cols <- cols[cols != "doc_id"]
+  }
+  if (drop) {
+    data <- data |>
+      dplyr::select(tidyr::all_of(cols))
+  } else {
+    new_col <- 1
+    while (paste0("other_", new_col) %in% cols) {
+      new_col <- new_col + 1
+    }
+    colnames(data)[colnames(data) == "doc_id"] <- paste0("other_", new_col)
+  }
+  data |>
+    dplyr::rename(doc_id = {{ column }})
+}

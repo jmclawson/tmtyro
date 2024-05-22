@@ -9,6 +9,8 @@ get_gutenberg_corpus(
   dir = "gutenberg",
   mirror = NULL,
   meta_fields = c("title", "author"),
+  type = c("htm", "txt"),
+  html_title = FALSE,
   ...
 )
 }
@@ -21,26 +23,42 @@ get_gutenberg_corpus(
 
 \item{meta_fields}{Additional fields to add from \link[gutenbergr:gutenberg_metadata]{gutenbergr::gutenberg_metadata} describing each book. By default, title and author are added.}
 
-\item{...}{Additional parameters passed along to \code{\link[gutenbergr:gutenberg_download]{gutenbergr::gutenberg_download()}} in the final step.}
+\item{type}{Indicate whether the corpus should be created from the plain text "txt" versions of books (previously the only type) or from enhanced "htm" versions, which attempt to find markers for chapters and sections.}
+
+\item{html_title}{Whether to use the h1 header from an HTML file to determine a document's title. By default, uses \link[gutenbergr:gutenberg_metadata]{gutenbergr::gutenberg_metadata}.}
+
+\item{...}{Additional parameters passed along to \code{\link[gutenbergr:gutenberg_strip]{gutenbergr::gutenberg_strip()}}.}
 }
 \value{
 A data frame with one row for each line of the texts in the corpus.
 }
 \description{
 \code{get_gutenberg_corpus()} improves upon the functionality
-of \code{\link[gutenbergr:gutenberg_download]{gutenbergr::gutenberg_download()}} in two key ways. First,
-it downloads the ".txt" format of ebooks rather than the
-".zip" format. This change improves coverage dramatically.
-This change was made with consideration for server bandwidth,
+of \code{\link[gutenbergr:gutenberg_download]{gutenbergr::gutenberg_download()}} in three key ways.
+\enumerate{
+\item First, its default setting is to retrieve the ".htm"
+version of texts and parse the headers. This change allows for
+consideration of texts by sections and chapters. Parsing is
+handled by \code{\link[=parse_html]{parse_html()}}, and \code{\link[=move_header_to_text]{move_header_to_text()}} is
+available to correct any parsing errors.
+\item Second, when using the ".txt" format,
+\code{get_gutenberg_corpus()} doesn't rely on the presence of
+".zip" files. This change improves coverage of files
+dramatically.
+\item Finally, it caches a copy of files locally to avoid the
+need for repeated downloads. This change helps with code
+portability, offline access, and server bandwidth.
+}
+All changes are made with consideration for server bandwidth,
 so a two-second delay is introduced between each download
-attempt. Second, it caches a copy of the file locally to avoid
-repeated downloads. This change helps with code portability and
-offline access.
+attempt. This will slow down the initial acquisition of
+corpora, but offline caching speeds things up considerably
+in subsequent use.
 }
 \examples{
 library(gutenbergr)
 
 dalloway <- gutenberg_works(author == "Woolf, Virginia",
-                            title == "Mrs. Dalloway") |>
+                            title == "Mrs Dalloway in Bond Street") |>
   get_gutenberg_corpus()
 }

@@ -35,3 +35,10 @@ austen |>
   separate_ngrams() |>
   head()
 }
+\seealso{
+Other n-gram helpers: 
+\code{\link{add_ngrams}()},
+\code{\link{combine_ngrams}()},
+\code{\link{plot_bigrams}()}
+}
+\concept{n-gram helpers}

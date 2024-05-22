@@ -48,3 +48,10 @@ austen |>
   add_ngrams(2) |>
   head()
 }
+\seealso{
+Other n-gram helpers: 
+\code{\link{combine_ngrams}()},
+\code{\link{plot_bigrams}()},
+\code{\link{separate_ngrams}()}
+}
+\concept{n-gram helpers}

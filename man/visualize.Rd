@@ -43,7 +43,7 @@ visualize(.data, ...)
 a ggplot2 object
 }
 \description{
-\code{visualize()} provides a simple method for displaying results. Based on previous functions used, \code{visualize()} will choose a method, resolving to one of the following: \code{\link[=plot_doc_word_bars]{plot_doc_word_bars()}}, \code{\link[=plot_doc_word_heatmap]{plot_doc_word_heatmap()}}, \code{\link[=plot_bigrams]{plot_bigrams()}}, \code{\link[=plot_vocabulary]{plot_vocabulary()}}, \code{\link[=plot_ttr]{plot_ttr()}}, \code{\link[=plot_htr]{plot_htr()}}, \code{\link[=plot_tf_idf]{plot_tf_idf()}}, \code{\link[=plot_topic_distributions]{plot_topic_distributions()}}, \code{\link[=plot_topic_bars]{plot_topic_bars()}}, or \code{\link[=plot_topic_wordcloud]{plot_topic_wordcloud()}}.
+\code{visualize()} provides a simple method for displaying results. Based on previous functions used, \code{visualize()} will choose a method, resolving to one of the other visualizing helpers.
 }
 \note{
 For some visualizations, an optional \code{type} parameter may be helpful to change the visualization. For example, setting \code{type = "htr"}, \code{type = "ttr"}, or \code{type = "hapax"} after \code{\link[=add_lexical_variety]{add_lexical_variety()}} will emphasize different columns added by that function. Similarly, \code{type = "cloud"} or \code{type = "wordcloud"} will show topic word clouds after \code{\link[=make_topic_model]{make_topic_model()}}, and \code{type = "heatmap"} will show an alternative visualization for word frequencies.
@@ -100,3 +100,19 @@ austen |>
    add_lexical_variety() |>
    visualize(labeling = "inline")
 }
+\seealso{
+Other visualizing helpers: 
+\code{\link{change_colors}()},
+\code{\link{plot_bigrams}()},
+\code{\link{plot_doc_word_bars}()},
+\code{\link{plot_doc_word_heatmap}()},
+\code{\link{plot_hapax}()},
+\code{\link{plot_htr}()},
+\code{\link{plot_tf_idf}()},
+\code{\link{plot_topic_bars}()},
+\code{\link{plot_topic_distributions}()},
+\code{\link{plot_topic_wordcloud}()},
+\code{\link{plot_ttr}()},
+\code{\link{plot_vocabulary}()}
+}
+\concept{visualizing helpers}

@@ -8,6 +8,7 @@
 #' @param by A grouping column identifying a document, such as `doc_id`.
 #'
 #' @returns The original data frame with columns added for subsequent parts of ngrams
+#' @family n-gram helpers
 #' @export
 #'
 #' @examples
@@ -80,6 +81,7 @@ add_ngrams <- function(df, n = 1:2, feature = word, keep = FALSE, collapse = FAL
 #' @param keep Whether to keep the original columns called "word_1", "word_2", etc., alongside the new "ngram" column.
 #'
 #' @returns A data frame with a column called ngram
+#' @family n-gram helpers
 #' @export
 #'
 #' @examples
@@ -144,6 +146,7 @@ combine_ngrams <- function(df, feature = word, keep = FALSE){
 #' @param names_prefix The prefixed name of the new columns, as in "word_1", "word_2", etc.
 #'
 #' @returns A data frame with one column separated into many
+#' @family n-gram helpers
 #' @export
 #'
 #' @examples
@@ -191,6 +194,8 @@ separate_ngrams <- function(df, names_prefix = "word") {
 #' @param top_n The number of pairs to visualize
 #'
 #' @returns A ggplot2 object
+#' @family visualizing helpers
+#' @family n-gram helpers
 #' @export
 #'
 #' @examples

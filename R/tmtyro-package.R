@@ -9,8 +9,11 @@ docranksum <- temp <- NULL
 document <- temp <- NULL
 dominance <- temp <- NULL
 Freq <- temp <- NULL
+h1 <- h2 <- h3 <- h4 <- temp <- NULL
 hapax <- temp <- NULL
 htr <- temp <- NULL
+id <- temp <- NULL
+level <- temp <- NULL
 line_num <- temp <- NULL
 n <- temp <- NULL
 n2 <- temp <- NULL
@@ -31,6 +34,8 @@ set_count <- temp <- NULL
 set_id <- temp <- NULL
 stanza_num <- temp <- NULL
 term <- temp <- NULL
+.test1 <- temp <- NULL
+.test2 <- temp <- NULL
 text <- temp <- NULL
 tf_idf <- temp <- NULL
 title <- temp <- NULL

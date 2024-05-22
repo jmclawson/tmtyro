@@ -253,6 +253,7 @@ add_lexical_variety <- function(df, by = doc_id, feature = word) {
 #' * Anything else prints a legend to the right of the plot area.
 #'
 #' @returns A ggplot object
+#' @family visualizing helpers
 #' @export
 #'
 #' @examples
@@ -313,6 +314,7 @@ plot_vocabulary <- function(df, x = progress_words, by = doc_id, identity = NULL
 #' @param log_y A toggle for logarithmic scaling to the Y-axis; defaults to TRUE
 #'
 #' @returns A ggplot object
+#' @family visualizing helpers
 #' @export
 #'
 #' @examples
@@ -365,6 +367,7 @@ plot_ttr <- function(df, x = progress_words, by = doc_id, identity = NULL, descr
 #' @param log_y A toggle for logarithmic scaling to the Y-axis; defaults to TRUE
 #'
 #' @returns A ggplot object
+#' @family visualizing helpers
 #' @export
 #'
 #' @examples
@@ -409,6 +412,7 @@ plot_htr <- function(df, x = progress_words, by = doc_id, identity = doc_id, des
 #' @param feature The column to check for new features. Defaults to `hapax`, but the function might also be used with `new_word` instead to plot a sample of new additions to documents' vocabularies.
 #'
 #' @returns A ggplot object
+#' @family visualizing helpers
 #' @export
 #'
 #' @examples

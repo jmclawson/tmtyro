@@ -10,6 +10,9 @@ reference:
   - starts_with("load_")
   - starts_with("get_")
   - starts_with("micusp_")
+  - parse_html
+  - move_header_to_text
+  - identify_by
   - unnest_without_caps
 - title: Measure
   desc: Measure features of texts.

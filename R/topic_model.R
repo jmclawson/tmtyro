@@ -144,6 +144,7 @@ load_topic_model <- function(
 #' @param smooth After samples are rejoined, the measured value of each topic will vary wildly, even in samples that are beside each other in a document. This can make charts distractingly jittery. The default TRUE value of this parameter reduces chart noise by calculating rolling averages across three samples. Set the parameter to FALSE to skip this step and allow for visualization of extreme values.
 #'
 #' @returns A ggplot2 visualization showing vertical facets of texts. The length of each text is shown on the X-axis, and area plots on the Y-axis show the distribution of the strongest topics in each part of the text.
+#' @family visualizing helpers
 #' @export
 #'
 #' @examples
@@ -496,6 +497,7 @@ interactive_topic_distributions <- function(
 #' @param savedir The directory for saving output images. By default, this is set to "plots/".
 #'
 #' @returns A ggplot2 visualization showing the top words in each of the chosen topics.
+#' @family visualizing helpers
 #' @export
 #'
 #' @examples
@@ -593,6 +595,7 @@ plot_topic_bars <- function(
 #' @param savedir The directory to save plots in. Defaults to "plots"
 #'
 #' @returns Graphic(s) prepared with `knitr` for Quarto or RMarkdown
+#' @family visualizing helpers
 #' @export
 #'
 #' @examples

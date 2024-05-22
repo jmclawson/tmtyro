@@ -1,6 +1,6 @@
 #' Visualize output
 #'
-#' `visualize()` provides a simple method for displaying results. Based on previous functions used, `visualize()` will choose a method, resolving to one of the following: [plot_doc_word_bars()], [plot_doc_word_heatmap()], [plot_bigrams()], [plot_vocabulary()], [plot_ttr()], [plot_htr()], [plot_tf_idf()], [plot_topic_distributions()], [plot_topic_bars()], or [plot_topic_wordcloud()].
+#' `visualize()` provides a simple method for displaying results. Based on previous functions used, `visualize()` will choose a method, resolving to one of the other visualizing helpers.
 #'
 #' @param .data data processed with one or more functions from `tmtyro`
 #' @param ... optional parameters
@@ -17,6 +17,7 @@
 #' For some visualizations, an optional `type` parameter may be helpful to change the visualization. For example, setting `type = "htr"`, `type = "ttr"`, or `type = "hapax"` after [add_lexical_variety()] will emphasize different columns added by that function. Similarly, `type = "cloud"` or `type = "wordcloud"` will show topic word clouds after [make_topic_model()], and `type = "heatmap"` will show an alternative visualization for word frequencies.
 #'
 #' @returns a ggplot2 object
+#' @family visualizing helpers
 #' @export
 #'
 #' @examples
@@ -184,6 +185,7 @@ add_class <- function(x, class, remove = NULL) {
 #' @param start Useful for predefined colorsets from Okabe-Ito and Brewer to start from a color other than 1
 #'
 #' @returns A ggplot2 object
+#' @family visualizing helpers
 #' @export
 #'
 #' @examples

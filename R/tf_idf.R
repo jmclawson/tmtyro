@@ -7,6 +7,7 @@
 #' @param feature A column containing the terms to be measured across document groupings
 #'
 #' @returns A summary of the original data frame, with rows for each document and term pairing and columns for document identifier, term, n (the number of times this term was used in this document), tf (term's frequency in this document), idf (inverse document frequency), and tf_idf (previous two columns combined).
+#' @family tf_idf helpers
 #' @export
 #'
 #' @examples
@@ -42,6 +43,8 @@ summarize_tf_idf <- function(df, by = doc_id, feature = word) {
 #' @param label_inside Not yet working
 #'
 #' @returns A ggplot object
+#' @family visualizing helpers
+#' @family tf-idf helpers
 #' @export
 #'
 #' @examples

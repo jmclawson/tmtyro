@@ -50,3 +50,20 @@ austen |>
   filter(pos \%in\% c("NN", "NNS")) |>
   plot_tf_idf(feature = lemma)
 }
+\seealso{
+Other visualizing helpers: 
+\code{\link{change_colors}()},
+\code{\link{plot_bigrams}()},
+\code{\link{plot_doc_word_bars}()},
+\code{\link{plot_doc_word_heatmap}()},
+\code{\link{plot_hapax}()},
+\code{\link{plot_htr}()},
+\code{\link{plot_topic_bars}()},
+\code{\link{plot_topic_distributions}()},
+\code{\link{plot_topic_wordcloud}()},
+\code{\link{plot_ttr}()},
+\code{\link{plot_vocabulary}()},
+\code{\link{visualize}()}
+}
+\concept{tf-idf helpers}
+\concept{visualizing helpers}
