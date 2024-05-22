@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tmtyro</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.6.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.7.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,18 +52,24 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.0.6.9000" id="tmtyro-development-version-0069000">tmtyro (development version 0.0.6.9000)<a class="anchor" aria-label="anchor" href="#tmtyro-development-version-0069000"></a></h2>
-<ul><li>Corpora with just one document will no longer be divided into facets</li>
-<li>
-<code><a href="../reference/visualize.html">visualize()</a></code> converted to a generic function</li>
-<li>Parameters related to colors (<code>colorset</code>, <code>na_color</code>, <code>line_color</code>) have been removed from most plotting functions. Instead, use <code><a href="../reference/change_colors.html">change_colors()</a></code>.</li>
-<li>Okabe-Ito <code>colorset</code> option added to <code><a href="../reference/change_colors.html">change_colors()</a></code>.</li>
-<li>
-<code>start</code> parameter added to <code><a href="../reference/change_colors.html">change_colors()</a></code>.</li>
-<li>Packages removed from Imports: geomtextpath, ggrepel, glue, NLP, openNLP, plotly, RColorBrewer, stopwords, textstem, wordcloud</li>
-<li>Packages added to Suggests: geomtextpath, ggrepel, NLP, openNLP, plotly, RColorBrewer, textstem, wordcloud</li>
+<h2 class="pkg-version" data-toc-text="0.0.7.9000" id="tmtyro-development-version-0079000">tmtyro (development version 0.0.7.9000)<a class="anchor" aria-label="anchor" href="#tmtyro-development-version-0079000"></a></h2>
+<ul><li>
+<code><a href="../reference/get_gutenberg_corpus.html">get_gutenberg_corpus()</a></code> now retrieves HTML versions of texts from Project Gutenberg and parses header tags for section markers</li>
+<li>New function <code><a href="../reference/parse_html.html">parse_html()</a></code> for reading headers in an HTML file</li>
+<li>New function <code><a href="../reference/move_header_to_text.html">move_header_to_text()</a></code> for converting header to text</li>
+<li>New function <code><a href="../reference/identify_by.html">identify_by()</a></code> to simplify using something other than <code>doc_id</code>
+</li>
+<li>Improved internal linking within documentation</li>
 </ul></div>
-  </main></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.6.9000" id="tmtyro-development-version-0069000">tmtyro (development version 0.0.6.9000)<a class="anchor" aria-label="anchor" href="#tmtyro-development-version-0069000"></a></h2>
+<ul><li>Better working <code><a href="../reference/visualize.html">visualize()</a></code> function as generic with supported methods</li>
+<li>Improved <code><a href="../reference/change_colors.html">change_colors()</a></code> with added support for the Okabe-Ito colorset and the option of starting with something other than the first color of a palette. With these changes, color options have been removed from other visualization functions to consolidate them within <code><a href="../reference/change_colors.html">change_colors()</a></code>.</li>
+<li>When a data set includes only one unique <code>doc_id</code>, visualizations are no longer divided into facets.</li>
+<li>In an effort to reduce the number of dependencies, many packages have been removed from “Imports” (geomtextpath, ggrepel, glue, NLP, openNLP, plotly, RColorBrewer, stopwords, textstem, wordcloud). Where appropriate, these have been shifted to “Suggests” or dropped entirely.</li>
+</ul></div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
