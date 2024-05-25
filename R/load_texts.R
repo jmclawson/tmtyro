@@ -339,7 +339,9 @@ corpus_missing <- function(corpus, cache = FALSE) {
 #'
 #' @param data A data frame, potentially with a `doc_id` column
 #' @param column The column that will become the new identifier
+#' @param old The name to give to the prior `doc_id` column, if retained
 #' @param drop Whether to drop the prior `doc_id` column or retain it
+#' @param inorder Whether to establish `doc_id` order as shown in the document
 #'
 #' @returns A data frame with a new doc_id column
 #' @export
@@ -350,7 +352,7 @@ corpus_missing <- function(corpus, cache = FALSE) {
 #'     load_texts() |>
 #'     identify_by(author, drop = FALSE)
 #' }
-identify_by <- function(data, column, drop = TRUE) {
+identify_by <- function(data, column, old = NULL, drop = TRUE, inorder = TRUE) {
   cols <- colnames(data)
   relevant <- deparse(substitute(column))
   if (relevant != "doc_id") {
@@ -359,6 +361,9 @@ identify_by <- function(data, column, drop = TRUE) {
   if (drop) {
     data <- data |>
       dplyr::select(tidyr::all_of(cols))
+  } else if (!is.null(old)) {
+    data |>
+      dplyr::rename({{ old }} := doc_id)
   } else {
     new_col <- 1
     while (paste0("other_", new_col) %in% cols) {
@@ -366,6 +371,11 @@ identify_by <- function(data, column, drop = TRUE) {
     }
     colnames(data)[colnames(data) == "doc_id"] <- paste0("other_", new_col)
   }
-  data |>
+  data <- data |>
     dplyr::rename(doc_id = {{ column }})
+  if (inorder) {
+    data <- data |>
+      dplyr::mutate(doc_id = forcats::fct_inorder(doc_id))
+  }
+  data
 }

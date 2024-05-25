@@ -12,13 +12,16 @@ visualize(.data, ...)
 \item{...}{
   Arguments passed on to \code{\link[=plot_doc_word_bars]{plot_doc_word_bars}}, \code{\link[=plot_bigrams]{plot_bigrams}}, \code{\link[=plot_vocabulary]{plot_vocabulary}}, \code{\link[=plot_ttr]{plot_ttr}}, \code{\link[=plot_htr]{plot_htr}}, \code{\link[=plot_topic_distributions]{plot_topic_distributions}}, \code{\link[=plot_topic_bars]{plot_topic_bars}}, \code{\link[=plot_topic_wordcloud]{plot_topic_wordcloud}}
   \describe{
-    \item{\code{num}}{The number of features to show}
+    \item{\code{rows}}{The features to show}
     \item{\code{by}}{The column used for document grouping, with doc_id as the default}
     \item{\code{feature}}{The column to measure, as in "word" or "lemma"}
-    \item{\code{percents}}{Whether to display word frequencies as percentage instead of raw counts; defaults to TRUE}
-    \item{\code{label}}{Whether to show the value as a label with each bar; defaults to FALSE}
+    \item{\code{inorder}}{Whether to retain the factor order of the "by" column}
+    \item{\code{reorder_y}}{Whether to reorder the Y-values by facet}
+    \item{\code{color_y}}{Whether bars should be filled by Y-values}
+    \item{\code{percents}}{Whether to display word frequencies as percentage instead of raw counts}
+    \item{\code{label}}{Whether to show the value as a label with each bar}
     \item{\code{label_tweak}}{The numeric value by which to tweak the label, if shown. For percentages, this value adjusts the decimal-point precision. For raw counts, this value adjusts labels' offset from the bars}
-    \item{\code{label_inside}}{Whether to show the value as a label inside each bar; defaults to FALSE}
+    \item{\code{label_inside}}{Whether to show the value as a label inside each bar}
     \item{\code{na_rm}}{Whether to drop empty features}
     \item{\code{random_seed}}{Whether to randomize the creation of the network chart.}
     \item{\code{set_seed}}{A specific seed to use if not random}
@@ -46,7 +49,7 @@ a ggplot2 object
 \code{visualize()} provides a simple method for displaying results. Based on previous functions used, \code{visualize()} will choose a method, resolving to one of the other visualizing helpers.
 }
 \note{
-For some visualizations, an optional \code{type} parameter may be helpful to change the visualization. For example, setting \code{type = "htr"}, \code{type = "ttr"}, or \code{type = "hapax"} after \code{\link[=add_lexical_variety]{add_lexical_variety()}} will emphasize different columns added by that function. Similarly, \code{type = "cloud"} or \code{type = "wordcloud"} will show topic word clouds after \code{\link[=make_topic_model]{make_topic_model()}}, and \code{type = "heatmap"} will show an alternative visualization for word frequencies.
+For some visualizations, an optional \code{type} parameter may be helpful to change the visualization. For example, setting \code{type = "htr"}, \code{type = "ttr"}, or \code{type = "hapax"} after \code{\link[=add_vocabulary]{add_vocabulary()}} will emphasize different columns added by that function. Similarly, \code{type = "cloud"} or \code{type = "wordcloud"} will show topic word clouds after \code{\link[=make_topic_model]{make_topic_model()}}, and \code{type = "heatmap"} will show an alternative visualization for word frequencies.
 }
 \examples{
 austen <- "austen.rds" |>
@@ -73,7 +76,7 @@ austen |>
    visualize()
 
 austen |>
-   add_lexical_variety() |>
+   add_vocabulary() |>
    visualize()
 
 if (FALSE) { # sentiment requires interaction on first load
@@ -84,11 +87,11 @@ if (FALSE) { # sentiment requires interaction on first load
 
 # Some visualizations are specified with the `type` argument
 austen |>
-   add_lexical_variety() |>
+   add_vocabulary() |>
    visualize(type = "ttr")
 
 austen |>
-   add_lexical_variety() |>
+   add_vocabulary() |>
    visualize(type = "hapax")
 
 # Other arguments get passed along
@@ -97,7 +100,7 @@ austen |>
    visualize(node_color = "yellow", top_n = 25)
 
 austen |>
-   add_lexical_variety() |>
+   add_vocabulary() |>
    visualize(labeling = "inline")
 }
 \seealso{

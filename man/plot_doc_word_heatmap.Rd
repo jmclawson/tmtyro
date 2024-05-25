@@ -4,12 +4,18 @@
 \alias{plot_doc_word_heatmap}
 \title{Plot a heatmap of ranked features}
 \usage{
-plot_doc_word_heatmap(df, num = 10, by = doc_id, feature = word, label = TRUE)
+plot_doc_word_heatmap(
+  df,
+  rows = 1:10,
+  by = doc_id,
+  feature = word,
+  label = TRUE
+)
 }
 \arguments{
 \item{df}{A tidy data frame, potentially containing columns called "doc_id" and "word"}
 
-\item{num}{The number of ranks to show, not counting ties}
+\item{rows}{The ranks to show, not counting ties}
 
 \item{by}{The column used for document grouping, with doc_id as the default}
 

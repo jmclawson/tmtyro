@@ -30,12 +30,11 @@ reference:
   desc: Model complex relationships in a corpus.
 - contents:
   - starts_with("make_")
-- title: Visualize
-  desc: Visualize features of texts.
+- title: Communicate
+  desc: Prepare tables and visualize features of texts.
 - contents:
-  - visualize
-  - change_colors
-  - starts_with("plot_")
+  - has_concept("table helpers")
+  - has_concept("visualizing helpers")
   - starts_with("interactive_")
 - title: Data
   desc: Data included

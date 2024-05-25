@@ -4,14 +4,18 @@
 \alias{identify_by}
 \title{Choose a new doc_id column}
 \usage{
-identify_by(data, column, drop = TRUE)
+identify_by(data, column, old = NULL, drop = TRUE, inorder = TRUE)
 }
 \arguments{
 \item{data}{A data frame, potentially with a \code{doc_id} column}
 
 \item{column}{The column that will become the new identifier}
 
+\item{old}{The name to give to the prior \code{doc_id} column, if retained}
+
 \item{drop}{Whether to drop the prior \code{doc_id} column or retain it}
+
+\item{inorder}{Whether to establish \code{doc_id} order as shown in the document}
 }
 \value{
 A data frame with a new doc_id column

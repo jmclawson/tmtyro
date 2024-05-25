@@ -4,12 +4,14 @@
 \alias{standardize_titles}
 \title{Standardize document titles}
 \usage{
-standardize_titles(.data, title = doc_id)
+standardize_titles(.data, title = doc_id, drop_articles = TRUE)
 }
 \arguments{
 \item{.data}{A tidy data frame, potentially containing a title column called "doc_id". Alternatively, a simple character vector of titles.}
 
 \item{title}{A column containing the titles to be standardized}
+
+\item{drop_articles}{Whether to remove opening articles like "The" and "A"}
 }
 \value{
 A data frame with one column adjusted. If .data is a character vector instead of a data frame, then a character vector is returned.
@@ -33,7 +35,7 @@ unique(austen$doc_id) |>
 ##### Standardizing a data frame #####
 
 austen_measured <- austen |>
-  add_lexical_variety()
+  add_vocabulary()
 
 # Before `standardize_titles()`
 austen_measured |>

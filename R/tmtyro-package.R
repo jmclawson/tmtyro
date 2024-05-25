@@ -11,6 +11,7 @@ dominance <- temp <- NULL
 Freq <- temp <- NULL
 h1 <- h2 <- h3 <- h4 <- temp <- NULL
 hapax <- temp <- NULL
+hlemona <- temp <- NULL
 htr <- temp <- NULL
 id <- temp <- NULL
 level <- temp <- NULL
@@ -24,9 +25,11 @@ ngram <- temp <- NULL
 new_word <- temp <- NULL
 paper_id <- temp <- NULL
 par_num <- temp <- NULL
+percent <- temp <- NULL
 progress_words <- temp <- NULL
 ranksum <- temp <- NULL
 reorder <- temp <- NULL
+sentiment_valence <- temp <- NULL
 score <- temp <- NULL
 sentiment <- temp <- NULL
 set <- temp <- NULL
@@ -37,6 +40,7 @@ term <- temp <- NULL
 .test1 <- temp <- NULL
 .test2 <- temp <- NULL
 text <- temp <- NULL
+tf <- temp <- NULL
 tf_idf <- temp <- NULL
 title <- temp <- NULL
 topic <- temp <- NULL
@@ -50,6 +54,7 @@ valence <- temp <- NULL
 value <- temp <- NULL
 Var1 <- temp <- NULL
 Var2 <- temp <- NULL
+vocab <- temp <- NULL
 vocabulary <- temp <- NULL
 word <- temp <- NULL
 words <- temp <- NULL
@@ -60,6 +65,14 @@ words <- temp <- NULL
 ## usethis namespace: start
 #' @importFrom dplyr count
 #' @importFrom grDevices colorRampPalette
+#' @importFrom gt cells_body
+#' @importFrom gt cols_label
+#' @importFrom gt css
+#' @importFrom gt fmt_number
+#' @importFrom gt gt
+#' @importFrom gt sub_missing
+#' @importFrom gt tab_spanner
+#' @importFrom gt tab_style
 #' @importFrom gutenbergr gutenberg_download
 #' @importFrom gutenbergr gutenberg_get_mirror
 #' @importFrom rlang :=

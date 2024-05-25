@@ -43,7 +43,7 @@ austen |>
   change_colors()
 
 austen |>
-  add_lexical_variety() |>
+  add_vocabulary() |>
   visualize(labeling = "axis") |>
   change_colors()
 

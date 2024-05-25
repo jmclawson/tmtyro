@@ -6,7 +6,7 @@
 \usage{
 plot_tf_idf(
   df,
-  num = 10,
+  rows = 1:10,
   by = doc_id,
   feature = word,
   label = FALSE,
@@ -17,7 +17,7 @@ plot_tf_idf(
 \arguments{
 \item{df}{A tidy data frame, potentially containing columns called "doc_id" and "word"}
 
-\item{num}{The number of terms to chart in each document}
+\item{rows}{The rows of terms to chart in each document}
 
 \item{by}{A column containing document grouping}
 

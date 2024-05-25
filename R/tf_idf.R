@@ -35,7 +35,7 @@ summarize_tf_idf <- function(df, by = doc_id, feature = word) {
 #' Visualize the top terms by tf-idf
 #'
 #' @param df A tidy data frame, potentially containing columns called "doc_id" and "word"
-#' @param num The number of terms to chart in each document
+#' @param rows The rows of terms to chart in each document
 #' @param by A column containing document grouping
 #' @param feature A column containing the terms to be measured across document groupings
 #' @param label Not yet working
@@ -63,7 +63,7 @@ summarize_tf_idf <- function(df, by = doc_id, feature = word) {
 #'   plot_tf_idf(feature = lemma)
 plot_tf_idf <- function(
     df,
-    num = 10,
+    rows = 1:10,
     by = doc_id,
     feature = word,
     label = FALSE,
@@ -82,10 +82,12 @@ plot_tf_idf <- function(
   }
 
   df <- df |>
-    dplyr::slice_max(
-      order_by = tf_idf,
-      n = num,
-      by = {{ by }}) |>
+    dplyr::group_by({{ by }}) |>
+    dplyr::arrange(dplyr::desc(tf_idf), .by_group = TRUE) |>
+    dplyr::ungroup() |>
+    dplyr::slice(
+      rows,
+      .by = {{ by }}) |>
     dplyr::group_by({{ by }}) |>
     dplyr::arrange(dplyr::desc(tf_idf)) |>
     dplyr::mutate(
@@ -105,13 +107,15 @@ plot_tf_idf <- function(
 
   the_plot <- df |>
     internal_plot_word_bars(
-    tf_idf, rlang::enquo(by), rlang::enquo(feature), FALSE, label, label_tweak, label_inside) +
+    tf_idf, rlang::enquo(by), FALSE, rlang::enquo(feature), FALSE, label, label_tweak, label_inside) +
+    tidytext::scale_y_reordered() +
     ggplot2::labs(x = x_lab)
 
   if (length(unique(df[[deparse(substitute(by))]])) > 1) {
     the_plot <- the_plot +
       ggplot2::facet_wrap(ggplot2::vars({{ by }}),
-                          scales = "free")
+                          scales = "free",
+                          labeller = ggplot2::labeller({{ by }} := ggplot2::label_wrap_gen(18)))
   }
 
   the_plot

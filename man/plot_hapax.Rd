@@ -41,7 +41,7 @@ austen <- "austen.rds" |>
   readRDS()
 
 austen_measured <- austen |>
-  add_lexical_variety()
+  add_vocabulary()
 
 austen_measured |>
   standardize_titles() |>

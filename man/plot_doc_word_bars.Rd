@@ -6,9 +6,12 @@
 \usage{
 plot_doc_word_bars(
   df,
-  num = 10,
+  rows = 1:10,
   by = doc_id,
   feature = word,
+  inorder = TRUE,
+  reorder_y = NULL,
+  color_y = FALSE,
   percents = TRUE,
   label = FALSE,
   label_tweak = 2,
@@ -19,19 +22,25 @@ plot_doc_word_bars(
 \arguments{
 \item{df}{A tidy data frame, potentially containing columns called "doc_id" and "word"}
 
-\item{num}{The number of features to show}
+\item{rows}{The features to show}
 
 \item{by}{The column used for document grouping, with doc_id as the default}
 
 \item{feature}{The column to measure, as in "word" or "lemma"}
 
-\item{percents}{Whether to display word frequencies as percentage instead of raw counts; defaults to TRUE}
+\item{inorder}{Whether to retain the factor order of the "by" column}
 
-\item{label}{Whether to show the value as a label with each bar; defaults to FALSE}
+\item{reorder_y}{Whether to reorder the Y-values by facet}
+
+\item{color_y}{Whether bars should be filled by Y-values}
+
+\item{percents}{Whether to display word frequencies as percentage instead of raw counts}
+
+\item{label}{Whether to show the value as a label with each bar}
 
 \item{label_tweak}{The numeric value by which to tweak the label, if shown. For percentages, this value adjusts the decimal-point precision. For raw counts, this value adjusts labels' offset from the bars}
 
-\item{label_inside}{Whether to show the value as a label inside each bar; defaults to FALSE}
+\item{label_inside}{Whether to show the value as a label inside each bar}
 
 \item{na_rm}{Whether to drop empty features}
 }
@@ -59,7 +68,7 @@ austen |>
   filter(stringr::str_detect(pos_pair, "JJ N")) |>
   standardize_titles() |>
   plot_doc_word_bars(
-    num = 5,
+    rows = 1:5,
     feature = `adjective + noun bigram`,
     percents = FALSE,
     label = TRUE,

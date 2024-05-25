@@ -4,7 +4,7 @@
 #'
 #' @param .data data processed with one or more functions from `tmtyro`
 #' @param ... optional parameters
-#' @inheritDotParams plot_doc_word_bars num:label_inside na_rm
+#' @inheritDotParams plot_doc_word_bars rows:label_inside na_rm
 #' @inheritDotParams plot_bigrams feature:top_n
 #' @inheritDotParams plot_vocabulary identity:labeling
 #' @inheritDotParams plot_ttr log_y
@@ -14,7 +14,7 @@
 #' @inheritDotParams plot_topic_wordcloud topics
 #'
 #' @note
-#' For some visualizations, an optional `type` parameter may be helpful to change the visualization. For example, setting `type = "htr"`, `type = "ttr"`, or `type = "hapax"` after [add_lexical_variety()] will emphasize different columns added by that function. Similarly, `type = "cloud"` or `type = "wordcloud"` will show topic word clouds after [make_topic_model()], and `type = "heatmap"` will show an alternative visualization for word frequencies.
+#' For some visualizations, an optional `type` parameter may be helpful to change the visualization. For example, setting `type = "htr"`, `type = "ttr"`, or `type = "hapax"` after [add_vocabulary()] will emphasize different columns added by that function. Similarly, `type = "cloud"` or `type = "wordcloud"` will show topic word clouds after [make_topic_model()], and `type = "heatmap"` will show an alternative visualization for word frequencies.
 #'
 #' @returns a ggplot2 object
 #' @family visualizing helpers
@@ -45,7 +45,7 @@
 #'    visualize()
 #'
 #' austen |>
-#'    add_lexical_variety() |>
+#'    add_vocabulary() |>
 #'    visualize()
 #'
 #' if (FALSE) { # sentiment requires interaction on first load
@@ -56,11 +56,11 @@
 #'
 #' # Some visualizations are specified with the `type` argument
 #' austen |>
-#'    add_lexical_variety() |>
+#'    add_vocabulary() |>
 #'    visualize(type = "ttr")
 #'
 #' austen |>
-#'    add_lexical_variety() |>
+#'    add_vocabulary() |>
 #'    visualize(type = "hapax")
 #'
 #' # Other arguments get passed along
@@ -69,20 +69,24 @@
 #'    visualize(node_color = "yellow", top_n = 25)
 #'
 #' austen |>
-#'    add_lexical_variety() |>
+#'    add_vocabulary() |>
 #'    visualize(labeling = "inline")
 visualize <- function(.data,...){
   UseMethod("visualize")
 }
 
 #' @export
-visualize.default <- function(.data, type = NULL, ...){
+visualize.default <- function(.data, inorder = TRUE, type = NULL, ...){
   if ("doc_id" %in% colnames(.data) &&
       "word" %in% colnames(.data)) {
     if (!is.null(type) && type == "heatmap") {
       .data |>
         plot_doc_word_heatmap(...)
     } else {
+      if ("doc_id" %in% colnames(.data) && inorder) {
+        .data <- .data |>
+          dplyr::mutate(doc_id = forcats::fct_inorder(doc_id))
+      }
       .data |>
         plot_doc_word_bars(...)
     }
@@ -98,7 +102,7 @@ visualize.default <- function(.data, type = NULL, ...){
 }
 
 #' @export
-visualize.lexical_variety <- function(.data, type = NULL, ...) {
+visualize.vocabulary <- function(.data, type = NULL, ...) {
   if (!is.null(type)) {
     if (type == "ttr") {
       .data |>
@@ -126,15 +130,33 @@ visualize.ngrams <- function(.data, ...) {
 }
 
 #' @export
-visualize.combined_ngrams <- function(.data, ...) {
+visualize.combined_ngrams <- function(.data, inorder = TRUE, color_y = TRUE, ...) {
+  if ("doc_id" %in% colnames(.data) && inorder) {
+    .data <- .data |>
+      dplyr::mutate(doc_id = forcats::fct_inorder(doc_id))
+  }
   .data |>
-    plot_doc_word_bars(feature = ngram, ...)
+    plot_doc_word_bars(feature = ngram, color_y = color_y, ...)
 }
 
 #' @export
-visualize.sentiment <- function(.data, ...) {
+visualize.sentiment <- function(.data, inorder = TRUE, ignore = NULL, ...) {
+  if ("doc_id" %in% colnames(.data) && inorder) {
+    .data <- .data |>
+      dplyr::mutate(doc_id = forcats::fct_inorder(doc_id))
+  }
+
+  if (!is.null(ignore)) {
+    .data <- .data |>
+      dplyr::mutate(
+        sentiment = dplyr::case_when(
+          sentiment %in% ignore ~ NA_character_,
+          TRUE ~ sentiment
+        ))
+  }
+
   .data |>
-    plot_doc_word_bars(feature = sentiment, ...)
+    plot_doc_word_bars(feature = sentiment, reorder_y = FALSE, color_y = TRUE, ...)
 }
 
 #' @export
@@ -199,7 +221,7 @@ add_class <- function(x, class, remove = NULL) {
 #'   change_colors()
 #'
 #' austen |>
-#'   add_lexical_variety() |>
+#'   add_vocabulary() |>
 #'   visualize(labeling = "axis") |>
 #'   change_colors()
 #'

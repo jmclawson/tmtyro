@@ -1,0 +1,385 @@
+---
+title: "Introduction to tmtyro"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to tmtyro}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+#| echo: false
+library(tmtyro)
+library(ggplot2)
+
+make_radial_plot <- function(data) {
+  the_plot <- 
+    data |> 
+    ggplot(
+    aes(x = position, xend = position,
+        y = start, yend = end,
+        color = type)
+  ) +
+  geom_segment(
+    linewidth = 7,
+    alpha = 0.3, show.legend = TRUE) +
+  coord_radial(theta = "y", 
+               start = -0.3 * pi, end = 0.3 * pi,
+               inner.radius = 0.4, expand = FALSE) +
+  scale_y_continuous(
+    breaks = c(0, 50, 100),
+    limits = c(0, 100),
+    labels = c("beginner", "intermediate", "expert")
+  ) +
+  scale_x_continuous(limits = c(1,6)) +
+  labs(x = NULL, y = "skill level", color = "interface") +
+  geomtextpath::geom_labelsegment(
+    aes(label = tool), show.legend = FALSE,
+    arrow = arrow(length = unit(0.03, "npc"))) +
+  theme_minimal() +
+  theme(panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.minor.y = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank())
+  
+  if ("comparison_set" %in% colnames(data)) {
+    the_plot <- the_plot +
+      facet_wrap(facets = vars(comparison_set))
+  }
+  the_plot |> 
+    change_colors(start = 3, direction = -1)
+}
+
+comparison <- data.frame(
+  tool = c("Voyant", "tmtyro", "tidytext", "tm") |> 
+    forcats::fct_inorder(),
+  position = c(2, 3, 4, 5),
+  start = c(0, 15, 50, 60),
+  end = c(60, 65, 90, 97),
+  type = c("graphical", "code", "code", "code"))
+```
+
+Working with text as data is a multi-step process. One of the first steps involves figuring out which texts you'd like to study and gathering them in one place. After this, you'll still need to load them in some structured way before anything else. Only then is it possible to "do text analysis": tagging parts of speech, normalizing by lemma, comparing features, measuring sentiment, and so on. But even after doing the work, you'll need to communicate findings by preparing compelling explanations, visualizations, and tables. 
+
+The tmtyro package aims to make these steps fast and easy.
+
+* Purpose-built functions for collecting a corpus let you focus on *what* instead of *how*.
+* Scalable functions for loading a corpus provide room for growth, from simple word count to grammar parsing and lemmatizing.
+* Additional functions standardize approaches for measuring word use and vocabulary uniqueness, detecting sentiment, assessing term frequency--inverse document frequency, working with n-grams, and even building topic models.
+* One simple visualizing function manages most use cases, returning clean, publication-ready figures. Additional functions and arguments make it easy to customize output to suit your need.
+* One simple function prepares publication-ready tables, automatically adjusting based on the kind of data used.
+* Every function is offered as a verb using complementary syntax. This keeps workflows easy to build, easy to understand, and easy to explain.
+
+This vignette will introduce tmtyro's goals and use.
+
+## Differentiating tmtyro
+
+Wonderful text mining tools already exist for digital humanities classrooms and researchers working with text data, including the online tool [Voyant](https://voyant-tools.org), which is both powerful and easy to use for beginners; the [tm](https://tm.r-forge.r-project.org) package in R, a long-standing tool used by specialists; and the comparatively recent [tidytext](https://juliasilge.github.io/tidytext/) package in R, designed to work with the "tidyverse" suite of packages. Their designs situate them for different audiences and purposes, but each is limited in part by lock-in or difficulty. The tmtyro package aims to address these shortcomings. 
+
+```{r}
+#| echo: false
+# comparison |> 
+#   dplyr::filter(tool != "tmtyro") |> 
+#   make_radial_plot() 
+```
+[Voyant](https://voyant-tools.org)'s graphical interface makes it accessible to complete novices, but it doesn't skimp on power or features. Still, every tool has limits. The tool's easy-to-use interface ultimately limits users, since it keeps Voyant from serving as a skills ramp to other tools.
+
+Unlike Voyant, code-based methods for working with text offer both reproducibility and open-ended tooling. In R, the tidytext package is made using a "tidy data" design philosophy that is consistent with many popular R packages. This package is not aimed at beginners, and it doesn't provide methods for reading local files, but the design does situate the package well for coders who are already familiar with tidyverse packages like readr, dplyr, and ggplot2. 
+
+An R user might pick up tidytext as an added tool in a toolbox. The tm package, by contrast, is the kind of tool for which specialists will learn R to use. It predates the tidyverse packages, and its data design is often incompatible with those workflows. 
+
+```{r}
+#| echo: false
+comparison |> 
+  make_radial_plot() 
+```
+
+The tmtyro package is designed to fit in the gap between these tools. Like Voyant, it is designed for a beginner. A code-based interface can never be as intuitive as one designed graphically, but tmtyro makes decisions that strive for consistency and predictability. Workflows are provided for loading texts from a folder or for getting a corpus of texts from an online repository like Project Gutenberg. Once texts are loaded, repetitive conventions for function names make it easy to add columns for assessing sentiment, for considering n-grams, or for measuring vocabulary. Generic functions handle the details for sharing figures and tables, automatically adjusting to fit the steps taken in a given analysis.
+
+More importantly, tmtyro provides a skills ramp for users who outgrow it. A student who gains confidence in the methods provided by the package might decide to tweak a visualization using functions from ggplot2. A researcher wishing to work with a subset of titles will begin to understand methods from dplyr. And since tmtyro's data design is based on that of tidytext, a user can easily use the packages interchangeably. Some functions will remain useful even as a user can no longer reasonably be called a "tyro".
+
+## Collect a corpus
+
+Collecting texts from Project Gutenberg will be a common first step for many who work with text. The function `get_gutenberg_corpus()` does the job.^[This function was inspired by a similar function in the gutenbergr package, on which tmtyro depends, but it does noticeably more. <p>By default it retrieves the ".htm" version of a text and caches a local copy. Once the files have been cached, it parses the file for headers and places these beside the text, along with metadata like title and author. By contrast, gutenbergr's function tries to retrieve a ".zip" version of each text. While a smaller ".zip" version might be about a third of the ".htm" version of a text, it does not get cached and must be downloaded every time it is called. More frustratingly, Gutenberg mirrors increasingly seem to be dropping ".zip" files, leading to errors in loading corpora. <p>To counter hitting the Project Gutenberg servers with too many requests, tmtyro delays each download with a two second delay. Since texts are cached locally, this delay is only felt the first time a text is used.] All it needs is the Gutenberg ID number, found in the book's URL. The resulting table will include columns for Gutenberg ID, title, author, headers such as those used for chapters, and text:
+
+```{r message=FALSE}
+library(tmtyro)
+joyce <- get_gutenberg_corpus(c(2814, 4217))
+head(joyce)
+```
+
+In some cases, headers may make better sense if read as part of the text. These can be corrected with `move_header_to_text()`.
+
+```{r}
+ulysses <- get_gutenberg_corpus(4300)
+
+# dplyr is used here to choose a smaller example for comparison
+ulysses_II_7 <- ulysses |> 
+  dplyr::filter(part == "— II —",
+                section == "[ 7 ]")
+
+ulysses_II_7 |> 
+  head()
+ulysses_II_7 |> 
+  move_header_to_text(subsection) |> 
+  head(10)
+```
+
+## Prepare a corpus
+
+### Loading texts
+If a files are already collected in a folder on disk, they can be loaded using `load_texts()`. When loaded this way, the first part of the file name populates the `doc_id` column:
+
+```{r}
+corpus_austen <- load_texts("austen/")
+unique(corpus_austen$doc_id)
+head(corpus_austen)
+```
+
+### Standardizing titles
+The `standardize_titles()` function makes it easy to convert titles to something cleaner:
+
+```{r}
+corpus_austen <- corpus_austen |> 
+  standardize_titles()
+
+unique(corpus_austen$doc_id)
+```
+
+
+The same `load_texts()` function will prepare a corpus from Project Gutenberg in this format of one word per row, using the Project Gutenberg ID as the document identifier. 
+
+```{r}
+corpus_joyce <- joyce |> 
+  load_texts()
+
+head(corpus_joyce)
+```
+
+### Using another column for `doc_id`
+If a document's title is preferred over the gutenberg_id, the `identify_by()` function makes the switch:
+
+```{r}
+corpus_joyce <- joyce |> 
+  load_texts() |> 
+  identify_by(title)
+
+head(corpus_joyce)
+```
+
+The process is the same when comparing the chapters or stories in a collection of works. Just use another column like "part" as the document identifier:
+
+```{r}
+corpus_dubliners <- get_gutenberg_corpus(2814) |> 
+  load_texts() |> 
+  identify_by(part) |> 
+  standardize_titles(drop_articles = FALSE)
+
+head(corpus_dubliners)
+```
+
+## Study features
+
+Functions that follow similar naming conventions simplify the task of analyzing texts. At the same time, generic functions for visualizing and preparing tables adapt for each kind of study.
+
+### Vocabulary richness
+
+The `add_vocabulary()` function adds measurements of vocabulary richness
+
+```{r}
+vocab_dubliners <- 
+  corpus_dubliners |> 
+  add_vocabulary()
+
+vocab_dubliners |> 
+  head(10)
+```
+
+#### Preparing a table
+For vocabulary richness, `tabulize()` returns a summary of one row per document:
+
+```{r}
+vocab_dubliners |> 
+  tabulize()
+```
+
+#### Preparing a figure
+The `visualize()` function supports a few types of figures. By default, it charts each document by its length and the number of unique tokens. A figure like this is useful to compare styles.
+
+```{r}
+vocab_dubliners |> 
+  visualize()
+```
+
+Other features, such as type-token ratio, hapax-token ratio, or a sampling of hapax legomena can also be shown:
+```{r}
+vocab_dubliners |> 
+  visualize("ttr")
+```
+
+### Sentiment
+
+Similarly, the `add_sentiment()` function adds measurements of sentiment. 
+
+```{r}
+sentiment_dubliners <- corpus_dubliners |> 
+  add_sentiment()
+
+sentiment_dubliners |> 
+  head()
+```
+
+
+#### Dropping empty rows
+Since many words may not be found in a given sentiment lexicon, the `drop_empty()` function makes it easy to remove empty rows:
+
+```{r}
+sentiment_dubliners |> 
+  drop_empty() |> 
+  head()
+```
+
+#### Choosing sentiment lexicon
+The lexicon can be chosen at measurement:
+
+```{r}
+sentiment_ulysses <- ulysses |> 
+  move_header_to_text(subsection) |> 
+  load_texts() |> 
+  identify_by(section) |> 
+  add_sentiment(lexicon = "nrc")
+
+sentiment_ulysses |> 
+  drop_empty() |> 
+  head(10)
+```
+
+#### Preparing a table
+For sentiment richness, `tabulize()` returns a summary of figures for each document:
+
+```{r}
+sentiment_dubliners_part <- sentiment_dubliners |> 
+  dplyr::filter(doc_id %in% c("The Sisters", "An Encounter",  "Araby"))
+
+sentiment_dubliners_part |> 
+  tabulize()
+```
+
+Setting `drop_na` to `TRUE` will remove rows showing counts and percentages of words without sentiment measure:
+
+```{r}
+sentiment_dubliners_part |> 
+  tabulize(drop_na = TRUE)
+```
+
+The `ignore` parameter aids in selecting a subset of sentiments:
+
+```{r}
+sentiment_ulysses_part <- sentiment_ulysses |> 
+  dplyr::filter(doc_id %in% c("[ 1 ]", "[ 2 ]", "[ 3 ]"))
+
+sentiment_ulysses_part |> 
+  tabulize(ignore = c("anger", "anticipation", "disgust", "fear", "trust", "positive", "negative"))
+```
+
+#### Preparing a figure
+The `visualize()` function allows for comparison among documents in a set:
+
+```{r}
+sentiment_dubliners |> 
+  visualize()
+```
+
+```{r}
+sentiment_ulysses |> 
+  visualize(ignore = c("anger", "anticipation", "disgust", "fear", "trust", "positive", "negative"))
+```
+
+#### Changing colors
+For nearly every visualization type, the `change_colors()` function does what its name implies. By default, it adopts the "Dark2" palette from Brewer:
+```{r}
+sentiment_dubliners |> 
+  visualize() |> 
+  change_colors()
+```
+
+### N-grams
+
+Following the pattern already established, `add_ngrams()` adds columns for n-length phrases of words:
+
+```{r}
+bigrams_austen <- corpus_austen |> 
+  add_ngrams()
+
+bigrams_austen |> 
+  head()
+```
+
+```{r}
+trigrams_austen <- corpus_austen |> 
+  add_ngrams(1:3)
+
+trigrams_austen |> 
+  head()
+```
+
+#### Preparing a table
+The `tabulize()` function returns the top n-grams per document. By default, the first six are shown, but rows can be chosen freely:
+
+```{r}
+bigrams_austen |> 
+  tabulize(rows = 1:2)
+```
+
+#### Preparing a figure
+The `visualize()` function returns a network visualization demonstrated in the Tidytext book:
+
+```{r}
+bigrams_austen |> 
+  visualize()
+```
+
+#### Combining n-grams
+N-gram frequencies can be compared by combining them before visualization. Certain arguments allow for deviation from typical charts, including choosing the number of ngrams to chart and modifying colors to be set by values on the Y-axis.
+
+```{r}
+bigrams_austen |> 
+  combine_ngrams() |> 
+  visualize(rows = 1:2, color_y = TRUE) |> 
+  change_colors("okabe")
+```
+
+### Term frequency--inverse document frequency
+
+Unlike other measurements, term frequency--inverse document frequency doesn't preserve word order, and it reduces documents to one instance of each token. Since any use of tf-idf can't merely add a column, `summarize_tf_idf()` avoids the `add_` naming convention. Results are returned in in descending strength of tf-idf:
+
+```{r}
+tfidf_doubliners <- corpus_dubliners |> 
+  summarize_tf_idf()
+
+tfidf_doubliners |> 
+  head()
+```
+
+#### Preparing a table
+The `tabulize()` function returns a number of rows, which can be specified:
+```{r}
+tfidf_doubliners |> 
+  tabulize(rows = 1:3)
+```
+
+#### Preparing a figure
+The `visualize()` function returns bars showing the top words for each document:
+```{r}
+tfidf_doubliners |> 
+  visualize(rows = 1:3)
+```
+

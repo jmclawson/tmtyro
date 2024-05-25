@@ -1,3 +1,14 @@
+# tmtyro (development version 0.0.8.9000)
+
+* New `tabulize()` generic function for preparing tables with supported methods
+* Standardizing argument names between `visualize()` and `tabulize()`
+* New package documentation for getting started
+* New `collapse_rows()` function for clean tables using `gt::gt()`
+* New feature in `standardize_titles()` to keep initial articles
+* New options in `plot_doc_word_bars()` to keep the order of Y-axis values consistent and to color by Y-axis value instead of by facet
+* Rename `add_lexical_diversity()` to `add_vocabulary()`
+* Add option for renaming existing `doc_id` column when using `identify_by()`
+
 # tmtyro (development version 0.0.7.9000)
 
 * `get_gutenberg_corpus()` now retrieves HTML versions of texts from Project Gutenberg and parses header tags for section markers

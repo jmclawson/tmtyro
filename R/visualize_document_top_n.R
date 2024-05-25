@@ -1,7 +1,7 @@
 #' Plot a heatmap of ranked features
 #'
 #' @param df A tidy data frame, potentially containing columns called "doc_id" and "word"
-#' @param num The number of ranks to show, not counting ties
+#' @param rows The ranks to show, not counting ties
 #' @param by The column used for document grouping, with doc_id as the default
 #' @param feature The column to measure, as in "word" or "lemma"
 #' @param label Whether to show the rank as a label in the heatmap
@@ -28,17 +28,16 @@
 #'
 plot_doc_word_heatmap <- function(
     df,
-    num = 10,
+    rows = 1:10,
     by = doc_id,
     feature = word,
     label = TRUE){
   the_df <- df |>
-    dplyr::count({{ by }}, {{ feature }}) |>
+    dplyr::count({{ by }}, {{ feature }}, sort = TRUE) |>
     dplyr::ungroup() |>
-    dplyr::slice_max(
-      n = num,
-      by = {{ by }},
-      order_by = n) |>
+    dplyr::slice(
+      rows,
+      .by = {{ by }}) |>
     dplyr::group_by({{ by }}) |>
     dplyr::arrange(n) |>
     dplyr::mutate(rank = dplyr::row_number()) |>
@@ -140,13 +139,16 @@ dplyr::count
 #' Plot bar graphs of frequent features
 #'
 #' @param df A tidy data frame, potentially containing columns called "doc_id" and "word"
-#' @param num The number of features to show
+#' @param rows The features to show
 #' @param by The column used for document grouping, with doc_id as the default
 #' @param feature The column to measure, as in "word" or "lemma"
-#' @param percents Whether to display word frequencies as percentage instead of raw counts; defaults to TRUE
-#' @param label Whether to show the value as a label with each bar; defaults to FALSE
+#' @param inorder Whether to retain the factor order of the "by" column
+#' @param reorder_y Whether to reorder the Y-values by facet
+#' @param color_y Whether bars should be filled by Y-values
+#' @param percents Whether to display word frequencies as percentage instead of raw counts
+#' @param label Whether to show the value as a label with each bar
 #' @param label_tweak The numeric value by which to tweak the label, if shown. For percentages, this value adjusts the decimal-point precision. For raw counts, this value adjusts labels' offset from the bars
-#' @param label_inside Whether to show the value as a label inside each bar; defaults to FALSE
+#' @param label_inside Whether to show the value as a label inside each bar
 #' @param na_rm Whether to drop empty features
 #'
 #' @returns A ggplot object
@@ -171,7 +173,7 @@ dplyr::count
 #'   filter(stringr::str_detect(pos_pair, "JJ N")) |>
 #'   standardize_titles() |>
 #'   plot_doc_word_bars(
-#'     num = 5,
+#'     rows = 1:5,
 #'     feature = `adjective + noun bigram`,
 #'     percents = FALSE,
 #'     label = TRUE,
@@ -179,9 +181,12 @@ dplyr::count
 #'     label_tweak = -1)
 plot_doc_word_bars <- function(
     df,
-    num = 10,
+    rows = 1:10,
     by = doc_id,
     feature = word,
+    inorder = TRUE,
+    reorder_y = NULL,
+    color_y = FALSE,
     percents = TRUE,
     label = FALSE,
     label_tweak = 2,
@@ -195,6 +200,17 @@ plot_doc_word_bars <- function(
     df <- df |>
       dplyr::count({{ by }}, {{ feature }}) |>
       dplyr::ungroup()
+  }
+
+  if (is.null(reorder_y) && color_y) {
+    reorder_y <- FALSE
+  } else if (is.null(reorder_y)) {
+    reorder_y <- TRUE
+  }
+
+  if (inorder) {
+    df <- df |>
+      dplyr::mutate({{ by }} := forcats::fct_inorder({{ by }}))
   }
 
   if (percents) {
@@ -212,17 +228,23 @@ plot_doc_word_bars <- function(
 
   df <- df |>
     dplyr::ungroup() |>
-    dplyr::slice_max(
-      order_by = n,
-      n = num,
-      by = {{ by }}) |>
     dplyr::group_by({{ by }}) |>
-    dplyr::arrange(dplyr::desc(n)) |>
-    dplyr::mutate(
-      {{ feature }} := tidytext::reorder_within(
-        {{ feature }},
-        by = n,
-        within = {{ by }}))
+    dplyr::arrange(dplyr::desc(n), .by_group = TRUE) |>
+    dplyr::ungroup() |>
+    dplyr::slice(
+      rows,
+      .by = {{ by }}) |>
+    dplyr::group_by({{ by }}) |>
+    dplyr::arrange(dplyr::desc(n))
+
+  if (reorder_y) {
+    df <- df |>
+      dplyr::mutate(
+        {{ feature }} := tidytext::reorder_within(
+          {{ feature }},
+          by = n,
+          within = {{ by }}))
+  }
 
   prefix <- deparse(substitute(feature))
 
@@ -234,17 +256,24 @@ plot_doc_word_bars <- function(
 
   the_plot <- df |>
     internal_plot_word_bars(
-      n, rlang::enquo(by), rlang::enquo(feature), percents, label, label_tweak, label_inside)
+      n, rlang::enquo(by), color_y, rlang::enquo(feature), percents, label, label_tweak, label_inside)
+
+  if (reorder_y) {
+    the_plot <- the_plot +
+      tidytext::scale_y_reordered()
+  }
 
   if (length(unique(df[[deparse(substitute(by))]])) > 1) {
     if (percents) {
       the_plot <- the_plot +
         ggplot2::facet_wrap(ggplot2::vars({{ by }}),
-                            scales = "free_y")
+                            scales = "free_y",
+                            labeller = ggplot2::labeller({{ by }} := ggplot2::label_wrap_gen(18)))
     } else {
       the_plot <- the_plot +
         ggplot2::facet_wrap(ggplot2::vars({{ by }}),
-                            scales = "free")
+                            scales = "free",
+                            labeller = ggplot2::labeller({{ by }} := ggplot2::label_wrap_gen(18)))
     }
   }
 
@@ -256,6 +285,7 @@ internal_plot_word_bars <- function(
     df,
     x_value,
     by,
+    color_y,
     feature,
     percents,
     label,
@@ -265,10 +295,19 @@ internal_plot_word_bars <- function(
   precision <- label_tweak + 1
   offset <- label_tweak + 2
 
-  the_plot <- df |>
-    ggplot2::ggplot(ggplot2::aes(x = {{ x_value }},
-                                 y = !! feature,
-                                 fill = !! by)) +
+  if (color_y) {
+    the_plot <- df |>
+      ggplot2::ggplot(ggplot2::aes(x = {{ x_value }},
+                                   y = !! feature,
+                                   fill = !! feature))
+  } else {
+    the_plot <- df |>
+      ggplot2::ggplot(ggplot2::aes(x = {{ x_value }},
+                                   y = !! feature,
+                                   fill = !! by))
+  }
+
+  the_plot <- the_plot +
     ggplot2::geom_col(
       show.legend = FALSE,
       color = NA)
@@ -336,7 +375,6 @@ internal_plot_word_bars <- function(
     ggplot2::labs(y = NULL)
 
   the_plot +
-    tidytext::scale_y_reordered() +
     ggplot2::theme_minimal() +
     ggplot2::theme(
       panel.grid.major.y = ggplot2::element_blank(),
