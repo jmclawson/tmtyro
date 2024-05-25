@@ -17,8 +17,12 @@ knitr::opts_chunk$set(
 ```{r setup}
 #| echo: false
 library(tmtyro)
-library(ggplot2)
+```
 
+```{r}
+#| echo: false
+#| eval: false
+library(ggplot2)
 make_radial_plot <- function(data) {
   the_plot <- 
     data |> 
@@ -65,7 +69,17 @@ comparison <- data.frame(
   start = c(0, 15, 50, 60),
   end = c(60, 65, 90, 97),
   type = c("graphical", "code", "code", "code"))
+
+# comparison |> 
+#   dplyr::filter(tool != "tmtyro") |> 
+#   make_radial_plot() 
+
+comparison |> 
+  make_radial_plot() 
+
+ggsave("skill_speedometer.png", bg = "white", width = 6, height = 3.5)
 ```
+
 
 Working with text as data is a multi-step process. One of the first steps involves figuring out which texts you'd like to study and gathering them in one place. After this, you'll still need to load them in some structured way before anything else. Only then is it possible to "do text analysis": tagging parts of speech, normalizing by lemma, comparing features, measuring sentiment, and so on. But even after doing the work, you'll need to communicate findings by preparing compelling explanations, visualizations, and tables. 
 
@@ -84,23 +98,13 @@ This vignette will introduce tmtyro's goals and use.
 
 Wonderful text mining tools already exist for digital humanities classrooms and researchers working with text data, including the online tool [Voyant](https://voyant-tools.org), which is both powerful and easy to use for beginners; the [tm](https://tm.r-forge.r-project.org) package in R, a long-standing tool used by specialists; and the comparatively recent [tidytext](https://juliasilge.github.io/tidytext/) package in R, designed to work with the "tidyverse" suite of packages. Their designs situate them for different audiences and purposes, but each is limited in part by lock-in or difficulty. The tmtyro package aims to address these shortcomings. 
 
-```{r}
-#| echo: false
-# comparison |> 
-#   dplyr::filter(tool != "tmtyro") |> 
-#   make_radial_plot() 
-```
 [Voyant](https://voyant-tools.org)'s graphical interface makes it accessible to complete novices, but it doesn't skimp on power or features. Still, every tool has limits. The tool's easy-to-use interface ultimately limits users, since it keeps Voyant from serving as a skills ramp to other tools.
 
 Unlike Voyant, code-based methods for working with text offer both reproducibility and open-ended tooling. In R, the tidytext package is made using a "tidy data" design philosophy that is consistent with many popular R packages. This package is not aimed at beginners, and it doesn't provide methods for reading local files, but the design does situate the package well for coders who are already familiar with tidyverse packages like readr, dplyr, and ggplot2. 
 
 An R user might pick up tidytext as an added tool in a toolbox. The tm package, by contrast, is the kind of tool for which specialists will learn R to use. It predates the tidyverse packages, and its data design is often incompatible with those workflows. 
 
-```{r}
-#| echo: false
-comparison |> 
-  make_radial_plot() 
-```
+![Graphic comparing four tools by their accessibility to beginners. Voyant is shown as the one most accessible to beginners, followed in order by tmtyro, tidytext, and tm. Voyant is colored purple to indicate its use of a graphical interface. The other tools are colored pink to indicate their use of a coding interface.](skill_speedometer.png)
 
 The tmtyro package is designed to fit in the gap between these tools. Like Voyant, it is designed for a beginner. A code-based interface can never be as intuitive as one designed graphically, but tmtyro makes decisions that strive for consistency and predictability. Workflows are provided for loading texts from a folder or for getting a corpus of texts from an online repository like Project Gutenberg. Once texts are loaded, repetitive conventions for function names make it easy to add columns for assessing sentiment, for considering n-grams, or for measuring vocabulary. Generic functions handle the details for sharing figures and tables, automatically adjusting to fit the steps taken in a given analysis.
 
