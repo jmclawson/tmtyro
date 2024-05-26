@@ -168,8 +168,8 @@ visualize.tf_idf <- function(.data, simplify = TRUE, ...) {
       length(unique(.data$doc_id)) > 6 &&
       simplify) {
     the_plot <- the_plot +
-      theme(axis.text.x = element_blank(),
-            panel.grid.major.x = element_blank())
+      ggplot2::theme(axis.text.x = ggplot2::element_blank(),
+            panel.grid.major.x = ggplot2::element_blank())
   }
 
   the_plot
