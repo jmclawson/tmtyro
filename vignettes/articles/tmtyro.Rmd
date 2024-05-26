@@ -97,21 +97,21 @@ The tmtyro package aims to make these steps fast and easy.
 
 ## Differentiating tmtyro
 
-Wonderful text mining tools already exist for digital humanities classrooms and researchers working with text data, including the online tool [Voyant](https://voyant-tools.org), which is both powerful and easy to use for beginners; the [tm](https://tm.r-forge.r-project.org) package in R, a long-standing tool used by specialists; and the comparatively recent [tidytext](https://juliasilge.github.io/tidytext/) package in R, designed to work with the "tidyverse" suite of packages. Their designs situate them for different audiences and purposes, but each is limited in part by lock-in or difficulty. The tmtyro package aims to address some of these concerns. 
+Wonderful text mining tools already exist for digital humanities classrooms and researchers working with text data, including the online tool [Voyant](https://voyant-tools.org), which is both powerful and easy to use for beginners; the comparatively recent [tidytext](https://juliasilge.github.io/tidytext/) package in R, designed to work with the popular [tidyverse](https://tidyverse.tidyverse.org) package suite; and the [tm](https://tm.r-forge.r-project.org) package in R, a long-standing tool used by specialists. Their designs situate them for different audiences and purposes, but each is limited in part by lock-in or difficulty. The tmtyro package aims to address some of these concerns. 
 
-[Voyant](https://voyant-tools.org) is one of the best tools for working with text data. Developed by Stéfan Sinclair & Geoffrey Rockwell more than twenty years ago, it has become a standard---and with good reason. Its graphical interface makes it accessible to complete novices without skimping on power or features. Still, everything has limits. Voyant's easy-to-use interface ultimately limits users' growth, since that interface keeps Voyant from serving as a skills ramp to other tools with more options.
+[Voyant](https://voyant-tools.org) is one of the best tools for working with text data. Developed by Stéfan Sinclair and Geoffrey Rockwell more than twenty years ago, it has become a standard---and with good reason. Its graphical interface makes it accessible to complete novices without skimping on power or features. Still, everything has limits. Voyant's easy-to-use interface ultimately limits users' growth, since that interface keeps Voyant from serving as a skills ramp to other tools with more options.
 
-Unlike fixed tools like Voyant, code-based methods for working with text offer both reproducibility and open-ended tooling. In R, the tidytext package is made using a "tidy data" design philosophy that is consistent with many popular R packages. A companion book, [*Text Mining with R*](https://www.tidytextmining.com), offers impressive documentation to the package, easing the learning curve for anyone new to text mining. But its [preface](https://www.tidytextmining.com/preface) acknowledges a starting point quite a ways above zero, expecting that "the reader is at least slightly familiar with dplyr, ggplot2, and the %>% 'pipe' operator in R." Without the book, tidytext is even less suited for beginners, leaving users to fend for themselves and find some other method to read files.
+Unlike fixed tools like Voyant, code-based methods for working with text offer both reproducibility and open-ended tooling. In R, the [tidytext](https://juliasilge.github.io/tidytext/) package authored by Julia Silge and David Robinson is made using a "tidy data" design philosophy that is consistent with many popular R packages. A companion book, [*Text Mining with R*](https://www.tidytextmining.com), offers impressive documentation to the package, easing the learning curve for anyone new to text mining. But its [preface](https://www.tidytextmining.com/preface) acknowledges a starting point quite a ways above zero, expecting that "the reader is at least slightly familiar with dplyr, ggplot2, and the %>% 'pipe' operator in R." Without the book, tidytext is even less suited for beginners, leaving users to fend for themselves and find some other method to read text files into R.
 
-If the tidytext package is a helpful tool to be picked up by a seasoned R user familiar with the tidyverse, then the tm package, by contrast, is the kind of tool for which specialists will learn R to use. It predates the tidyverse package suite by nearly a decade, and its data design is often incompatible with those workflows. Nevertheless, it provides power and specialized functionality beyond these other tools, making it worth learning for those who need it.
+If the tidytext package is a helpful tool to be picked up by a seasoned R user familiar with the tidyverse, then the [tm](https://tm.r-forge.r-project.org) package, by contrast, is the kind of tool for which specialists will learn R to use. Authored by Ingo Feinerer and Kurt Hornik, it predates the tidyverse package by nearly a decade, and its data design is often incompatible with those workflows. Nevertheless, it provides power and specialized functionality beyond these other tools, making it worth learning for those who need it.
 
 ![](skill_speedometer.png)
 
-The tmtyro package is designed to fit into a space left behind. In fact, it was developed over two semesters of teaching a course on literary text mining using R, following through examples from *Text Mining in R* while students applied techniques to ask their own questions about their own selections of texts. Taught in an English department, our course was was never meant to be a "coding class," even though it did walk some students through the process of writing their first code. Approaching texts from a different angle helped us to have new insights on the things we were reading. And having working tools in front of us helped everyone test the boundaries of this new world and map how we might follow the paths laid out in the research we read. 
+The tmtyro package is designed to fit into the space remaining. It was developed over two semesters of a course on literary text mining using R, following through examples from *Text Mining in R* while students applied techniques to ask their own questions about their own selections of texts. Because it was taught in an English department, our course was never meant to be a dedicated "coding class," although it did walk some students through the process of writing their first code. Approaching texts from a different angle helped us to have new insights on the things we were reading. And having working tools in front of us helped everyone test the boundaries of this new world and map how we might follow the paths laid out in the research we read. 
 
-Like Voyant, tmtyro is designed for a beginner. Although limited in its intuitiveness by a code-based interface, tmtyro makes decisions that strive for consistency and predictability. Workflows are provided for loading texts from a folder or for getting a corpus of texts from an online repository like Project Gutenberg. Once texts are loaded, repetitive conventions for function names make it easy to add columns for assessing sentiment, for considering n-grams, or for measuring vocabulary. Generic functions handle details for sharing figures and tables, automatically adjusting to fit the steps taken in a given analysis.
+Like Voyant, tmtyro is designed for a beginner, and it strives for predictability. Workflows are provided for loading texts from a folder or for getting a corpus of texts from online collections. Once texts are loaded, repetitive conventions for function names make it easy to add columns for analysis, and generic functions handle details of tables and figures. 
 
-Most importantly, tmtyro provides a skills ramp for users who outgrow it. Code workflows are designed to help beginners more quickly start trying things out. From there, a student who gains confidence in the methods provided by the package might step beyond it to tweak a visualization using functions from ggplot2. A researcher wishing to work with a subset of titles will begin to understand methods from dplyr. And since tmtyro's data design is based on that of tidytext, a user can transition between both packages seamlessly. Users aren't expected to stick with tmtyro forever, but functions are designed to remain useful long past the "tyro" stage.
+Most importantly, tmtyro provides a skills ramp for users who outgrow it. Code workflows are designed to help beginners move quickly at the start, to try things out. From there, a student who gains confidence in the methods provided by the package might step beyond it to tweak a visualization using functions from ggplot2. A researcher wishing to work with a subset of titles will begin to understand methods from dplyr. And since tmtyro's data design is based on that of tidytext, a user can transition between both packages seamlessly. Nobody is expected to stick with tmtyro forever, but functions are designed to remain useful long past the "tyro" stage.
 
 ## Starting with tmtyro 
 
@@ -120,7 +120,7 @@ tmtyro offers a few functions to gather and load texts for study:
 * `get_gutenberg_corpus()` caches books by their Project Gutenberg ID, parses their text and headers, and presents them in a table.
 * `get_micusp_corpus()` caches papers from the Michigan Corpus of Upper-level Student Papers, parses them for metadata and contents, and presents them in a table.
 * `download_once()` caches an online file and passes the local path invisibly.
-* `load_texts()` prepares a table in "tidytext" format with one word per row and columns for metadata. These texts can be loaded from a folder of files or passed from a table like those prepared by `get_gutenberg_corpus()`. Parameters allow for lemmatization, part-of-speech processing, and other options.
+* `load_texts()` prepares a table in "tidytext" format with one word per row and columns for metadata. These texts can be loaded from a folder of files or passed from a table. Parameters allow for lemmatization, part-of-speech processing, and other options.
 
 Other functions aid with preparing a corpus:
 
@@ -163,18 +163,24 @@ ulysses |>
   head(10)
 ```
 
-Headers can be moved for specific texts in a corpus by specifying a filter:
+Headers can be moved for specific texts in a corpus by specifying a filter like `title == "Ulysses"`:
 
 ```{r}
 joyce <- joyce |> 
   move_header_to_text(subsection, title == "Ulysses")
 
-head(joyce)
+joyce |> 
+  dplyr::filter(part == "— II —",
+                section == "[ 7 ]") |> 
+  head()
 ```
 
 ### Load texts
 
-#### Load from a table
+`load_texts()` prepares a set of documents for study, either from a table or from a folder of files.
+
+#### From a table
+
 A table like the one prepared by `get_gutenberg_corpus()` can be prepared in tidytext format with one word per row using `load_texts()`. 
 
 ```{r}
@@ -184,16 +190,38 @@ corpus_ulysses <- ulysses |>
 head(corpus_ulysses)
 ```
 
-#### Load from files
-If files are already collected in a folder on disk, they can be prepared in a table using `load_texts()`. When loaded this way, the first part of the file name populates the `doc_id` column:
+#### From files
+
+If files are already collected in a folder on disk, they can be prepared in a table by passing the name of the folder to `load_texts()`. When loaded this way, the first part of the file name populates the `doc_id` column.
 
 ```{r}
-corpus_austen <- load_texts("austen/")
+corpus_austen <- load_texts("austen")
 head(corpus_austen)
 ```
 
+Passing the complete path makes it possible to work with a folder of texts outside the project directory. For instance, if a collection of Shakespeare plays are kept in some other folder on my computer, I can indicate that here:
+
+```{r}
+#| eval: false
+corpus_shakespeare <- load_texts("~/DH-Local/shakespeare_plays/historical", poetry = TRUE)
+head(corpus_shakespeare)
+```
+
+```{r}
+#| echo: false
+if (interactive()) {
+  corpus_shakespeare <- load_texts("~/DH-Local/shakespeare_plays/historical", poetry = TRUE) |> head(10)
+  saveRDS(corpus_shakespeare, "corpus_shakespeare.rds")
+} else {
+  corpus_shakespeare <- readRDS("corpus_shakespeare.rds")
+}
+
+head(corpus_shakespeare)
+```
+
 ### Standardize titles
-The `standardize_titles()` function converts titles to something cleaner, adopting title case, converting underscores to spaces, and dropping initial articles:
+
+The `standardize_titles()` function converts titles to something cleaner, adopting title case, converting underscores to spaces, and dropping initial articles.
 
 ```{r}
 before <- unique(corpus_austen$doc_id)
@@ -207,7 +235,8 @@ data.frame(before, after)
 ```
 
 ### Choose a different `doc_id`
-Documents loaded from `get_gutenberg_corpus()` use the `gutenberg_id` column as their document identifier. If a different column is preferred, `identify_by()` makes the switch:
+
+Documents loaded from `get_gutenberg_corpus()` use the `gutenberg_id` column as their document identifier. If a different column is preferred, `identify_by()` makes the switch.
 
 ```{r}
 corpus_joyce <- joyce |> 
@@ -217,7 +246,7 @@ corpus_joyce <- joyce |>
 head(corpus_joyce)
 ```
 
-The process is the same when comparing the chapters or stories in a collection of works. Choose another column like "part" as the document identifier:
+The process is the same when comparing the chapters or stories in a collection of works, when it might make sense to choose some other column as the document identifier. Since the table for *Dubliners* shows each story's title under "part," it makes sense to identify documents by that column:
 
 ```{r}
 corpus_dubliners <- get_gutenberg_corpus(2814) |> 
@@ -228,7 +257,7 @@ corpus_dubliners <- get_gutenberg_corpus(2814) |>
 head(corpus_dubliners)
 ```
 
-(I've also used `standardize_titles()` to make the `doc_id` column look a little nicer.)
+This example also uses `standardize_titles()` to make the `doc_id` column look a little nicer.
 
 ## Studying texts
 
@@ -242,14 +271,15 @@ Not every method preserves the size or shape of data passed to it:
 
 * `summarize_tf_idf()` returns a data frame for every token in each document in a corpus, with columns indicating weights for term frequency-inverse document frequency.
 
-Along with these, other functions assist with managing the process:
+Along with these, other functions assist with the process:
 
 * `drop_empty()` drops rows with missing data in any column or in specified columns.
 * `combine_ngrams()` combines multiple columns for n-grams into one.
 * `separate_ngrams()` separatesa  single column of n-grams into one column per word.
 
 ### Vocabulary richness
-The `add_vocabulary()` function adds measurements of vocabulary richness:
+
+The `add_vocabulary()` function adds measurements of vocabulary richness, including cumulative vocabulary size, indicators of hapax legomena, and markers of progress.
 
 ```{r}
 vocab_dubliners <- 
@@ -262,7 +292,7 @@ vocab_dubliners |>
 
 ### Sentiment
 
-Similarly, `add_sentiment()` adds measurements of sentiment:
+`add_sentiment()` adds measurements of sentiment using the "Bing" lexicon by default.
 
 ```{r}
 #| eval: false
@@ -288,7 +318,8 @@ sentiment_dubliners |>
 ```
 
 #### Dropping empty rows
-Since many words may not be found in a given sentiment lexicon, `drop_empty()` makes it easy to remove empty rows:
+
+Since many words may not be found in a given sentiment lexicon, `drop_empty()` makes it easy to remove empty rows.
 
 ```{r}
 sentiment_dubliners |> 
@@ -297,7 +328,8 @@ sentiment_dubliners |>
 ```
 
 #### Choosing sentiment lexicon
-The lexicon can be chosen at measurement:
+
+The lexicon can be chosen at measurement.
 
 ```{r}
 #| eval: false
@@ -330,7 +362,7 @@ sentiment_ulysses |>
 
 ### N-grams
 
-Following the same pattern, `add_ngrams()` adds columns for n-length phrases of words. By default, it prepares bigrams (or 2-grams):
+Following the same pattern, `add_ngrams()` adds columns for n-length phrases of words. By default, it prepares bigrams (or 2-grams).
 
 ```{r}
 bigrams_austen <- corpus_austen |> 
@@ -340,7 +372,7 @@ bigrams_austen |>
   head()
 ```
 
-Other n-grams can be chosen by passing a vector of numbers:
+Other n-grams can be chosen by passing a vector of numbers.
 
 ```{r}
 trigrams_austen <- corpus_austen |> 
@@ -350,9 +382,9 @@ trigrams_austen |>
   head()
 ```
 
-### Term frequency--inverse document frequency
+### Tf-idf
 
-Unlike other measurements, term frequency--inverse document frequency doesn't preserve word order, and it reduces documents to one instance of each token. Since any use of tf-idf can't merely add a column, `summarize_tf_idf()` avoids the `add_` naming convention. Results are returned in descending strength of tf-idf:
+Unlike other measurements, term frequency--inverse document frequency doesn't preserve word order, and it reduces documents to one instance of each token. Since any use of tf-idf can't merely add a column, `summarize_tf_idf()` avoids the `add_` naming convention. Results are returned in descending strength of tf-idf.
 
 ```{r}
 tfidf_dubliners <- corpus_dubliners |> 
@@ -362,7 +394,7 @@ tfidf_dubliners |>
   head()
 ```
 
-Tf-idf's method understandably emphasizes proper nouns that are unique to each document. The `remove_names` argument in `load_texts()` can help to filter out words that appear only in capitalized form:
+Tf-idf's method understandably emphasizes proper nouns that are unique to each document. The `remove_names` argument in `load_texts()` can help to filter out words that appear only in capitalized form. Removing names from *Dubliners* makes a noticeable difference in tf-idf results:
 
 ```{r}
 tfidf_dubliners <- get_gutenberg_corpus(2814) |> 
@@ -375,7 +407,7 @@ tfidf_dubliners |>
   head()
 ```
 
-## Sharing tables
+## Preparing tables
 
 The `tabulize()` function prepares tables for every kind of measurement. This repetition makes it easy to see and appreciate findings without struggling to recall a specialized function.
 
@@ -400,7 +432,7 @@ corpus_joyce |>
 
 ### Vocabulary richness
 
-When used after `add_vocabulary()`, the `tabulize()` function prepares a clean summary table:
+When used after `add_vocabulary()`, the `tabulize()` function prepares a clean summary table.
 
 ```{r}
 corpus_joyce |> 
@@ -410,7 +442,7 @@ corpus_joyce |>
 
 ### Sentiment
 
-For sentiment analysis, `tabulize()` returns a summary of figures for each document:
+For sentiment analysis, `tabulize()` returns a summary of figures for each document.
 
 ```{r}
 # dplyr is used here to choose a smaller example for comparison
@@ -421,14 +453,14 @@ sentiment_dubliners_part |>
   tabulize()
 ```
 
-Setting `drop_na = TRUE` removes rows without sentiment measure:
+Setting `drop_na = TRUE` removes rows without sentiment measure.
 
 ```{r}
 sentiment_dubliners_part |> 
   tabulize(drop_na = TRUE)
 ```
 
-The `ignore` parameter aids in selecting a subset of sentiments, converting the rest to `NA`:
+The `ignore` parameter aids in selecting a subset of sentiments, converting the rest to `NA`.
 
 ```{r}
 # dplyr is used here to choose a smaller example for comparison
@@ -441,7 +473,7 @@ sentiment_ulysses_part |>
 
 ### N-grams
 
-The `tabulize()` function returns the top n-grams per document. By default, the first six are shown, but rows can be chosen freely:
+After `add_ngrams()`, the `tabulize()` function returns the top n-grams per document. By default, the first six are shown, but rows can be chosen freely.
 
 ```{r}
 bigrams_austen |> 
@@ -449,14 +481,16 @@ bigrams_austen |>
 ```
 
 ### Tf-idf
-The `tabulize()` function returns a number of rows, which can be specified:
+
+For data frames prepared with `summarize_tf_idf()`, the `tabulize()` function returns six rows of the top-scoring words for each document. This amount can be specified with the `rows` argument.
+
 ```{r}
 tfidf_dubliners |> 
   tabulize(rows = 1:3)
 ```
 
 
-## Sharing figures
+## Preparing figures
 
 tmtyro provides many functions for preparing figures, but only one is typically needed:
 
@@ -486,7 +520,7 @@ corpus_joyce |>
 
 ### Vocabulary richness
 
-When used after `add_vocabulary()`, the `visualize()` function charts each document by its length and the number of unique tokens. A figure like this is useful to compare angles among documents.
+When used after `add_vocabulary()`, the `visualize()` function charts each document by its length and the number of unique tokens. A figure like this is useful to compare documents by their rate of vocabulary growth.
 
 ```{r}
 corpus_dubliners |> 
@@ -494,15 +528,22 @@ corpus_dubliners |>
   visualize()
 ```
 
-Other features, such as type-token ratio, hapax-token ratio, or a sampling of hapax legomena can also be shown:
+Other features, such as type-token ratio ("ttr"), hapax-token ratio ("htr"), or a sampling of hapax legomena ("hapax") can also be shown. 
+
 ```{r}
 vocab_dubliners |> 
   visualize("ttr")
 ```
 
+```{r}
+corpus_joyce |> 
+  add_vocabulary() |> 
+  visualize("hapax")
+```
+
 ### Sentiment
 
-For sentiment analysis, `visualize()` allows for comparison among documents in a set:
+For sentiment analysis, `visualize()` allows for comparison among documents in a set.
 
 ```{r}
 sentiment_dubliners |> 
@@ -517,7 +558,8 @@ sentiment_ulysses |>
 ```
 
 ### N-grams
-By default, `visualize()` returns a network visualization like that demonstrated in *Text Mining with R*:
+
+For n-grams, `visualize()` typically returns a network visualization like that demonstrated in *Text Mining with R*.
 
 ```{r}
 #| message: false
@@ -527,7 +569,7 @@ bigrams_austen |>
 
 ### Combining n-grams
 
-N-gram frequencies can be compared by combining them before visualization. Certain arguments allow for deviation from typical charts, including choosing the number of n-grams to chart and modifying colors to be set by values on the Y-axis.
+N-gram frequencies can be compared by combining them before visualization. Certain arguments allow for deviation from typical charts, including choosing the rows to chart and modifying colors to be set by values on the Y-axis.
 
 ```{r}
 bigrams_austen |> 
@@ -545,7 +587,8 @@ tfidf_dubliners |>
 ```
 
 ### Changing colors
-The `change_colors()` function does what its name implies. By default, it adopts the "Dark2" palette from Brewer:
+
+The `change_colors()` function does what its name implies. By default, it adopts the "Dark2" palette from Brewer.
 
 ```{r}
 sentiment_dubliners |> 
@@ -553,13 +596,15 @@ sentiment_dubliners |>
   change_colors()
 ```
 
-Other options are available as detailed in function documentation.
+Colors can be chosen manually.
 
 ```{r}
-tfidf_dubliners |> 
-  visualize(rows = 1:4) |> 
-  change_colors(colorset = "viridis", palette = "turbo", direction = -1)
+bigrams_austen |> 
+  visualize() |> 
+  change_colors("lightgreen")
 ```
+
+Optionally, use a named vector to set colors by value instead of by order.
 
 ```{r}
 bigrams_austen |> 
@@ -570,9 +615,12 @@ bigrams_austen |>
                   "to be" = "#555555",
                   "of the" = "#333333"))
 ```
+
+Or choose a predetermined color set and palette, as described in function documentation.
+
 ```{r}
-bigrams_austen |> 
-  visualize() |> 
-  change_colors("lightgreen")
+tfidf_dubliners |> 
+  visualize(rows = 1:4) |> 
+  change_colors(colorset = "viridis", palette = "mako", direction = -1)
 ```
 

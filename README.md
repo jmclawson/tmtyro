@@ -6,7 +6,7 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of tmtyro is to help beginners work with and analyze text for
+tmtyro is designed to help beginners work with and analyze text for
 simple and complex features. Adopting tidytext principles, tmtyro
 abstracts processes a few levels further to allow tyros apply text
 mining techniques before they’re deeply familiar with R code.

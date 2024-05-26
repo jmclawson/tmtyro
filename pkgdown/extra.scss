@@ -1,0 +1,28 @@
+/*-- scss:defaults --*/
+
+
+/*-- scss:rules --*/
+
+#main ul li {
+  font-family: Georgia,Cambria,"Times New Roman",Times,serif;
+}
+
+#main p a {
+  text-decoration: none;
+}
+
+#main p code a {
+  text-decoration: underline;
+}
+
+p, ul, ol, dl {
+  line-height: 175%;
+}
+
+h2 {
+  margin-top: 1.5em;
+}
+
+li + li {
+
+}

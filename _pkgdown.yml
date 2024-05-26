@@ -1,6 +1,13 @@
 url: https://jmclawson.github.io/tmtyro/
 template:
   bootstrap: 5
+  bootswatch: litera
+  bslib:
+    primary: "#e6288a"
+
+authors:
+  James Clawson:
+    href: https://jmclawson.net
 
 reference:
 - title: Collect
