@@ -326,7 +326,7 @@ identifier:</p>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">corpus_dubliners</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 4</span></span></span>
 <span><span class="co">#&gt;   title     author       doc_id      word </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Dubliners Joyce, James The Sisters there</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Dubliners Joyce, James The Sisters was  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Dubliners Joyce, James The Sisters no   </span></span>
@@ -355,7 +355,7 @@ vocabulary richness</p>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 11</span></span></span>
 <span><span class="co">#&gt;    title     author       doc_id     word  new_word hapax vocabulary   ttr   htr</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Dubliners Joyce, James The Siste… there TRUE     FALSE          1   1   0    </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Dubliners Joyce, James The Siste… was   TRUE     FALSE          2   1   0    </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Dubliners Joyce, James The Siste… no    TRUE     FALSE          3   1   0    </span></span>
@@ -818,7 +818,7 @@ one row per document:</p>
 <table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
 <tr class="gt_col_headings gt_spanner_row">
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id=""></th>
+<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" scope="col" id=""></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="length">length</th>
       <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="vocabulary">
         <span class="gt_column_spanner">vocabulary</span>
@@ -836,7 +836,7 @@ one row per document:</p>
 </thead>
 <tbody class="gt_table_body">
 <tr>
-<td headers="doc_id" class="gt_row gt_left">The Sisters</td>
+<td headers="doc_id" class="gt_row gt_center">The Sisters</td>
 <td headers="words" class="gt_row gt_right">3,113</td>
 <td headers="vocab" class="gt_row gt_right">903</td>
 <td headers="ttr" class="gt_row gt_right">0.290</td>
@@ -844,7 +844,7 @@ one row per document:</p>
 <td headers="htr" class="gt_row gt_right">0.177</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left">An Encounter</td>
+<td headers="doc_id" class="gt_row gt_center">An Encounter</td>
 <td headers="words" class="gt_row gt_right">3,257</td>
 <td headers="vocab" class="gt_row gt_right">980</td>
 <td headers="ttr" class="gt_row gt_right">0.301</td>
@@ -852,7 +852,7 @@ one row per document:</p>
 <td headers="htr" class="gt_row gt_right">0.190</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left">Araby</td>
+<td headers="doc_id" class="gt_row gt_center">Araby</td>
 <td headers="words" class="gt_row gt_right">2,345</td>
 <td headers="vocab" class="gt_row gt_right">825</td>
 <td headers="ttr" class="gt_row gt_right">0.352</td>
@@ -860,7 +860,7 @@ one row per document:</p>
 <td headers="htr" class="gt_row gt_right">0.239</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left">Eveline</td>
+<td headers="doc_id" class="gt_row gt_center">Eveline</td>
 <td headers="words" class="gt_row gt_right">1,831</td>
 <td headers="vocab" class="gt_row gt_right">625</td>
 <td headers="ttr" class="gt_row gt_right">0.341</td>
@@ -868,7 +868,7 @@ one row per document:</p>
 <td headers="htr" class="gt_row gt_right">0.222</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left">After the Race</td>
+<td headers="doc_id" class="gt_row gt_center">After the Race</td>
 <td headers="words" class="gt_row gt_right">2,242</td>
 <td headers="vocab" class="gt_row gt_right">862</td>
 <td headers="ttr" class="gt_row gt_right">0.384</td>
@@ -876,7 +876,7 @@ one row per document:</p>
 <td headers="htr" class="gt_row gt_right">0.278</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left">Two Gallants</td>
+<td headers="doc_id" class="gt_row gt_center">Two Gallants</td>
 <td headers="words" class="gt_row gt_right">3,921</td>
 <td headers="vocab" class="gt_row gt_right">1,143</td>
 <td headers="ttr" class="gt_row gt_right">0.292</td>
@@ -884,7 +884,7 @@ one row per document:</p>
 <td headers="htr" class="gt_row gt_right">0.187</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left">The Boarding House</td>
+<td headers="doc_id" class="gt_row gt_center">The Boarding House</td>
 <td headers="words" class="gt_row gt_right">2,818</td>
 <td headers="vocab" class="gt_row gt_right">939</td>
 <td headers="ttr" class="gt_row gt_right">0.333</td>
@@ -892,7 +892,7 @@ one row per document:</p>
 <td headers="htr" class="gt_row gt_right">0.225</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left">A Little Cloud</td>
+<td headers="doc_id" class="gt_row gt_center">A Little Cloud</td>
 <td headers="words" class="gt_row gt_right">4,941</td>
 <td headers="vocab" class="gt_row gt_right">1,381</td>
 <td headers="ttr" class="gt_row gt_right">0.279</td>
@@ -900,7 +900,7 @@ one row per document:</p>
 <td headers="htr" class="gt_row gt_right">0.177</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left">Counterparts</td>
+<td headers="doc_id" class="gt_row gt_center">Counterparts</td>
 <td headers="words" class="gt_row gt_right">4,116</td>
 <td headers="vocab" class="gt_row gt_right">1,104</td>
 <td headers="ttr" class="gt_row gt_right">0.268</td>
@@ -908,7 +908,7 @@ one row per document:</p>
 <td headers="htr" class="gt_row gt_right">0.156</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left">Clay</td>
+<td headers="doc_id" class="gt_row gt_center">Clay</td>
 <td headers="words" class="gt_row gt_right">2,659</td>
 <td headers="vocab" class="gt_row gt_right">719</td>
 <td headers="ttr" class="gt_row gt_right">0.270</td>
@@ -916,7 +916,7 @@ one row per document:</p>
 <td headers="htr" class="gt_row gt_right">0.155</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left">A Painful Case</td>
+<td headers="doc_id" class="gt_row gt_center">A Painful Case</td>
 <td headers="words" class="gt_row gt_right">3,641</td>
 <td headers="vocab" class="gt_row gt_right">1,235</td>
 <td headers="ttr" class="gt_row gt_right">0.339</td>
@@ -924,7 +924,7 @@ one row per document:</p>
 <td headers="htr" class="gt_row gt_right">0.231</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left">Ivy Day in the Committee Room</td>
+<td headers="doc_id" class="gt_row gt_center">Ivy Day in the Committee Room</td>
 <td headers="words" class="gt_row gt_right">5,249</td>
 <td headers="vocab" class="gt_row gt_right">1,245</td>
 <td headers="ttr" class="gt_row gt_right">0.237</td>
@@ -932,7 +932,7 @@ one row per document:</p>
 <td headers="htr" class="gt_row gt_right">0.141</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left">A Mother</td>
+<td headers="doc_id" class="gt_row gt_center">A Mother</td>
 <td headers="words" class="gt_row gt_right">4,542</td>
 <td headers="vocab" class="gt_row gt_right">1,189</td>
 <td headers="ttr" class="gt_row gt_right">0.262</td>
@@ -940,7 +940,7 @@ one row per document:</p>
 <td headers="htr" class="gt_row gt_right">0.168</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left">Grace</td>
+<td headers="doc_id" class="gt_row gt_center">Grace</td>
 <td headers="words" class="gt_row gt_right">7,547</td>
 <td headers="vocab" class="gt_row gt_right">1,796</td>
 <td headers="ttr" class="gt_row gt_right">0.238</td>
@@ -948,7 +948,7 @@ one row per document:</p>
 <td headers="htr" class="gt_row gt_right">0.147</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left">The Dead</td>
+<td headers="doc_id" class="gt_row gt_center">The Dead</td>
 <td headers="words" class="gt_row gt_right">15,731</td>
 <td headers="vocab" class="gt_row gt_right">2,746</td>
 <td headers="ttr" class="gt_row gt_right">0.175</td>
@@ -3228,45 +3228,67 @@ each token. Since any use of tf-idf can’t merely add a column,
 convention. Results are returned in in descending strength of
 tf-idf:</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tfidf_doubliners</span> <span class="op">&lt;-</span> <span class="va">corpus_dubliners</span> <span class="op">|&gt;</span> </span>
+<code class="sourceCode R"><span><span class="va">tfidf_dubliners</span> <span class="op">&lt;-</span> <span class="va">corpus_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/summarize_tf_idf.html">summarize_tf_idf</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">tfidf_doubliners</span> <span class="op">|&gt;</span> </span>
+<span><span class="va">tfidf_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
 <span><span class="co">#&gt;   doc_id                        word         n      tf   idf tf_idf</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>                         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Clay                          maria       40 0.015<span style="text-decoration: underline;">0</span>   2.71 0.040<span style="text-decoration: underline;">7</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Two Gallants                  corley      46 0.011<span style="text-decoration: underline;">7</span>   2.71 0.031<span style="text-decoration: underline;">8</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> After the Race                jimmy       24 0.010<span style="text-decoration: underline;">7</span>   2.71 0.029<span style="text-decoration: underline;">0</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Ivy Day in the Committee Room henchy      53 0.010<span style="text-decoration: underline;">1</span>   2.71 0.027<span style="text-decoration: underline;">3</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> A Little Cloud                gallaher    48 0.009<span style="text-decoration: underline;">71</span>  2.71 0.026<span style="text-decoration: underline;">3</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> The Dead                      gabriel    142 0.009<span style="text-decoration: underline;">03</span>  2.71 0.024<span style="text-decoration: underline;">4</span></span></span></code></pre></div>
+<p>Tf-idf understandably emphasizes proper nouns that are unique to each
+document. The <code>remove_names</code> argument in
+<code><a href="../reference/load_texts.html">load_texts()</a></code> can help to filter out words that appear only
+in capitalized form:</p>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tfidf_dubliners</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_gutenberg_corpus.html">get_gutenberg_corpus</a></span><span class="op">(</span><span class="fl">2814</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/load_texts.html">load_texts</a></span><span class="op">(</span>remove_names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/identify_by.html">identify_by</a></span><span class="op">(</span><span class="va">part</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/standardize_titles.html">standardize_titles</a></span><span class="op">(</span>drop_articles <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/summarize_tf_idf.html">summarize_tf_idf</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">tfidf_dubliners</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
+<span><span class="co">#&gt;   doc_id         word       n      tf   idf  tf_idf</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> The Dead       aunt     101 0.006<span style="text-decoration: underline;">93</span> 1.61  0.011<span style="text-decoration: underline;">2</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Araby          bazaar     9 0.004<span style="text-decoration: underline;">06</span> 2.71  0.011<span style="text-decoration: underline;">0</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> The Sisters    aunt      19 0.006<span style="text-decoration: underline;">48</span> 1.61  0.010<span style="text-decoration: underline;">4</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> After the Race cars       6 0.002<span style="text-decoration: underline;">85</span> 2.71  0.007<span style="text-decoration: underline;">73</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> An Encounter   we        58 0.018<span style="text-decoration: underline;">9</span>  0.405 0.007<span style="text-decoration: underline;">67</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> After the Race car       11 0.005<span style="text-decoration: underline;">23</span> 1.32  0.006<span style="text-decoration: underline;">92</span></span></span></code></pre></div>
 <div class="section level4">
 <h4 id="preparing-a-table-3">Preparing a table<a class="anchor" aria-label="anchor" href="#preparing-a-table-3"></a>
 </h4>
 <p>The <code><a href="../reference/tabulize.html">tabulize()</a></code> function returns a number of rows, which
 can be specified:</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tfidf_doubliners</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span></code></pre></div>
-<div id="ifokferznf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ifokferznf table {
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tfidf_dubliners</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span></code></pre></div>
+<div id="rbdvrmkzub" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#rbdvrmkzub table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#ifokferznf thead, #ifokferznf tbody, #ifokferznf tfoot, #ifokferznf tr, #ifokferznf td, #ifokferznf th {
+#rbdvrmkzub thead, #rbdvrmkzub tbody, #rbdvrmkzub tfoot, #rbdvrmkzub tr, #rbdvrmkzub td, #rbdvrmkzub th {
   border-style: none;
 }
 
-#ifokferznf p {
+#rbdvrmkzub p {
   margin: 0;
   padding: 0;
 }
 
-#ifokferznf .gt_table {
+#rbdvrmkzub .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -3292,12 +3314,12 @@ can be specified:</p>
   border-left-color: #D3D3D3;
 }
 
-#ifokferznf .gt_caption {
+#rbdvrmkzub .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#ifokferznf .gt_title {
+#rbdvrmkzub .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3309,7 +3331,7 @@ can be specified:</p>
   border-bottom-width: 0;
 }
 
-#ifokferznf .gt_subtitle {
+#rbdvrmkzub .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3321,7 +3343,7 @@ can be specified:</p>
   border-top-width: 0;
 }
 
-#ifokferznf .gt_heading {
+#rbdvrmkzub .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3333,13 +3355,13 @@ can be specified:</p>
   border-right-color: #D3D3D3;
 }
 
-#ifokferznf .gt_bottom_border {
+#rbdvrmkzub .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ifokferznf .gt_col_headings {
+#rbdvrmkzub .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3354,7 +3376,7 @@ can be specified:</p>
   border-right-color: #D3D3D3;
 }
 
-#ifokferznf .gt_col_heading {
+#rbdvrmkzub .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3374,7 +3396,7 @@ can be specified:</p>
   overflow-x: hidden;
 }
 
-#ifokferznf .gt_column_spanner_outer {
+#rbdvrmkzub .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3386,15 +3408,15 @@ can be specified:</p>
   padding-right: 4px;
 }
 
-#ifokferznf .gt_column_spanner_outer:first-child {
+#rbdvrmkzub .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ifokferznf .gt_column_spanner_outer:last-child {
+#rbdvrmkzub .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ifokferznf .gt_column_spanner {
+#rbdvrmkzub .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3406,11 +3428,11 @@ can be specified:</p>
   width: 100%;
 }
 
-#ifokferznf .gt_spanner_row {
+#rbdvrmkzub .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#ifokferznf .gt_group_heading {
+#rbdvrmkzub .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3436,7 +3458,7 @@ can be specified:</p>
   text-align: left;
 }
 
-#ifokferznf .gt_empty_group_heading {
+#rbdvrmkzub .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3451,15 +3473,15 @@ can be specified:</p>
   vertical-align: middle;
 }
 
-#ifokferznf .gt_from_md > :first-child {
+#rbdvrmkzub .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ifokferznf .gt_from_md > :last-child {
+#rbdvrmkzub .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ifokferznf .gt_row {
+#rbdvrmkzub .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3478,7 +3500,7 @@ can be specified:</p>
   overflow-x: hidden;
 }
 
-#ifokferznf .gt_stub {
+#rbdvrmkzub .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3491,7 +3513,7 @@ can be specified:</p>
   padding-right: 5px;
 }
 
-#ifokferznf .gt_stub_row_group {
+#rbdvrmkzub .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3505,15 +3527,15 @@ can be specified:</p>
   vertical-align: top;
 }
 
-#ifokferznf .gt_row_group_first td {
+#rbdvrmkzub .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ifokferznf .gt_row_group_first th {
+#rbdvrmkzub .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#ifokferznf .gt_summary_row {
+#rbdvrmkzub .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3523,16 +3545,16 @@ can be specified:</p>
   padding-right: 5px;
 }
 
-#ifokferznf .gt_first_summary_row {
+#rbdvrmkzub .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ifokferznf .gt_first_summary_row.thick {
+#rbdvrmkzub .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ifokferznf .gt_last_summary_row {
+#rbdvrmkzub .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3542,7 +3564,7 @@ can be specified:</p>
   border-bottom-color: #D3D3D3;
 }
 
-#ifokferznf .gt_grand_summary_row {
+#rbdvrmkzub .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3552,7 +3574,7 @@ can be specified:</p>
   padding-right: 5px;
 }
 
-#ifokferznf .gt_first_grand_summary_row {
+#rbdvrmkzub .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3562,7 +3584,7 @@ can be specified:</p>
   border-top-color: #D3D3D3;
 }
 
-#ifokferznf .gt_last_grand_summary_row_top {
+#rbdvrmkzub .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3572,11 +3594,11 @@ can be specified:</p>
   border-bottom-color: #D3D3D3;
 }
 
-#ifokferznf .gt_striped {
+#rbdvrmkzub .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ifokferznf .gt_table_body {
+#rbdvrmkzub .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3585,7 +3607,7 @@ can be specified:</p>
   border-bottom-color: #D3D3D3;
 }
 
-#ifokferznf .gt_footnotes {
+#rbdvrmkzub .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3599,7 +3621,7 @@ can be specified:</p>
   border-right-color: #D3D3D3;
 }
 
-#ifokferznf .gt_footnote {
+#rbdvrmkzub .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3608,7 +3630,7 @@ can be specified:</p>
   padding-right: 5px;
 }
 
-#ifokferznf .gt_sourcenotes {
+#rbdvrmkzub .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3622,7 +3644,7 @@ can be specified:</p>
   border-right-color: #D3D3D3;
 }
 
-#ifokferznf .gt_sourcenote {
+#rbdvrmkzub .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3630,69 +3652,69 @@ can be specified:</p>
   padding-right: 5px;
 }
 
-#ifokferznf .gt_left {
+#rbdvrmkzub .gt_left {
   text-align: left;
 }
 
-#ifokferznf .gt_center {
+#rbdvrmkzub .gt_center {
   text-align: center;
 }
 
-#ifokferznf .gt_right {
+#rbdvrmkzub .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ifokferznf .gt_font_normal {
+#rbdvrmkzub .gt_font_normal {
   font-weight: normal;
 }
 
-#ifokferznf .gt_font_bold {
+#rbdvrmkzub .gt_font_bold {
   font-weight: bold;
 }
 
-#ifokferznf .gt_font_italic {
+#rbdvrmkzub .gt_font_italic {
   font-style: italic;
 }
 
-#ifokferznf .gt_super {
+#rbdvrmkzub .gt_super {
   font-size: 65%;
 }
 
-#ifokferznf .gt_footnote_marks {
+#rbdvrmkzub .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#ifokferznf .gt_asterisk {
+#rbdvrmkzub .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ifokferznf .gt_indent_1 {
+#rbdvrmkzub .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ifokferznf .gt_indent_2 {
+#rbdvrmkzub .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ifokferznf .gt_indent_3 {
+#rbdvrmkzub .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ifokferznf .gt_indent_4 {
+#rbdvrmkzub .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ifokferznf .gt_indent_5 {
+#rbdvrmkzub .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
 <table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead><tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id=""></th>
+<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id=""></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="word">word</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n">n</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="tf">tf</th>
@@ -3701,364 +3723,484 @@ can be specified:</p>
     </tr></thead>
 <tbody class="gt_table_body">
 <tr>
-<td headers="doc_id" class="gt_row gt_left">A Little Cloud</td>
-<td headers="word" class="gt_row gt_left">gallaher</td>
-<td headers="n" class="gt_row gt_right">48</td>
-<td headers="tf" class="gt_row gt_right">0.00971</td>
-<td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.02631</td>
+<td headers="doc_id" class="gt_row gt_center">The Sisters</td>
+<td headers="word" class="gt_row gt_left">aunt</td>
+<td headers="n" class="gt_row gt_right">19</td>
+<td headers="tf" class="gt_row gt_right">0.00648</td>
+<td headers="idf" class="gt_row gt_right">1.60944</td>
+<td headers="tf_idf" class="gt_row gt_right">0.01044</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">A Little Cloud</td>
-<td headers="word" class="gt_row gt_left">chandler</td>
-<td headers="n" class="gt_row gt_right">41</td>
-<td headers="tf" class="gt_row gt_right">0.00830</td>
-<td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.02247</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">A Little Cloud</td>
-<td headers="word" class="gt_row gt_left">ignatius</td>
-<td headers="n" class="gt_row gt_right">38</td>
-<td headers="tf" class="gt_row gt_right">0.00769</td>
-<td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.02083</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left">A Mother</td>
-<td headers="word" class="gt_row gt_left">kearney</td>
-<td headers="n" class="gt_row gt_right">50</td>
-<td headers="tf" class="gt_row gt_right">0.01101</td>
-<td headers="idf" class="gt_row gt_right">2.01490</td>
-<td headers="tf_idf" class="gt_row gt_right">0.02218</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">A Mother</td>
-<td headers="word" class="gt_row gt_left">holohan</td>
-<td headers="n" class="gt_row gt_right">37</td>
-<td headers="tf" class="gt_row gt_right">0.00815</td>
-<td headers="idf" class="gt_row gt_right">2.01490</td>
-<td headers="tf_idf" class="gt_row gt_right">0.01641</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">A Mother</td>
-<td headers="word" class="gt_row gt_left">fitzpatrick</td>
-<td headers="n" class="gt_row gt_right">15</td>
-<td headers="tf" class="gt_row gt_right">0.00330</td>
-<td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.00894</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left">A Painful Case</td>
-<td headers="word" class="gt_row gt_left">duffy</td>
-<td headers="n" class="gt_row gt_right">8</td>
-<td headers="tf" class="gt_row gt_right">0.00220</td>
-<td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.00595</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">A Painful Case</td>
-<td headers="word" class="gt_row gt_left">sinico</td>
-<td headers="n" class="gt_row gt_right">8</td>
-<td headers="tf" class="gt_row gt_right">0.00220</td>
-<td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.00595</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">A Painful Case</td>
-<td headers="word" class="gt_row gt_left">deceased</td>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">The Sisters</td>
+<td headers="word" class="gt_row gt_left">snuff</td>
 <td headers="n" class="gt_row gt_right">6</td>
-<td headers="tf" class="gt_row gt_right">0.00165</td>
+<td headers="tf" class="gt_row gt_right">0.00205</td>
 <td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.00446</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00555</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left">After the Race</td>
-<td headers="word" class="gt_row gt_left">jimmy</td>
-<td headers="n" class="gt_row gt_right">24</td>
-<td headers="tf" class="gt_row gt_right">0.01070</td>
-<td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.02899</td>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">The Sisters</td>
+<td headers="word" class="gt_row gt_left">me</td>
+<td headers="n" class="gt_row gt_right">35</td>
+<td headers="tf" class="gt_row gt_right">0.01195</td>
+<td headers="idf" class="gt_row gt_right">0.31015</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00370</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">After the Race</td>
-<td headers="word" class="gt_row gt_left">ségouin</td>
-<td headers="n" class="gt_row gt_right">12</td>
-<td headers="tf" class="gt_row gt_right">0.00535</td>
-<td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.01449</td>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">The Sisters</td>
+<td headers="word" class="gt_row gt_left">my</td>
+<td headers="n" class="gt_row gt_right">44</td>
+<td headers="tf" class="gt_row gt_right">0.01502</td>
+<td headers="idf" class="gt_row gt_right">0.22314</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00335</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">After the Race</td>
-<td headers="word" class="gt_row gt_left">villona</td>
-<td headers="n" class="gt_row gt_right">12</td>
-<td headers="tf" class="gt_row gt_right">0.00535</td>
-<td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.01449</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left">An Encounter</td>
-<td headers="word" class="gt_row gt_left">mahony</td>
-<td headers="n" class="gt_row gt_right">21</td>
-<td headers="tf" class="gt_row gt_right">0.00645</td>
-<td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.01746</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">An Encounter</td>
-<td headers="word" class="gt_row gt_left">dillon</td>
-<td headers="n" class="gt_row gt_right">12</td>
-<td headers="tf" class="gt_row gt_right">0.00368</td>
-<td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.00998</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">An Encounter</td>
+<td headers="doc_id" class="gt_row gt_center">An Encounter</td>
 <td headers="word" class="gt_row gt_left">we</td>
 <td headers="n" class="gt_row gt_right">58</td>
-<td headers="tf" class="gt_row gt_right">0.01781</td>
+<td headers="tf" class="gt_row gt_right">0.01890</td>
 <td headers="idf" class="gt_row gt_right">0.40547</td>
-<td headers="tf_idf" class="gt_row gt_right">0.00722</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00767</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left">Araby</td>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">An Encounter</td>
+<td headers="word" class="gt_row gt_left">field</td>
+<td headers="n" class="gt_row gt_right">9</td>
+<td headers="tf" class="gt_row gt_right">0.00293</td>
+<td headers="idf" class="gt_row gt_right">1.32176</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00388</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">An Encounter</td>
+<td headers="word" class="gt_row gt_left">us</td>
+<td headers="n" class="gt_row gt_right">27</td>
+<td headers="tf" class="gt_row gt_right">0.00880</td>
+<td headers="idf" class="gt_row gt_right">0.40547</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00357</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">An Encounter</td>
+<td headers="word" class="gt_row gt_left">cat</td>
+<td headers="n" class="gt_row gt_right">4</td>
+<td headers="tf" class="gt_row gt_right">0.00130</td>
+<td headers="idf" class="gt_row gt_right">2.70805</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00353</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center">Araby</td>
 <td headers="word" class="gt_row gt_left">bazaar</td>
 <td headers="n" class="gt_row gt_right">9</td>
-<td headers="tf" class="gt_row gt_right">0.00384</td>
+<td headers="tf" class="gt_row gt_right">0.00406</td>
 <td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.01039</td>
+<td headers="tf_idf" class="gt_row gt_right">0.01100</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">Araby</td>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Araby</td>
 <td headers="word" class="gt_row gt_left">uncle</td>
 <td headers="n" class="gt_row gt_right">5</td>
-<td headers="tf" class="gt_row gt_right">0.00213</td>
+<td headers="tf" class="gt_row gt_right">0.00226</td>
 <td headers="idf" class="gt_row gt_right">2.01490</td>
-<td headers="tf_idf" class="gt_row gt_right">0.00430</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00455</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">Araby</td>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Araby</td>
 <td headers="word" class="gt_row gt_left">my</td>
 <td headers="n" class="gt_row gt_right">43</td>
-<td headers="tf" class="gt_row gt_right">0.01834</td>
+<td headers="tf" class="gt_row gt_right">0.01941</td>
 <td headers="idf" class="gt_row gt_right">0.22314</td>
-<td headers="tf_idf" class="gt_row gt_right">0.00409</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00433</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left">Clay</td>
-<td headers="word" class="gt_row gt_left">maria</td>
-<td headers="n" class="gt_row gt_right">40</td>
-<td headers="tf" class="gt_row gt_right">0.01504</td>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Araby</td>
+<td headers="word" class="gt_row gt_left">stall</td>
+<td headers="n" class="gt_row gt_right">3</td>
+<td headers="tf" class="gt_row gt_right">0.00135</td>
 <td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.04074</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00367</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">Clay</td>
-<td headers="word" class="gt_row gt_left">joe</td>
-<td headers="n" class="gt_row gt_right">20</td>
-<td headers="tf" class="gt_row gt_right">0.00752</td>
-<td headers="idf" class="gt_row gt_right">1.60944</td>
-<td headers="tf_idf" class="gt_row gt_right">0.01211</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">Clay</td>
-<td headers="word" class="gt_row gt_left">donnelly</td>
-<td headers="n" class="gt_row gt_right">11</td>
-<td headers="tf" class="gt_row gt_right">0.00414</td>
-<td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.01120</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left">Counterparts</td>
-<td headers="word" class="gt_row gt_left">alleyne</td>
-<td headers="n" class="gt_row gt_right">26</td>
-<td headers="tf" class="gt_row gt_right">0.00632</td>
-<td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.01711</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">Counterparts</td>
-<td headers="word" class="gt_row gt_left">farrington</td>
-<td headers="n" class="gt_row gt_right">19</td>
-<td headers="tf" class="gt_row gt_right">0.00462</td>
-<td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.01250</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">Counterparts</td>
-<td headers="word" class="gt_row gt_left">weathers</td>
-<td headers="n" class="gt_row gt_right">11</td>
-<td headers="tf" class="gt_row gt_right">0.00267</td>
-<td headers="idf" class="gt_row gt_right">2.01490</td>
-<td headers="tf_idf" class="gt_row gt_right">0.00538</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left">Eveline</td>
-<td headers="word" class="gt_row gt_left">harry</td>
-<td headers="n" class="gt_row gt_right">5</td>
-<td headers="tf" class="gt_row gt_right">0.00273</td>
-<td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.00740</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">Eveline</td>
+<td headers="doc_id" class="gt_row gt_center">Eveline</td>
 <td headers="word" class="gt_row gt_left">avenue</td>
 <td headers="n" class="gt_row gt_right">4</td>
-<td headers="tf" class="gt_row gt_right">0.00218</td>
+<td headers="tf" class="gt_row gt_right">0.00225</td>
 <td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.00592</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00610</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">Eveline</td>
-<td headers="word" class="gt_row gt_left">ernest</td>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Eveline</td>
+<td headers="word" class="gt_row gt_left">her</td>
+<td headers="n" class="gt_row gt_right">96</td>
+<td headers="tf" class="gt_row gt_right">0.05402</td>
+<td headers="idf" class="gt_row gt_right">0.06899</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00373</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Eveline</td>
+<td headers="word" class="gt_row gt_left">mother’s</td>
+<td headers="n" class="gt_row gt_right">5</td>
+<td headers="tf" class="gt_row gt_right">0.00281</td>
+<td headers="idf" class="gt_row gt_right">1.32176</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00372</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Eveline</td>
+<td headers="word" class="gt_row gt_left">frank</td>
+<td headers="n" class="gt_row gt_right">6</td>
+<td headers="tf" class="gt_row gt_right">0.00338</td>
+<td headers="idf" class="gt_row gt_right">1.09861</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00371</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center">After the Race</td>
+<td headers="word" class="gt_row gt_left">cars</td>
+<td headers="n" class="gt_row gt_right">6</td>
+<td headers="tf" class="gt_row gt_right">0.00285</td>
+<td headers="idf" class="gt_row gt_right">2.70805</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00773</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">After the Race</td>
+<td headers="word" class="gt_row gt_left">car</td>
+<td headers="n" class="gt_row gt_right">11</td>
+<td headers="tf" class="gt_row gt_right">0.00523</td>
+<td headers="idf" class="gt_row gt_right">1.32176</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00692</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">After the Race</td>
+<td headers="word" class="gt_row gt_left">host</td>
+<td headers="n" class="gt_row gt_right">3</td>
+<td headers="tf" class="gt_row gt_right">0.00143</td>
+<td headers="idf" class="gt_row gt_right">2.70805</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00386</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">After the Race</td>
+<td headers="word" class="gt_row gt_left">motor</td>
+<td headers="n" class="gt_row gt_right">3</td>
+<td headers="tf" class="gt_row gt_right">0.00143</td>
+<td headers="idf" class="gt_row gt_right">2.70805</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00386</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center">Two Gallants</td>
+<td headers="word" class="gt_row gt_left">peas</td>
 <td headers="n" class="gt_row gt_right">4</td>
-<td headers="tf" class="gt_row gt_right">0.00218</td>
+<td headers="tf" class="gt_row gt_right">0.00107</td>
 <td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.00592</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00289</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left">Grace</td>
-<td headers="word" class="gt_row gt_left">kernan</td>
-<td headers="n" class="gt_row gt_right">66</td>
-<td headers="tf" class="gt_row gt_right">0.00875</td>
-<td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.02368</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">Grace</td>
-<td headers="word" class="gt_row gt_left">cunningham</td>
-<td headers="n" class="gt_row gt_right">57</td>
-<td headers="tf" class="gt_row gt_right">0.00755</td>
-<td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.02045</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">Grace</td>
-<td headers="word" class="gt_row gt_left">power</td>
-<td headers="n" class="gt_row gt_right">49</td>
-<td headers="tf" class="gt_row gt_right">0.00649</td>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Two Gallants</td>
+<td headers="word" class="gt_row gt_left">ginger</td>
+<td headers="n" class="gt_row gt_right">5</td>
+<td headers="tf" class="gt_row gt_right">0.00134</td>
 <td headers="idf" class="gt_row gt_right">2.01490</td>
-<td headers="tf_idf" class="gt_row gt_right">0.01308</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00269</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left">Ivy Day in the Committee Room</td>
-<td headers="word" class="gt_row gt_left">henchy</td>
-<td headers="n" class="gt_row gt_right">53</td>
-<td headers="tf" class="gt_row gt_right">0.01010</td>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Two Gallants</td>
+<td headers="word" class="gt_row gt_left">companion’s</td>
+<td headers="n" class="gt_row gt_right">3</td>
+<td headers="tf" class="gt_row gt_right">0.00080</td>
 <td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.02734</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00217</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">Ivy Day in the Committee Room</td>
-<td headers="word" class="gt_row gt_left">o’connor</td>
-<td headers="n" class="gt_row gt_right">45</td>
-<td headers="tf" class="gt_row gt_right">0.00857</td>
-<td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.02322</td>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Two Gallants</td>
+<td headers="word" class="gt_row gt_left">girls</td>
+<td headers="n" class="gt_row gt_right">8</td>
+<td headers="tf" class="gt_row gt_right">0.00214</td>
+<td headers="idf" class="gt_row gt_right">0.91629</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00196</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">Ivy Day in the Committee Room</td>
-<td headers="word" class="gt_row gt_left">hynes</td>
-<td headers="n" class="gt_row gt_right">24</td>
-<td headers="tf" class="gt_row gt_right">0.00457</td>
-<td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.01238</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left">The Boarding House</td>
-<td headers="word" class="gt_row gt_left">polly</td>
-<td headers="n" class="gt_row gt_right">15</td>
-<td headers="tf" class="gt_row gt_right">0.00532</td>
-<td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.01441</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">The Boarding House</td>
-<td headers="word" class="gt_row gt_left">mooney</td>
-<td headers="n" class="gt_row gt_right">13</td>
-<td headers="tf" class="gt_row gt_right">0.00461</td>
-<td headers="idf" class="gt_row gt_right">2.01490</td>
-<td headers="tf_idf" class="gt_row gt_right">0.00930</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">The Boarding House</td>
+<td headers="doc_id" class="gt_row gt_center">The Boarding House</td>
 <td headers="word" class="gt_row gt_left">reparation</td>
 <td headers="n" class="gt_row gt_right">5</td>
-<td headers="tf" class="gt_row gt_right">0.00177</td>
+<td headers="tf" class="gt_row gt_right">0.00184</td>
 <td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.00480</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00498</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left">The Dead</td>
-<td headers="word" class="gt_row gt_left">gabriel</td>
-<td headers="n" class="gt_row gt_right">142</td>
-<td headers="tf" class="gt_row gt_right">0.00903</td>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">The Boarding House</td>
+<td headers="word" class="gt_row gt_left">boarding</td>
+<td headers="n" class="gt_row gt_right">4</td>
+<td headers="tf" class="gt_row gt_right">0.00147</td>
 <td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.02444</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00398</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">The Dead</td>
-<td headers="word" class="gt_row gt_left">kate</td>
-<td headers="n" class="gt_row gt_right">73</td>
-<td headers="tf" class="gt_row gt_right">0.00464</td>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">The Boarding House</td>
+<td headers="word" class="gt_row gt_left">bread</td>
+<td headers="n" class="gt_row gt_right">3</td>
+<td headers="tf" class="gt_row gt_right">0.00110</td>
 <td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.01257</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00299</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">The Dead</td>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">The Boarding House</td>
+<td headers="word" class="gt_row gt_left">affair</td>
+<td headers="n" class="gt_row gt_right">6</td>
+<td headers="tf" class="gt_row gt_right">0.00221</td>
+<td headers="idf" class="gt_row gt_right">1.09861</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00242</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center">A Little Cloud</td>
+<td headers="word" class="gt_row gt_left">child</td>
+<td headers="n" class="gt_row gt_right">13</td>
+<td headers="tf" class="gt_row gt_right">0.00282</td>
+<td headers="idf" class="gt_row gt_right">1.09861</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00309</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">A Little Cloud</td>
+<td headers="word" class="gt_row gt_left">whisky</td>
+<td headers="n" class="gt_row gt_right">7</td>
+<td headers="tf" class="gt_row gt_right">0.00152</td>
+<td headers="idf" class="gt_row gt_right">1.60944</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00244</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">A Little Cloud</td>
+<td headers="word" class="gt_row gt_left">melancholy</td>
+<td headers="n" class="gt_row gt_right">6</td>
+<td headers="tf" class="gt_row gt_right">0.00130</td>
+<td headers="idf" class="gt_row gt_right">1.60944</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00209</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">A Little Cloud</td>
+<td headers="word" class="gt_row gt_left">immoral</td>
+<td headers="n" class="gt_row gt_right">3</td>
+<td headers="tf" class="gt_row gt_right">0.00065</td>
+<td headers="idf" class="gt_row gt_right">2.70805</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00176</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center">Counterparts</td>
+<td headers="word" class="gt_row gt_left">weathers</td>
+<td headers="n" class="gt_row gt_right">11</td>
+<td headers="tf" class="gt_row gt_right">0.00283</td>
+<td headers="idf" class="gt_row gt_right">2.01490</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00570</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Counterparts</td>
+<td headers="word" class="gt_row gt_left">pa</td>
+<td headers="n" class="gt_row gt_right">8</td>
+<td headers="tf" class="gt_row gt_right">0.00206</td>
+<td headers="idf" class="gt_row gt_right">2.70805</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00557</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Counterparts</td>
+<td headers="word" class="gt_row gt_left">desk</td>
+<td headers="n" class="gt_row gt_right">8</td>
+<td headers="tf" class="gt_row gt_right">0.00206</td>
+<td headers="idf" class="gt_row gt_right">1.60944</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00331</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Counterparts</td>
+<td headers="word" class="gt_row gt_left">clerk</td>
+<td headers="n" class="gt_row gt_right">9</td>
+<td headers="tf" class="gt_row gt_right">0.00231</td>
+<td headers="idf" class="gt_row gt_right">1.32176</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00306</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center">Clay</td>
+<td headers="word" class="gt_row gt_left">tip</td>
+<td headers="n" class="gt_row gt_right">6</td>
+<td headers="tf" class="gt_row gt_right">0.00237</td>
+<td headers="idf" class="gt_row gt_right">2.01490</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00478</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Clay</td>
+<td headers="word" class="gt_row gt_left">cakes</td>
+<td headers="n" class="gt_row gt_right">4</td>
+<td headers="tf" class="gt_row gt_right">0.00158</td>
+<td headers="idf" class="gt_row gt_right">2.70805</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00428</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Clay</td>
+<td headers="word" class="gt_row gt_left">matron</td>
+<td headers="n" class="gt_row gt_right">4</td>
+<td headers="tf" class="gt_row gt_right">0.00158</td>
+<td headers="idf" class="gt_row gt_right">2.70805</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00428</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Clay</td>
+<td headers="word" class="gt_row gt_left">nuts</td>
+<td headers="n" class="gt_row gt_right">4</td>
+<td headers="tf" class="gt_row gt_right">0.00158</td>
+<td headers="idf" class="gt_row gt_right">2.70805</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00428</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center">A Painful Case</td>
+<td headers="word" class="gt_row gt_left">deceased</td>
+<td headers="n" class="gt_row gt_right">6</td>
+<td headers="tf" class="gt_row gt_right">0.00170</td>
+<td headers="idf" class="gt_row gt_right">2.70805</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00460</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">A Painful Case</td>
+<td headers="word" class="gt_row gt_left">engine</td>
+<td headers="n" class="gt_row gt_right">5</td>
+<td headers="tf" class="gt_row gt_right">0.00141</td>
+<td headers="idf" class="gt_row gt_right">2.70805</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00383</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">A Painful Case</td>
+<td headers="word" class="gt_row gt_left">paragraph</td>
+<td headers="n" class="gt_row gt_right">5</td>
+<td headers="tf" class="gt_row gt_right">0.00141</td>
+<td headers="idf" class="gt_row gt_right">2.70805</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00383</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">A Painful Case</td>
+<td headers="word" class="gt_row gt_left">blame</td>
+<td headers="n" class="gt_row gt_right">4</td>
+<td headers="tf" class="gt_row gt_right">0.00113</td>
+<td headers="idf" class="gt_row gt_right">2.70805</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00307</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center">Ivy Day in the Committee Room</td>
+<td headers="word" class="gt_row gt_left">he’s</td>
+<td headers="n" class="gt_row gt_right">26</td>
+<td headers="tf" class="gt_row gt_right">0.00554</td>
+<td headers="idf" class="gt_row gt_right">0.91629</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00508</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Ivy Day in the Committee Room</td>
+<td headers="word" class="gt_row gt_left">cigarette</td>
+<td headers="n" class="gt_row gt_right">7</td>
+<td headers="tf" class="gt_row gt_right">0.00149</td>
+<td headers="idf" class="gt_row gt_right">2.01490</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00300</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Ivy Day in the Committee Room</td>
+<td headers="word" class="gt_row gt_left">bottle</td>
+<td headers="n" class="gt_row gt_right">15</td>
+<td headers="tf" class="gt_row gt_right">0.00320</td>
+<td headers="idf" class="gt_row gt_right">0.91629</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00293</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Ivy Day in the Committee Room</td>
+<td headers="word" class="gt_row gt_left">tricky</td>
+<td headers="n" class="gt_row gt_right">5</td>
+<td headers="tf" class="gt_row gt_right">0.00107</td>
+<td headers="idf" class="gt_row gt_right">2.70805</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00288</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center">A Mother</td>
+<td headers="word" class="gt_row gt_left">concert</td>
+<td headers="n" class="gt_row gt_right">14</td>
+<td headers="tf" class="gt_row gt_right">0.00337</td>
+<td headers="idf" class="gt_row gt_right">1.60944</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00543</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">A Mother</td>
+<td headers="word" class="gt_row gt_left">baritone</td>
+<td headers="n" class="gt_row gt_right">8</td>
+<td headers="tf" class="gt_row gt_right">0.00193</td>
+<td headers="idf" class="gt_row gt_right">2.70805</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00522</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">A Mother</td>
+<td headers="word" class="gt_row gt_left">concerts</td>
+<td headers="n" class="gt_row gt_right">10</td>
+<td headers="tf" class="gt_row gt_right">0.00241</td>
+<td headers="idf" class="gt_row gt_right">2.01490</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00485</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">A Mother</td>
+<td headers="word" class="gt_row gt_left">artistes</td>
+<td headers="n" class="gt_row gt_right">9</td>
+<td headers="tf" class="gt_row gt_right">0.00217</td>
+<td headers="idf" class="gt_row gt_right">2.01490</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00437</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center">Grace</td>
+<td headers="word" class="gt_row gt_left">pope</td>
+<td headers="n" class="gt_row gt_right">13</td>
+<td headers="tf" class="gt_row gt_right">0.00191</td>
+<td headers="idf" class="gt_row gt_right">2.01490</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00385</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Grace</td>
+<td headers="word" class="gt_row gt_left">constable</td>
+<td headers="n" class="gt_row gt_right">11</td>
+<td headers="tf" class="gt_row gt_right">0.00162</td>
+<td headers="idf" class="gt_row gt_right">2.01490</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00326</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Grace</td>
+<td headers="word" class="gt_row gt_left">gentlemen</td>
+<td headers="n" class="gt_row gt_right">13</td>
+<td headers="tf" class="gt_row gt_right">0.00191</td>
+<td headers="idf" class="gt_row gt_right">1.09861</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00210</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Grace</td>
+<td headers="word" class="gt_row gt_left">accident</td>
+<td headers="n" class="gt_row gt_right">7</td>
+<td headers="tf" class="gt_row gt_right">0.00103</td>
+<td headers="idf" class="gt_row gt_right">2.01490</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00208</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center">The Dead</td>
 <td headers="word" class="gt_row gt_left">aunt</td>
 <td headers="n" class="gt_row gt_right">101</td>
-<td headers="tf" class="gt_row gt_right">0.00642</td>
+<td headers="tf" class="gt_row gt_right">0.00693</td>
 <td headers="idf" class="gt_row gt_right">1.60944</td>
-<td headers="tf_idf" class="gt_row gt_right">0.01033</td>
+<td headers="tf_idf" class="gt_row gt_right">0.01116</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left">The Sisters</td>
-<td headers="word" class="gt_row gt_left">eliza</td>
-<td headers="n" class="gt_row gt_right">13</td>
-<td headers="tf" class="gt_row gt_right">0.00418</td>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">The Dead</td>
+<td headers="word" class="gt_row gt_left">snow</td>
+<td headers="n" class="gt_row gt_right">20</td>
+<td headers="tf" class="gt_row gt_right">0.00137</td>
 <td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.01131</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00372</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">The Sisters</td>
-<td headers="word" class="gt_row gt_left">aunt</td>
-<td headers="n" class="gt_row gt_right">19</td>
-<td headers="tf" class="gt_row gt_right">0.00610</td>
-<td headers="idf" class="gt_row gt_right">1.60944</td>
-<td headers="tf_idf" class="gt_row gt_right">0.00982</td>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">The Dead</td>
+<td headers="word" class="gt_row gt_left">miss</td>
+<td headers="n" class="gt_row gt_right">64</td>
+<td headers="tf" class="gt_row gt_right">0.00439</td>
+<td headers="idf" class="gt_row gt_right">0.76214</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00335</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">The Sisters</td>
-<td headers="word" class="gt_row gt_left">cotter</td>
-<td headers="n" class="gt_row gt_right">11</td>
-<td headers="tf" class="gt_row gt_right">0.00353</td>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">The Dead</td>
+<td headers="word" class="gt_row gt_left">goloshes</td>
+<td headers="n" class="gt_row gt_right">9</td>
+<td headers="tf" class="gt_row gt_right">0.00062</td>
 <td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.00957</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left">Two Gallants</td>
-<td headers="word" class="gt_row gt_left">corley</td>
-<td headers="n" class="gt_row gt_right">46</td>
-<td headers="tf" class="gt_row gt_right">0.01173</td>
-<td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.03177</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">Two Gallants</td>
-<td headers="word" class="gt_row gt_left">lenehan</td>
-<td headers="n" class="gt_row gt_right">29</td>
-<td headers="tf" class="gt_row gt_right">0.00740</td>
-<td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.02003</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">Two Gallants</td>
-<td headers="word" class="gt_row gt_left">corley’s</td>
-<td headers="n" class="gt_row gt_right">6</td>
-<td headers="tf" class="gt_row gt_right">0.00153</td>
-<td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.00414</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00167</td>
 </tr>
 </tbody>
 </table>
@@ -4069,10 +4211,10 @@ can be specified:</p>
 </h4>
 <p>The <code><a href="../reference/visualize.html">visualize()</a></code> function returns bars showing the top
 words for each document:</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tfidf_doubliners</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-32-1.png" width="700"></p>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tfidf_dubliners</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-33-1.png" width="700"></p>
 </div>
 </div>
 </div>
