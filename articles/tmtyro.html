@@ -111,7 +111,6 @@ adjusting based on the kind of data used.</li>
 keeps workflows easy to build, easy to understand, and easy to
 explain.</li>
 </ul>
-<p>This vignette will introduce tmtyro’s goals and use.</p>
 <div class="section level2">
 <h2 id="differentiating-tmtyro">Differentiating tmtyro<a class="anchor" aria-label="anchor" href="#differentiating-tmtyro"></a>
 </h2>
@@ -133,49 +132,66 @@ a skills ramp to other tools.</p>
 reproducibility and open-ended tooling. In R, the tidytext package is
 made using a “tidy data” design philosophy that is consistent with many
 popular R packages. A companion book, <a href="https://www.tidytextmining.com" class="external-link"><em>Text Mining with R</em></a>,
-offers wonderful documentation to the package, and it does ease the
-shock for anyone new to text mining. But its <a href="https://www.tidytextmining.com/preface" class="external-link">preface</a> acknowledges a
-starting point quite a ways above zero, assuming “that the reader is at
+offers impressive documentation to the package, easing the learning
+curve for anyone new to text mining. But its <a href="https://www.tidytextmining.com/preface" class="external-link">preface</a> acknowledges a
+starting point quite a ways above zero, expecting “the reader is at
 least slightly familiar with dplyr, ggplot2, and the %&gt;% ‘pipe’
 operator in R.” Without the book, tidytext is even less suited for
-beginners, leaving users to fend for themselves with no workflow to read
-files.</p>
-<p>An R user might pick up tidytext as an added tool in a toolbox. The
-tm package, by contrast, is the kind of tool for which specialists will
-learn R to use. It predates the tidyverse packages, and its data design
-is often incompatible with those workflows.</p>
+beginners, leaving users to fend for themselves and find some other
+method to read files.</p>
+<p>The tidytext package is a helpful tool to be picked up by a seasoned
+R user familiar with the tidyverse. The tm package, by contrast, is the
+kind of tool for which specialists will learn R to use. It predates the
+tidyverse package suite, and its data design is often incompatible with
+those workflows. Nevertheless, it provides power and specialized
+functionality beyond these other tools, making it worth learning for
+those who make the choice.</p>
 <p><img src="skill_speedometer.png"></p>
-<p>The tmtyro package is designed to fit in the gap between these tools.
-Like Voyant, it is designed for a beginner. A code-based interface can
-never be as intuitive as one designed graphically, but tmtyro makes
-decisions that strive for consistency and predictability. Workflows are
-provided for loading texts from a folder or for getting a corpus of
-texts from an online repository like Project Gutenberg. Once texts are
-loaded, repetitive conventions for function names make it easy to add
-columns for assessing sentiment, for considering n-grams, or for
+<p>The tmtyro package is designed to fit into a gap left by these tools.
+In fact, it was developed over two semesters of teaching a course on
+literary text mining using R, following through examples from <em>Text
+Mining in R</em> while students applied techniques to ask their own
+questions about their own selections of texts. Taught in the English
+department, our course was was never meant to be a “coding class,” even
+though it did walk students through their first code. Approaching texts
+from a different angle helped us to have new insights on the things we
+were reading. And having working tools in front of us helped everyone
+test the boundaries of this new world and map how we might follow the
+paths laid out in the research we read.</p>
+<p>Like Voyant, tmtyro is designed for a beginner. A code-based
+interface will never be as intuitive as one designed graphically, but
+tmtyro makes decisions that strive for consistency and predictability.
+Workflows are provided for loading texts from a folder or for getting a
+corpus of texts from an online repository like Project Gutenberg. Once
+texts are loaded, repetitive conventions for function names make it easy
+to add columns for assessing sentiment, for considering n-grams, or for
 measuring vocabulary. Generic functions handle the details for sharing
 figures and tables, automatically adjusting to fit the steps taken in a
 given analysis.</p>
 <p>More importantly, tmtyro provides a skills ramp for users who outgrow
-it. A student who gains confidence in the methods provided by the
-package might decide to tweak a visualization using functions from
-ggplot2. A researcher wishing to work with a subset of titles will begin
-to understand methods from dplyr. And since tmtyro’s data design is
-based on that of tidytext, a user can easily use the packages
-interchangeably. Some functions will remain useful even as a user can no
-longer reasonably be called a “tyro”.</p>
+it. Code workflows are designed to help beginners more quickly start
+trying things out. From there, a student who gains confidence in the
+methods provided by the package might decide to tweak a visualization
+using functions from ggplot2. A researcher wishing to work with a subset
+of titles will begin to understand methods from dplyr. And since
+tmtyro’s data design is based on that of tidytext, a user can transition
+between both packages seamlessly. Functions are designed to remain
+useful long past the stage of anyone being a tyro.</p>
 </div>
 <div class="section level2">
-<h2 id="collect-a-corpus">Collect a corpus<a class="anchor" aria-label="anchor" href="#collect-a-corpus"></a>
+<h2 id="starting-with-tmtyro">Starting with tmtyro<a class="anchor" aria-label="anchor" href="#starting-with-tmtyro"></a>
 </h2>
+<div class="section level3">
+<h3 id="get-a-corpus">Get a corpus<a class="anchor" aria-label="anchor" href="#get-a-corpus"></a>
+</h3>
 <p>Collecting texts from Project Gutenberg will be a common first step
 for many who work with text. The function
 <code><a href="../reference/get_gutenberg_corpus.html">get_gutenberg_corpus()</a></code> does the job.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;This function was inspired by a similar function in the
 gutenbergr package, on which tmtyro depends, but it does noticeably
 more. &lt;/p&gt;"><sup>1</sup></a> All it needs is the
 Gutenberg ID number, found in the book’s URL. The resulting table will
-include columns for Gutenberg ID, title, author, headers such as those
-used for chapters, and text:</p>
+include columns for “gutenberg_id”, “title”, “author”, headers such as
+those used for chapters, and “text”:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jmclawson/tmtyro" class="external-link">tmtyro</a></span><span class="op">)</span></span>
 <span><span class="va">joyce</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_gutenberg_corpus.html">get_gutenberg_corpus</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2814</span>, <span class="fl">4217</span><span class="op">)</span><span class="op">)</span></span>
@@ -190,17 +206,14 @@ used for chapters, and text:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>         <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS “I have my own theory about i…</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>         <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS He began to puff again at his…</span></span></code></pre></div>
 <p>In some cases, headers may make better sense if read as part of the
-text. These can be corrected with
-<code><a href="../reference/move_header_to_text.html">move_header_to_text()</a></code>.</p>
+text.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ulysses</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_gutenberg_corpus.html">get_gutenberg_corpus</a></span><span class="op">(</span><span class="fl">4300</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># dplyr is used here to choose a smaller example for comparison</span></span>
-<span><span class="va">ulysses_II_7</span> <span class="op">&lt;-</span> <span class="va">ulysses</span> <span class="op">|&gt;</span> </span>
+<span><span class="va">ulysses</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">part</span> <span class="op">==</span> <span class="st">"— II —"</span>,</span>
-<span>                <span class="va">section</span> <span class="op">==</span> <span class="st">"[ 7 ]"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">ulysses_II_7</span> <span class="op">|&gt;</span> </span>
+<span>                <span class="va">section</span> <span class="op">==</span> <span class="st">"[ 7 ]"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 7</span></span></span>
 <span><span class="co">#&gt;   gutenberg_id title   author       part   section subsection              text </span></span>
@@ -211,9 +224,15 @@ text. These can be corrected with
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>         <span style="text-decoration: underline;">4</span>300 Ulysses Joyce, James — II — [ 7 ]   IN THE HEART OF THE HI… Righ…</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>         <span style="text-decoration: underline;">4</span>300 Ulysses Joyce, James — II — [ 7 ]   IN THE HEART OF THE HI… —Sta…</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>         <span style="text-decoration: underline;">4</span>300 Ulysses Joyce, James — II — [ 7 ]   THE WEARER OF THE CROWN Unde…</span></span></code></pre></div>
+<p>These can be corrected with <code><a href="../reference/move_header_to_text.html">move_header_to_text()</a></code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ulysses_II_7</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/move_header_to_text.html">move_header_to_text</a></span><span class="op">(</span><span class="va">subsection</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<code class="sourceCode R"><span><span class="va">ulysses</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_gutenberg_corpus.html">get_gutenberg_corpus</a></span><span class="op">(</span><span class="fl">4300</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/move_header_to_text.html">move_header_to_text</a></span><span class="op">(</span><span class="va">subsection</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># dplyr is used here to choose a smaller example for comparison</span></span>
+<span><span class="va">ulysses</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">part</span> <span class="op">==</span> <span class="st">"— II —"</span>,</span>
+<span>                <span class="va">section</span> <span class="op">==</span> <span class="st">"[ 7 ]"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 6</span></span></span>
 <span><span class="co">#&gt;    gutenberg_id title   author       part   section text                        </span></span>
@@ -229,11 +248,8 @@ text. These can be corrected with
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>         <span style="text-decoration: underline;">4</span>300 Ulysses Joyce, James — II — [ 7 ]   GENTLEMEN OF THE PRESS      </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>         <span style="text-decoration: underline;">4</span>300 Ulysses Joyce, James — II — [ 7 ]   Grossbooted draymen rolled …</span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="prepare-a-corpus">Prepare a corpus<a class="anchor" aria-label="anchor" href="#prepare-a-corpus"></a>
-</h2>
 <div class="section level3">
-<h3 id="loading-texts">Loading texts<a class="anchor" aria-label="anchor" href="#loading-texts"></a>
+<h3 id="load-texts">Load texts<a class="anchor" aria-label="anchor" href="#load-texts"></a>
 </h3>
 <p>If a files are already collected in a folder on disk, they can be
 loaded using <code><a href="../reference/load_texts.html">load_texts()</a></code>. When loaded this way, the first
@@ -257,7 +273,7 @@ part of the file name populates the <code>doc_id</code> column:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> emma         3 woodhouse</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="standardizing-titles">Standardizing titles<a class="anchor" aria-label="anchor" href="#standardizing-titles"></a>
+<h3 id="standardize-titles">Standardize titles<a class="anchor" aria-label="anchor" href="#standardize-titles"></a>
 </h3>
 <p>The <code><a href="../reference/standardize_titles.html">standardize_titles()</a></code> function makes it easy to
 convert titles to something cleaner:</p>
@@ -288,7 +304,7 @@ Project Gutenberg ID as the document identifier.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>   <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS him</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="using-another-column-for-doc_id">Using another column for <code>doc_id</code><a class="anchor" aria-label="anchor" href="#using-another-column-for-doc_id"></a>
+<h3 id="use-another-column-for-doc_id">Use another column for <code>doc_id</code><a class="anchor" aria-label="anchor" href="#use-another-column-for-doc_id"></a>
 </h3>
 <p>If a document’s title is preferred over the gutenberg_id, the
 <code><a href="../reference/identify_by.html">identify_by()</a></code> function makes the switch:</p>
@@ -329,7 +345,7 @@ identifier:</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="study-features">Study features<a class="anchor" aria-label="anchor" href="#study-features"></a>
+<h2 id="studying-texts">Studying texts<a class="anchor" aria-label="anchor" href="#studying-texts"></a>
 </h2>
 <p>Functions that follow similar naming conventions simplify the task of
 analyzing texts. At the same time, generic functions for visualizing and
@@ -360,12 +376,171 @@ vocabulary richness</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Dubliners Joyce, James The Siste… it    TRUE     FALSE          9   1   0.111</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Dubliners Joyce, James The Siste… was   FALSE    FALSE          9   0.9 0.1  </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2 more variables: progress_words &lt;int&gt;, progress_percent &lt;dbl&gt;</span></span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="sentiment">Sentiment<a class="anchor" aria-label="anchor" href="#sentiment"></a>
+</h3>
+<p>Similarly, the <code><a href="../reference/add_sentiment.html">add_sentiment()</a></code> function adds
+measurements of sentiment.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sentiment_dubliners</span> <span class="op">&lt;-</span> <span class="va">corpus_dubliners</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/add_sentiment.html">add_sentiment</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">sentiment_dubliners</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
+<span><span class="co">#&gt;   title     author       doc_id      word  sentiment</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Dubliners Joyce, James The Sisters there <span style="color: #BB0000;">NA</span>       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Dubliners Joyce, James The Sisters was   <span style="color: #BB0000;">NA</span>       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Dubliners Joyce, James The Sisters no    <span style="color: #BB0000;">NA</span>       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Dubliners Joyce, James The Sisters hope  <span style="color: #BB0000;">NA</span>       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Dubliners Joyce, James The Sisters for   <span style="color: #BB0000;">NA</span>       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Dubliners Joyce, James The Sisters him   <span style="color: #BB0000;">NA</span></span></span></code></pre>
 <div class="section level4">
-<h4 id="preparing-a-table">Preparing a table<a class="anchor" aria-label="anchor" href="#preparing-a-table"></a>
+<h4 id="dropping-empty-rows">Dropping empty rows<a class="anchor" aria-label="anchor" href="#dropping-empty-rows"></a>
 </h4>
+<p>Since many words may not be found in a given sentiment lexicon, the
+<code><a href="../reference/drop_empty.html">drop_empty()</a></code> function makes it easy to remove empty
+rows:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sentiment_dubliners</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/drop_empty.html">drop_empty</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
+<span><span class="co">#&gt;   title     author       doc_id      word      sentiment</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Dubliners Joyce, James The Sisters evenly    positive </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Dubliners Joyce, James The Sisters dead      negative </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Dubliners Joyce, James The Sisters darkened  negative </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Dubliners Joyce, James The Sisters blind     negative </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Dubliners Joyce, James The Sisters idle      negative </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Dubliners Joyce, James The Sisters strangely negative</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="choosing-sentiment-lexicon">Choosing sentiment lexicon<a class="anchor" aria-label="anchor" href="#choosing-sentiment-lexicon"></a>
+</h4>
+<p>The lexicon can be chosen at measurement:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sentiment_ulysses</span> <span class="op">&lt;-</span> <span class="va">ulysses</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/load_texts.html">load_texts</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/identify_by.html">identify_by</a></span><span class="op">(</span><span class="va">section</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/add_sentiment.html">add_sentiment</a></span><span class="op">(</span>lexicon <span class="op">=</span> <span class="st">"nrc"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">sentiment_ulysses</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/drop_empty.html">drop_empty</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 6</span></span></span>
+<span><span class="co">#&gt;    title   author       part  doc_id word    sentiment   </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Ulysses Joyce, James — I — [ 1 ]  stately positive    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Ulysses Joyce, James — I — [ 1 ]  plump   anticipation</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Ulysses Joyce, James — I — [ 1 ]  buck    fear        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Ulysses Joyce, James — I — [ 1 ]  buck    negative    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Ulysses Joyce, James — I — [ 1 ]  buck    positive    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Ulysses Joyce, James — I — [ 1 ]  buck    surprise    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Ulysses Joyce, James — I — [ 1 ]  razor   fear        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Ulysses Joyce, James — I — [ 1 ]  dark    sadness     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Ulysses Joyce, James — I — [ 1 ]  fearful fear        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Ulysses Joyce, James — I — [ 1 ]  fearful negative</span></span></code></pre>
+</div>
+</div>
+<div class="section level3">
+<h3 id="n-grams">N-grams<a class="anchor" aria-label="anchor" href="#n-grams"></a>
+</h3>
+<p>Following the pattern already established, <code><a href="../reference/add_ngrams.html">add_ngrams()</a></code>
+adds columns for n-length phrases of words:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">bigrams_austen</span> <span class="op">&lt;-</span> <span class="va">corpus_austen</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/add_ngrams.html">add_ngrams</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">bigrams_austen</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 4</span></span></span>
+<span><span class="co">#&gt;   doc_id par_num word_1    word_2   </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Emma         1 volume    i        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Emma         1 i         chapter  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Emma         2 chapter   i        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Emma         2 i         emma     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Emma         3 emma      woodhouse</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Emma         3 woodhouse handsome</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">trigrams_austen</span> <span class="op">&lt;-</span> <span class="va">corpus_austen</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/add_ngrams.html">add_ngrams</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">trigrams_austen</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
+<span><span class="co">#&gt;   doc_id par_num word_1    word_2    word_3   </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Emma         1 volume    i         chapter  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Emma         1 i         chapter   i        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Emma         2 chapter   i         emma     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Emma         2 i         emma      woodhouse</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Emma         3 emma      woodhouse handsome </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Emma         3 woodhouse handsome  clever</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="term-frequencyinverse-document-frequency">Term frequency–inverse document frequency<a class="anchor" aria-label="anchor" href="#term-frequencyinverse-document-frequency"></a>
+</h3>
+<p>Unlike other measurements, term frequency–inverse document frequency
+doesn’t preserve word order, and it reduces documents to one instance of
+each token. Since any use of tf-idf can’t merely add a column,
+<code><a href="../reference/summarize_tf_idf.html">summarize_tf_idf()</a></code> avoids the <code>add_</code> naming
+convention. Results are returned in in descending strength of
+tf-idf:</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tfidf_dubliners</span> <span class="op">&lt;-</span> <span class="va">corpus_dubliners</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/summarize_tf_idf.html">summarize_tf_idf</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">tfidf_dubliners</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
+<span><span class="co">#&gt;   doc_id                        word         n      tf   idf tf_idf</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>                         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Clay                          maria       40 0.015<span style="text-decoration: underline;">0</span>   2.71 0.040<span style="text-decoration: underline;">7</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Two Gallants                  corley      46 0.011<span style="text-decoration: underline;">7</span>   2.71 0.031<span style="text-decoration: underline;">8</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> After the Race                jimmy       24 0.010<span style="text-decoration: underline;">7</span>   2.71 0.029<span style="text-decoration: underline;">0</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Ivy Day in the Committee Room henchy      53 0.010<span style="text-decoration: underline;">1</span>   2.71 0.027<span style="text-decoration: underline;">3</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> A Little Cloud                gallaher    48 0.009<span style="text-decoration: underline;">71</span>  2.71 0.026<span style="text-decoration: underline;">3</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> The Dead                      gabriel    142 0.009<span style="text-decoration: underline;">03</span>  2.71 0.024<span style="text-decoration: underline;">4</span></span></span></code></pre></div>
+<p>Tf-idf understandably emphasizes proper nouns that are unique to each
+document. The <code>remove_names</code> argument in
+<code><a href="../reference/load_texts.html">load_texts()</a></code> can help to filter out words that appear only
+in capitalized form:</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tfidf_dubliners</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_gutenberg_corpus.html">get_gutenberg_corpus</a></span><span class="op">(</span><span class="fl">2814</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/load_texts.html">load_texts</a></span><span class="op">(</span>remove_names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/identify_by.html">identify_by</a></span><span class="op">(</span><span class="va">part</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/standardize_titles.html">standardize_titles</a></span><span class="op">(</span>drop_articles <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/summarize_tf_idf.html">summarize_tf_idf</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">tfidf_dubliners</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
+<span><span class="co">#&gt;   doc_id         word       n      tf   idf  tf_idf</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> The Dead       aunt     101 0.006<span style="text-decoration: underline;">93</span> 1.61  0.011<span style="text-decoration: underline;">2</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Araby          bazaar     9 0.004<span style="text-decoration: underline;">06</span> 2.71  0.011<span style="text-decoration: underline;">0</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> The Sisters    aunt      19 0.006<span style="text-decoration: underline;">48</span> 1.61  0.010<span style="text-decoration: underline;">4</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> After the Race cars       6 0.002<span style="text-decoration: underline;">85</span> 2.71  0.007<span style="text-decoration: underline;">73</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> An Encounter   we        58 0.018<span style="text-decoration: underline;">9</span>  0.405 0.007<span style="text-decoration: underline;">67</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> After the Race car       11 0.005<span style="text-decoration: underline;">23</span> 1.32  0.006<span style="text-decoration: underline;">92</span></span></span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="sharing-tables">Sharing tables<a class="anchor" aria-label="anchor" href="#sharing-tables"></a>
+</h2>
+<p>The <code><a href="../reference/tabulize.html">tabulize()</a></code> function prepares tables for every kind
+of measurement. This repetition makes it easy to see and appreciate
+findings without struggling to recall a specialized function.</p>
+<div class="section level3">
+<h3 id="vocabulary-richness-1">Vocabulary richness<a class="anchor" aria-label="anchor" href="#vocabulary-richness-1"></a>
+</h3>
 <p>For vocabulary richness, <code><a href="../reference/tabulize.html">tabulize()</a></code> returns a summary of
 one row per document:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">vocab_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div id="mwlefoodfi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
@@ -952,121 +1127,35 @@ one row per document:</p>
 </table>
 </div>
 </div>
-<div class="section level4">
-<h4 id="preparing-a-figure">Preparing a figure<a class="anchor" aria-label="anchor" href="#preparing-a-figure"></a>
-</h4>
-<p>The <code><a href="../reference/visualize.html">visualize()</a></code> function supports a few types of
-figures. By default, it charts each document by its length and the
-number of unique tokens. A figure like this is useful to compare
-styles.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">vocab_dubliners</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
-<p>Other features, such as type-token ratio, hapax-token ratio, or a
-sampling of hapax legomena can also be shown:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">vocab_dubliners</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="st">"ttr"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
-</div>
-</div>
 <div class="section level3">
-<h3 id="sentiment">Sentiment<a class="anchor" aria-label="anchor" href="#sentiment"></a>
+<h3 id="sentiment-1">Sentiment<a class="anchor" aria-label="anchor" href="#sentiment-1"></a>
 </h3>
-<p>Similarly, the <code><a href="../reference/add_sentiment.html">add_sentiment()</a></code> function adds
-measurements of sentiment.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sentiment_dubliners</span> <span class="op">&lt;-</span> <span class="va">corpus_dubliners</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/add_sentiment.html">add_sentiment</a></span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">sentiment_dubliners</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
-<span><span class="co">#&gt;   title     author       doc_id      word  sentiment</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Dubliners Joyce, James The Sisters there <span style="color: #BB0000;">NA</span>       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Dubliners Joyce, James The Sisters was   <span style="color: #BB0000;">NA</span>       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Dubliners Joyce, James The Sisters no    <span style="color: #BB0000;">NA</span>       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Dubliners Joyce, James The Sisters hope  <span style="color: #BB0000;">NA</span>       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Dubliners Joyce, James The Sisters for   <span style="color: #BB0000;">NA</span>       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Dubliners Joyce, James The Sisters him   <span style="color: #BB0000;">NA</span></span></span></code></pre>
-<div class="section level4">
-<h4 id="dropping-empty-rows">Dropping empty rows<a class="anchor" aria-label="anchor" href="#dropping-empty-rows"></a>
-</h4>
-<p>Since many words may not be found in a given sentiment lexicon, the
-<code><a href="../reference/drop_empty.html">drop_empty()</a></code> function makes it easy to remove empty
-rows:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sentiment_dubliners</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/drop_empty.html">drop_empty</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
-<span><span class="co">#&gt;   title     author       doc_id      word      sentiment</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Dubliners Joyce, James The Sisters evenly    positive </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Dubliners Joyce, James The Sisters dead      negative </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Dubliners Joyce, James The Sisters darkened  negative </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Dubliners Joyce, James The Sisters blind     negative </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Dubliners Joyce, James The Sisters idle      negative </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Dubliners Joyce, James The Sisters strangely negative</span></span></code></pre></div>
-</div>
-<div class="section level4">
-<h4 id="choosing-sentiment-lexicon">Choosing sentiment lexicon<a class="anchor" aria-label="anchor" href="#choosing-sentiment-lexicon"></a>
-</h4>
-<p>The lexicon can be chosen at measurement:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sentiment_ulysses</span> <span class="op">&lt;-</span> <span class="va">ulysses</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/move_header_to_text.html">move_header_to_text</a></span><span class="op">(</span><span class="va">subsection</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/load_texts.html">load_texts</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/identify_by.html">identify_by</a></span><span class="op">(</span><span class="va">section</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/add_sentiment.html">add_sentiment</a></span><span class="op">(</span>lexicon <span class="op">=</span> <span class="st">"nrc"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">sentiment_ulysses</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/drop_empty.html">drop_empty</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 6</span></span></span>
-<span><span class="co">#&gt;    title   author       part  doc_id word    sentiment   </span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Ulysses Joyce, James — I — [ 1 ]  stately positive    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Ulysses Joyce, James — I — [ 1 ]  plump   anticipation</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Ulysses Joyce, James — I — [ 1 ]  buck    fear        </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Ulysses Joyce, James — I — [ 1 ]  buck    negative    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Ulysses Joyce, James — I — [ 1 ]  buck    positive    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Ulysses Joyce, James — I — [ 1 ]  buck    surprise    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Ulysses Joyce, James — I — [ 1 ]  razor   fear        </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Ulysses Joyce, James — I — [ 1 ]  dark    sadness     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Ulysses Joyce, James — I — [ 1 ]  fearful fear        </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Ulysses Joyce, James — I — [ 1 ]  fearful negative</span></span></code></pre>
-</div>
-<div class="section level4">
-<h4 id="preparing-a-table-1">Preparing a table<a class="anchor" aria-label="anchor" href="#preparing-a-table-1"></a>
-</h4>
-<p>For sentiment richness, <code><a href="../reference/tabulize.html">tabulize()</a></code> returns a summary of
+<p>For sentiment analysis, <code><a href="../reference/tabulize.html">tabulize()</a></code> returns a summary of
 figures for each document:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sentiment_dubliners_part</span> <span class="op">&lt;-</span> <span class="va">sentiment_dubliners</span> <span class="op">|&gt;</span> </span>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># dplyr is used here to choose a smaller example for comparison</span></span>
+<span><span class="va">sentiment_dubliners_part</span> <span class="op">&lt;-</span> <span class="va">sentiment_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">doc_id</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"The Sisters"</span>, <span class="st">"An Encounter"</span>,  <span class="st">"Araby"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">sentiment_dubliners_part</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<div id="wkkeulbfdp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#wkkeulbfdp table {
+<div id="eexombwkke" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#eexombwkke table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#wkkeulbfdp thead, #wkkeulbfdp tbody, #wkkeulbfdp tfoot, #wkkeulbfdp tr, #wkkeulbfdp td, #wkkeulbfdp th {
+#eexombwkke thead, #eexombwkke tbody, #eexombwkke tfoot, #eexombwkke tr, #eexombwkke td, #eexombwkke th {
   border-style: none;
 }
 
-#wkkeulbfdp p {
+#eexombwkke p {
   margin: 0;
   padding: 0;
 }
 
-#wkkeulbfdp .gt_table {
+#eexombwkke .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1092,12 +1181,12 @@ figures for each document:</p>
   border-left-color: #D3D3D3;
 }
 
-#wkkeulbfdp .gt_caption {
+#eexombwkke .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#wkkeulbfdp .gt_title {
+#eexombwkke .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1109,7 +1198,7 @@ figures for each document:</p>
   border-bottom-width: 0;
 }
 
-#wkkeulbfdp .gt_subtitle {
+#eexombwkke .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1121,7 +1210,7 @@ figures for each document:</p>
   border-top-width: 0;
 }
 
-#wkkeulbfdp .gt_heading {
+#eexombwkke .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1133,13 +1222,13 @@ figures for each document:</p>
   border-right-color: #D3D3D3;
 }
 
-#wkkeulbfdp .gt_bottom_border {
+#eexombwkke .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#wkkeulbfdp .gt_col_headings {
+#eexombwkke .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1154,7 +1243,7 @@ figures for each document:</p>
   border-right-color: #D3D3D3;
 }
 
-#wkkeulbfdp .gt_col_heading {
+#eexombwkke .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1174,7 +1263,7 @@ figures for each document:</p>
   overflow-x: hidden;
 }
 
-#wkkeulbfdp .gt_column_spanner_outer {
+#eexombwkke .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1186,15 +1275,15 @@ figures for each document:</p>
   padding-right: 4px;
 }
 
-#wkkeulbfdp .gt_column_spanner_outer:first-child {
+#eexombwkke .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#wkkeulbfdp .gt_column_spanner_outer:last-child {
+#eexombwkke .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#wkkeulbfdp .gt_column_spanner {
+#eexombwkke .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1206,11 +1295,11 @@ figures for each document:</p>
   width: 100%;
 }
 
-#wkkeulbfdp .gt_spanner_row {
+#eexombwkke .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#wkkeulbfdp .gt_group_heading {
+#eexombwkke .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1236,7 +1325,7 @@ figures for each document:</p>
   text-align: left;
 }
 
-#wkkeulbfdp .gt_empty_group_heading {
+#eexombwkke .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1251,15 +1340,15 @@ figures for each document:</p>
   vertical-align: middle;
 }
 
-#wkkeulbfdp .gt_from_md > :first-child {
+#eexombwkke .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#wkkeulbfdp .gt_from_md > :last-child {
+#eexombwkke .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#wkkeulbfdp .gt_row {
+#eexombwkke .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1278,7 +1367,7 @@ figures for each document:</p>
   overflow-x: hidden;
 }
 
-#wkkeulbfdp .gt_stub {
+#eexombwkke .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1291,7 +1380,7 @@ figures for each document:</p>
   padding-right: 5px;
 }
 
-#wkkeulbfdp .gt_stub_row_group {
+#eexombwkke .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1305,15 +1394,15 @@ figures for each document:</p>
   vertical-align: top;
 }
 
-#wkkeulbfdp .gt_row_group_first td {
+#eexombwkke .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#wkkeulbfdp .gt_row_group_first th {
+#eexombwkke .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#wkkeulbfdp .gt_summary_row {
+#eexombwkke .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1323,16 +1412,16 @@ figures for each document:</p>
   padding-right: 5px;
 }
 
-#wkkeulbfdp .gt_first_summary_row {
+#eexombwkke .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#wkkeulbfdp .gt_first_summary_row.thick {
+#eexombwkke .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#wkkeulbfdp .gt_last_summary_row {
+#eexombwkke .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1342,7 +1431,7 @@ figures for each document:</p>
   border-bottom-color: #D3D3D3;
 }
 
-#wkkeulbfdp .gt_grand_summary_row {
+#eexombwkke .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1352,7 +1441,7 @@ figures for each document:</p>
   padding-right: 5px;
 }
 
-#wkkeulbfdp .gt_first_grand_summary_row {
+#eexombwkke .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1362,7 +1451,7 @@ figures for each document:</p>
   border-top-color: #D3D3D3;
 }
 
-#wkkeulbfdp .gt_last_grand_summary_row_top {
+#eexombwkke .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1372,11 +1461,11 @@ figures for each document:</p>
   border-bottom-color: #D3D3D3;
 }
 
-#wkkeulbfdp .gt_striped {
+#eexombwkke .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#wkkeulbfdp .gt_table_body {
+#eexombwkke .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1385,7 +1474,7 @@ figures for each document:</p>
   border-bottom-color: #D3D3D3;
 }
 
-#wkkeulbfdp .gt_footnotes {
+#eexombwkke .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1399,7 +1488,7 @@ figures for each document:</p>
   border-right-color: #D3D3D3;
 }
 
-#wkkeulbfdp .gt_footnote {
+#eexombwkke .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1408,7 +1497,7 @@ figures for each document:</p>
   padding-right: 5px;
 }
 
-#wkkeulbfdp .gt_sourcenotes {
+#eexombwkke .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1422,7 +1511,7 @@ figures for each document:</p>
   border-right-color: #D3D3D3;
 }
 
-#wkkeulbfdp .gt_sourcenote {
+#eexombwkke .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1430,63 +1519,63 @@ figures for each document:</p>
   padding-right: 5px;
 }
 
-#wkkeulbfdp .gt_left {
+#eexombwkke .gt_left {
   text-align: left;
 }
 
-#wkkeulbfdp .gt_center {
+#eexombwkke .gt_center {
   text-align: center;
 }
 
-#wkkeulbfdp .gt_right {
+#eexombwkke .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#wkkeulbfdp .gt_font_normal {
+#eexombwkke .gt_font_normal {
   font-weight: normal;
 }
 
-#wkkeulbfdp .gt_font_bold {
+#eexombwkke .gt_font_bold {
   font-weight: bold;
 }
 
-#wkkeulbfdp .gt_font_italic {
+#eexombwkke .gt_font_italic {
   font-style: italic;
 }
 
-#wkkeulbfdp .gt_super {
+#eexombwkke .gt_super {
   font-size: 65%;
 }
 
-#wkkeulbfdp .gt_footnote_marks {
+#eexombwkke .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#wkkeulbfdp .gt_asterisk {
+#eexombwkke .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#wkkeulbfdp .gt_indent_1 {
+#eexombwkke .gt_indent_1 {
   text-indent: 5px;
 }
 
-#wkkeulbfdp .gt_indent_2 {
+#eexombwkke .gt_indent_2 {
   text-indent: 10px;
 }
 
-#wkkeulbfdp .gt_indent_3 {
+#eexombwkke .gt_indent_3 {
   text-indent: 15px;
 }
 
-#wkkeulbfdp .gt_indent_4 {
+#eexombwkke .gt_indent_4 {
   text-indent: 20px;
 }
 
-#wkkeulbfdp .gt_indent_5 {
+#eexombwkke .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1557,26 +1646,26 @@ figures for each document:</p>
 </div>
 <p>Setting <code>drop_na</code> to <code>TRUE</code> will remove rows
 showing counts and percentages of words without sentiment measure:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sentiment_dubliners_part</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span>drop_na <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<div id="bcyvkgufiv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#bcyvkgufiv table {
+<div id="ulbfdpbcyv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ulbfdpbcyv table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#bcyvkgufiv thead, #bcyvkgufiv tbody, #bcyvkgufiv tfoot, #bcyvkgufiv tr, #bcyvkgufiv td, #bcyvkgufiv th {
+#ulbfdpbcyv thead, #ulbfdpbcyv tbody, #ulbfdpbcyv tfoot, #ulbfdpbcyv tr, #ulbfdpbcyv td, #ulbfdpbcyv th {
   border-style: none;
 }
 
-#bcyvkgufiv p {
+#ulbfdpbcyv p {
   margin: 0;
   padding: 0;
 }
 
-#bcyvkgufiv .gt_table {
+#ulbfdpbcyv .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1602,12 +1691,12 @@ showing counts and percentages of words without sentiment measure:</p>
   border-left-color: #D3D3D3;
 }
 
-#bcyvkgufiv .gt_caption {
+#ulbfdpbcyv .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#bcyvkgufiv .gt_title {
+#ulbfdpbcyv .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1619,7 +1708,7 @@ showing counts and percentages of words without sentiment measure:</p>
   border-bottom-width: 0;
 }
 
-#bcyvkgufiv .gt_subtitle {
+#ulbfdpbcyv .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1631,7 +1720,7 @@ showing counts and percentages of words without sentiment measure:</p>
   border-top-width: 0;
 }
 
-#bcyvkgufiv .gt_heading {
+#ulbfdpbcyv .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1643,13 +1732,13 @@ showing counts and percentages of words without sentiment measure:</p>
   border-right-color: #D3D3D3;
 }
 
-#bcyvkgufiv .gt_bottom_border {
+#ulbfdpbcyv .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#bcyvkgufiv .gt_col_headings {
+#ulbfdpbcyv .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1664,7 +1753,7 @@ showing counts and percentages of words without sentiment measure:</p>
   border-right-color: #D3D3D3;
 }
 
-#bcyvkgufiv .gt_col_heading {
+#ulbfdpbcyv .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1684,7 +1773,7 @@ showing counts and percentages of words without sentiment measure:</p>
   overflow-x: hidden;
 }
 
-#bcyvkgufiv .gt_column_spanner_outer {
+#ulbfdpbcyv .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1696,15 +1785,15 @@ showing counts and percentages of words without sentiment measure:</p>
   padding-right: 4px;
 }
 
-#bcyvkgufiv .gt_column_spanner_outer:first-child {
+#ulbfdpbcyv .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#bcyvkgufiv .gt_column_spanner_outer:last-child {
+#ulbfdpbcyv .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#bcyvkgufiv .gt_column_spanner {
+#ulbfdpbcyv .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1716,11 +1805,11 @@ showing counts and percentages of words without sentiment measure:</p>
   width: 100%;
 }
 
-#bcyvkgufiv .gt_spanner_row {
+#ulbfdpbcyv .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#bcyvkgufiv .gt_group_heading {
+#ulbfdpbcyv .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1746,7 +1835,7 @@ showing counts and percentages of words without sentiment measure:</p>
   text-align: left;
 }
 
-#bcyvkgufiv .gt_empty_group_heading {
+#ulbfdpbcyv .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1761,15 +1850,15 @@ showing counts and percentages of words without sentiment measure:</p>
   vertical-align: middle;
 }
 
-#bcyvkgufiv .gt_from_md > :first-child {
+#ulbfdpbcyv .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#bcyvkgufiv .gt_from_md > :last-child {
+#ulbfdpbcyv .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#bcyvkgufiv .gt_row {
+#ulbfdpbcyv .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1788,7 +1877,7 @@ showing counts and percentages of words without sentiment measure:</p>
   overflow-x: hidden;
 }
 
-#bcyvkgufiv .gt_stub {
+#ulbfdpbcyv .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1801,7 +1890,7 @@ showing counts and percentages of words without sentiment measure:</p>
   padding-right: 5px;
 }
 
-#bcyvkgufiv .gt_stub_row_group {
+#ulbfdpbcyv .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1815,15 +1904,15 @@ showing counts and percentages of words without sentiment measure:</p>
   vertical-align: top;
 }
 
-#bcyvkgufiv .gt_row_group_first td {
+#ulbfdpbcyv .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#bcyvkgufiv .gt_row_group_first th {
+#ulbfdpbcyv .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#bcyvkgufiv .gt_summary_row {
+#ulbfdpbcyv .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1833,16 +1922,16 @@ showing counts and percentages of words without sentiment measure:</p>
   padding-right: 5px;
 }
 
-#bcyvkgufiv .gt_first_summary_row {
+#ulbfdpbcyv .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#bcyvkgufiv .gt_first_summary_row.thick {
+#ulbfdpbcyv .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#bcyvkgufiv .gt_last_summary_row {
+#ulbfdpbcyv .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1852,7 +1941,7 @@ showing counts and percentages of words without sentiment measure:</p>
   border-bottom-color: #D3D3D3;
 }
 
-#bcyvkgufiv .gt_grand_summary_row {
+#ulbfdpbcyv .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1862,7 +1951,7 @@ showing counts and percentages of words without sentiment measure:</p>
   padding-right: 5px;
 }
 
-#bcyvkgufiv .gt_first_grand_summary_row {
+#ulbfdpbcyv .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1872,7 +1961,7 @@ showing counts and percentages of words without sentiment measure:</p>
   border-top-color: #D3D3D3;
 }
 
-#bcyvkgufiv .gt_last_grand_summary_row_top {
+#ulbfdpbcyv .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1882,11 +1971,11 @@ showing counts and percentages of words without sentiment measure:</p>
   border-bottom-color: #D3D3D3;
 }
 
-#bcyvkgufiv .gt_striped {
+#ulbfdpbcyv .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#bcyvkgufiv .gt_table_body {
+#ulbfdpbcyv .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1895,7 +1984,7 @@ showing counts and percentages of words without sentiment measure:</p>
   border-bottom-color: #D3D3D3;
 }
 
-#bcyvkgufiv .gt_footnotes {
+#ulbfdpbcyv .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1909,7 +1998,7 @@ showing counts and percentages of words without sentiment measure:</p>
   border-right-color: #D3D3D3;
 }
 
-#bcyvkgufiv .gt_footnote {
+#ulbfdpbcyv .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1918,7 +2007,7 @@ showing counts and percentages of words without sentiment measure:</p>
   padding-right: 5px;
 }
 
-#bcyvkgufiv .gt_sourcenotes {
+#ulbfdpbcyv .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1932,7 +2021,7 @@ showing counts and percentages of words without sentiment measure:</p>
   border-right-color: #D3D3D3;
 }
 
-#bcyvkgufiv .gt_sourcenote {
+#ulbfdpbcyv .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1940,63 +2029,63 @@ showing counts and percentages of words without sentiment measure:</p>
   padding-right: 5px;
 }
 
-#bcyvkgufiv .gt_left {
+#ulbfdpbcyv .gt_left {
   text-align: left;
 }
 
-#bcyvkgufiv .gt_center {
+#ulbfdpbcyv .gt_center {
   text-align: center;
 }
 
-#bcyvkgufiv .gt_right {
+#ulbfdpbcyv .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#bcyvkgufiv .gt_font_normal {
+#ulbfdpbcyv .gt_font_normal {
   font-weight: normal;
 }
 
-#bcyvkgufiv .gt_font_bold {
+#ulbfdpbcyv .gt_font_bold {
   font-weight: bold;
 }
 
-#bcyvkgufiv .gt_font_italic {
+#ulbfdpbcyv .gt_font_italic {
   font-style: italic;
 }
 
-#bcyvkgufiv .gt_super {
+#ulbfdpbcyv .gt_super {
   font-size: 65%;
 }
 
-#bcyvkgufiv .gt_footnote_marks {
+#ulbfdpbcyv .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#bcyvkgufiv .gt_asterisk {
+#ulbfdpbcyv .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#bcyvkgufiv .gt_indent_1 {
+#ulbfdpbcyv .gt_indent_1 {
   text-indent: 5px;
 }
 
-#bcyvkgufiv .gt_indent_2 {
+#ulbfdpbcyv .gt_indent_2 {
   text-indent: 10px;
 }
 
-#bcyvkgufiv .gt_indent_3 {
+#ulbfdpbcyv .gt_indent_3 {
   text-indent: 15px;
 }
 
-#bcyvkgufiv .gt_indent_4 {
+#ulbfdpbcyv .gt_indent_4 {
   text-indent: 20px;
 }
 
-#bcyvkgufiv .gt_indent_5 {
+#ulbfdpbcyv .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -2049,29 +2138,30 @@ showing counts and percentages of words without sentiment measure:</p>
 </div>
 <p>The <code>ignore</code> parameter aids in selecting a subset of
 sentiments:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sentiment_ulysses_part</span> <span class="op">&lt;-</span> <span class="va">sentiment_ulysses</span> <span class="op">|&gt;</span> </span>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># dplyr is used here to choose a smaller example for comparison</span></span>
+<span><span class="va">sentiment_ulysses_part</span> <span class="op">&lt;-</span> <span class="va">sentiment_ulysses</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">doc_id</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[ 1 ]"</span>, <span class="st">"[ 2 ]"</span>, <span class="st">"[ 3 ]"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">sentiment_ulysses_part</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span>ignore <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"anger"</span>, <span class="st">"anticipation"</span>, <span class="st">"disgust"</span>, <span class="st">"fear"</span>, <span class="st">"trust"</span>, <span class="st">"positive"</span>, <span class="st">"negative"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div id="jubqtxvafb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#jubqtxvafb table {
+<div id="kgufivjubq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#kgufivjubq table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#jubqtxvafb thead, #jubqtxvafb tbody, #jubqtxvafb tfoot, #jubqtxvafb tr, #jubqtxvafb td, #jubqtxvafb th {
+#kgufivjubq thead, #kgufivjubq tbody, #kgufivjubq tfoot, #kgufivjubq tr, #kgufivjubq td, #kgufivjubq th {
   border-style: none;
 }
 
-#jubqtxvafb p {
+#kgufivjubq p {
   margin: 0;
   padding: 0;
 }
 
-#jubqtxvafb .gt_table {
+#kgufivjubq .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2097,12 +2187,12 @@ sentiments:</p>
   border-left-color: #D3D3D3;
 }
 
-#jubqtxvafb .gt_caption {
+#kgufivjubq .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#jubqtxvafb .gt_title {
+#kgufivjubq .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2114,7 +2204,7 @@ sentiments:</p>
   border-bottom-width: 0;
 }
 
-#jubqtxvafb .gt_subtitle {
+#kgufivjubq .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2126,7 +2216,7 @@ sentiments:</p>
   border-top-width: 0;
 }
 
-#jubqtxvafb .gt_heading {
+#kgufivjubq .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2138,13 +2228,13 @@ sentiments:</p>
   border-right-color: #D3D3D3;
 }
 
-#jubqtxvafb .gt_bottom_border {
+#kgufivjubq .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#jubqtxvafb .gt_col_headings {
+#kgufivjubq .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2159,7 +2249,7 @@ sentiments:</p>
   border-right-color: #D3D3D3;
 }
 
-#jubqtxvafb .gt_col_heading {
+#kgufivjubq .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2179,7 +2269,7 @@ sentiments:</p>
   overflow-x: hidden;
 }
 
-#jubqtxvafb .gt_column_spanner_outer {
+#kgufivjubq .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2191,15 +2281,15 @@ sentiments:</p>
   padding-right: 4px;
 }
 
-#jubqtxvafb .gt_column_spanner_outer:first-child {
+#kgufivjubq .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#jubqtxvafb .gt_column_spanner_outer:last-child {
+#kgufivjubq .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#jubqtxvafb .gt_column_spanner {
+#kgufivjubq .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2211,11 +2301,11 @@ sentiments:</p>
   width: 100%;
 }
 
-#jubqtxvafb .gt_spanner_row {
+#kgufivjubq .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#jubqtxvafb .gt_group_heading {
+#kgufivjubq .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2241,7 +2331,7 @@ sentiments:</p>
   text-align: left;
 }
 
-#jubqtxvafb .gt_empty_group_heading {
+#kgufivjubq .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2256,15 +2346,15 @@ sentiments:</p>
   vertical-align: middle;
 }
 
-#jubqtxvafb .gt_from_md > :first-child {
+#kgufivjubq .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#jubqtxvafb .gt_from_md > :last-child {
+#kgufivjubq .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#jubqtxvafb .gt_row {
+#kgufivjubq .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2283,7 +2373,7 @@ sentiments:</p>
   overflow-x: hidden;
 }
 
-#jubqtxvafb .gt_stub {
+#kgufivjubq .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2296,7 +2386,7 @@ sentiments:</p>
   padding-right: 5px;
 }
 
-#jubqtxvafb .gt_stub_row_group {
+#kgufivjubq .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2310,15 +2400,15 @@ sentiments:</p>
   vertical-align: top;
 }
 
-#jubqtxvafb .gt_row_group_first td {
+#kgufivjubq .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#jubqtxvafb .gt_row_group_first th {
+#kgufivjubq .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#jubqtxvafb .gt_summary_row {
+#kgufivjubq .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2328,16 +2418,16 @@ sentiments:</p>
   padding-right: 5px;
 }
 
-#jubqtxvafb .gt_first_summary_row {
+#kgufivjubq .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#jubqtxvafb .gt_first_summary_row.thick {
+#kgufivjubq .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#jubqtxvafb .gt_last_summary_row {
+#kgufivjubq .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2347,7 +2437,7 @@ sentiments:</p>
   border-bottom-color: #D3D3D3;
 }
 
-#jubqtxvafb .gt_grand_summary_row {
+#kgufivjubq .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2357,7 +2447,7 @@ sentiments:</p>
   padding-right: 5px;
 }
 
-#jubqtxvafb .gt_first_grand_summary_row {
+#kgufivjubq .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2367,7 +2457,7 @@ sentiments:</p>
   border-top-color: #D3D3D3;
 }
 
-#jubqtxvafb .gt_last_grand_summary_row_top {
+#kgufivjubq .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2377,11 +2467,11 @@ sentiments:</p>
   border-bottom-color: #D3D3D3;
 }
 
-#jubqtxvafb .gt_striped {
+#kgufivjubq .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#jubqtxvafb .gt_table_body {
+#kgufivjubq .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2390,7 +2480,7 @@ sentiments:</p>
   border-bottom-color: #D3D3D3;
 }
 
-#jubqtxvafb .gt_footnotes {
+#kgufivjubq .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2404,7 +2494,7 @@ sentiments:</p>
   border-right-color: #D3D3D3;
 }
 
-#jubqtxvafb .gt_footnote {
+#kgufivjubq .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2413,7 +2503,7 @@ sentiments:</p>
   padding-right: 5px;
 }
 
-#jubqtxvafb .gt_sourcenotes {
+#kgufivjubq .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2427,7 +2517,7 @@ sentiments:</p>
   border-right-color: #D3D3D3;
 }
 
-#jubqtxvafb .gt_sourcenote {
+#kgufivjubq .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2435,63 +2525,63 @@ sentiments:</p>
   padding-right: 5px;
 }
 
-#jubqtxvafb .gt_left {
+#kgufivjubq .gt_left {
   text-align: left;
 }
 
-#jubqtxvafb .gt_center {
+#kgufivjubq .gt_center {
   text-align: center;
 }
 
-#jubqtxvafb .gt_right {
+#kgufivjubq .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#jubqtxvafb .gt_font_normal {
+#kgufivjubq .gt_font_normal {
   font-weight: normal;
 }
 
-#jubqtxvafb .gt_font_bold {
+#kgufivjubq .gt_font_bold {
   font-weight: bold;
 }
 
-#jubqtxvafb .gt_font_italic {
+#kgufivjubq .gt_font_italic {
   font-style: italic;
 }
 
-#jubqtxvafb .gt_super {
+#kgufivjubq .gt_super {
   font-size: 65%;
 }
 
-#jubqtxvafb .gt_footnote_marks {
+#kgufivjubq .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#jubqtxvafb .gt_asterisk {
+#kgufivjubq .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#jubqtxvafb .gt_indent_1 {
+#kgufivjubq .gt_indent_1 {
   text-indent: 5px;
 }
 
-#jubqtxvafb .gt_indent_2 {
+#kgufivjubq .gt_indent_2 {
   text-indent: 10px;
 }
 
-#jubqtxvafb .gt_indent_3 {
+#kgufivjubq .gt_indent_3 {
   text-indent: 15px;
 }
 
-#jubqtxvafb .gt_indent_4 {
+#kgufivjubq .gt_indent_4 {
   text-indent: 20px;
 }
 
-#jubqtxvafb .gt_indent_5 {
+#kgufivjubq .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -2579,94 +2669,32 @@ sentiments:</p>
 </table>
 </div>
 </div>
-<div class="section level4">
-<h4 id="preparing-a-figure-1">Preparing a figure<a class="anchor" aria-label="anchor" href="#preparing-a-figure-1"></a>
-</h4>
-<p>The <code><a href="../reference/visualize.html">visualize()</a></code> function allows for comparison among
-documents in a set:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sentiment_dubliners</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sentiment_ulysses</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>ignore <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"anger"</span>, <span class="st">"anticipation"</span>, <span class="st">"disgust"</span>, <span class="st">"fear"</span>, <span class="st">"trust"</span>, <span class="st">"positive"</span>, <span class="st">"negative"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-23-1.png" width="700"></p>
-</div>
-<div class="section level4">
-<h4 id="changing-colors">Changing colors<a class="anchor" aria-label="anchor" href="#changing-colors"></a>
-</h4>
-<p>For nearly every visualization type, the <code><a href="../reference/change_colors.html">change_colors()</a></code>
-function does what its name implies. By default, it adopts the “Dark2”
-palette from Brewer:</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sentiment_dubliners</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-24-1.png" width="700"></p>
-</div>
-</div>
 <div class="section level3">
-<h3 id="n-grams">N-grams<a class="anchor" aria-label="anchor" href="#n-grams"></a>
+<h3 id="n-grams-1">N-grams<a class="anchor" aria-label="anchor" href="#n-grams-1"></a>
 </h3>
-<p>Following the pattern already established, <code><a href="../reference/add_ngrams.html">add_ngrams()</a></code>
-adds columns for n-length phrases of words:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">bigrams_austen</span> <span class="op">&lt;-</span> <span class="va">corpus_austen</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/add_ngrams.html">add_ngrams</a></span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">bigrams_austen</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 4</span></span></span>
-<span><span class="co">#&gt;   doc_id par_num word_1    word_2   </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Emma         1 volume    i        </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Emma         1 i         chapter  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Emma         2 chapter   i        </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Emma         2 i         emma     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Emma         3 emma      woodhouse</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Emma         3 woodhouse handsome</span></span></code></pre></div>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">trigrams_austen</span> <span class="op">&lt;-</span> <span class="va">corpus_austen</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/add_ngrams.html">add_ngrams</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">trigrams_austen</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
-<span><span class="co">#&gt;   doc_id par_num word_1    word_2    word_3   </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Emma         1 volume    i         chapter  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Emma         1 i         chapter   i        </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Emma         2 chapter   i         emma     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Emma         2 i         emma      woodhouse</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Emma         3 emma      woodhouse handsome </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Emma         3 woodhouse handsome  clever</span></span></code></pre></div>
-<div class="section level4">
-<h4 id="preparing-a-table-2">Preparing a table<a class="anchor" aria-label="anchor" href="#preparing-a-table-2"></a>
-</h4>
 <p>The <code><a href="../reference/tabulize.html">tabulize()</a></code> function returns the top n-grams per
 document. By default, the first six are shown, but rows can be chosen
 freely:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bigrams_austen</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<div id="snayorehal" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#snayorehal table {
+<div id="txvafbsnay" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#txvafbsnay table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#snayorehal thead, #snayorehal tbody, #snayorehal tfoot, #snayorehal tr, #snayorehal td, #snayorehal th {
+#txvafbsnay thead, #txvafbsnay tbody, #txvafbsnay tfoot, #txvafbsnay tr, #txvafbsnay td, #txvafbsnay th {
   border-style: none;
 }
 
-#snayorehal p {
+#txvafbsnay p {
   margin: 0;
   padding: 0;
 }
 
-#snayorehal .gt_table {
+#txvafbsnay .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2692,12 +2720,12 @@ freely:</p>
   border-left-color: #D3D3D3;
 }
 
-#snayorehal .gt_caption {
+#txvafbsnay .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#snayorehal .gt_title {
+#txvafbsnay .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2709,7 +2737,7 @@ freely:</p>
   border-bottom-width: 0;
 }
 
-#snayorehal .gt_subtitle {
+#txvafbsnay .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2721,7 +2749,7 @@ freely:</p>
   border-top-width: 0;
 }
 
-#snayorehal .gt_heading {
+#txvafbsnay .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2733,13 +2761,13 @@ freely:</p>
   border-right-color: #D3D3D3;
 }
 
-#snayorehal .gt_bottom_border {
+#txvafbsnay .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#snayorehal .gt_col_headings {
+#txvafbsnay .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2754,7 +2782,7 @@ freely:</p>
   border-right-color: #D3D3D3;
 }
 
-#snayorehal .gt_col_heading {
+#txvafbsnay .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2774,7 +2802,7 @@ freely:</p>
   overflow-x: hidden;
 }
 
-#snayorehal .gt_column_spanner_outer {
+#txvafbsnay .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2786,15 +2814,15 @@ freely:</p>
   padding-right: 4px;
 }
 
-#snayorehal .gt_column_spanner_outer:first-child {
+#txvafbsnay .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#snayorehal .gt_column_spanner_outer:last-child {
+#txvafbsnay .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#snayorehal .gt_column_spanner {
+#txvafbsnay .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2806,11 +2834,11 @@ freely:</p>
   width: 100%;
 }
 
-#snayorehal .gt_spanner_row {
+#txvafbsnay .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#snayorehal .gt_group_heading {
+#txvafbsnay .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2836,7 +2864,7 @@ freely:</p>
   text-align: left;
 }
 
-#snayorehal .gt_empty_group_heading {
+#txvafbsnay .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2851,15 +2879,15 @@ freely:</p>
   vertical-align: middle;
 }
 
-#snayorehal .gt_from_md > :first-child {
+#txvafbsnay .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#snayorehal .gt_from_md > :last-child {
+#txvafbsnay .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#snayorehal .gt_row {
+#txvafbsnay .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2878,7 +2906,7 @@ freely:</p>
   overflow-x: hidden;
 }
 
-#snayorehal .gt_stub {
+#txvafbsnay .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2891,7 +2919,7 @@ freely:</p>
   padding-right: 5px;
 }
 
-#snayorehal .gt_stub_row_group {
+#txvafbsnay .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2905,15 +2933,15 @@ freely:</p>
   vertical-align: top;
 }
 
-#snayorehal .gt_row_group_first td {
+#txvafbsnay .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#snayorehal .gt_row_group_first th {
+#txvafbsnay .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#snayorehal .gt_summary_row {
+#txvafbsnay .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2923,16 +2951,16 @@ freely:</p>
   padding-right: 5px;
 }
 
-#snayorehal .gt_first_summary_row {
+#txvafbsnay .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#snayorehal .gt_first_summary_row.thick {
+#txvafbsnay .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#snayorehal .gt_last_summary_row {
+#txvafbsnay .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2942,7 +2970,7 @@ freely:</p>
   border-bottom-color: #D3D3D3;
 }
 
-#snayorehal .gt_grand_summary_row {
+#txvafbsnay .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2952,7 +2980,7 @@ freely:</p>
   padding-right: 5px;
 }
 
-#snayorehal .gt_first_grand_summary_row {
+#txvafbsnay .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2962,7 +2990,7 @@ freely:</p>
   border-top-color: #D3D3D3;
 }
 
-#snayorehal .gt_last_grand_summary_row_top {
+#txvafbsnay .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2972,11 +3000,11 @@ freely:</p>
   border-bottom-color: #D3D3D3;
 }
 
-#snayorehal .gt_striped {
+#txvafbsnay .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#snayorehal .gt_table_body {
+#txvafbsnay .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2985,7 +3013,7 @@ freely:</p>
   border-bottom-color: #D3D3D3;
 }
 
-#snayorehal .gt_footnotes {
+#txvafbsnay .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2999,7 +3027,7 @@ freely:</p>
   border-right-color: #D3D3D3;
 }
 
-#snayorehal .gt_footnote {
+#txvafbsnay .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3008,7 +3036,7 @@ freely:</p>
   padding-right: 5px;
 }
 
-#snayorehal .gt_sourcenotes {
+#txvafbsnay .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3022,7 +3050,7 @@ freely:</p>
   border-right-color: #D3D3D3;
 }
 
-#snayorehal .gt_sourcenote {
+#txvafbsnay .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3030,63 +3058,63 @@ freely:</p>
   padding-right: 5px;
 }
 
-#snayorehal .gt_left {
+#txvafbsnay .gt_left {
   text-align: left;
 }
 
-#snayorehal .gt_center {
+#txvafbsnay .gt_center {
   text-align: center;
 }
 
-#snayorehal .gt_right {
+#txvafbsnay .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#snayorehal .gt_font_normal {
+#txvafbsnay .gt_font_normal {
   font-weight: normal;
 }
 
-#snayorehal .gt_font_bold {
+#txvafbsnay .gt_font_bold {
   font-weight: bold;
 }
 
-#snayorehal .gt_font_italic {
+#txvafbsnay .gt_font_italic {
   font-style: italic;
 }
 
-#snayorehal .gt_super {
+#txvafbsnay .gt_super {
   font-size: 65%;
 }
 
-#snayorehal .gt_footnote_marks {
+#txvafbsnay .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#snayorehal .gt_asterisk {
+#txvafbsnay .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#snayorehal .gt_indent_1 {
+#txvafbsnay .gt_indent_1 {
   text-indent: 5px;
 }
 
-#snayorehal .gt_indent_2 {
+#txvafbsnay .gt_indent_2 {
   text-indent: 10px;
 }
 
-#snayorehal .gt_indent_3 {
+#txvafbsnay .gt_indent_3 {
   text-indent: 15px;
 }
 
-#snayorehal .gt_indent_4 {
+#txvafbsnay .gt_indent_4 {
   text-indent: 20px;
 }
 
-#snayorehal .gt_indent_5 {
+#txvafbsnay .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -3186,102 +3214,31 @@ freely:</p>
 </table>
 </div>
 </div>
-<div class="section level4">
-<h4 id="preparing-a-figure-2">Preparing a figure<a class="anchor" aria-label="anchor" href="#preparing-a-figure-2"></a>
-</h4>
-<p>The <code><a href="../reference/visualize.html">visualize()</a></code> function returns a network visualization
-demonstrated in the Tidytext book:</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">bigrams_austen</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-28-1.png" width="700"></p>
-</div>
-<div class="section level4">
-<h4 id="combining-n-grams">Combining n-grams<a class="anchor" aria-label="anchor" href="#combining-n-grams"></a>
-</h4>
-<p>N-gram frequencies can be compared by combining them before
-visualization. Certain arguments allow for deviation from typical
-charts, including choosing the number of ngrams to chart and modifying
-colors to be set by values on the Y-axis.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">bigrams_austen</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/combine_ngrams.html">combine_ngrams</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, color_y <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span><span class="st">"okabe"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-29-1.png" width="700"></p>
-</div>
-</div>
 <div class="section level3">
-<h3 id="term-frequencyinverse-document-frequency">Term frequency–inverse document frequency<a class="anchor" aria-label="anchor" href="#term-frequencyinverse-document-frequency"></a>
+<h3 id="tf-idf">Tf-idf<a class="anchor" aria-label="anchor" href="#tf-idf"></a>
 </h3>
-<p>Unlike other measurements, term frequency–inverse document frequency
-doesn’t preserve word order, and it reduces documents to one instance of
-each token. Since any use of tf-idf can’t merely add a column,
-<code><a href="../reference/summarize_tf_idf.html">summarize_tf_idf()</a></code> avoids the <code>add_</code> naming
-convention. Results are returned in in descending strength of
-tf-idf:</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tfidf_dubliners</span> <span class="op">&lt;-</span> <span class="va">corpus_dubliners</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/summarize_tf_idf.html">summarize_tf_idf</a></span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">tfidf_dubliners</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
-<span><span class="co">#&gt;   doc_id                        word         n      tf   idf tf_idf</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>                         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Clay                          maria       40 0.015<span style="text-decoration: underline;">0</span>   2.71 0.040<span style="text-decoration: underline;">7</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Two Gallants                  corley      46 0.011<span style="text-decoration: underline;">7</span>   2.71 0.031<span style="text-decoration: underline;">8</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> After the Race                jimmy       24 0.010<span style="text-decoration: underline;">7</span>   2.71 0.029<span style="text-decoration: underline;">0</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Ivy Day in the Committee Room henchy      53 0.010<span style="text-decoration: underline;">1</span>   2.71 0.027<span style="text-decoration: underline;">3</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> A Little Cloud                gallaher    48 0.009<span style="text-decoration: underline;">71</span>  2.71 0.026<span style="text-decoration: underline;">3</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> The Dead                      gabriel    142 0.009<span style="text-decoration: underline;">03</span>  2.71 0.024<span style="text-decoration: underline;">4</span></span></span></code></pre></div>
-<p>Tf-idf understandably emphasizes proper nouns that are unique to each
-document. The <code>remove_names</code> argument in
-<code><a href="../reference/load_texts.html">load_texts()</a></code> can help to filter out words that appear only
-in capitalized form:</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tfidf_dubliners</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_gutenberg_corpus.html">get_gutenberg_corpus</a></span><span class="op">(</span><span class="fl">2814</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/load_texts.html">load_texts</a></span><span class="op">(</span>remove_names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/identify_by.html">identify_by</a></span><span class="op">(</span><span class="va">part</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/standardize_titles.html">standardize_titles</a></span><span class="op">(</span>drop_articles <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/summarize_tf_idf.html">summarize_tf_idf</a></span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">tfidf_dubliners</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
-<span><span class="co">#&gt;   doc_id         word       n      tf   idf  tf_idf</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> The Dead       aunt     101 0.006<span style="text-decoration: underline;">93</span> 1.61  0.011<span style="text-decoration: underline;">2</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Araby          bazaar     9 0.004<span style="text-decoration: underline;">06</span> 2.71  0.011<span style="text-decoration: underline;">0</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> The Sisters    aunt      19 0.006<span style="text-decoration: underline;">48</span> 1.61  0.010<span style="text-decoration: underline;">4</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> After the Race cars       6 0.002<span style="text-decoration: underline;">85</span> 2.71  0.007<span style="text-decoration: underline;">73</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> An Encounter   we        58 0.018<span style="text-decoration: underline;">9</span>  0.405 0.007<span style="text-decoration: underline;">67</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> After the Race car       11 0.005<span style="text-decoration: underline;">23</span> 1.32  0.006<span style="text-decoration: underline;">92</span></span></span></code></pre></div>
-<div class="section level4">
-<h4 id="preparing-a-table-3">Preparing a table<a class="anchor" aria-label="anchor" href="#preparing-a-table-3"></a>
-</h4>
 <p>The <code><a href="../reference/tabulize.html">tabulize()</a></code> function returns a number of rows, which
 can be specified:</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tfidf_dubliners</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span></code></pre></div>
-<div id="cysfbskhou" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#cysfbskhou table {
+<span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<div id="orehalspkz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#orehalspkz table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#cysfbskhou thead, #cysfbskhou tbody, #cysfbskhou tfoot, #cysfbskhou tr, #cysfbskhou td, #cysfbskhou th {
+#orehalspkz thead, #orehalspkz tbody, #orehalspkz tfoot, #orehalspkz tr, #orehalspkz td, #orehalspkz th {
   border-style: none;
 }
 
-#cysfbskhou p {
+#orehalspkz p {
   margin: 0;
   padding: 0;
 }
 
-#cysfbskhou .gt_table {
+#orehalspkz .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -3307,12 +3264,12 @@ can be specified:</p>
   border-left-color: #D3D3D3;
 }
 
-#cysfbskhou .gt_caption {
+#orehalspkz .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#cysfbskhou .gt_title {
+#orehalspkz .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3324,7 +3281,7 @@ can be specified:</p>
   border-bottom-width: 0;
 }
 
-#cysfbskhou .gt_subtitle {
+#orehalspkz .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3336,7 +3293,7 @@ can be specified:</p>
   border-top-width: 0;
 }
 
-#cysfbskhou .gt_heading {
+#orehalspkz .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3348,13 +3305,13 @@ can be specified:</p>
   border-right-color: #D3D3D3;
 }
 
-#cysfbskhou .gt_bottom_border {
+#orehalspkz .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#cysfbskhou .gt_col_headings {
+#orehalspkz .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3369,7 +3326,7 @@ can be specified:</p>
   border-right-color: #D3D3D3;
 }
 
-#cysfbskhou .gt_col_heading {
+#orehalspkz .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3389,7 +3346,7 @@ can be specified:</p>
   overflow-x: hidden;
 }
 
-#cysfbskhou .gt_column_spanner_outer {
+#orehalspkz .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3401,15 +3358,15 @@ can be specified:</p>
   padding-right: 4px;
 }
 
-#cysfbskhou .gt_column_spanner_outer:first-child {
+#orehalspkz .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#cysfbskhou .gt_column_spanner_outer:last-child {
+#orehalspkz .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#cysfbskhou .gt_column_spanner {
+#orehalspkz .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3421,11 +3378,11 @@ can be specified:</p>
   width: 100%;
 }
 
-#cysfbskhou .gt_spanner_row {
+#orehalspkz .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#cysfbskhou .gt_group_heading {
+#orehalspkz .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3451,7 +3408,7 @@ can be specified:</p>
   text-align: left;
 }
 
-#cysfbskhou .gt_empty_group_heading {
+#orehalspkz .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3466,15 +3423,15 @@ can be specified:</p>
   vertical-align: middle;
 }
 
-#cysfbskhou .gt_from_md > :first-child {
+#orehalspkz .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#cysfbskhou .gt_from_md > :last-child {
+#orehalspkz .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#cysfbskhou .gt_row {
+#orehalspkz .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3493,7 +3450,7 @@ can be specified:</p>
   overflow-x: hidden;
 }
 
-#cysfbskhou .gt_stub {
+#orehalspkz .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3506,7 +3463,7 @@ can be specified:</p>
   padding-right: 5px;
 }
 
-#cysfbskhou .gt_stub_row_group {
+#orehalspkz .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3520,15 +3477,15 @@ can be specified:</p>
   vertical-align: top;
 }
 
-#cysfbskhou .gt_row_group_first td {
+#orehalspkz .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#cysfbskhou .gt_row_group_first th {
+#orehalspkz .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#cysfbskhou .gt_summary_row {
+#orehalspkz .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3538,16 +3495,16 @@ can be specified:</p>
   padding-right: 5px;
 }
 
-#cysfbskhou .gt_first_summary_row {
+#orehalspkz .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#cysfbskhou .gt_first_summary_row.thick {
+#orehalspkz .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#cysfbskhou .gt_last_summary_row {
+#orehalspkz .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3557,7 +3514,7 @@ can be specified:</p>
   border-bottom-color: #D3D3D3;
 }
 
-#cysfbskhou .gt_grand_summary_row {
+#orehalspkz .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3567,7 +3524,7 @@ can be specified:</p>
   padding-right: 5px;
 }
 
-#cysfbskhou .gt_first_grand_summary_row {
+#orehalspkz .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3577,7 +3534,7 @@ can be specified:</p>
   border-top-color: #D3D3D3;
 }
 
-#cysfbskhou .gt_last_grand_summary_row_top {
+#orehalspkz .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3587,11 +3544,11 @@ can be specified:</p>
   border-bottom-color: #D3D3D3;
 }
 
-#cysfbskhou .gt_striped {
+#orehalspkz .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#cysfbskhou .gt_table_body {
+#orehalspkz .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3600,7 +3557,7 @@ can be specified:</p>
   border-bottom-color: #D3D3D3;
 }
 
-#cysfbskhou .gt_footnotes {
+#orehalspkz .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3614,7 +3571,7 @@ can be specified:</p>
   border-right-color: #D3D3D3;
 }
 
-#cysfbskhou .gt_footnote {
+#orehalspkz .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3623,7 +3580,7 @@ can be specified:</p>
   padding-right: 5px;
 }
 
-#cysfbskhou .gt_sourcenotes {
+#orehalspkz .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3637,7 +3594,7 @@ can be specified:</p>
   border-right-color: #D3D3D3;
 }
 
-#cysfbskhou .gt_sourcenote {
+#orehalspkz .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3645,63 +3602,63 @@ can be specified:</p>
   padding-right: 5px;
 }
 
-#cysfbskhou .gt_left {
+#orehalspkz .gt_left {
   text-align: left;
 }
 
-#cysfbskhou .gt_center {
+#orehalspkz .gt_center {
   text-align: center;
 }
 
-#cysfbskhou .gt_right {
+#orehalspkz .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#cysfbskhou .gt_font_normal {
+#orehalspkz .gt_font_normal {
   font-weight: normal;
 }
 
-#cysfbskhou .gt_font_bold {
+#orehalspkz .gt_font_bold {
   font-weight: bold;
 }
 
-#cysfbskhou .gt_font_italic {
+#orehalspkz .gt_font_italic {
   font-style: italic;
 }
 
-#cysfbskhou .gt_super {
+#orehalspkz .gt_super {
   font-size: 65%;
 }
 
-#cysfbskhou .gt_footnote_marks {
+#orehalspkz .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#cysfbskhou .gt_asterisk {
+#orehalspkz .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#cysfbskhou .gt_indent_1 {
+#orehalspkz .gt_indent_1 {
   text-indent: 5px;
 }
 
-#cysfbskhou .gt_indent_2 {
+#orehalspkz .gt_indent_2 {
   text-indent: 10px;
 }
 
-#cysfbskhou .gt_indent_3 {
+#orehalspkz .gt_indent_3 {
   text-indent: 15px;
 }
 
-#cysfbskhou .gt_indent_4 {
+#orehalspkz .gt_indent_4 {
   text-indent: 20px;
 }
 
-#cysfbskhou .gt_indent_5 {
+#orehalspkz .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -3740,14 +3697,6 @@ can be specified:</p>
 <td headers="tf_idf" class="gt_row gt_right">0.00370</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">The Sisters</td>
-<td headers="word" class="gt_row gt_left">my</td>
-<td headers="n" class="gt_row gt_right">44</td>
-<td headers="tf" class="gt_row gt_right">0.01502</td>
-<td headers="idf" class="gt_row gt_right">0.22314</td>
-<td headers="tf_idf" class="gt_row gt_right">0.00335</td>
-</tr>
-<tr>
 <td headers="doc_id" class="gt_row gt_center">An Encounter</td>
 <td headers="word" class="gt_row gt_left">we</td>
 <td headers="n" class="gt_row gt_right">58</td>
@@ -3770,14 +3719,6 @@ can be specified:</p>
 <td headers="tf" class="gt_row gt_right">0.00880</td>
 <td headers="idf" class="gt_row gt_right">0.40547</td>
 <td headers="tf_idf" class="gt_row gt_right">0.00357</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">An Encounter</td>
-<td headers="word" class="gt_row gt_left">cat</td>
-<td headers="n" class="gt_row gt_right">4</td>
-<td headers="tf" class="gt_row gt_right">0.00130</td>
-<td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.00353</td>
 </tr>
 <tr>
 <td headers="doc_id" class="gt_row gt_center">Araby</td>
@@ -3804,14 +3745,6 @@ can be specified:</p>
 <td headers="tf_idf" class="gt_row gt_right">0.00433</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Araby</td>
-<td headers="word" class="gt_row gt_left">stall</td>
-<td headers="n" class="gt_row gt_right">3</td>
-<td headers="tf" class="gt_row gt_right">0.00135</td>
-<td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.00367</td>
-</tr>
-<tr>
 <td headers="doc_id" class="gt_row gt_center">Eveline</td>
 <td headers="word" class="gt_row gt_left">avenue</td>
 <td headers="n" class="gt_row gt_right">4</td>
@@ -3836,14 +3769,6 @@ can be specified:</p>
 <td headers="tf_idf" class="gt_row gt_right">0.00372</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Eveline</td>
-<td headers="word" class="gt_row gt_left">frank</td>
-<td headers="n" class="gt_row gt_right">6</td>
-<td headers="tf" class="gt_row gt_right">0.00338</td>
-<td headers="idf" class="gt_row gt_right">1.09861</td>
-<td headers="tf_idf" class="gt_row gt_right">0.00371</td>
-</tr>
-<tr>
 <td headers="doc_id" class="gt_row gt_center">After the Race</td>
 <td headers="word" class="gt_row gt_left">cars</td>
 <td headers="n" class="gt_row gt_right">6</td>
@@ -3862,14 +3787,6 @@ can be specified:</p>
 <tr>
 <td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">After the Race</td>
 <td headers="word" class="gt_row gt_left">host</td>
-<td headers="n" class="gt_row gt_right">3</td>
-<td headers="tf" class="gt_row gt_right">0.00143</td>
-<td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.00386</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">After the Race</td>
-<td headers="word" class="gt_row gt_left">motor</td>
 <td headers="n" class="gt_row gt_right">3</td>
 <td headers="tf" class="gt_row gt_right">0.00143</td>
 <td headers="idf" class="gt_row gt_right">2.70805</td>
@@ -3900,14 +3817,6 @@ can be specified:</p>
 <td headers="tf_idf" class="gt_row gt_right">0.00217</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Two Gallants</td>
-<td headers="word" class="gt_row gt_left">girls</td>
-<td headers="n" class="gt_row gt_right">8</td>
-<td headers="tf" class="gt_row gt_right">0.00214</td>
-<td headers="idf" class="gt_row gt_right">0.91629</td>
-<td headers="tf_idf" class="gt_row gt_right">0.00196</td>
-</tr>
-<tr>
 <td headers="doc_id" class="gt_row gt_center">The Boarding House</td>
 <td headers="word" class="gt_row gt_left">reparation</td>
 <td headers="n" class="gt_row gt_right">5</td>
@@ -3930,14 +3839,6 @@ can be specified:</p>
 <td headers="tf" class="gt_row gt_right">0.00110</td>
 <td headers="idf" class="gt_row gt_right">2.70805</td>
 <td headers="tf_idf" class="gt_row gt_right">0.00299</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">The Boarding House</td>
-<td headers="word" class="gt_row gt_left">affair</td>
-<td headers="n" class="gt_row gt_right">6</td>
-<td headers="tf" class="gt_row gt_right">0.00221</td>
-<td headers="idf" class="gt_row gt_right">1.09861</td>
-<td headers="tf_idf" class="gt_row gt_right">0.00242</td>
 </tr>
 <tr>
 <td headers="doc_id" class="gt_row gt_center">A Little Cloud</td>
@@ -3964,14 +3865,6 @@ can be specified:</p>
 <td headers="tf_idf" class="gt_row gt_right">0.00209</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">A Little Cloud</td>
-<td headers="word" class="gt_row gt_left">immoral</td>
-<td headers="n" class="gt_row gt_right">3</td>
-<td headers="tf" class="gt_row gt_right">0.00065</td>
-<td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.00176</td>
-</tr>
-<tr>
 <td headers="doc_id" class="gt_row gt_center">Counterparts</td>
 <td headers="word" class="gt_row gt_left">weathers</td>
 <td headers="n" class="gt_row gt_right">11</td>
@@ -3996,14 +3889,6 @@ can be specified:</p>
 <td headers="tf_idf" class="gt_row gt_right">0.00331</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Counterparts</td>
-<td headers="word" class="gt_row gt_left">clerk</td>
-<td headers="n" class="gt_row gt_right">9</td>
-<td headers="tf" class="gt_row gt_right">0.00231</td>
-<td headers="idf" class="gt_row gt_right">1.32176</td>
-<td headers="tf_idf" class="gt_row gt_right">0.00306</td>
-</tr>
-<tr>
 <td headers="doc_id" class="gt_row gt_center">Clay</td>
 <td headers="word" class="gt_row gt_left">tip</td>
 <td headers="n" class="gt_row gt_right">6</td>
@@ -4022,14 +3907,6 @@ can be specified:</p>
 <tr>
 <td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Clay</td>
 <td headers="word" class="gt_row gt_left">matron</td>
-<td headers="n" class="gt_row gt_right">4</td>
-<td headers="tf" class="gt_row gt_right">0.00158</td>
-<td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.00428</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Clay</td>
-<td headers="word" class="gt_row gt_left">nuts</td>
 <td headers="n" class="gt_row gt_right">4</td>
 <td headers="tf" class="gt_row gt_right">0.00158</td>
 <td headers="idf" class="gt_row gt_right">2.70805</td>
@@ -4060,14 +3937,6 @@ can be specified:</p>
 <td headers="tf_idf" class="gt_row gt_right">0.00383</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">A Painful Case</td>
-<td headers="word" class="gt_row gt_left">blame</td>
-<td headers="n" class="gt_row gt_right">4</td>
-<td headers="tf" class="gt_row gt_right">0.00113</td>
-<td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.00307</td>
-</tr>
-<tr>
 <td headers="doc_id" class="gt_row gt_center">Ivy Day in the Committee Room</td>
 <td headers="word" class="gt_row gt_left">he’s</td>
 <td headers="n" class="gt_row gt_right">26</td>
@@ -4090,14 +3959,6 @@ can be specified:</p>
 <td headers="tf" class="gt_row gt_right">0.00320</td>
 <td headers="idf" class="gt_row gt_right">0.91629</td>
 <td headers="tf_idf" class="gt_row gt_right">0.00293</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Ivy Day in the Committee Room</td>
-<td headers="word" class="gt_row gt_left">tricky</td>
-<td headers="n" class="gt_row gt_right">5</td>
-<td headers="tf" class="gt_row gt_right">0.00107</td>
-<td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.00288</td>
 </tr>
 <tr>
 <td headers="doc_id" class="gt_row gt_center">A Mother</td>
@@ -4124,14 +3985,6 @@ can be specified:</p>
 <td headers="tf_idf" class="gt_row gt_right">0.00485</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">A Mother</td>
-<td headers="word" class="gt_row gt_left">artistes</td>
-<td headers="n" class="gt_row gt_right">9</td>
-<td headers="tf" class="gt_row gt_right">0.00217</td>
-<td headers="idf" class="gt_row gt_right">2.01490</td>
-<td headers="tf_idf" class="gt_row gt_right">0.00437</td>
-</tr>
-<tr>
 <td headers="doc_id" class="gt_row gt_center">Grace</td>
 <td headers="word" class="gt_row gt_left">pope</td>
 <td headers="n" class="gt_row gt_right">13</td>
@@ -4154,14 +4007,6 @@ can be specified:</p>
 <td headers="tf" class="gt_row gt_right">0.00191</td>
 <td headers="idf" class="gt_row gt_right">1.09861</td>
 <td headers="tf_idf" class="gt_row gt_right">0.00210</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Grace</td>
-<td headers="word" class="gt_row gt_left">accident</td>
-<td headers="n" class="gt_row gt_right">7</td>
-<td headers="tf" class="gt_row gt_right">0.00103</td>
-<td headers="idf" class="gt_row gt_right">2.01490</td>
-<td headers="tf_idf" class="gt_row gt_right">0.00208</td>
 </tr>
 <tr>
 <td headers="doc_id" class="gt_row gt_center">The Dead</td>
@@ -4187,28 +4032,104 @@ can be specified:</p>
 <td headers="idf" class="gt_row gt_right">0.76214</td>
 <td headers="tf_idf" class="gt_row gt_right">0.00335</td>
 </tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">The Dead</td>
-<td headers="word" class="gt_row gt_left">goloshes</td>
-<td headers="n" class="gt_row gt_right">9</td>
-<td headers="tf" class="gt_row gt_right">0.00062</td>
-<td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.00167</td>
-</tr>
 </tbody>
 </table>
 </div>
 </div>
-<div class="section level4">
-<h4 id="preparing-a-figure-3">Preparing a figure<a class="anchor" aria-label="anchor" href="#preparing-a-figure-3"></a>
-</h4>
+</div>
+<div class="section level2">
+<h2 id="sharing-figures">Sharing figures<a class="anchor" aria-label="anchor" href="#sharing-figures"></a>
+</h2>
+<p>The <code><a href="../reference/visualize.html">visualize()</a></code> function works just like
+<code><a href="../reference/tabulize.html">tabulize()</a></code>, preparing figures suited to whatever work is
+being done.</p>
+<div class="section level3">
+<h3 id="vocabulary-richness-2">Vocabulary richness<a class="anchor" aria-label="anchor" href="#vocabulary-richness-2"></a>
+</h3>
+<p>By default, <code><a href="../reference/visualize.html">visualize()</a></code> charts each document by its
+length and the number of unique tokens. A figure like this is useful to
+compare angles among documents.</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">vocab_dubliners</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-27-1.png" width="700"></p>
+<p>Other features, such as type-token ratio, hapax-token ratio, or a
+sampling of hapax legomena can also be shown:</p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">vocab_dubliners</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="st">"ttr"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-28-1.png" width="700"></p>
+</div>
+<div class="section level3">
+<h3 id="sentiment-2">Sentiment<a class="anchor" aria-label="anchor" href="#sentiment-2"></a>
+</h3>
+<p>For sentiment analysis, the <code><a href="../reference/visualize.html">visualize()</a></code> function allows
+for comparison among documents in a set:</p>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sentiment_dubliners</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-29-1.png" width="700"></p>
+<p>The <code>ignore</code> parameter stipulates values to remove from
+the Y-axis to focus a figure.</p>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sentiment_ulysses</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>ignore <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"anger"</span>, <span class="st">"anticipation"</span>, <span class="st">"disgust"</span>, <span class="st">"fear"</span>, <span class="st">"trust"</span>, <span class="st">"positive"</span>, <span class="st">"negative"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-30-1.png" width="700"></p>
+</div>
+<div class="section level3">
+<h3 id="n-grams-2">N-grams<a class="anchor" aria-label="anchor" href="#n-grams-2"></a>
+</h3>
+<p>By default, the <code><a href="../reference/visualize.html">visualize()</a></code> function returns a network
+visualization demonstrated in <em>Text Mining with R</em>:</p>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">bigrams_austen</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-31-1.png" width="700"></p>
+</div>
+<div class="section level3">
+<h3 id="combining-n-grams">Combining n-grams<a class="anchor" aria-label="anchor" href="#combining-n-grams"></a>
+</h3>
+<p>N-gram frequencies can be compared by combining them before
+visualization. Certain arguments allow for deviation from typical
+charts, including choosing the number of n-grams to chart and modifying
+colors to be set by values on the Y-axis.</p>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">bigrams_austen</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/combine_ngrams.html">combine_ngrams</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, color_y <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-32-1.png" width="700"></p>
+</div>
+<div class="section level3">
+<h3 id="tf-idf-1">Tf-idf<a class="anchor" aria-label="anchor" href="#tf-idf-1"></a>
+</h3>
 <p>The <code><a href="../reference/visualize.html">visualize()</a></code> function returns bars showing the top
-words for each document:</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+words for each document. This can be a useful way to differentiate texts
+in a set from each other. (Remember, <code>tfidf_dubliners</code> was
+prepared with <code>load_texts(remove_names = TRUE)</code>.)</p>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tfidf_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span></code></pre></div>
 <p><img src="tmtyro_files/figure-html/unnamed-chunk-33-1.png" width="700"></p>
 </div>
+<div class="section level3">
+<h3 id="changing-colors">Changing colors<a class="anchor" aria-label="anchor" href="#changing-colors"></a>
+</h3>
+<p>For nearly every visualization type, the <code><a href="../reference/change_colors.html">change_colors()</a></code>
+function does what its name implies. By default, it adopts the “Dark2”
+palette from Brewer:</p>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sentiment_dubliners</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-34-1.png" width="700"></p>
+<p>Other options are available, as detailed in function
+documentation.</p>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">bigrams_austen</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/combine_ngrams.html">combine_ngrams</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, color_y <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span><span class="st">"okabe"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-35-1.png" width="700"></p>
 </div>
 </div>
 
