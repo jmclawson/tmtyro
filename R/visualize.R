@@ -160,9 +160,19 @@ visualize.sentiment <- function(.data, inorder = TRUE, ignore = NULL, ...) {
 }
 
 #' @export
-visualize.tf_idf <- function(.data, ...) {
-  .data |>
+visualize.tf_idf <- function(.data, simplify = TRUE, ...) {
+  the_plot <- .data |>
     plot_tf_idf(...)
+
+  if ("doc_id" %in% colnames(.data) &&
+      length(unique(.data$doc_id)) > 6 &&
+      simplify) {
+    the_plot <- the_plot +
+      theme(axis.text.x = element_blank(),
+            panel.grid.major.x = element_blank())
+  }
+
+  the_plot
 }
 
 #' @export

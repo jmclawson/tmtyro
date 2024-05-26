@@ -50,5 +50,8 @@ unnest_without_caps <- function(
 
   df |>
     tidytext::unnest_tokens({{output}}, {{input}}, to_lower = to_lower) |>
-    dplyr::filter(!tolower(!!as.name(output)) %in% tolower(only_caps))
+    # Changing next line to {{output}} might break something with topic modeling
+    # But keeping it !!as.name(output) breaks tf_idf
+    # dplyr::filter(!tolower(!!as.name(output)) %in% tolower(only_caps))
+    dplyr::filter(!tolower({{output}}) %in% tolower(only_caps))
 }

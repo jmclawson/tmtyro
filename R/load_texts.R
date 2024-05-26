@@ -90,7 +90,7 @@ load_texts <- function(
     add_class("tmtyro")
 }
 
-tidy_texts_internal <- function(df, word, lemma, lemma_replace, to_lower, remove_names, pos = FALSE, n = 1) {
+tidy_texts_internal <- function(df, to_word, lemma, lemma_replace, to_lower, remove_names, pos = FALSE, n = 1) {
 
   if (n > 1) {
     if (remove_names) {
@@ -105,7 +105,7 @@ tidy_texts_internal <- function(df, word, lemma, lemma_replace, to_lower, remove
       annotate_pos()
   }
 
-  if (word & !remove_names) {
+  if (to_word & !remove_names) {
     df <- df |>
       tidytext::unnest_tokens(word, text, to_lower = FALSE)
   }
@@ -115,7 +115,7 @@ tidy_texts_internal <- function(df, word, lemma, lemma_replace, to_lower, remove
       tidytext::unnest_tokens(ngram, text, to_lower = FALSE, token = "ngrams", n = n)
   }
 
-  if (word & remove_names) {
+  if (to_word & remove_names) {
     df <-
       dplyr::group_modify(
         .data = dplyr::group_by(df, doc_id),
@@ -123,7 +123,7 @@ tidy_texts_internal <- function(df, word, lemma, lemma_replace, to_lower, remove
       dplyr::ungroup()
   }
 
-  if (pos & word) {
+  if (pos & to_word) {
     df <- df |>
       tidyr::separate(word, into = c("word", "pos"), sep = "__", fill = "right")
   }
@@ -138,7 +138,7 @@ tidy_texts_internal <- function(df, word, lemma, lemma_replace, to_lower, remove
       dplyr::relocate(pos, .after = ngram)
   }
 
-  if (lemma & word) {
+  if (lemma & to_word) {
     rlang::check_installed("textstem")
     df <- df |>
       dplyr::mutate(lemma = textstem::lemmatize_words(word))
@@ -150,7 +150,7 @@ tidy_texts_internal <- function(df, word, lemma, lemma_replace, to_lower, remove
       dplyr::mutate(lemma = textstem::lemmatize_strings(ngram))
   }
 
-  if (lemma & word & lemma_replace) {
+  if (lemma & to_word & lemma_replace) {
     df <- df |>
       dplyr::mutate(word = lemma) |>
       dplyr::select(-lemma)
@@ -162,7 +162,7 @@ tidy_texts_internal <- function(df, word, lemma, lemma_replace, to_lower, remove
       dplyr::select(-lemma)
   }
 
-  if (lemma & !word & !n > 1) {
+  if (lemma & !to_word & !n > 1) {
     rlang::check_installed("textstem")
     df <- df |>
       dplyr::mutate(text = textstem::lemmatize_strings(text))

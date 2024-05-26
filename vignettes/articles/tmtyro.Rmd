@@ -399,24 +399,38 @@ bigrams_austen |>
 Unlike other measurements, term frequency--inverse document frequency doesn't preserve word order, and it reduces documents to one instance of each token. Since any use of tf-idf can't merely add a column, `summarize_tf_idf()` avoids the `add_` naming convention. Results are returned in in descending strength of tf-idf:
 
 ```{r}
-tfidf_doubliners <- corpus_dubliners |> 
+tfidf_dubliners <- corpus_dubliners |> 
   summarize_tf_idf()
 
-tfidf_doubliners |> 
+tfidf_dubliners |> 
   head()
 ```
+
+Tf-idf understandably emphasizes proper nouns that are unique to each document. The `remove_names` argument in `load_texts()` can help to filter out words that appear only in capitalized form:
+
+```{r}
+tfidf_dubliners <- get_gutenberg_corpus(2814) |> 
+  load_texts(remove_names = TRUE) |> 
+  identify_by(part) |> 
+  standardize_titles(drop_articles = FALSE) |> 
+  summarize_tf_idf()
+
+tfidf_dubliners |> 
+  head()
+```
+
 
 #### Preparing a table
 The `tabulize()` function returns a number of rows, which can be specified:
 ```{r}
-tfidf_doubliners |> 
-  tabulize(rows = 1:3)
+tfidf_dubliners |> 
+  tabulize(rows = 1:4)
 ```
 
 #### Preparing a figure
 The `visualize()` function returns bars showing the top words for each document:
 ```{r}
-tfidf_doubliners |> 
-  visualize(rows = 1:3)
+tfidf_dubliners |> 
+  visualize(rows = 1:4)
 ```
 

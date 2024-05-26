@@ -70,6 +70,14 @@ standardize_titles <- function(.data, title = doc_id, drop_articles = TRUE){
 
   if (is.character(.data)) {
     .data |> standardize_string(drop_articles)
+  } else if ("doc_id" %in% colnames(.data) &&
+             .data |>
+             dplyr::pull(doc_id) |>
+             is.factor()) {
+    .data |>
+      dplyr::mutate({{ title }} := {{ title }} |>
+                      standardize_string(drop_articles) |>
+                      forcats::fct_inorder())
   } else {
     .data |>
       dplyr::mutate({{ title }} := {{ title }} |>
