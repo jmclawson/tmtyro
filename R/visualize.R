@@ -66,7 +66,7 @@
 #' # Other arguments get passed along
 #' austen |>
 #'    add_ngrams() |>
-#'    visualize(node_color = "yellow", top_n = 25)
+#'    visualize(top_n = 25)
 #'
 #' austen |>
 #'    add_vocabulary() |>
@@ -76,7 +76,7 @@ visualize <- function(.data,...){
 }
 
 #' @export
-visualize.default <- function(.data, inorder = TRUE, type = NULL, ...){
+visualize.default <- function(.data, inorder = TRUE, count = NULL, type = NULL, ...){
   if ("doc_id" %in% colnames(.data) &&
       "word" %in% colnames(.data)) {
     if (!is.null(type) && type == "heatmap") {
@@ -87,8 +87,22 @@ visualize.default <- function(.data, inorder = TRUE, type = NULL, ...){
         .data <- .data |>
           dplyr::mutate(doc_id = forcats::fct_inorder(doc_id))
       }
-      .data |>
-        plot_doc_word_bars(...)
+      if (!is.null(count) && count) {
+        .data |>
+          plot_doc_word_bars(...)
+      } else {
+        # fill_colors <- rep("#595959", length(unique(.data$doc_id)))
+        .data |>
+          ggplot2::ggplot(ggplot2::aes(y = doc_id, fill = doc_id)) +
+          ggplot2::geom_bar(show.legend = FALSE) +
+          ggplot2::scale_x_continuous(labels = scales::label_comma())+
+          ggplot2::labs(y = NULL, x = "length (words)") +
+          ggplot2::theme_minimal() +
+          ggplot2::theme(panel.grid.minor = ggplot2::element_blank(),
+                         panel.grid.major.y = ggplot2::element_blank(),
+                         panel.grid.minor.y = ggplot2::element_blank()) #+
+          # ggplot2::scale_fill_manual(values = fill_colors)
+      }
     }
   } else if ("doc_id" %in% colnames(.data)) {
     the_plot <-
@@ -268,6 +282,9 @@ change_colors <- function(
     start = 1) {
 
   mapped <- names(x$mapping)[names(x$mapping) %in% c("color", "colour", "fill")]
+  if ("ggraph" %in% class(x)) {
+    mapped <- "color"
+  }
 
   secondary <- if(!is.null(x$plot_env$sec_y)) {x$plot_env$sec_y} else {NULL}
   color_map <-
@@ -294,11 +311,16 @@ change_colors <- function(
       {\(x) ifelse(length(x) > 0, x, NA)}()
 
   }
-  color_map_length <- x$data[[color_map]] |>
-    unique() |>
-    length()
-  is_sequential <-
-    tryCatch(is.numeric(as.numeric(as.character(x$data[[color_map]]))), warning = function(e) return(FALSE))
+  if (!"ggraph" %in% class(x)) {
+    color_map_length <- x$data[[color_map]] |>
+      unique() |>
+      length()
+    is_sequential <-
+      tryCatch(is.numeric(as.numeric(as.character(x$data[[color_map]]))), warning = function(e) return(FALSE))
+  } else {
+    color_map_length <- 1
+    is_sequential <- FALSE
+  }
 
   if (is_sequential) {
     kind <- "seq"

@@ -36,6 +36,7 @@ set <- temp <- NULL
 set_count <- temp <- NULL
 set_id <- temp <- NULL
 stanza_num <- temp <- NULL
+tag <- temp <- NULL
 term <- temp <- NULL
 .test1 <- temp <- NULL
 .test2 <- temp <- NULL

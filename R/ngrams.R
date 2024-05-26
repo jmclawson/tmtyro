@@ -189,7 +189,6 @@ separate_ngrams <- function(df, names_prefix = "word") {
 #' @param feature The feature to use when constructing ngrams
 #' @param random_seed Whether to randomize the creation of the network chart.
 #' @param set_seed A specific seed to use if not random
-#' @param node_color The color of the nodes
 #' @param edge_color The color of the edges. When the `ggraph` package is not loaded, the default `edge_color=NULL` setting presents edges as gray. When that package is is loaded, a `NULL` edge color colors edges black. Whatever the color defined by this parameter, loading `ggraph` enables transparency to show strength of each bigram connection.
 #' @param top_n The number of pairs to visualize
 #'
@@ -243,13 +242,13 @@ separate_ngrams <- function(df, names_prefix = "word") {
 #'
 #' austen |>
 #'   dplyr::filter(doc_id == "northanger") |>
-#'   plot_bigrams(top_n = 80, node_color = "lightgreen")
+#'   plot_bigrams(top_n = 80) |>
+#'   change_colors("lightgreen")
 plot_bigrams <- function(
     df,
     feature = word,
     random_seed = TRUE,
     set_seed = NULL,
-    node_color = "lightblue",
     edge_color = NULL,
     top_n = 25) {
 
@@ -298,7 +297,9 @@ plot_bigrams <- function(
         length = ggplot2::unit(.10, "inches")),
       end_cap = ggraph::circle(.07, "inches")) +
     ggraph::geom_node_point(
-      color = node_color,
+      ggplot2::aes(color = "color"),
+      alpha = .8,
+      show.legend = FALSE,
       size = 5) +
     ggraph::geom_node_text(
       ggplot2::aes(label = name),

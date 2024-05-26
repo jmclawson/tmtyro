@@ -9,7 +9,6 @@ plot_bigrams(
   feature = word,
   random_seed = TRUE,
   set_seed = NULL,
-  node_color = "lightblue",
   edge_color = NULL,
   top_n = 25
 )
@@ -22,8 +21,6 @@ plot_bigrams(
 \item{random_seed}{Whether to randomize the creation of the network chart.}
 
 \item{set_seed}{A specific seed to use if not random}
-
-\item{node_color}{The color of the nodes}
 
 \item{edge_color}{The color of the edges. When the \code{ggraph} package is not loaded, the default \code{edge_color=NULL} setting presents edges as gray. When that package is is loaded, a \code{NULL} edge color colors edges black. Whatever the color defined by this parameter, loading \code{ggraph} enables transparency to show strength of each bigram connection.}
 
@@ -80,7 +77,8 @@ austen |>
 
 austen |>
   dplyr::filter(doc_id == "northanger") |>
-  plot_bigrams(top_n = 80, node_color = "lightgreen")
+  plot_bigrams(top_n = 80) |>
+  change_colors("lightgreen")
 }
 \seealso{
 Other visualizing helpers: 
