@@ -122,7 +122,7 @@ long-standing tool used by specialists; and the comparatively recent <a href="ht
 designed to work with the “tidyverse” suite of packages. Their designs
 situate them for different audiences and purposes, but each is limited
 in part by lock-in or difficulty. The tmtyro package aims to address
-these shortcomings.</p>
+some of these concerns.</p>
 <p><a href="https://voyant-tools.org" class="external-link">Voyant</a>’s graphical interface
 makes it accessible to complete novices, but it doesn’t skimp on power
 or features. Still, every tool has limits. The tool’s easy-to-use
@@ -139,16 +139,16 @@ least slightly familiar with dplyr, ggplot2, and the %&gt;% ‘pipe’
 operator in R.” Without the book, tidytext is even less suited for
 beginners, leaving users to fend for themselves and find some other
 method to read files.</p>
-<p>The tidytext package is a helpful tool to be picked up by a seasoned
-R user familiar with the tidyverse. The tm package, by contrast, is the
-kind of tool for which specialists will learn R to use. It predates the
-tidyverse package suite, and its data design is often incompatible with
-those workflows. Nevertheless, it provides power and specialized
-functionality beyond these other tools, making it worth learning for
-those who make the choice.</p>
+<p>If the tidytext package is a helpful tool to be picked up by a
+seasoned R user familiar with the tidyverse, then the tm package, by
+contrast, is the kind of tool for which specialists will learn R to use.
+It predates the tidyverse package suite, and its data design is often
+incompatible with those workflows. Nevertheless, it provides power and
+specialized functionality beyond these other tools, making it worth
+learning for those who need it.</p>
 <p><img src="skill_speedometer.png"></p>
-<p>The tmtyro package is designed to fit into a gap left by these tools.
-In fact, it was developed over two semesters of teaching a course on
+<p>The tmtyro package is designed to fit into a space left behind. In
+fact, it was developed over two semesters of teaching a course on
 literary text mining using R, following through examples from <em>Text
 Mining in R</em> while students applied techniques to ask their own
 questions about their own selections of texts. Taught in the English
@@ -206,7 +206,8 @@ those used for chapters, and “text”:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>         <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS “I have my own theory about i…</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>         <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS He began to puff again at his…</span></span></code></pre></div>
 <p>In some cases, headers may make better sense if read as part of the
-text.</p>
+text, such as this section of “Aeolus” where newspaper headlines pepper
+the page.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ulysses</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_gutenberg_corpus.html">get_gutenberg_corpus</a></span><span class="op">(</span><span class="fl">4300</span><span class="op">)</span></span>
 <span></span>
@@ -276,7 +277,8 @@ part of the file name populates the <code>doc_id</code> column:</p>
 <h3 id="standardize-titles">Standardize titles<a class="anchor" aria-label="anchor" href="#standardize-titles"></a>
 </h3>
 <p>The <code><a href="../reference/standardize_titles.html">standardize_titles()</a></code> function makes it easy to
-convert titles to something cleaner:</p>
+convert titles to something cleaner, adopting title case, converting
+underscores to spaces, and dropping initial articles:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">corpus_austen</span> <span class="op">&lt;-</span> <span class="va">corpus_austen</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/standardize_titles.html">standardize_titles</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -304,7 +306,7 @@ Project Gutenberg ID as the document identifier.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>   <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS him</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="use-another-column-for-doc_id">Use another column for <code>doc_id</code><a class="anchor" aria-label="anchor" href="#use-another-column-for-doc_id"></a>
+<h3 id="choose-a-different-doc_id">Choose a different <code>doc_id</code><a class="anchor" aria-label="anchor" href="#choose-a-different-doc_id"></a>
 </h3>
 <p>If a document’s title is preferred over the gutenberg_id, the
 <code><a href="../reference/identify_by.html">identify_by()</a></code> function makes the switch:</p>
@@ -4080,7 +4082,7 @@ the Y-axis to focus a figure.</p>
 <h3 id="n-grams-2">N-grams<a class="anchor" aria-label="anchor" href="#n-grams-2"></a>
 </h3>
 <p>By default, the <code><a href="../reference/visualize.html">visualize()</a></code> function returns a network
-visualization demonstrated in <em>Text Mining with R</em>:</p>
+visualization like that demonstrated in <em>Text Mining with R</em>:</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bigrams_austen</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -4104,8 +4106,10 @@ colors to be set by values on the Y-axis.</p>
 </h3>
 <p>The <code><a href="../reference/visualize.html">visualize()</a></code> function returns bars showing the top
 words for each document. This can be a useful way to differentiate texts
-in a set from each other. (Remember, <code>tfidf_dubliners</code> was
-prepared with <code>load_texts(remove_names = TRUE)</code>.)</p>
+in a set from each other. Remember, <code>tfidf_dubliners</code> was
+prepared with <code>load_texts(remove_names = TRUE)</code>. The
+resulting chart begins to show delineation of topics characteristic of
+the stories in Joyce’s collection:</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tfidf_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span></code></pre></div>
