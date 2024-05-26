@@ -104,7 +104,7 @@ Unlike Voyant, code-based methods for working with text offer both reproducibili
 
 An R user might pick up tidytext as an added tool in a toolbox. The tm package, by contrast, is the kind of tool for which specialists will learn R to use. It predates the tidyverse packages, and its data design is often incompatible with those workflows. 
 
-![Graphic comparing four tools by their accessibility to beginners. Voyant is shown as the one most accessible to beginners, followed in order by tmtyro, tidytext, and tm. Voyant is colored purple to indicate its use of a graphical interface. The other tools are colored pink to indicate their use of a coding interface.](skill_speedometer.png)
+![](skill_speedometer.png)
 
 The tmtyro package is designed to fit in the gap between these tools. Like Voyant, it is designed for a beginner. A code-based interface can never be as intuitive as one designed graphically, but tmtyro makes decisions that strive for consistency and predictability. Workflows are provided for loading texts from a folder or for getting a corpus of texts from an online repository like Project Gutenberg. Once texts are loaded, repetitive conventions for function names make it easy to add columns for assessing sentiment, for considering n-grams, or for measuring vocabulary. Generic functions handle the details for sharing figures and tables, automatically adjusting to fit the steps taken in a given analysis.
 
