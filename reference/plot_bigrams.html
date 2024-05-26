@@ -59,7 +59,6 @@
 <span>  feature <span class="op">=</span> <span class="va">word</span>,</span>
 <span>  random_seed <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  set_seed <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  node_color <span class="op">=</span> <span class="st">"lightblue"</span>,</span>
 <span>  edge_color <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  top_n <span class="op">=</span> <span class="fl">25</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -81,10 +80,6 @@
 
 <dt>set_seed</dt>
 <dd><p>A specific seed to use if not random</p></dd>
-
-
-<dt>node_color</dt>
-<dd><p>The color of the nodes</p></dd>
 
 
 <dt>edge_color</dt>
@@ -172,7 +167,8 @@
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">austen</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">doc_id</span> <span class="op">==</span> <span class="st">"northanger"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu">plot_bigrams</span><span class="op">(</span>top_n <span class="op">=</span> <span class="fl">80</span>, node_color <span class="op">=</span> <span class="st">"lightgreen"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">plot_bigrams</span><span class="op">(</span>top_n <span class="op">=</span> <span class="fl">80</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="change_colors.html">change_colors</a></span><span class="op">(</span><span class="st">"lightgreen"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot_bigrams-4.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>

@@ -156,34 +156,69 @@ literary text mining using R, following through examples from <em>Text
 Mining in R</em> while students applied techniques to ask their own
 questions about their own selections of texts. Taught in an English
 department, our course was was never meant to be a “coding class,” even
-though it did walk students through their first code. Approaching texts
-from a different angle helped us to have new insights on the things we
-were reading. And having working tools in front of us helped everyone
-test the boundaries of this new world and map how we might follow the
-paths laid out in the research we read.</p>
+though it did walk some students through the process of writing their
+first code. Approaching texts from a different angle helped us to have
+new insights on the things we were reading. And having working tools in
+front of us helped everyone test the boundaries of this new world and
+map how we might follow the paths laid out in the research we read.</p>
 <p>Like Voyant, tmtyro is designed for a beginner. Although limited in
-its intuitiveness by its code-based interface, tmtyro makes decisions
-that strive for consistency and predictability. Workflows are provided
-for loading texts from a folder or for getting a corpus of texts from an
+its intuitiveness by a code-based interface, tmtyro makes decisions that
+strive for consistency and predictability. Workflows are provided for
+loading texts from a folder or for getting a corpus of texts from an
 online repository like Project Gutenberg. Once texts are loaded,
 repetitive conventions for function names make it easy to add columns
 for assessing sentiment, for considering n-grams, or for measuring
-vocabulary. Generic functions handle the details for sharing figures and
+vocabulary. Generic functions handle details for sharing figures and
 tables, automatically adjusting to fit the steps taken in a given
 analysis.</p>
-<p>More importantly, tmtyro provides a skills ramp for users who outgrow
+<p>Most importantly, tmtyro provides a skills ramp for users who outgrow
 it. Code workflows are designed to help beginners more quickly start
 trying things out. From there, a student who gains confidence in the
 methods provided by the package might step beyond it to tweak a
 visualization using functions from ggplot2. A researcher wishing to work
 with a subset of titles will begin to understand methods from dplyr. And
 since tmtyro’s data design is based on that of tidytext, a user can
-transition between both packages seamlessly. Functions are designed to
-remain useful long past the stage of anyone being a tyro.</p>
+transition between both packages seamlessly. Users aren’t expected to
+stick with tmtyro forever, but functions are designed to remain useful
+long past the “tyro” stage.</p>
 </div>
 <div class="section level2">
 <h2 id="starting-with-tmtyro">Starting with tmtyro<a class="anchor" aria-label="anchor" href="#starting-with-tmtyro"></a>
 </h2>
+<p>tmtyro offers a few functions to gather and load texts for study:</p>
+<ul>
+<li>
+<code><a href="../reference/get_gutenberg_corpus.html">get_gutenberg_corpus()</a></code> caches books by their Project
+Gutenberg ID, parses their text and headers, and presents them in a
+table.</li>
+<li>
+<code><a href="../reference/get_micusp_corpus.html">get_micusp_corpus()</a></code> caches papers from the Michigan
+Corpus of Upper-level Student Papers, parses them for metadata and
+contents, and presents them in a table.</li>
+<li>
+<code><a href="../reference/download_once.html">download_once()</a></code> caches an online file and passes the
+local path invisibly.</li>
+<li>
+<code><a href="../reference/load_texts.html">load_texts()</a></code> prepares a table in “tidytext” format with
+one word per row and columns for metadata. These texts can be loaded
+from a folder of files or passed from a table like those prepared by
+<code><a href="../reference/get_gutenberg_corpus.html">get_gutenberg_corpus()</a></code>. Parameters allow for lemmatization,
+part-of-speech processing, and other options.</li>
+</ul>
+<p>Other functions aid with preparing a corpus:</p>
+<ul>
+<li>
+<code><a href="../reference/move_header_to_text.html">move_header_to_text()</a></code> corrects overzealous
+identification of HTML headers when parsing books from Project
+Gutenberg.</li>
+<li>
+<code><a href="../reference/standardize_titles.html">standardize_titles()</a></code> converts a vector or column into
+title case, converts underscores with spaces, and optionally removes
+initial articles.</li>
+<li>
+<code><a href="../reference/identify_by.html">identify_by()</a></code> sets a column of metadata to serve as
+document marker.</li>
+</ul>
 <div class="section level3">
 <h3 id="get-a-corpus">Get a corpus<a class="anchor" aria-label="anchor" href="#get-a-corpus"></a>
 </h3>
@@ -208,17 +243,17 @@ include columns for “gutenberg_id”, “title”, “author”, headers such 
 those used for chapters, and “text”:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jmclawson/tmtyro" class="external-link">tmtyro</a></span><span class="op">)</span></span>
-<span><span class="va">joyce</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_gutenberg_corpus.html">get_gutenberg_corpus</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2814</span>, <span class="fl">4217</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">joyce</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_gutenberg_corpus.html">get_gutenberg_corpus</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2814</span>, <span class="fl">4217</span>, <span class="fl">4300</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">joyce</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
-<span><span class="co">#&gt;   gutenberg_id title     author       part        text                          </span></span>
-<span><span class="co">#&gt;          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>         <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS There was no hope for him thi…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>         <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS Old Cotter was sitting at the…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>         <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS “No, I wouldn’t say he was ex…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>         <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS He began to puff at his pipe,…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>         <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS “I have my own theory about i…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>         <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS He began to puff again at his…</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 7</span></span></span>
+<span><span class="co">#&gt;   gutenberg_id title     author       part        section subsection text       </span></span>
+<span><span class="co">#&gt;          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>         <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>         There was …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>         <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>         Old Cotter…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>         <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>         “No, I wou…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>         <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>         He began t…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>         <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>         “I have my…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>         <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>         He began t…</span></span></code></pre></div>
 <p>In some cases, headers may make better sense if read as part of the
 text, such as this section of “Aeolus” where newspaper headlines pepper
 the page.</p>
@@ -262,21 +297,57 @@ the page.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>         <span style="text-decoration: underline;">4</span>300 Ulysses Joyce, James — II — [ 7 ]   Under the porch of the gene…</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>         <span style="text-decoration: underline;">4</span>300 Ulysses Joyce, James — II — [ 7 ]   GENTLEMEN OF THE PRESS      </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>         <span style="text-decoration: underline;">4</span>300 Ulysses Joyce, James — II — [ 7 ]   Grossbooted draymen rolled …</span></span></code></pre></div>
+<p>Headers can be moved for specific texts in a corpus by specifying a
+filter:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">joyce</span> <span class="op">&lt;-</span> <span class="va">joyce</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/move_header_to_text.html">move_header_to_text</a></span><span class="op">(</span><span class="va">subsection</span>, <span class="va">title</span> <span class="op">==</span> <span class="st">"Ulysses"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">joyce</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
+<span><span class="co">#&gt;   gutenberg_id title     author       part        section text                  </span></span>
+<span><span class="co">#&gt;          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>         <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      There was no hope for…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>         <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      Old Cotter was sittin…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>         <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      “No, I wouldn’t say h…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>         <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      He began to puff at h…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>         <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      “I have my own theory…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>         <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      He began to puff agai…</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="load-texts">Load texts<a class="anchor" aria-label="anchor" href="#load-texts"></a>
 </h3>
-<p>If a files are already collected in a folder on disk, they can be
-loaded using <code><a href="../reference/load_texts.html">load_texts()</a></code>. When loaded this way, the first
-part of the file name populates the <code>doc_id</code> column:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">corpus_austen</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/load_texts.html">load_texts</a></span><span class="op">(</span><span class="st">"austen/"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">corpus_austen</span><span class="op">$</span><span class="va">doc_id</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "emma"                  "lady_susan"            "mansfield_park"       </span></span>
-<span><span class="co">#&gt; [4] "northanger"            "persuasion"            "pride_and_prejudice"  </span></span>
-<span><span class="co">#&gt; [7] "sense_and_sensibility"</span></span></code></pre></div>
+<div class="section level4">
+<h4 id="load-from-a-table">Load from a table<a class="anchor" aria-label="anchor" href="#load-from-a-table"></a>
+</h4>
+<p>A table like the one prepared by <code><a href="../reference/get_gutenberg_corpus.html">get_gutenberg_corpus()</a></code>
+can be prepared in tidytext format with one word per row using
+<code><a href="../reference/load_texts.html">load_texts()</a></code>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">corpus_austen</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">corpus_ulysses</span> <span class="op">&lt;-</span> <span class="va">ulysses</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/load_texts.html">load_texts</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">corpus_ulysses</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
+<span><span class="co">#&gt;   doc_id title   author       part  section word    </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>   <span style="text-decoration: underline;">4</span>300 Ulysses Joyce, James — I — [ 1 ]   stately </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>   <span style="text-decoration: underline;">4</span>300 Ulysses Joyce, James — I — [ 1 ]   plump   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   <span style="text-decoration: underline;">4</span>300 Ulysses Joyce, James — I — [ 1 ]   buck    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>   <span style="text-decoration: underline;">4</span>300 Ulysses Joyce, James — I — [ 1 ]   mulligan</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>   <span style="text-decoration: underline;">4</span>300 Ulysses Joyce, James — I — [ 1 ]   came    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>   <span style="text-decoration: underline;">4</span>300 Ulysses Joyce, James — I — [ 1 ]   from</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="load-from-files">Load from files<a class="anchor" aria-label="anchor" href="#load-from-files"></a>
+</h4>
+<p>If files are already collected in a folder on disk, they can be
+prepared in a table using <code><a href="../reference/load_texts.html">load_texts()</a></code>. When loaded this
+way, the first part of the file name populates the <code>doc_id</code>
+column:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">corpus_austen</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/load_texts.html">load_texts</a></span><span class="op">(</span><span class="st">"austen/"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">corpus_austen</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 3</span></span></span>
 <span><span class="co">#&gt;   doc_id par_num word     </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
@@ -287,60 +358,55 @@ part of the file name populates the <code>doc_id</code> column:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> emma         3 emma     </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> emma         3 woodhouse</span></span></code></pre></div>
 </div>
+</div>
 <div class="section level3">
 <h3 id="standardize-titles">Standardize titles<a class="anchor" aria-label="anchor" href="#standardize-titles"></a>
 </h3>
-<p>The <code><a href="../reference/standardize_titles.html">standardize_titles()</a></code> function makes it easy to
-convert titles to something cleaner, adopting title case, converting
-underscores to spaces, and dropping initial articles:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">corpus_austen</span> <span class="op">&lt;-</span> <span class="va">corpus_austen</span> <span class="op">|&gt;</span> </span>
+<p>The <code><a href="../reference/standardize_titles.html">standardize_titles()</a></code> function converts titles to
+something cleaner, adopting title case, converting underscores to
+spaces, and dropping initial articles:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">before</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">corpus_austen</span><span class="op">$</span><span class="va">doc_id</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">corpus_austen</span> <span class="op">&lt;-</span> <span class="va">corpus_austen</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/standardize_titles.html">standardize_titles</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">corpus_austen</span><span class="op">$</span><span class="va">doc_id</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "Emma"                  "Lady Susan"            "Mansfield Park"       </span></span>
-<span><span class="co">#&gt; [4] "Northanger"            "Persuasion"            "Pride and Prejudice"  </span></span>
-<span><span class="co">#&gt; [7] "Sense and Sensibility"</span></span></code></pre></div>
-<p>The same <code><a href="../reference/load_texts.html">load_texts()</a></code> function will prepare a corpus
-from Project Gutenberg in this format of one word per row, using the
-Project Gutenberg ID as the document identifier.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">corpus_joyce</span> <span class="op">&lt;-</span> <span class="va">joyce</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/load_texts.html">load_texts</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">after</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">corpus_austen</span><span class="op">$</span><span class="va">doc_id</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">corpus_joyce</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
-<span><span class="co">#&gt;   doc_id title     author       part        word </span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>   <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS there</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>   <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS was  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS no   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>   <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS hope </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>   <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS for  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>   <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS him</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">before</span>, <span class="va">after</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                  before                 after</span></span>
+<span><span class="co">#&gt; 1                  emma                  Emma</span></span>
+<span><span class="co">#&gt; 2            lady_susan            Lady Susan</span></span>
+<span><span class="co">#&gt; 3        mansfield_park        Mansfield Park</span></span>
+<span><span class="co">#&gt; 4            northanger            Northanger</span></span>
+<span><span class="co">#&gt; 5            persuasion            Persuasion</span></span>
+<span><span class="co">#&gt; 6   pride_and_prejudice   Pride and Prejudice</span></span>
+<span><span class="co">#&gt; 7 sense_and_sensibility Sense and Sensibility</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="choose-a-different-doc_id">Choose a different <code>doc_id</code><a class="anchor" aria-label="anchor" href="#choose-a-different-doc_id"></a>
 </h3>
-<p>If a document’s title is preferred over the gutenberg_id, the
-<code><a href="../reference/identify_by.html">identify_by()</a></code> function makes the switch:</p>
+<p>Documents loaded from <code><a href="../reference/get_gutenberg_corpus.html">get_gutenberg_corpus()</a></code> use the
+<code>gutenberg_id</code> column as their document identifier. If a
+different column is preferred, <code><a href="../reference/identify_by.html">identify_by()</a></code> makes the
+switch:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">corpus_joyce</span> <span class="op">&lt;-</span> <span class="va">joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/load_texts.html">load_texts</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/identify_by.html">identify_by</a></span><span class="op">(</span><span class="va">title</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">corpus_joyce</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 4</span></span></span>
-<span><span class="co">#&gt;   doc_id    author       part        word </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Dubliners Joyce, James THE SISTERS there</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Dubliners Joyce, James THE SISTERS was  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Dubliners Joyce, James THE SISTERS no   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Dubliners Joyce, James THE SISTERS hope </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Dubliners Joyce, James THE SISTERS for  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Dubliners Joyce, James THE SISTERS him</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
+<span><span class="co">#&gt;   doc_id    author       part        section word </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      there</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      was  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      no   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      hope </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      for  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      him</span></span></code></pre></div>
 <p>The process is the same when comparing the chapters or stories in a
-collection of works. Just use another column like “part” as the document
+collection of works. Choose another column like “part” as the document
 identifier:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">corpus_dubliners</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_gutenberg_corpus.html">get_gutenberg_corpus</a></span><span class="op">(</span><span class="fl">2814</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -358,19 +424,52 @@ identifier:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Dubliners Joyce, James The Sisters hope </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Dubliners Joyce, James The Sisters for  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Dubliners Joyce, James The Sisters him</span></span></code></pre></div>
+<p>(I’ve also used <code><a href="../reference/standardize_titles.html">standardize_titles()</a></code> to make the
+<code>doc_id</code> column look a little nicer.)</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="studying-texts">Studying texts<a class="anchor" aria-label="anchor" href="#studying-texts"></a>
 </h2>
-<p>Functions that follow similar naming conventions simplify the task of
-analyzing texts. At the same time, generic functions for visualizing and
-preparing tables adapt for each kind of study.</p>
+<p>Most functions for studying texts follow a predictable naming
+convention:</p>
+<ul>
+<li>
+<code><a href="../reference/add_vocabulary.html">add_vocabulary()</a></code> adds columns measuring the lexical
+variety of texts.</li>
+<li>
+<code><a href="../reference/add_sentiment.html">add_sentiment()</a></code> adds a column of sentiment identifiers
+from a chosen lexicon.</li>
+<li>
+<code><a href="../reference/add_ngrams.html">add_ngrams()</a></code> adds columns of words for bigrams,
+trigrams, or more.</li>
+</ul>
+<p>Not every method preserves the size or shape of data passed to
+it:</p>
+<ul>
+<li>
+<code><a href="../reference/summarize_tf_idf.html">summarize_tf_idf()</a></code> returns a data frame for every token
+in each document in a corpus, with columns indicating weights for term
+frequency-inverse document frequency.</li>
+</ul>
+<p>Along with these, other functions assist with managing the
+process:</p>
+<ul>
+<li>
+<code><a href="../reference/drop_empty.html">drop_empty()</a></code> drops rows with missing data in any column
+or in specified columns.</li>
+<li>
+<code><a href="../reference/combine_ngrams.html">combine_ngrams()</a></code> combines multiple columns for n-grams
+into one.</li>
+<li>
+<code><a href="../reference/separate_ngrams.html">separate_ngrams()</a></code> separatesa single column of n-grams
+into one column per word.</li>
+</ul>
 <div class="section level3">
 <h3 id="vocabulary-richness">Vocabulary richness<a class="anchor" aria-label="anchor" href="#vocabulary-richness"></a>
 </h3>
 <p>The <code><a href="../reference/add_vocabulary.html">add_vocabulary()</a></code> function adds measurements of
-vocabulary richness</p>
+vocabulary richness:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">vocab_dubliners</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="va">corpus_dubliners</span> <span class="op">|&gt;</span> </span>
@@ -396,8 +495,8 @@ vocabulary richness</p>
 <div class="section level3">
 <h3 id="sentiment">Sentiment<a class="anchor" aria-label="anchor" href="#sentiment"></a>
 </h3>
-<p>Similarly, the <code><a href="../reference/add_sentiment.html">add_sentiment()</a></code> function adds
-measurements of sentiment.</p>
+<p>Similarly, <code><a href="../reference/add_sentiment.html">add_sentiment()</a></code> adds measurements of
+sentiment:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sentiment_dubliners</span> <span class="op">&lt;-</span> <span class="va">corpus_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/add_sentiment.html">add_sentiment</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -416,12 +515,11 @@ measurements of sentiment.</p>
 <div class="section level4">
 <h4 id="dropping-empty-rows">Dropping empty rows<a class="anchor" aria-label="anchor" href="#dropping-empty-rows"></a>
 </h4>
-<p>Since many words may not be found in a given sentiment lexicon, the
-<code><a href="../reference/drop_empty.html">drop_empty()</a></code> function makes it easy to remove empty
-rows:</p>
+<p>Since many words may not be found in a given sentiment lexicon,
+<code><a href="../reference/drop_empty.html">drop_empty()</a></code> makes it easy to remove empty rows:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sentiment_dubliners</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/drop_empty.html">drop_empty</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/drop_empty.html">drop_empty</a></span><span class="op">(</span><span class="va">sentiment</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
 <span><span class="co">#&gt;   title     author       doc_id      word      sentiment</span></span>
@@ -444,7 +542,7 @@ rows:</p>
 <span>  <span class="fu"><a href="../reference/add_sentiment.html">add_sentiment</a></span><span class="op">(</span>lexicon <span class="op">=</span> <span class="st">"nrc"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">sentiment_ulysses</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/drop_empty.html">drop_empty</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/drop_empty.html">drop_empty</a></span><span class="op">(</span><span class="va">sentiment</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 6</span></span></span>
 <span><span class="co">#&gt;    title   author       part  doc_id word    sentiment   </span></span>
@@ -464,8 +562,9 @@ rows:</p>
 <div class="section level3">
 <h3 id="n-grams">N-grams<a class="anchor" aria-label="anchor" href="#n-grams"></a>
 </h3>
-<p>Following the pattern already established, <code><a href="../reference/add_ngrams.html">add_ngrams()</a></code>
-adds columns for n-length phrases of words:</p>
+<p>Following the same pattern, <code><a href="../reference/add_ngrams.html">add_ngrams()</a></code> adds columns
+for n-length phrases of words. By default, it prepares bigrams (or
+2-grams):</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bigrams_austen</span> <span class="op">&lt;-</span> <span class="va">corpus_austen</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/add_ngrams.html">add_ngrams</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -481,6 +580,7 @@ adds columns for n-length phrases of words:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Emma         2 i         emma     </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Emma         3 emma      woodhouse</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Emma         3 woodhouse handsome</span></span></code></pre></div>
+<p>Other n-grams can be chosen by passing a vector of numbers:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">trigrams_austen</span> <span class="op">&lt;-</span> <span class="va">corpus_austen</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/add_ngrams.html">add_ngrams</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span>
@@ -504,8 +604,7 @@ adds columns for n-length phrases of words:</p>
 doesn’t preserve word order, and it reduces documents to one instance of
 each token. Since any use of tf-idf can’t merely add a column,
 <code><a href="../reference/summarize_tf_idf.html">summarize_tf_idf()</a></code> avoids the <code>add_</code> naming
-convention. Results are returned in in descending strength of
-tf-idf:</p>
+convention. Results are returned in descending strength of tf-idf:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tfidf_dubliners</span> <span class="op">&lt;-</span> <span class="va">corpus_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/summarize_tf_idf.html">summarize_tf_idf</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -521,8 +620,8 @@ tf-idf:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Ivy Day in the Committee Room henchy      53 0.010<span style="text-decoration: underline;">1</span>   2.71 0.027<span style="text-decoration: underline;">3</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> A Little Cloud                gallaher    48 0.009<span style="text-decoration: underline;">71</span>  2.71 0.026<span style="text-decoration: underline;">3</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> The Dead                      gabriel    142 0.009<span style="text-decoration: underline;">03</span>  2.71 0.024<span style="text-decoration: underline;">4</span></span></span></code></pre></div>
-<p>Tf-idf understandably emphasizes proper nouns that are unique to each
-document. The <code>remove_names</code> argument in
+<p>Tf-idf’s method understandably emphasizes proper nouns that are
+unique to each document. The <code>remove_names</code> argument in
 <code><a href="../reference/load_texts.html">load_texts()</a></code> can help to filter out words that appear only
 in capitalized form:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
@@ -552,12 +651,12 @@ in capitalized form:</p>
 of measurement. This repetition makes it easy to see and appreciate
 findings without struggling to recall a specialized function.</p>
 <div class="section level3">
-<h3 id="vocabulary-richness-1">Vocabulary richness<a class="anchor" aria-label="anchor" href="#vocabulary-richness-1"></a>
+<h3 id="corpus-details">Corpus details<a class="anchor" aria-label="anchor" href="#corpus-details"></a>
 </h3>
-<p>For vocabulary richness, <code><a href="../reference/tabulize.html">tabulize()</a></code> returns a summary of
-one row per document:</p>
+<p>By default, <code><a href="../reference/tabulize.html">tabulize()</a></code> prepares a table showing the
+lengths of each document.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">vocab_dubliners</span> <span class="op">|&gt;</span> </span>
+<code class="sourceCode R"><span><span class="va">corpus_joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div id="mwlefoodfi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#mwlefoodfi table {
@@ -1000,161 +1099,35 @@ one row per document:</p>
 }
 </style>
 <table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-<thead>
-<tr class="gt_col_headings gt_spanner_row">
-<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" scope="col" id=""></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="length">length</th>
-      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="vocabulary">
-        <span class="gt_column_spanner">vocabulary</span>
-      </th>
-      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="hapax">
-        <span class="gt_column_spanner">hapax</span>
-      </th>
-    </tr>
-<tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="total">total</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="ratio">ratio</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="total">total</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="ratio">ratio</th>
-    </tr>
-</thead>
+<thead><tr class="gt_col_headings">
+<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id=""></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="words">words</th>
+    </tr></thead>
 <tbody class="gt_table_body">
 <tr>
-<td headers="doc_id" class="gt_row gt_center">The Sisters</td>
-<td headers="words" class="gt_row gt_right">3,113</td>
-<td headers="vocab" class="gt_row gt_right">903</td>
-<td headers="ttr" class="gt_row gt_right">0.290</td>
-<td headers="hlemona" class="gt_row gt_right">552</td>
-<td headers="htr" class="gt_row gt_right">0.177</td>
+<td headers="doc_id" class="gt_row gt_center">Dubliners</td>
+<td headers="n" class="gt_row gt_right">67,953</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_center">An Encounter</td>
-<td headers="words" class="gt_row gt_right">3,257</td>
-<td headers="vocab" class="gt_row gt_right">980</td>
-<td headers="ttr" class="gt_row gt_right">0.301</td>
-<td headers="hlemona" class="gt_row gt_right">620</td>
-<td headers="htr" class="gt_row gt_right">0.190</td>
+<td headers="doc_id" class="gt_row gt_center">A Portrait of the Artist as a Young Man</td>
+<td headers="n" class="gt_row gt_right">84,933</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_center">Araby</td>
-<td headers="words" class="gt_row gt_right">2,345</td>
-<td headers="vocab" class="gt_row gt_right">825</td>
-<td headers="ttr" class="gt_row gt_right">0.352</td>
-<td headers="hlemona" class="gt_row gt_right">560</td>
-<td headers="htr" class="gt_row gt_right">0.239</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_center">Eveline</td>
-<td headers="words" class="gt_row gt_right">1,831</td>
-<td headers="vocab" class="gt_row gt_right">625</td>
-<td headers="ttr" class="gt_row gt_right">0.341</td>
-<td headers="hlemona" class="gt_row gt_right">407</td>
-<td headers="htr" class="gt_row gt_right">0.222</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_center">After the Race</td>
-<td headers="words" class="gt_row gt_right">2,242</td>
-<td headers="vocab" class="gt_row gt_right">862</td>
-<td headers="ttr" class="gt_row gt_right">0.384</td>
-<td headers="hlemona" class="gt_row gt_right">623</td>
-<td headers="htr" class="gt_row gt_right">0.278</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_center">Two Gallants</td>
-<td headers="words" class="gt_row gt_right">3,921</td>
-<td headers="vocab" class="gt_row gt_right">1,143</td>
-<td headers="ttr" class="gt_row gt_right">0.292</td>
-<td headers="hlemona" class="gt_row gt_right">735</td>
-<td headers="htr" class="gt_row gt_right">0.187</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_center">The Boarding House</td>
-<td headers="words" class="gt_row gt_right">2,818</td>
-<td headers="vocab" class="gt_row gt_right">939</td>
-<td headers="ttr" class="gt_row gt_right">0.333</td>
-<td headers="hlemona" class="gt_row gt_right">633</td>
-<td headers="htr" class="gt_row gt_right">0.225</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_center">A Little Cloud</td>
-<td headers="words" class="gt_row gt_right">4,941</td>
-<td headers="vocab" class="gt_row gt_right">1,381</td>
-<td headers="ttr" class="gt_row gt_right">0.279</td>
-<td headers="hlemona" class="gt_row gt_right">873</td>
-<td headers="htr" class="gt_row gt_right">0.177</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_center">Counterparts</td>
-<td headers="words" class="gt_row gt_right">4,116</td>
-<td headers="vocab" class="gt_row gt_right">1,104</td>
-<td headers="ttr" class="gt_row gt_right">0.268</td>
-<td headers="hlemona" class="gt_row gt_right">644</td>
-<td headers="htr" class="gt_row gt_right">0.156</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_center">Clay</td>
-<td headers="words" class="gt_row gt_right">2,659</td>
-<td headers="vocab" class="gt_row gt_right">719</td>
-<td headers="ttr" class="gt_row gt_right">0.270</td>
-<td headers="hlemona" class="gt_row gt_right">411</td>
-<td headers="htr" class="gt_row gt_right">0.155</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_center">A Painful Case</td>
-<td headers="words" class="gt_row gt_right">3,641</td>
-<td headers="vocab" class="gt_row gt_right">1,235</td>
-<td headers="ttr" class="gt_row gt_right">0.339</td>
-<td headers="hlemona" class="gt_row gt_right">840</td>
-<td headers="htr" class="gt_row gt_right">0.231</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_center">Ivy Day in the Committee Room</td>
-<td headers="words" class="gt_row gt_right">5,249</td>
-<td headers="vocab" class="gt_row gt_right">1,245</td>
-<td headers="ttr" class="gt_row gt_right">0.237</td>
-<td headers="hlemona" class="gt_row gt_right">742</td>
-<td headers="htr" class="gt_row gt_right">0.141</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_center">A Mother</td>
-<td headers="words" class="gt_row gt_right">4,542</td>
-<td headers="vocab" class="gt_row gt_right">1,189</td>
-<td headers="ttr" class="gt_row gt_right">0.262</td>
-<td headers="hlemona" class="gt_row gt_right">762</td>
-<td headers="htr" class="gt_row gt_right">0.168</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_center">Grace</td>
-<td headers="words" class="gt_row gt_right">7,547</td>
-<td headers="vocab" class="gt_row gt_right">1,796</td>
-<td headers="ttr" class="gt_row gt_right">0.238</td>
-<td headers="hlemona" class="gt_row gt_right">1,112</td>
-<td headers="htr" class="gt_row gt_right">0.147</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_center">The Dead</td>
-<td headers="words" class="gt_row gt_right">15,731</td>
-<td headers="vocab" class="gt_row gt_right">2,746</td>
-<td headers="ttr" class="gt_row gt_right">0.175</td>
-<td headers="hlemona" class="gt_row gt_right">1,557</td>
-<td headers="htr" class="gt_row gt_right">0.099</td>
+<td headers="doc_id" class="gt_row gt_center">Ulysses</td>
+<td headers="n" class="gt_row gt_right">265,043</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 <div class="section level3">
-<h3 id="sentiment-1">Sentiment<a class="anchor" aria-label="anchor" href="#sentiment-1"></a>
+<h3 id="word-counts">Word counts<a class="anchor" aria-label="anchor" href="#word-counts"></a>
 </h3>
-<p>For sentiment analysis, <code><a href="../reference/tabulize.html">tabulize()</a></code> returns a summary of
-figures for each document:</p>
+<p>Adding <code>count = TRUE</code> will show the counts of the
+most-frequent words.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># dplyr is used here to choose a smaller example for comparison</span></span>
-<span><span class="va">sentiment_dubliners_part</span> <span class="op">&lt;-</span> <span class="va">sentiment_dubliners</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">doc_id</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"The Sisters"</span>, <span class="st">"An Encounter"</span>,  <span class="st">"Araby"</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">sentiment_dubliners_part</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">corpus_joyce</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span>count <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <div id="eexombwkke" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#eexombwkke table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -1598,73 +1571,113 @@ figures for each document:</p>
 <table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead><tr class="gt_col_headings">
 <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id=""></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="sentiment">sentiment</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="word">word</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n">n</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="%">%</th>
     </tr></thead>
 <tbody class="gt_table_body">
 <tr>
-<td headers="doc_id" class="gt_row gt_center">The Sisters</td>
-<td headers="sentiment" class="gt_row gt_left">negative</td>
-<td headers="n" class="gt_row gt_right">110</td>
-<td headers="percent" class="gt_row gt_right">3.53</td>
+<td headers="doc_id" class="gt_row gt_center">Ulysses</td>
+<td headers="word" class="gt_row gt_left">the</td>
+<td headers="n" class="gt_row gt_right">14,952</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">The Sisters</td>
-<td headers="sentiment" class="gt_row gt_left">positive</td>
-<td headers="n" class="gt_row gt_right">69</td>
-<td headers="percent" class="gt_row gt_right">2.22</td>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Ulysses</td>
+<td headers="word" class="gt_row gt_left">of</td>
+<td headers="n" class="gt_row gt_right">8,143</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">The Sisters</td>
-<td headers="sentiment" class="gt_row gt_left">—</td>
-<td headers="n" class="gt_row gt_right">2,934</td>
-<td headers="percent" class="gt_row gt_right">94.25</td>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Ulysses</td>
+<td headers="word" class="gt_row gt_left">and</td>
+<td headers="n" class="gt_row gt_right">7,210</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_center">An Encounter</td>
-<td headers="sentiment" class="gt_row gt_left">negative</td>
-<td headers="n" class="gt_row gt_right">89</td>
-<td headers="percent" class="gt_row gt_right">2.73</td>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Ulysses</td>
+<td headers="word" class="gt_row gt_left">a</td>
+<td headers="n" class="gt_row gt_right">6,514</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">An Encounter</td>
-<td headers="sentiment" class="gt_row gt_left">positive</td>
-<td headers="n" class="gt_row gt_right">78</td>
-<td headers="percent" class="gt_row gt_right">2.39</td>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Ulysses</td>
+<td headers="word" class="gt_row gt_left">to</td>
+<td headers="n" class="gt_row gt_right">4,960</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">An Encounter</td>
-<td headers="sentiment" class="gt_row gt_left">—</td>
-<td headers="n" class="gt_row gt_right">3,090</td>
-<td headers="percent" class="gt_row gt_right">94.87</td>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Ulysses</td>
+<td headers="word" class="gt_row gt_left">in</td>
+<td headers="n" class="gt_row gt_right">4,945</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_center">Araby</td>
-<td headers="sentiment" class="gt_row gt_left">negative</td>
-<td headers="n" class="gt_row gt_right">86</td>
-<td headers="percent" class="gt_row gt_right">3.67</td>
+<td headers="doc_id" class="gt_row gt_center">A Portrait of the Artist as a Young Man</td>
+<td headers="word" class="gt_row gt_left">the</td>
+<td headers="n" class="gt_row gt_right">5,913</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Araby</td>
-<td headers="sentiment" class="gt_row gt_left">positive</td>
-<td headers="n" class="gt_row gt_right">41</td>
-<td headers="percent" class="gt_row gt_right">1.75</td>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">A Portrait of the Artist as a Young Man</td>
+<td headers="word" class="gt_row gt_left">and</td>
+<td headers="n" class="gt_row gt_right">3,375</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Araby</td>
-<td headers="sentiment" class="gt_row gt_left">—</td>
-<td headers="n" class="gt_row gt_right">2,218</td>
-<td headers="percent" class="gt_row gt_right">94.58</td>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">A Portrait of the Artist as a Young Man</td>
+<td headers="word" class="gt_row gt_left">of</td>
+<td headers="n" class="gt_row gt_right">3,148</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">A Portrait of the Artist as a Young Man</td>
+<td headers="word" class="gt_row gt_left">a</td>
+<td headers="n" class="gt_row gt_right">1,950</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">A Portrait of the Artist as a Young Man</td>
+<td headers="word" class="gt_row gt_left">to</td>
+<td headers="n" class="gt_row gt_right">1,929</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">A Portrait of the Artist as a Young Man</td>
+<td headers="word" class="gt_row gt_left">he</td>
+<td headers="n" class="gt_row gt_right">1,855</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center">Dubliners</td>
+<td headers="word" class="gt_row gt_left">the</td>
+<td headers="n" class="gt_row gt_right">4,075</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Dubliners</td>
+<td headers="word" class="gt_row gt_left">and</td>
+<td headers="n" class="gt_row gt_right">2,234</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Dubliners</td>
+<td headers="word" class="gt_row gt_left">of</td>
+<td headers="n" class="gt_row gt_right">1,867</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Dubliners</td>
+<td headers="word" class="gt_row gt_left">to</td>
+<td headers="n" class="gt_row gt_right">1,753</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Dubliners</td>
+<td headers="word" class="gt_row gt_left">he</td>
+<td headers="n" class="gt_row gt_right">1,646</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Dubliners</td>
+<td headers="word" class="gt_row gt_left">a</td>
+<td headers="n" class="gt_row gt_right">1,583</td>
 </tr>
 </tbody>
 </table>
 </div>
-<p>Setting <code>drop_na</code> to <code>TRUE</code> will remove rows
-showing counts and percentages of words without sentiment measure:</p>
+</div>
+<div class="section level3">
+<h3 id="vocabulary-richness-1">Vocabulary richness<a class="anchor" aria-label="anchor" href="#vocabulary-richness-1"></a>
+</h3>
+<p>When used after <code><a href="../reference/add_vocabulary.html">add_vocabulary()</a></code>, the
+<code><a href="../reference/tabulize.html">tabulize()</a></code> function prepares a clean summary table:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sentiment_dubliners_part</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span>drop_na <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">corpus_joyce</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/add_vocabulary.html">add_vocabulary</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div id="ulbfdpbcyv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#ulbfdpbcyv table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -2106,61 +2119,65 @@ showing counts and percentages of words without sentiment measure:</p>
 }
 </style>
 <table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-<thead><tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id=""></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="sentiment">sentiment</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n">n</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="%">%</th>
-    </tr></thead>
+<thead>
+<tr class="gt_col_headings gt_spanner_row">
+<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" scope="col" id=""></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="length">length</th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="vocabulary">
+        <span class="gt_column_spanner">vocabulary</span>
+      </th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="hapax">
+        <span class="gt_column_spanner">hapax</span>
+      </th>
+    </tr>
+<tr class="gt_col_headings">
+<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="total">total</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="ratio">ratio</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="total">total</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="ratio">ratio</th>
+    </tr>
+</thead>
 <tbody class="gt_table_body">
 <tr>
-<td headers="doc_id" class="gt_row gt_center">The Sisters</td>
-<td headers="sentiment" class="gt_row gt_left">negative</td>
-<td headers="n" class="gt_row gt_right">110</td>
-<td headers="percent" class="gt_row gt_right">61.45</td>
+<td headers="doc_id" class="gt_row gt_center">Dubliners</td>
+<td headers="words" class="gt_row gt_right">67,953</td>
+<td headers="vocab" class="gt_row gt_right">7,337</td>
+<td headers="ttr" class="gt_row gt_right">0.108</td>
+<td headers="hlemona" class="gt_row gt_right">3,681</td>
+<td headers="htr" class="gt_row gt_right">0.054</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">The Sisters</td>
-<td headers="sentiment" class="gt_row gt_left">positive</td>
-<td headers="n" class="gt_row gt_right">69</td>
-<td headers="percent" class="gt_row gt_right">38.55</td>
+<td headers="doc_id" class="gt_row gt_center">A Portrait of the Artist as a Young Man</td>
+<td headers="words" class="gt_row gt_right">84,933</td>
+<td headers="vocab" class="gt_row gt_right">9,179</td>
+<td headers="ttr" class="gt_row gt_right">0.108</td>
+<td headers="hlemona" class="gt_row gt_right">4,581</td>
+<td headers="htr" class="gt_row gt_right">0.054</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_center">An Encounter</td>
-<td headers="sentiment" class="gt_row gt_left">negative</td>
-<td headers="n" class="gt_row gt_right">89</td>
-<td headers="percent" class="gt_row gt_right">53.29</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">An Encounter</td>
-<td headers="sentiment" class="gt_row gt_left">positive</td>
-<td headers="n" class="gt_row gt_right">78</td>
-<td headers="percent" class="gt_row gt_right">46.71</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_center">Araby</td>
-<td headers="sentiment" class="gt_row gt_left">negative</td>
-<td headers="n" class="gt_row gt_right">86</td>
-<td headers="percent" class="gt_row gt_right">67.72</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Araby</td>
-<td headers="sentiment" class="gt_row gt_left">positive</td>
-<td headers="n" class="gt_row gt_right">41</td>
-<td headers="percent" class="gt_row gt_right">32.28</td>
+<td headers="doc_id" class="gt_row gt_center">Ulysses</td>
+<td headers="words" class="gt_row gt_right">265,043</td>
+<td headers="vocab" class="gt_row gt_right">29,930</td>
+<td headers="ttr" class="gt_row gt_right">0.113</td>
+<td headers="hlemona" class="gt_row gt_right">16,311</td>
+<td headers="htr" class="gt_row gt_right">0.062</td>
 </tr>
 </tbody>
 </table>
 </div>
-<p>The <code>ignore</code> parameter aids in selecting a subset of
-sentiments:</p>
+</div>
+<div class="section level3">
+<h3 id="sentiment-1">Sentiment<a class="anchor" aria-label="anchor" href="#sentiment-1"></a>
+</h3>
+<p>For sentiment analysis, <code><a href="../reference/tabulize.html">tabulize()</a></code> returns a summary of
+figures for each document:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># dplyr is used here to choose a smaller example for comparison</span></span>
-<span><span class="va">sentiment_ulysses_part</span> <span class="op">&lt;-</span> <span class="va">sentiment_ulysses</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">doc_id</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[ 1 ]"</span>, <span class="st">"[ 2 ]"</span>, <span class="st">"[ 3 ]"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">sentiment_dubliners_part</span> <span class="op">&lt;-</span> <span class="va">sentiment_dubliners</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">doc_id</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"The Sisters"</span>, <span class="st">"An Encounter"</span>,  <span class="st">"Araby"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">sentiment_ulysses_part</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span>ignore <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"anger"</span>, <span class="st">"anticipation"</span>, <span class="st">"disgust"</span>, <span class="st">"fear"</span>, <span class="st">"trust"</span>, <span class="st">"positive"</span>, <span class="st">"negative"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">sentiment_dubliners_part</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div id="kgufivjubq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#kgufivjubq table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -2610,90 +2627,67 @@ sentiments:</p>
     </tr></thead>
 <tbody class="gt_table_body">
 <tr>
-<td headers="doc_id" class="gt_row gt_center">[ 1 ]</td>
-<td headers="sentiment" class="gt_row gt_left">joy</td>
-<td headers="n" class="gt_row gt_right">161</td>
-<td headers="percent" class="gt_row gt_right">1.93</td>
+<td headers="doc_id" class="gt_row gt_center">The Sisters</td>
+<td headers="sentiment" class="gt_row gt_left">negative</td>
+<td headers="n" class="gt_row gt_right">110</td>
+<td headers="percent" class="gt_row gt_right">3.53</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">[ 1 ]</td>
-<td headers="sentiment" class="gt_row gt_left">sadness</td>
-<td headers="n" class="gt_row gt_right">124</td>
-<td headers="percent" class="gt_row gt_right">1.48</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">[ 1 ]</td>
-<td headers="sentiment" class="gt_row gt_left">surprise</td>
-<td headers="n" class="gt_row gt_right">164</td>
-<td headers="percent" class="gt_row gt_right">1.96</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">[ 1 ]</td>
-<td headers="sentiment" class="gt_row gt_left">—</td>
-<td headers="n" class="gt_row gt_right">7,910</td>
-<td headers="percent" class="gt_row gt_right">94.63</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_center">[ 2 ]</td>
-<td headers="sentiment" class="gt_row gt_left">joy</td>
-<td headers="n" class="gt_row gt_right">65</td>
-<td headers="percent" class="gt_row gt_right">1.32</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">[ 2 ]</td>
-<td headers="sentiment" class="gt_row gt_left">sadness</td>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">The Sisters</td>
+<td headers="sentiment" class="gt_row gt_left">positive</td>
 <td headers="n" class="gt_row gt_right">69</td>
-<td headers="percent" class="gt_row gt_right">1.40</td>
+<td headers="percent" class="gt_row gt_right">2.22</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">[ 2 ]</td>
-<td headers="sentiment" class="gt_row gt_left">surprise</td>
-<td headers="n" class="gt_row gt_right">64</td>
-<td headers="percent" class="gt_row gt_right">1.30</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">[ 2 ]</td>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">The Sisters</td>
 <td headers="sentiment" class="gt_row gt_left">—</td>
-<td headers="n" class="gt_row gt_right">4,735</td>
-<td headers="percent" class="gt_row gt_right">95.99</td>
+<td headers="n" class="gt_row gt_right">2,934</td>
+<td headers="percent" class="gt_row gt_right">94.25</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_center">[ 3 ]</td>
-<td headers="sentiment" class="gt_row gt_left">joy</td>
+<td headers="doc_id" class="gt_row gt_center">An Encounter</td>
+<td headers="sentiment" class="gt_row gt_left">negative</td>
 <td headers="n" class="gt_row gt_right">89</td>
-<td headers="percent" class="gt_row gt_right">1.40</td>
+<td headers="percent" class="gt_row gt_right">2.73</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">[ 3 ]</td>
-<td headers="sentiment" class="gt_row gt_left">sadness</td>
-<td headers="n" class="gt_row gt_right">114</td>
-<td headers="percent" class="gt_row gt_right">1.79</td>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">An Encounter</td>
+<td headers="sentiment" class="gt_row gt_left">positive</td>
+<td headers="n" class="gt_row gt_right">78</td>
+<td headers="percent" class="gt_row gt_right">2.39</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">[ 3 ]</td>
-<td headers="sentiment" class="gt_row gt_left">surprise</td>
-<td headers="n" class="gt_row gt_right">69</td>
-<td headers="percent" class="gt_row gt_right">1.08</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">[ 3 ]</td>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">An Encounter</td>
 <td headers="sentiment" class="gt_row gt_left">—</td>
-<td headers="n" class="gt_row gt_right">6,104</td>
-<td headers="percent" class="gt_row gt_right">95.73</td>
+<td headers="n" class="gt_row gt_right">3,090</td>
+<td headers="percent" class="gt_row gt_right">94.87</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center">Araby</td>
+<td headers="sentiment" class="gt_row gt_left">negative</td>
+<td headers="n" class="gt_row gt_right">86</td>
+<td headers="percent" class="gt_row gt_right">3.67</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Araby</td>
+<td headers="sentiment" class="gt_row gt_left">positive</td>
+<td headers="n" class="gt_row gt_right">41</td>
+<td headers="percent" class="gt_row gt_right">1.75</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Araby</td>
+<td headers="sentiment" class="gt_row gt_left">—</td>
+<td headers="n" class="gt_row gt_right">2,218</td>
+<td headers="percent" class="gt_row gt_right">94.58</td>
 </tr>
 </tbody>
 </table>
 </div>
-</div>
-<div class="section level3">
-<h3 id="n-grams-1">N-grams<a class="anchor" aria-label="anchor" href="#n-grams-1"></a>
-</h3>
-<p>The <code><a href="../reference/tabulize.html">tabulize()</a></code> function returns the top n-grams per
-document. By default, the first six are shown, but rows can be chosen
-freely:</p>
+<p>Setting <code>drop_na = TRUE</code> removes rows without sentiment
+measure:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">bigrams_austen</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">sentiment_dubliners_part</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span>drop_na <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <div id="txvafbsnay" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#txvafbsnay table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -3136,108 +3130,60 @@ freely:</p>
 </style>
 <table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead><tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id=""></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="ngram">ngram</th>
+<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id=""></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="sentiment">sentiment</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n">n</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="%">%</th>
     </tr></thead>
 <tbody class="gt_table_body">
 <tr>
-<td headers="doc_id" class="gt_row gt_left">Mansfield Park</td>
-<td headers="ngram" class="gt_row gt_left">of the</td>
-<td headers="n" class="gt_row gt_right">748</td>
-<td headers="percent" class="gt_row gt_right">0.47</td>
+<td headers="doc_id" class="gt_row gt_center">The Sisters</td>
+<td headers="sentiment" class="gt_row gt_left">negative</td>
+<td headers="n" class="gt_row gt_right">110</td>
+<td headers="percent" class="gt_row gt_right">61.45</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">Mansfield Park</td>
-<td headers="ngram" class="gt_row gt_left">to be</td>
-<td headers="n" class="gt_row gt_right">643</td>
-<td headers="percent" class="gt_row gt_right">0.40</td>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">The Sisters</td>
+<td headers="sentiment" class="gt_row gt_left">positive</td>
+<td headers="n" class="gt_row gt_right">69</td>
+<td headers="percent" class="gt_row gt_right">38.55</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left">Emma</td>
-<td headers="ngram" class="gt_row gt_left">to be</td>
-<td headers="n" class="gt_row gt_right">607</td>
-<td headers="percent" class="gt_row gt_right">0.38</td>
+<td headers="doc_id" class="gt_row gt_center">An Encounter</td>
+<td headers="sentiment" class="gt_row gt_left">negative</td>
+<td headers="n" class="gt_row gt_right">89</td>
+<td headers="percent" class="gt_row gt_right">53.29</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">Emma</td>
-<td headers="ngram" class="gt_row gt_left">of the</td>
-<td headers="n" class="gt_row gt_right">566</td>
-<td headers="percent" class="gt_row gt_right">0.35</td>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">An Encounter</td>
+<td headers="sentiment" class="gt_row gt_left">positive</td>
+<td headers="n" class="gt_row gt_right">78</td>
+<td headers="percent" class="gt_row gt_right">46.71</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left">Pride and Prejudice</td>
-<td headers="ngram" class="gt_row gt_left">of the</td>
-<td headers="n" class="gt_row gt_right">460</td>
-<td headers="percent" class="gt_row gt_right">0.38</td>
+<td headers="doc_id" class="gt_row gt_center">Araby</td>
+<td headers="sentiment" class="gt_row gt_left">negative</td>
+<td headers="n" class="gt_row gt_right">86</td>
+<td headers="percent" class="gt_row gt_right">67.72</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">Pride and Prejudice</td>
-<td headers="ngram" class="gt_row gt_left">to be</td>
-<td headers="n" class="gt_row gt_right">438</td>
-<td headers="percent" class="gt_row gt_right">0.36</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left">Sense and Sensibility</td>
-<td headers="ngram" class="gt_row gt_left">to be</td>
-<td headers="n" class="gt_row gt_right">436</td>
-<td headers="percent" class="gt_row gt_right">0.36</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">Sense and Sensibility</td>
-<td headers="ngram" class="gt_row gt_left">of the</td>
-<td headers="n" class="gt_row gt_right">432</td>
-<td headers="percent" class="gt_row gt_right">0.36</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left">Persuasion</td>
-<td headers="ngram" class="gt_row gt_left">of the</td>
-<td headers="n" class="gt_row gt_right">429</td>
-<td headers="percent" class="gt_row gt_right">0.51</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">Persuasion</td>
-<td headers="ngram" class="gt_row gt_left">to be</td>
-<td headers="n" class="gt_row gt_right">378</td>
-<td headers="percent" class="gt_row gt_right">0.45</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left">Northanger</td>
-<td headers="ngram" class="gt_row gt_left">of the</td>
-<td headers="n" class="gt_row gt_right">379</td>
-<td headers="percent" class="gt_row gt_right">0.49</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">Northanger</td>
-<td headers="ngram" class="gt_row gt_left">to be</td>
-<td headers="n" class="gt_row gt_right">280</td>
-<td headers="percent" class="gt_row gt_right">0.36</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left">Lady Susan</td>
-<td headers="ngram" class="gt_row gt_left">i am</td>
-<td headers="n" class="gt_row gt_right">117</td>
-<td headers="percent" class="gt_row gt_right">0.51</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">Lady Susan</td>
-<td headers="ngram" class="gt_row gt_left">i have</td>
-<td headers="n" class="gt_row gt_right">88</td>
-<td headers="percent" class="gt_row gt_right">0.38</td>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Araby</td>
+<td headers="sentiment" class="gt_row gt_left">positive</td>
+<td headers="n" class="gt_row gt_right">41</td>
+<td headers="percent" class="gt_row gt_right">32.28</td>
 </tr>
 </tbody>
 </table>
 </div>
-</div>
-<div class="section level3">
-<h3 id="tf-idf">Tf-idf<a class="anchor" aria-label="anchor" href="#tf-idf"></a>
-</h3>
-<p>The <code><a href="../reference/tabulize.html">tabulize()</a></code> function returns a number of rows, which
-can be specified:</p>
+<p>The <code>ignore</code> parameter aids in selecting a subset of
+sentiments, converting the rest to <code>NA</code>:</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tfidf_dubliners</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># dplyr is used here to choose a smaller example for comparison</span></span>
+<span><span class="va">sentiment_ulysses_part</span> <span class="op">&lt;-</span> <span class="va">sentiment_ulysses</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">doc_id</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[ 1 ]"</span>, <span class="st">"[ 2 ]"</span>, <span class="st">"[ 3 ]"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">sentiment_ulysses_part</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span>ignore <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"anger"</span>, <span class="st">"anticipation"</span>, <span class="st">"disgust"</span>, <span class="st">"fear"</span>, <span class="st">"trust"</span>, <span class="st">"positive"</span>, <span class="st">"negative"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div id="orehalspkz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#orehalspkz table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -3681,6 +3627,1083 @@ can be specified:</p>
 <table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead><tr class="gt_col_headings">
 <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id=""></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="sentiment">sentiment</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n">n</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="%">%</th>
+    </tr></thead>
+<tbody class="gt_table_body">
+<tr>
+<td headers="doc_id" class="gt_row gt_center">[ 1 ]</td>
+<td headers="sentiment" class="gt_row gt_left">joy</td>
+<td headers="n" class="gt_row gt_right">161</td>
+<td headers="percent" class="gt_row gt_right">1.93</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">[ 1 ]</td>
+<td headers="sentiment" class="gt_row gt_left">sadness</td>
+<td headers="n" class="gt_row gt_right">124</td>
+<td headers="percent" class="gt_row gt_right">1.48</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">[ 1 ]</td>
+<td headers="sentiment" class="gt_row gt_left">surprise</td>
+<td headers="n" class="gt_row gt_right">164</td>
+<td headers="percent" class="gt_row gt_right">1.96</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">[ 1 ]</td>
+<td headers="sentiment" class="gt_row gt_left">—</td>
+<td headers="n" class="gt_row gt_right">7,910</td>
+<td headers="percent" class="gt_row gt_right">94.63</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center">[ 2 ]</td>
+<td headers="sentiment" class="gt_row gt_left">joy</td>
+<td headers="n" class="gt_row gt_right">65</td>
+<td headers="percent" class="gt_row gt_right">1.32</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">[ 2 ]</td>
+<td headers="sentiment" class="gt_row gt_left">sadness</td>
+<td headers="n" class="gt_row gt_right">69</td>
+<td headers="percent" class="gt_row gt_right">1.40</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">[ 2 ]</td>
+<td headers="sentiment" class="gt_row gt_left">surprise</td>
+<td headers="n" class="gt_row gt_right">64</td>
+<td headers="percent" class="gt_row gt_right">1.30</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">[ 2 ]</td>
+<td headers="sentiment" class="gt_row gt_left">—</td>
+<td headers="n" class="gt_row gt_right">4,735</td>
+<td headers="percent" class="gt_row gt_right">95.99</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center">[ 3 ]</td>
+<td headers="sentiment" class="gt_row gt_left">joy</td>
+<td headers="n" class="gt_row gt_right">89</td>
+<td headers="percent" class="gt_row gt_right">1.40</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">[ 3 ]</td>
+<td headers="sentiment" class="gt_row gt_left">sadness</td>
+<td headers="n" class="gt_row gt_right">114</td>
+<td headers="percent" class="gt_row gt_right">1.79</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">[ 3 ]</td>
+<td headers="sentiment" class="gt_row gt_left">surprise</td>
+<td headers="n" class="gt_row gt_right">69</td>
+<td headers="percent" class="gt_row gt_right">1.08</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">[ 3 ]</td>
+<td headers="sentiment" class="gt_row gt_left">—</td>
+<td headers="n" class="gt_row gt_right">6,104</td>
+<td headers="percent" class="gt_row gt_right">95.73</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section level3">
+<h3 id="n-grams-1">N-grams<a class="anchor" aria-label="anchor" href="#n-grams-1"></a>
+</h3>
+<p>The <code><a href="../reference/tabulize.html">tabulize()</a></code> function returns the top n-grams per
+document. By default, the first six are shown, but rows can be chosen
+freely:</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">bigrams_austen</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<div id="cbwjcfdjag" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#cbwjcfdjag table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#cbwjcfdjag thead, #cbwjcfdjag tbody, #cbwjcfdjag tfoot, #cbwjcfdjag tr, #cbwjcfdjag td, #cbwjcfdjag th {
+  border-style: none;
+}
+
+#cbwjcfdjag p {
+  margin: 0;
+  padding: 0;
+}
+
+#cbwjcfdjag .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#cbwjcfdjag .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#cbwjcfdjag .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#cbwjcfdjag .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#cbwjcfdjag .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#cbwjcfdjag .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#cbwjcfdjag .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#cbwjcfdjag .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#cbwjcfdjag .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#cbwjcfdjag .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#cbwjcfdjag .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#cbwjcfdjag .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#cbwjcfdjag .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#cbwjcfdjag .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#cbwjcfdjag .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#cbwjcfdjag .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#cbwjcfdjag .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#cbwjcfdjag .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#cbwjcfdjag .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cbwjcfdjag .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#cbwjcfdjag .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#cbwjcfdjag .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#cbwjcfdjag .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cbwjcfdjag .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#cbwjcfdjag .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#cbwjcfdjag .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#cbwjcfdjag .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cbwjcfdjag .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#cbwjcfdjag .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#cbwjcfdjag .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#cbwjcfdjag .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#cbwjcfdjag .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#cbwjcfdjag .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cbwjcfdjag .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#cbwjcfdjag .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cbwjcfdjag .gt_left {
+  text-align: left;
+}
+
+#cbwjcfdjag .gt_center {
+  text-align: center;
+}
+
+#cbwjcfdjag .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#cbwjcfdjag .gt_font_normal {
+  font-weight: normal;
+}
+
+#cbwjcfdjag .gt_font_bold {
+  font-weight: bold;
+}
+
+#cbwjcfdjag .gt_font_italic {
+  font-style: italic;
+}
+
+#cbwjcfdjag .gt_super {
+  font-size: 65%;
+}
+
+#cbwjcfdjag .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#cbwjcfdjag .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#cbwjcfdjag .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#cbwjcfdjag .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#cbwjcfdjag .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#cbwjcfdjag .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#cbwjcfdjag .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead><tr class="gt_col_headings">
+<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id=""></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="ngram">ngram</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n">n</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="%">%</th>
+    </tr></thead>
+<tbody class="gt_table_body">
+<tr>
+<td headers="doc_id" class="gt_row gt_left">Mansfield Park</td>
+<td headers="ngram" class="gt_row gt_left">of the</td>
+<td headers="n" class="gt_row gt_right">748</td>
+<td headers="percent" class="gt_row gt_right">0.47</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">Mansfield Park</td>
+<td headers="ngram" class="gt_row gt_left">to be</td>
+<td headers="n" class="gt_row gt_right">643</td>
+<td headers="percent" class="gt_row gt_right">0.40</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_left">Emma</td>
+<td headers="ngram" class="gt_row gt_left">to be</td>
+<td headers="n" class="gt_row gt_right">607</td>
+<td headers="percent" class="gt_row gt_right">0.38</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">Emma</td>
+<td headers="ngram" class="gt_row gt_left">of the</td>
+<td headers="n" class="gt_row gt_right">566</td>
+<td headers="percent" class="gt_row gt_right">0.35</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_left">Pride and Prejudice</td>
+<td headers="ngram" class="gt_row gt_left">of the</td>
+<td headers="n" class="gt_row gt_right">460</td>
+<td headers="percent" class="gt_row gt_right">0.38</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">Pride and Prejudice</td>
+<td headers="ngram" class="gt_row gt_left">to be</td>
+<td headers="n" class="gt_row gt_right">438</td>
+<td headers="percent" class="gt_row gt_right">0.36</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_left">Sense and Sensibility</td>
+<td headers="ngram" class="gt_row gt_left">to be</td>
+<td headers="n" class="gt_row gt_right">436</td>
+<td headers="percent" class="gt_row gt_right">0.36</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">Sense and Sensibility</td>
+<td headers="ngram" class="gt_row gt_left">of the</td>
+<td headers="n" class="gt_row gt_right">432</td>
+<td headers="percent" class="gt_row gt_right">0.36</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_left">Persuasion</td>
+<td headers="ngram" class="gt_row gt_left">of the</td>
+<td headers="n" class="gt_row gt_right">429</td>
+<td headers="percent" class="gt_row gt_right">0.51</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">Persuasion</td>
+<td headers="ngram" class="gt_row gt_left">to be</td>
+<td headers="n" class="gt_row gt_right">378</td>
+<td headers="percent" class="gt_row gt_right">0.45</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_left">Northanger</td>
+<td headers="ngram" class="gt_row gt_left">of the</td>
+<td headers="n" class="gt_row gt_right">379</td>
+<td headers="percent" class="gt_row gt_right">0.49</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">Northanger</td>
+<td headers="ngram" class="gt_row gt_left">to be</td>
+<td headers="n" class="gt_row gt_right">280</td>
+<td headers="percent" class="gt_row gt_right">0.36</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_left">Lady Susan</td>
+<td headers="ngram" class="gt_row gt_left">i am</td>
+<td headers="n" class="gt_row gt_right">117</td>
+<td headers="percent" class="gt_row gt_right">0.51</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">Lady Susan</td>
+<td headers="ngram" class="gt_row gt_left">i have</td>
+<td headers="n" class="gt_row gt_right">88</td>
+<td headers="percent" class="gt_row gt_right">0.38</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section level3">
+<h3 id="tf-idf">Tf-idf<a class="anchor" aria-label="anchor" href="#tf-idf"></a>
+</h3>
+<p>The <code><a href="../reference/tabulize.html">tabulize()</a></code> function returns a number of rows, which
+can be specified:</p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tfidf_dubliners</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<div id="fvsybhaagl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#fvsybhaagl table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#fvsybhaagl thead, #fvsybhaagl tbody, #fvsybhaagl tfoot, #fvsybhaagl tr, #fvsybhaagl td, #fvsybhaagl th {
+  border-style: none;
+}
+
+#fvsybhaagl p {
+  margin: 0;
+  padding: 0;
+}
+
+#fvsybhaagl .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#fvsybhaagl .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#fvsybhaagl .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#fvsybhaagl .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#fvsybhaagl .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#fvsybhaagl .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#fvsybhaagl .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#fvsybhaagl .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#fvsybhaagl .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#fvsybhaagl .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#fvsybhaagl .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#fvsybhaagl .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#fvsybhaagl .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#fvsybhaagl .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#fvsybhaagl .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#fvsybhaagl .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#fvsybhaagl .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#fvsybhaagl .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#fvsybhaagl .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#fvsybhaagl .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#fvsybhaagl .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#fvsybhaagl .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#fvsybhaagl .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#fvsybhaagl .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#fvsybhaagl .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#fvsybhaagl .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#fvsybhaagl .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#fvsybhaagl .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#fvsybhaagl .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#fvsybhaagl .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#fvsybhaagl .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#fvsybhaagl .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#fvsybhaagl .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#fvsybhaagl .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#fvsybhaagl .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#fvsybhaagl .gt_left {
+  text-align: left;
+}
+
+#fvsybhaagl .gt_center {
+  text-align: center;
+}
+
+#fvsybhaagl .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#fvsybhaagl .gt_font_normal {
+  font-weight: normal;
+}
+
+#fvsybhaagl .gt_font_bold {
+  font-weight: bold;
+}
+
+#fvsybhaagl .gt_font_italic {
+  font-style: italic;
+}
+
+#fvsybhaagl .gt_super {
+  font-size: 65%;
+}
+
+#fvsybhaagl .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#fvsybhaagl .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#fvsybhaagl .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#fvsybhaagl .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#fvsybhaagl .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#fvsybhaagl .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#fvsybhaagl .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead><tr class="gt_col_headings">
+<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id=""></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="word">word</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n">n</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="tf">tf</th>
@@ -4056,51 +5079,83 @@ can be specified:</p>
 <div class="section level2">
 <h2 id="sharing-figures">Sharing figures<a class="anchor" aria-label="anchor" href="#sharing-figures"></a>
 </h2>
-<p>The <code><a href="../reference/visualize.html">visualize()</a></code> function works just like
-<code><a href="../reference/tabulize.html">tabulize()</a></code>, preparing figures suited to whatever work is
-being done.</p>
+<p>tmtyro provides many functions for preparing figures, but only one is
+typically needed:</p>
+<ul>
+<li>
+<code><a href="../reference/visualize.html">visualize()</a></code> works intuitively with tmtyro objects,
+preparing figures suited to whatever work is being done.</li>
+</ul>
+<p>Customization is easy:</p>
+<ul>
+<li>
+<code><a href="../reference/change_colors.html">change_colors()</a></code> provides a single interface for
+modifying filled and colored layers.</li>
+</ul>
+<div class="section level3">
+<h3 id="corpus-details-1">Corpus details<a class="anchor" aria-label="anchor" href="#corpus-details-1"></a>
+</h3>
+<p>By default, <code><a href="../reference/visualize.html">visualize()</a></code> prepares a figure showing the
+lengths of each document.</p>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">corpus_joyce</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-30-1.png" width="700"></p>
+</div>
+<div class="section level3">
+<h3 id="word-counts-1">Word counts<a class="anchor" aria-label="anchor" href="#word-counts-1"></a>
+</h3>
+<p>Adding <code>count = TRUE</code> will show the counts of the
+most-frequent words.</p>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">corpus_joyce</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>count <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-31-1.png" width="700"></p>
+</div>
 <div class="section level3">
 <h3 id="vocabulary-richness-2">Vocabulary richness<a class="anchor" aria-label="anchor" href="#vocabulary-richness-2"></a>
 </h3>
-<p>By default, <code><a href="../reference/visualize.html">visualize()</a></code> charts each document by its
-length and the number of unique tokens. A figure like this is useful to
-compare angles among documents.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">vocab_dubliners</span> <span class="op">|&gt;</span> </span>
+<p>When used after <code><a href="../reference/add_vocabulary.html">add_vocabulary()</a></code>, the
+<code><a href="../reference/visualize.html">visualize()</a></code> function charts each document by its length and
+the number of unique tokens. A figure like this is useful to compare
+angles among documents.</p>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">corpus_dubliners</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/add_vocabulary.html">add_vocabulary</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-27-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-32-1.png" width="700"></p>
 <p>Other features, such as type-token ratio, hapax-token ratio, or a
 sampling of hapax legomena can also be shown:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">vocab_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="st">"ttr"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-28-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-33-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="sentiment-2">Sentiment<a class="anchor" aria-label="anchor" href="#sentiment-2"></a>
 </h3>
-<p>For sentiment analysis, the <code><a href="../reference/visualize.html">visualize()</a></code> function allows
-for comparison among documents in a set:</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<p>For sentiment analysis, <code><a href="../reference/visualize.html">visualize()</a></code> allows for
+comparison among documents in a set:</p>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sentiment_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-29-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-34-1.png" width="700"></p>
 <p>The <code>ignore</code> parameter stipulates values to remove from
 the Y-axis to focus a figure.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sentiment_ulysses</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>ignore <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"anger"</span>, <span class="st">"anticipation"</span>, <span class="st">"disgust"</span>, <span class="st">"fear"</span>, <span class="st">"trust"</span>, <span class="st">"positive"</span>, <span class="st">"negative"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-30-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-35-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="n-grams-2">N-grams<a class="anchor" aria-label="anchor" href="#n-grams-2"></a>
 </h3>
-<p>By default, the <code><a href="../reference/visualize.html">visualize()</a></code> function returns a network
-visualization like that demonstrated in <em>Text Mining with R</em>:</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<p>By default, <code><a href="../reference/visualize.html">visualize()</a></code> returns a network visualization
+like that demonstrated in <em>Text Mining with R</em>:</p>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bigrams_austen</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-31-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-36-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="combining-n-grams">Combining n-grams<a class="anchor" aria-label="anchor" href="#combining-n-grams"></a>
@@ -4109,45 +5164,57 @@ visualization like that demonstrated in <em>Text Mining with R</em>:</p>
 visualization. Certain arguments allow for deviation from typical
 charts, including choosing the number of n-grams to chart and modifying
 colors to be set by values on the Y-axis.</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bigrams_austen</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/combine_ngrams.html">combine_ngrams</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, color_y <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-32-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-37-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="tf-idf-1">Tf-idf<a class="anchor" aria-label="anchor" href="#tf-idf-1"></a>
 </h3>
 <p>The <code><a href="../reference/visualize.html">visualize()</a></code> function returns bars showing the top
 words for each document. This can be a useful way to differentiate texts
-in a set from each other. Remember, <code>tfidf_dubliners</code> was
-prepared with <code>load_texts(remove_names = TRUE)</code>. The
-resulting chart begins to show delineation of topics characteristic of
+in a set from each other. Because <code>tfidf_dubliners</code> was
+prepared with <code>load_texts(remove_names = TRUE)</code>, the
+resulting chart shows clearer delineation of topics characteristic of
 the stories in Joyce’s collection:</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tfidf_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-33-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-38-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="changing-colors">Changing colors<a class="anchor" aria-label="anchor" href="#changing-colors"></a>
 </h3>
-<p>For nearly every visualization type, the <code><a href="../reference/change_colors.html">change_colors()</a></code>
-function does what its name implies. By default, it adopts the “Dark2”
-palette from Brewer:</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<p>The <code><a href="../reference/change_colors.html">change_colors()</a></code> function does what its name implies.
+By default, it adopts the “Dark2” palette from Brewer:</p>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sentiment_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-34-1.png" width="700"></p>
-<p>Other options are available, as detailed in function
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-39-1.png" width="700"></p>
+<p>Other options are available as detailed in function
 documentation.</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tfidf_dubliners</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span>colorset <span class="op">=</span> <span class="st">"viridis"</span>, palette <span class="op">=</span> <span class="st">"turbo"</span>, direction <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-40-1.png" width="700"></p>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bigrams_austen</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/combine_ngrams.html">combine_ngrams</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, color_y <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span><span class="st">"okabe"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-35-1.png" width="700"></p>
+<span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"i have"</span> <span class="op">=</span> <span class="st">"maroon"</span>, </span>
+<span>                  <span class="st">"i am"</span> <span class="op">=</span> <span class="st">"darkred"</span>, </span>
+<span>                  <span class="st">"to be"</span> <span class="op">=</span> <span class="st">"#555555"</span>,</span>
+<span>                  <span class="st">"of the"</span> <span class="op">=</span> <span class="st">"#333333"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-41-1.png" width="700"></p>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">bigrams_austen</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span><span class="st">"lightgreen"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-42-1.png" width="700"></p>
 </div>
 </div>
 
