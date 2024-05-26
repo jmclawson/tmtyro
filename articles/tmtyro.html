@@ -123,18 +123,21 @@ designed to work with the “tidyverse” suite of packages. Their designs
 situate them for different audiences and purposes, but each is limited
 in part by lock-in or difficulty. The tmtyro package aims to address
 some of these concerns.</p>
-<p><a href="https://voyant-tools.org" class="external-link">Voyant</a>’s graphical interface
-makes it accessible to complete novices, but it doesn’t skimp on power
-or features. Still, every tool has limits. The tool’s easy-to-use
-interface ultimately limits users, since it keeps Voyant from serving as
-a skills ramp to other tools.</p>
-<p>Unlike Voyant, code-based methods for working with text offer both
-reproducibility and open-ended tooling. In R, the tidytext package is
-made using a “tidy data” design philosophy that is consistent with many
-popular R packages. A companion book, <a href="https://www.tidytextmining.com" class="external-link"><em>Text Mining with R</em></a>,
+<p><a href="https://voyant-tools.org" class="external-link">Voyant</a> is one of the best
+tools for working with text data. Developed by Stéfan Sinclair &amp;
+Geoffrey Rockwell more than twenty years ago, it has become a
+standard—and with good reason. Its graphical interface makes it
+accessible to complete novices without skimping on power or features.
+Still, everything has limits. Voyant’s easy-to-use interface ultimately
+limits users’ growth, since that interface keeps Voyant from serving as
+a skills ramp to other tools with more options.</p>
+<p>Unlike fixed tools like Voyant, code-based methods for working with
+text offer both reproducibility and open-ended tooling. In R, the
+tidytext package is made using a “tidy data” design philosophy that is
+consistent with many popular R packages. A companion book, <a href="https://www.tidytextmining.com" class="external-link"><em>Text Mining with R</em></a>,
 offers impressive documentation to the package, easing the learning
 curve for anyone new to text mining. But its <a href="https://www.tidytextmining.com/preface" class="external-link">preface</a> acknowledges a
-starting point quite a ways above zero, expecting “the reader is at
+starting point quite a ways above zero, expecting that “the reader is at
 least slightly familiar with dplyr, ggplot2, and the %&gt;% ‘pipe’
 operator in R.” Without the book, tidytext is even less suited for
 beginners, leaving users to fend for themselves and find some other
@@ -142,41 +145,41 @@ method to read files.</p>
 <p>If the tidytext package is a helpful tool to be picked up by a
 seasoned R user familiar with the tidyverse, then the tm package, by
 contrast, is the kind of tool for which specialists will learn R to use.
-It predates the tidyverse package suite, and its data design is often
-incompatible with those workflows. Nevertheless, it provides power and
-specialized functionality beyond these other tools, making it worth
-learning for those who need it.</p>
+It predates the tidyverse package suite by nearly a decade, and its data
+design is often incompatible with those workflows. Nevertheless, it
+provides power and specialized functionality beyond these other tools,
+making it worth learning for those who need it.</p>
 <p><img src="skill_speedometer.png"></p>
 <p>The tmtyro package is designed to fit into a space left behind. In
 fact, it was developed over two semesters of teaching a course on
 literary text mining using R, following through examples from <em>Text
 Mining in R</em> while students applied techniques to ask their own
-questions about their own selections of texts. Taught in the English
+questions about their own selections of texts. Taught in an English
 department, our course was was never meant to be a “coding class,” even
 though it did walk students through their first code. Approaching texts
 from a different angle helped us to have new insights on the things we
 were reading. And having working tools in front of us helped everyone
 test the boundaries of this new world and map how we might follow the
 paths laid out in the research we read.</p>
-<p>Like Voyant, tmtyro is designed for a beginner. A code-based
-interface will never be as intuitive as one designed graphically, but
-tmtyro makes decisions that strive for consistency and predictability.
-Workflows are provided for loading texts from a folder or for getting a
-corpus of texts from an online repository like Project Gutenberg. Once
-texts are loaded, repetitive conventions for function names make it easy
-to add columns for assessing sentiment, for considering n-grams, or for
-measuring vocabulary. Generic functions handle the details for sharing
-figures and tables, automatically adjusting to fit the steps taken in a
-given analysis.</p>
+<p>Like Voyant, tmtyro is designed for a beginner. Although limited in
+its intuitiveness by its code-based interface, tmtyro makes decisions
+that strive for consistency and predictability. Workflows are provided
+for loading texts from a folder or for getting a corpus of texts from an
+online repository like Project Gutenberg. Once texts are loaded,
+repetitive conventions for function names make it easy to add columns
+for assessing sentiment, for considering n-grams, or for measuring
+vocabulary. Generic functions handle the details for sharing figures and
+tables, automatically adjusting to fit the steps taken in a given
+analysis.</p>
 <p>More importantly, tmtyro provides a skills ramp for users who outgrow
 it. Code workflows are designed to help beginners more quickly start
 trying things out. From there, a student who gains confidence in the
-methods provided by the package might decide to tweak a visualization
-using functions from ggplot2. A researcher wishing to work with a subset
-of titles will begin to understand methods from dplyr. And since
-tmtyro’s data design is based on that of tidytext, a user can transition
-between both packages seamlessly. Functions are designed to remain
-useful long past the stage of anyone being a tyro.</p>
+methods provided by the package might step beyond it to tweak a
+visualization using functions from ggplot2. A researcher wishing to work
+with a subset of titles will begin to understand methods from dplyr. And
+since tmtyro’s data design is based on that of tidytext, a user can
+transition between both packages seamlessly. Functions are designed to
+remain useful long past the stage of anyone being a tyro.</p>
 </div>
 <div class="section level2">
 <h2 id="starting-with-tmtyro">Starting with tmtyro<a class="anchor" aria-label="anchor" href="#starting-with-tmtyro"></a>
@@ -188,7 +191,18 @@ useful long past the stage of anyone being a tyro.</p>
 for many who work with text. The function
 <code><a href="../reference/get_gutenberg_corpus.html">get_gutenberg_corpus()</a></code> does the job.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;This function was inspired by a similar function in the
 gutenbergr package, on which tmtyro depends, but it does noticeably
-more. &lt;/p&gt;"><sup>1</sup></a> All it needs is the
+more. By default it retrieves the “.htm” version of a text and caches a
+local copy. Once the files have been cached, it parses the file for
+headers and places these beside the text, along with metadata like title
+and author. By contrast, gutenbergr’s function tries to retrieve a
+“.zip” version of each text. While a smaller “.zip” version might be
+about a third of the “.htm” version of a text, it does not get cached
+and must be downloaded every time it is called. More frustratingly,
+Gutenberg mirrors increasingly seem to be dropping “.zip” files, leading
+to errors in loading corpora. To counter hitting the Project Gutenberg
+servers with too many requests, tmtyro delays each download with a two
+second delay. Since texts are cached locally, this delay is only felt
+the first time a text is used.&lt;/p&gt;"><sup>1</sup></a> All it needs is the
 Gutenberg ID number, found in the book’s URL. The resulting table will
 include columns for “gutenberg_id”, “title”, “author”, headers such as
 those used for chapters, and “text”:</p>
