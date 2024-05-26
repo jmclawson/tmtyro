@@ -10,7 +10,8 @@
 #' @family table helpers
 #' @export
 #'
-#' @examples
+#' @section Examples:
+#' ```r
 #' austen <- "austen.rds" |>
 #'   system.file(package = "tmtyro") |>
 #'   readRDS()
@@ -18,34 +19,25 @@
 #' # A data frame with `doc_id` and `word` columns will show word counts by default
 #' austen |>
 #'    tabulize()
+#' ```
+#' \if{html}{\out{<div style="text-align: center">}\figure{tabulizer_default.png}{options: style="width:470px;max-width:35\%;"}\out{</div>}}
 #'
-#' # Specifying `count = TRUE` shows word frequencies
-#' austen |>
-#'    tabulize(count = TRUE)
-#'
-#' # Defining a vector for `rows` changes which are shown
-#' austen |>
-#'    tabulize(count = TRUE, rows = 1:3)
-#'
+#' ```r
 #' # Applying `tmtyro` functions prepares some other table
-#'
-#' austen |>
-#'    add_ngrams() |>
-#'    tabulize()
-#'
-#' austen |>
-#'    summarize_tf_idf() |>
-#'    tabulize()
-#'
-#' austen |>
+#'   austen |>
 #'    add_vocabulary() |>
 #'    tabulize()
+#' ```
+#' \if{html}{\out{<div style="text-align: center">}\figure{tabulizer_vocabulary.png}{options: style="width:900px;max-width:60\%;"}\out{</div>}}
 #'
-#' if (FALSE) { # sentiment requires interaction on first load
+#' ```r
 #'   austen |>
+#'      dplyr::filter(doc_id == "Pride and Prejudice") |>
 #'      add_sentiment() |>
 #'      tabulize()
-#' }
+#' ```
+#' \if{html}{\out{<div style="text-align: center">}\figure{tabulizer_sentiment.png}{options: style="width:700px;max-width:50\%;"}\out{</div>}}
+#'
 tabulize <- function(.data,...){
   UseMethod("tabulize")
 }
@@ -294,17 +286,38 @@ tabulize.combined_ngrams <- function(.data, rows = NULL, count = TRUE, digits = 
 #' @family table helpers
 #' @export
 #'
-#' @examples
-#' library(tibble)
-#' library(dplyr)
+#' @section Examples:
+#' ```r
 #' library(gt)
-#' mtcars |>
-#'   rownames_to_column("model") |>
-#'   relocate(cyl, gear) |>
-#'   arrange(cyl, gear, mpg) |>
+#' library(palmerpenguins)
+#' library(tmtyro)
+#'
+#' penguins_gt <-
+#'   penguins |>
+#'   select(-year) |>
+#'   summarize(
+#'     across(
+#'       ends_with("_mm"), mean, na.rm = TRUE),
+#'     .by = c(species, island, sex)) |>
 #'   gt() |>
-#'   collapse_rows(cyl) |>
-#'   collapse_rows(gear)
+#'   fmt_number() |>
+#'   tab_spanner(
+#'     "bill",
+#'     columns = starts_with("bill_")) |>
+#'   tab_spanner(
+#'     "flipper",
+#'     starts_with("flip")) |>
+#'   cols_label(
+#'     bill_length_mm = "length",
+#'     bill_depth_mm = "depth",
+#'     flipper_length_mm = "length") |>
+#'   sub_missing()
+#'
+#' penguins_gt |>
+#'   collapse_rows(species) |>
+#'   collapse_rows(island)
+#' ```
+#' \if{html}{\out{<div style="text-align: center">}\figure{collapse_rows.png}{options: style="width:800px;max-width:57\%;"}\out{</div>}}
 collapse_rows <- function(df_g, col, lookleft = TRUE){
   col_num <- grep(deparse(substitute(col)), colnames(df_g$`_data`))
 

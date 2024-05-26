@@ -24,43 +24,37 @@ A gt table data object
 \description{
 \code{tabulize()} provides a simple method for sharing results. Based on previous functions used, \code{tabulize()} will choose a method, resolving to one of a set of tables.
 }
-\examples{
-austen <- "austen.rds" |>
+\section{Examples}{
+
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{austen <- "austen.rds" |>
   system.file(package = "tmtyro") |>
   readRDS()
 
 # A data frame with `doc_id` and `word` columns will show word counts by default
 austen |>
    tabulize()
+}\if{html}{\out{</div>}}
 
-# Specifying `count = TRUE` shows word frequencies
-austen |>
-   tabulize(count = TRUE)
+\if{html}{\out{<div style="text-align: center">}\figure{tabulizer_default.png}{options: style="width:470px;max-width:35\%;"}\out{</div>}}
 
-# Defining a vector for `rows` changes which are shown
-austen |>
-   tabulize(count = TRUE, rows = 1:3)
-
-# Applying `tmtyro` functions prepares some other table
-
-austen |>
-   add_ngrams() |>
-   tabulize()
-
-austen |>
-   summarize_tf_idf() |>
-   tabulize()
-
-austen |>
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{# Applying `tmtyro` functions prepares some other table
+  austen |>
    add_vocabulary() |>
    tabulize()
+}\if{html}{\out{</div>}}
 
-if (FALSE) { # sentiment requires interaction on first load
-  austen |>
+\if{html}{\out{<div style="text-align: center">}\figure{tabulizer_vocabulary.png}{options: style="width:900px;max-width:60\%;"}\out{</div>}}
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{  austen |>
+     dplyr::filter(doc_id == "Pride and Prejudice") |>
      add_sentiment() |>
      tabulize()
+}\if{html}{\out{</div>}}
+
+\if{html}{\out{<div style="text-align: center">}\figure{tabulizer_sentiment.png}{options: style="width:700px;max-width:50\%;"}\out{</div>}}
 }
-}
+
 \seealso{
 Other table helpers: 
 \code{\link{collapse_rows}()}

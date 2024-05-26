@@ -19,18 +19,42 @@ A gt table data object
 \description{
 Collapse gt rows in the style of kableExtra
 }
-\examples{
-library(tibble)
-library(dplyr)
-library(gt)
-mtcars |>
-  rownames_to_column("model") |>
-  relocate(cyl, gear) |>
-  arrange(cyl, gear, mpg) |>
+\section{Examples}{
+
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{library(gt)
+library(palmerpenguins)
+library(tmtyro)
+
+penguins_gt <-
+  penguins |>
+  select(-year) |>
+  summarize(
+    across(
+      ends_with("_mm"), mean, na.rm = TRUE),
+    .by = c(species, island, sex)) |>
   gt() |>
-  collapse_rows(cyl) |>
-  collapse_rows(gear)
+  fmt_number() |>
+  tab_spanner(
+    "bill",
+    columns = starts_with("bill_")) |>
+  tab_spanner(
+    "flipper",
+    starts_with("flip")) |>
+  cols_label(
+    bill_length_mm = "length",
+    bill_depth_mm = "depth",
+    flipper_length_mm = "length") |>
+  sub_missing()
+
+penguins_gt |>
+  collapse_rows(species) |>
+  collapse_rows(island)
+}\if{html}{\out{</div>}}
+
+\if{html}{\out{<div style="text-align: center">}\figure{collapse_rows.png}{options: style="width:800px;max-width:57\%;"}\out{</div>}}
 }
+
 \seealso{
 Other table helpers: 
 \code{\link{tabulize}()}
