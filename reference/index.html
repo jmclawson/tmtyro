@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tmtyro</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.7.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.8.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,15 +18,11 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item">
-  <a class="nav-link" href="../reference/index.html">Reference</a>
+      <ul class="navbar-nav me-auto"><li class="nav-item">
+  <a class="nav-link" href="../articles/tmtyro.html">Get started</a>
 </li>
-<li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/Counts-Columns-and-Clouds.html">Counts, Columns, and Clouds</a>
-    <a class="dropdown-item" href="../articles/Page-to-Table.html">Page to Table</a>
-  </div>
+<li class="active nav-item">
+  <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
@@ -129,11 +125,6 @@
 
       <dl><dt>
           
-          <code><a href="add_lexical_variety.html">add_lexical_variety()</a></code> 
-        </dt>
-        <dd>Measure lexical variety</dd>
-      </dl><dl><dt>
-          
           <code><a href="add_ngrams.html">add_ngrams()</a></code> 
         </dt>
         <dd>Add ngram columns</dd>
@@ -142,6 +133,11 @@
           <code><a href="add_sentiment.html">add_sentiment()</a></code> 
         </dt>
         <dd>Measure sentiment</dd>
+      </dl><dl><dt>
+          
+          <code><a href="add_vocabulary.html">add_vocabulary()</a></code> 
+        </dt>
+        <dd>Measure lexical variety</dd>
       </dl><dl><dt>
           
           <code><a href="drop_empty.html">drop_empty()</a></code> <code><a href="drop_empty.html">drop_na()</a></code> 
@@ -210,9 +206,9 @@
         </dt>
         <dd>Construct a topic model</dd>
       </dl></div><div class="section level2">
-      <h2 id="visualize">Visualize<a class="anchor" aria-label="anchor" href="#visualize"></a></h2>
+      <h2 id="communicate">Communicate<a class="anchor" aria-label="anchor" href="#communicate"></a></h2>
       
-      <div class="section-desc"><p>Visualize features of texts.</p></div>
+      <div class="section-desc"><p>Prepare tables and visualize features of texts.</p></div>
 
       
     </div><div id="" class="section level2">
@@ -222,9 +218,14 @@
 
       <dl><dt>
           
-          <code><a href="visualize.html">visualize()</a></code> 
+          <code><a href="collapse_rows.html">collapse_rows()</a></code> 
         </dt>
-        <dd>Visualize output</dd>
+        <dd>Collapse gt rows in the style of kableExtra</dd>
+      </dl><dl><dt>
+          
+          <code><a href="tabulize.html">tabulize()</a></code> 
+        </dt>
+        <dd>Prepare a table of data</dd>
       </dl><dl><dt>
           
           <code><a href="change_colors.html">change_colors()</a></code> 
@@ -285,6 +286,11 @@
           <code><a href="plot_vocabulary.html">plot_vocabulary()</a></code> 
         </dt>
         <dd>Show vocabulary growth</dd>
+      </dl><dl><dt>
+          
+          <code><a href="visualize.html">visualize()</a></code> 
+        </dt>
+        <dd>Visualize output</dd>
       </dl><dl><dt>
           
           <code><a href="interactive_topic_distributions.html">interactive_topic_distributions()</a></code> 

@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tmtyro</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.7.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.8.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,15 +18,11 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item">
-  <a class="nav-link" href="../reference/index.html">Reference</a>
+      <ul class="navbar-nav me-auto"><li class="nav-item">
+  <a class="nav-link" href="../articles/tmtyro.html">Get started</a>
 </li>
-<li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/Counts-Columns-and-Clouds.html">Counts, Columns, and Clouds</a>
-    <a class="dropdown-item" href="../articles/Page-to-Table.html">Page to Table</a>
-  </div>
+<li class="active nav-item">
+  <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
@@ -58,7 +54,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">standardize_titles</span><span class="op">(</span><span class="va">.data</span>, title <span class="op">=</span> <span class="va">doc_id</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">standardize_titles</span><span class="op">(</span><span class="va">.data</span>, title <span class="op">=</span> <span class="va">doc_id</span>, drop_articles <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -69,6 +65,10 @@
 
 <dt>title</dt>
 <dd><p>A column containing the titles to be standardized</p></dd>
+
+
+<dt>drop_articles</dt>
+<dd><p>Whether to remove opening articles like "The" and "A"</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -99,20 +99,28 @@
 <span class="r-in"><span><span class="co">##### Standardizing a data frame #####</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">austen_measured</span> <span class="op">&lt;-</span> <span class="va">austen</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="add_lexical_variety.html">add_lexical_variety</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="add_vocabulary.html">add_vocabulary</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Before `standardize_titles()`</span></span></span>
 <span class="r-in"><span><span class="va">austen_measured</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="plot_vocabulary.html">plot_vocabulary</a></span><span class="op">(</span>labeling <span class="op">=</span> <span class="st">"inline"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `geom_smooth()` using formula = 'y ~ s(x, bs = "cs")'</span>
-<span class="r-plt img"><img src="standardize_titles-1.png" alt="" width="700" height="433"></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in geomtextpath::geom_textsmooth(ggplot2::aes(label = {    {        by    }}), hjust = 0.9, method = "gam"):</span> Problem while converting geom to grob.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Error occurred in the 1st layer.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Caused by error in `txt$shape[, shape_vars]`:</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> Can't subset columns that don't exist.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> Column `x_midpoint` doesn't exist.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># After `standardize_titles()`</span></span></span>
 <span class="r-in"><span><span class="va">austen_measured</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">standardize_titles</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="plot_vocabulary.html">plot_vocabulary</a></span><span class="op">(</span>labeling <span class="op">=</span> <span class="st">"inline"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `geom_smooth()` using formula = 'y ~ s(x, bs = "cs")'</span>
-<span class="r-plt img"><img src="standardize_titles-2.png" alt="" width="700" height="433"></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in geomtextpath::geom_textsmooth(ggplot2::aes(label = {    {        by    }}), hjust = 0.9, method = "gam"):</span> Problem while converting geom to grob.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Error occurred in the 1st layer.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Caused by error in `txt$shape[, shape_vars]`:</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> Can't subset columns that don't exist.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> Column `x_midpoint` doesn't exist.</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

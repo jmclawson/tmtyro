@@ -10,13 +10,10 @@
     <loc>https://jmclawson.github.io/tmtyro/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://jmclawson.github.io/tmtyro/articles/Counts-Columns-and-Clouds.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/articles/Page-to-Table.html</loc>
-  </url>
-  <url>
     <loc>https://jmclawson.github.io/tmtyro/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://jmclawson.github.io/tmtyro/articles/tmtyro.html</loc>
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/authors.html</loc>
@@ -28,16 +25,19 @@
     <loc>https://jmclawson.github.io/tmtyro/news/index.html</loc>
   </url>
   <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/add_lexical_variety.html</loc>
-  </url>
-  <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/add_ngrams.html</loc>
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/add_sentiment.html</loc>
   </url>
   <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/add_vocabulary.html</loc>
+  </url>
+  <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/change_colors.html</loc>
+  </url>
+  <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/collapse_rows.html</loc>
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/combine_ngrams.html</loc>
@@ -134,6 +134,27 @@
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/summarize_tf_idf.html</loc>
+  </url>
+  <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/tabulize.combined_ngrams.html</loc>
+  </url>
+  <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/tabulize.default.html</loc>
+  </url>
+  <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/tabulize.html</loc>
+  </url>
+  <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/tabulize.ngrams.html</loc>
+  </url>
+  <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/tabulize.sentiment.html</loc>
+  </url>
+  <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/tabulize.tf_idf.html</loc>
+  </url>
+  <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/tabulize.vocabulary.html</loc>
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/tmtyro-package.html</loc>
