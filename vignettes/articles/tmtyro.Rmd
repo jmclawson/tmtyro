@@ -94,17 +94,17 @@ The tmtyro package aims to make these steps fast and easy.
 
 ## Differentiating tmtyro
 
-Wonderful text mining tools already exist for digital humanities classrooms and researchers working with text data, including the online tool [Voyant](https://voyant-tools.org), which is both powerful and easy to use for beginners; the [tm](https://tm.r-forge.r-project.org) package in R, a long-standing tool used by specialists; and the comparatively recent [tidytext](https://juliasilge.github.io/tidytext/) package in R, designed to work with the "tidyverse" suite of packages. Their designs situate them for different audiences and purposes, but each is limited in part by lock-in or difficulty. The tmtyro package aims to address these shortcomings. 
+Wonderful text mining tools already exist for digital humanities classrooms and researchers working with text data, including the online tool [Voyant](https://voyant-tools.org), which is both powerful and easy to use for beginners; the [tm](https://tm.r-forge.r-project.org) package in R, a long-standing tool used by specialists; and the comparatively recent [tidytext](https://juliasilge.github.io/tidytext/) package in R, designed to work with the "tidyverse" suite of packages. Their designs situate them for different audiences and purposes, but each is limited in part by lock-in or difficulty. The tmtyro package aims to address some of these concerns. 
 
 [Voyant](https://voyant-tools.org)'s graphical interface makes it accessible to complete novices, but it doesn't skimp on power or features. Still, every tool has limits. The tool's easy-to-use interface ultimately limits users, since it keeps Voyant from serving as a skills ramp to other tools.
 
 Unlike Voyant, code-based methods for working with text offer both reproducibility and open-ended tooling. In R, the tidytext package is made using a "tidy data" design philosophy that is consistent with many popular R packages. A companion book, [*Text Mining with R*](https://www.tidytextmining.com), offers impressive documentation to the package, easing the learning curve for anyone new to text mining. But its [preface](https://www.tidytextmining.com/preface) acknowledges a starting point quite a ways above zero, expecting "the reader is at least slightly familiar with dplyr, ggplot2, and the %>% 'pipe' operator in R." Without the book, tidytext is even less suited for beginners, leaving users to fend for themselves and find some other method to read files.
 
-The tidytext package is a helpful tool to be picked up by a seasoned R user familiar with the tidyverse. The tm package, by contrast, is the kind of tool for which specialists will learn R to use. It predates the tidyverse package suite, and its data design is often incompatible with those workflows. Nevertheless, it provides power and specialized functionality beyond these other tools, making it worth learning for those who make the choice.
+If the tidytext package is a helpful tool to be picked up by a seasoned R user familiar with the tidyverse, then the tm package, by contrast, is the kind of tool for which specialists will learn R to use. It predates the tidyverse package suite, and its data design is often incompatible with those workflows. Nevertheless, it provides power and specialized functionality beyond these other tools, making it worth learning for those who need it.
 
 ![](skill_speedometer.png)
 
-The tmtyro package is designed to fit into a gap left by these tools. In fact, it was developed over two semesters of teaching a course on literary text mining using R, following through examples from *Text Mining in R* while students applied techniques to ask their own questions about their own selections of texts. Taught in the English department, our course was was never meant to be a "coding class," even though it did walk students through their first code. Approaching texts from a different angle helped us to have new insights on the things we were reading. And having working tools in front of us helped everyone test the boundaries of this new world and map how we might follow the paths laid out in the research we read. 
+The tmtyro package is designed to fit into a space left behind. In fact, it was developed over two semesters of teaching a course on literary text mining using R, following through examples from *Text Mining in R* while students applied techniques to ask their own questions about their own selections of texts. Taught in the English department, our course was was never meant to be a "coding class," even though it did walk students through their first code. Approaching texts from a different angle helped us to have new insights on the things we were reading. And having working tools in front of us helped everyone test the boundaries of this new world and map how we might follow the paths laid out in the research we read. 
 
 Like Voyant, tmtyro is designed for a beginner. A code-based interface will never be as intuitive as one designed graphically, but tmtyro makes decisions that strive for consistency and predictability. Workflows are provided for loading texts from a folder or for getting a corpus of texts from an online repository like Project Gutenberg. Once texts are loaded, repetitive conventions for function names make it easy to add columns for assessing sentiment, for considering n-grams, or for measuring vocabulary. Generic functions handle the details for sharing figures and tables, automatically adjusting to fit the steps taken in a given analysis.
 
@@ -122,7 +122,7 @@ joyce <- get_gutenberg_corpus(c(2814, 4217))
 head(joyce)
 ```
 
-In some cases, headers may make better sense if read as part of the text.
+In some cases, headers may make better sense if read as part of the text, such as this section of "Aeolus" where newspaper headlines pepper the page.
 
 ```{r}
 ulysses <- get_gutenberg_corpus(4300)
@@ -157,7 +157,7 @@ head(corpus_austen)
 ```
 
 ### Standardize titles
-The `standardize_titles()` function makes it easy to convert titles to something cleaner:
+The `standardize_titles()` function makes it easy to convert titles to something cleaner, adopting title case, converting underscores to spaces, and dropping initial articles:
 
 ```{r}
 corpus_austen <- corpus_austen |> 
@@ -165,7 +165,6 @@ corpus_austen <- corpus_austen |>
 
 unique(corpus_austen$doc_id)
 ```
-
 
 The same `load_texts()` function will prepare a corpus from Project Gutenberg in this format of one word per row, using the Project Gutenberg ID as the document identifier. 
 
@@ -176,7 +175,7 @@ corpus_joyce <- joyce |>
 head(corpus_joyce)
 ```
 
-### Use another column for `doc_id`
+### Choose a different `doc_id`
 If a document's title is preferred over the gutenberg_id, the `identify_by()` function makes the switch:
 
 ```{r}
@@ -428,7 +427,7 @@ sentiment_ulysses |>
 ```
 
 ### N-grams
-By default, the `visualize()` function returns a network visualization demonstrated in *Text Mining with R*:
+By default, the `visualize()` function returns a network visualization like that demonstrated in *Text Mining with R*:
 
 ```{r}
 bigrams_austen |> 
@@ -447,7 +446,7 @@ bigrams_austen |>
 
 ### Tf-idf
 
-The `visualize()` function returns bars showing the top words for each document. This can be a useful way to differentiate texts in a set from each other. (Remember, `tfidf_dubliners` was prepared with `load_texts(remove_names = TRUE)`.)
+The `visualize()` function returns bars showing the top words for each document. This can be a useful way to differentiate texts in a set from each other. Remember, `tfidf_dubliners` was prepared with `load_texts(remove_names = TRUE)`. The resulting chart begins to show delineation of topics characteristic of the stories in Joyce's collection:
 
 ```{r}
 tfidf_dubliners |> 
