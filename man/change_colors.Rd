@@ -74,7 +74,7 @@ dubliners2 |>
 dubliners2 |>
   visualize(inorder = FALSE) |>
   change_colors(c(
-    #rep("darkgray", 6),
+    rep("darkgray", 6),
     "A Painful Case" = "blue"))
 
 ### SEQUENTIAL DATA ###
