@@ -1,6 +1,6 @@
 Package: tmtyro
 Title: tmtyro: Simplified Workflows for Text Mining Tyros
-Version: 0.0.8.9000
+Version: 0.1.0
 Authors@R: 
     person("James", "Clawson", , "clawson@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0009-0008-6756-0607"))
@@ -16,7 +16,6 @@ RoxygenNote: 7.3.1
 URL: https://github.com/jmclawson/tmtyro, https://jmclawson.github.io/tmtyro/
 BugReports: https://github.com/jmclawson/tmtyro/issues
 Imports: 
-    cli,
     dplyr,
     forcats,
     ggh4x,
@@ -26,7 +25,6 @@ Imports:
     gt,
     gutenbergr,
     igraph,
-    janitor,
     knitr,
     purrr,
     readr,
@@ -35,7 +33,6 @@ Imports:
     scales,
     stats,
     stringr,
-    textdata,
     tibble,
     tidyr,
     tidytext,
@@ -53,6 +50,7 @@ Suggests:
     plotly,
     RColorBrewer,
     rmarkdown,
+    textdata,
     textstem,
     wordcloud
 VignetteBuilder: knitr

@@ -1,3 +1,15 @@
+# tmtyro 0.1.0
+
+* First "public" release! 🎉
+* Unnecessary components removed and dependencies reduced
+* Examples standardized and made reproducible
+* `change_colors()` now works with `plot_bigrams()`
+* `change_colors()` now includes a "dubois" colorset
+* `tabulize()` documentation is now improved for online output
+* `standardize_titles()` now works with factors
+* Added default behavior for `visualize()` on a corpus
+* Part of speech tagging should now work for more texts
+
 # tmtyro (development version 0.0.8.9000)
 
 * New `tabulize()` generic function for preparing tables with supported methods

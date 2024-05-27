@@ -8,11 +8,12 @@
 #' @export
 #'
 #' @examples
-#' austen <- "austen.rds" |>
-#'   system.file(package = "tmtyro") |>
-#'   readRDS()
+#' dubliners <- get_gutenberg_corpus(2814) |>
+#'   load_texts() |>
+#'   identify_by(part) |>
+#'   standardize_titles()
 #'
-#' austen |>
+#' dubliners |>
 #'    drop_stopwords()
 drop_stopwords <- function(df, wordlist = NULL, feature = word) {
   if (is.null(wordlist)) {

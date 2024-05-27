@@ -20,10 +20,11 @@ The original data frame with fewer rows.
 Remove stopwords
 }
 \examples{
-austen <- "austen.rds" |>
-  system.file(package = "tmtyro") |>
-  readRDS()
+dubliners <- get_gutenberg_corpus(2814) |>
+  load_texts() |>
+  identify_by(part) |>
+  standardize_titles()
 
-austen |>
+dubliners |>
    drop_stopwords()
 }

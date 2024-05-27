@@ -19,11 +19,12 @@
 #'     add_ngrams(3)
 #' }
 #'
-#' austen <- "austen.rds" |>
-#'   system.file(package = "tmtyro") |>
-#'   readRDS()
+#' dubliners <- get_gutenberg_corpus(2814) |>
+#'   load_texts() |>
+#'   identify_by(part) |>
+#'   standardize_titles()
 #'
-#' austen |>
+#' dubliners |>
 #'   add_ngrams(2) |>
 #'   head()
 
@@ -93,11 +94,12 @@ add_ngrams <- function(df, n = 1:2, feature = word, keep = FALSE, collapse = FAL
 #'     combine_ngrams()
 #' }
 #'
-#' austen <- "austen.rds" |>
-#'   system.file(package = "tmtyro") |>
-#'   readRDS()
+#' dubliners <- get_gutenberg_corpus(2814) |>
+#'   load_texts() |>
+#'   identify_by(part) |>
+#'   standardize_titles()
 #'
-#' austen |>
+#' dubliners |>
 #'   add_ngrams(2) |>
 #'   combine_ngrams() |>
 #'   head()
@@ -157,18 +159,19 @@ combine_ngrams <- function(df, feature = word, keep = FALSE){
 #'     separate_ngrams()
 #' }
 #'
-#' austen <- "austen.rds" |>
-#'   system.file(package = "tmtyro") |>
-#'   readRDS()
+#' dubliners <- get_gutenberg_corpus(2814) |>
+#'   load_texts() |>
+#'   identify_by(part) |>
+#'   standardize_titles()
 #'
-#' austen |>
-#'   add_ngrams(2) |>
+#' dubliners |>
+#'   add_ngrams() |>
 #'   combine_ngrams() |>
 #'   separate_ngrams() |>
 #'   head()
 separate_ngrams <- function(df, names_prefix = "word") {
   if(!"ngram" %in% colnames(df)){
-    cli::cli_abort("`separate_ngrams()` only works on tables with an `ngram` column.")
+    stop("`separate_ngrams()` only works on tables with an `ngram` column.")
   }
 
   df |>
@@ -183,7 +186,7 @@ separate_ngrams <- function(df, names_prefix = "word") {
 
 #' Visualize bigram chains
 #'
-#' Adapted from `[visualize_bigrams()](https://www.tidytextmining.com/ngrams#visualizing-bigrams-in-other-texts)` in Julia Silge and David Robinson's *Text Mining with R.
+#' Adapted from `[visualize_bigrams()](https://www.tidytextmining.com/ngrams#visualizing-bigrams-in-other-texts)` in Julia Silge and David Robinson's *Text Mining with R*.
 #'
 #' @param df A tidy data frame potentially containing a column called "word" or columns called "word_1" and "word_2".
 #' @param feature The feature to use when constructing ngrams
@@ -195,6 +198,7 @@ separate_ngrams <- function(df, names_prefix = "word") {
 #' @returns A ggplot2 object
 #' @family visualizing helpers
 #' @family n-gram helpers
+#' @keywords internal
 #' @export
 #'
 #' @examples
@@ -212,7 +216,7 @@ separate_ngrams <- function(df, names_prefix = "word") {
 #'
 #' # Only bigrams influence the visualization These show the same networks:
 #' df |>
-#'   add_ngrams(2) |>
+#'   add_ngrams() |>
 #'   plot_bigrams()
 #'
 #' df |>
@@ -221,29 +225,30 @@ separate_ngrams <- function(df, names_prefix = "word") {
 #'
 #' }
 #'
-#' austen <- "austen.rds" |>
-#'   system.file(package = "tmtyro") |>
-#'   readRDS()
+#' dubliners <- get_gutenberg_corpus(2814) |>
+#'   load_texts() |>
+#'   identify_by(part) |>
+#'   standardize_titles()
 #'
-#' austen |>
+#' dubliners |>
 #'   plot_bigrams()
 #'
 #' # Loading `ggraph` enables edge to show connection strengths
 #' library(ggraph)
 #'
-#' austen |>
+#' dubliners |>
 #'   plot_bigrams()
 #'
-#' austen |>
+#' dubliners |>
 #'   add_ngrams(2) |>
 #'   drop_stopwords(feature = word_1) |>
 #'   drop_stopwords(feature = word_2) |>
 #'   plot_bigrams()
 #'
-#' austen |>
-#'   dplyr::filter(doc_id == "northanger") |>
-#'   plot_bigrams(top_n = 80) |>
-#'   change_colors("lightgreen")
+#' dubliners |>
+#'   dplyr::filter(doc_id == "The Dead") |>
+#'   plot_bigrams(top_n = 70) |>
+#'   change_colors("lightblue")
 plot_bigrams <- function(
     df,
     feature = word,

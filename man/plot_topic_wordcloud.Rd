@@ -21,26 +21,24 @@ Graphic(s) prepared with \code{knitr} for Quarto or RMarkdown
 \description{
 \code{plot_topic_wordcloud()} prepares, saves, and displays word clouds of topics in a topic model. The function can display word clouds of one or more specific topics, or it can show word clouds for every topic.
 }
-\examples{
-\dontrun{
-austen <-
+\section{Examples}{
+
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{austen <-
   get_gutenberg_corpus(c(105, 121, 141, 158, 161, 946, 1342)) |>
-  select(doc_id = title, text)
+  dplyr::select(doc_id = title, text)
 
-# Creating the topic model for the package
-austen_lda <- make_topic_model(austen, k = 30)
-
-saveRDS(austen_lda, "inst/austen_lda.rds")
-}
-
-# Loading from the package
-austen_lda <- "austen_lda.rds" |>
-  system.file(package = "tmtyro") |>
-  readRDS()
+austen_lda <-
+  austen |>
+  make_topic_model(k = 30)
 
 austen_lda |>
-  plot_topic_wordcloud(topic = 28)
+  plot_topic_wordcloud(topic = 6)
+}\if{html}{\out{</div>}}
+
+\if{html}{\out{<div style="text-align: center">}\figure{topic_cloud.png}{options: style="width:800px;max-width:80\%;"}\out{</div>}}
 }
+
 \seealso{
 Other visualizing helpers: 
 \code{\link{change_colors}()},
@@ -57,3 +55,4 @@ Other visualizing helpers:
 \code{\link{visualize}()}
 }
 \concept{visualizing helpers}
+\keyword{internal}

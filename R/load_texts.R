@@ -102,6 +102,7 @@ tidy_texts_internal <- function(df, to_word, lemma, lemma_replace, to_lower, rem
 
   if (pos) {
     df <- df |>
+      dplyr::filter(grepl("[a-zA-Z]", text)) |>
       annotate_pos()
   }
 
@@ -378,4 +379,9 @@ identify_by <- function(data, column, old = NULL, drop = TRUE, inorder = TRUE) {
       dplyr::mutate(doc_id = forcats::fct_inorder(doc_id))
   }
   data
+}
+
+add_class <- function(x, class, remove = NULL) {
+  class(x) <- append(class, class(x)[!class(x) %in% remove])
+  x
 }

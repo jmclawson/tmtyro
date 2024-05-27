@@ -25,12 +25,13 @@ Separate one word per column
     separate_ngrams()
 }
 
-austen <- "austen.rds" |>
-  system.file(package = "tmtyro") |>
-  readRDS()
+dubliners <- get_gutenberg_corpus(2814) |>
+  load_texts() |>
+  identify_by(part) |>
+  standardize_titles()
 
-austen |>
-  add_ngrams(2) |>
+dubliners |>
+  add_ngrams() |>
   combine_ngrams() |>
   separate_ngrams() |>
   head()

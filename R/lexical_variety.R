@@ -206,11 +206,12 @@ internal_plot_engine <- function(
 #' @export
 #'
 #' @examples
-#' austen <- "austen.rds" |>
-#'   system.file(package = "tmtyro") |>
-#'   readRDS()
+#' dubliners <- get_gutenberg_corpus(2814) |>
+#'   load_texts() |>
+#'   identify_by(part) |>
+#'   standardize_titles()
 #'
-#' austen |>
+#' dubliners |>
 #'    add_vocabulary() |>
 #'    head()
 add_vocabulary <- function(df, by = doc_id, feature = word) {
@@ -254,22 +255,22 @@ add_vocabulary <- function(df, by = doc_id, feature = word) {
 #'
 #' @returns A ggplot object
 #' @family visualizing helpers
+#' @keywords internal
 #' @export
 #'
 #' @examples
-#' austen <- "austen.rds" |>
-#'   system.file(package = "tmtyro") |>
-#'   readRDS()
+#' dubliners <- get_gutenberg_corpus(2814) |>
+#'   load_texts() |>
+#'   identify_by(part) |>
+#'   standardize_titles()
 #'
-#' austen_measured <- austen |>
+#' dubliners_measured <- dubliners |>
 #'   add_vocabulary()
 #'
-#' austen_measured |>
-#'   standardize_titles() |>
+#' dubliners_measured |>
 #'   plot_vocabulary(progress_percent)
 #'
-#' austen_measured |>
-#'   standardize_titles() |>
+#' dubliners_measured |>
 #'   plot_vocabulary()
 #'
 #' \dontrun{
@@ -315,22 +316,22 @@ plot_vocabulary <- function(df, x = progress_words, by = doc_id, identity = NULL
 #'
 #' @returns A ggplot object
 #' @family visualizing helpers
+#' @keywords internal
 #' @export
 #'
 #' @examples
-#' austen <- "austen.rds" |>
-#'   system.file(package = "tmtyro") |>
-#'   readRDS()
+#' dubliners <- get_gutenberg_corpus(2814) |>
+#'   load_texts() |>
+#'   identify_by(part) |>
+#'   standardize_titles()
 #'
-#' austen_measured <- austen |>
+#' dubliners_measured <- dubliners |>
 #'   add_vocabulary()
 #'
-#' austen_measured |>
-#'   standardize_titles() |>
+#' dubliners_measured |>
 #'   plot_ttr(labeling = "inline")
 #'
-#' austen_measured |>
-#'   standardize_titles() |>
+#' dubliners_measured |>
 #'   plot_ttr()
 plot_ttr <- function(df, x = progress_words, by = doc_id, identity = NULL, descriptive_labels = TRUE, labeling = c("point", "inline", "axis", "inset"), log_y = TRUE){
 
@@ -368,17 +369,19 @@ plot_ttr <- function(df, x = progress_words, by = doc_id, identity = NULL, descr
 #'
 #' @returns A ggplot object
 #' @family visualizing helpers
+#' @keywords internal
 #' @export
 #'
 #' @examples
-#' austen <- "austen.rds" |>
-#'   system.file(package = "tmtyro") |>
-#'   readRDS()
+#' dubliners <- get_gutenberg_corpus(2814) |>
+#'   load_texts() |>
+#'   identify_by(part) |>
+#'   standardize_titles()
 #'
-#' austen_measured <- austen |>
+#' dubliners_measured <- dubliners |>
 #'   add_vocabulary()
 #'
-#' austen_measured |>
+#' dubliners_measured |>
 #'   standardize_titles() |>
 #'   plot_htr()
 plot_htr <- function(df, x = progress_words, by = doc_id, identity = doc_id, descriptive_labels = TRUE, labeling = c("point", "inline", "axis", "inset"), log_y = TRUE){
@@ -413,19 +416,22 @@ plot_htr <- function(df, x = progress_words, by = doc_id, identity = doc_id, des
 #'
 #' @returns A ggplot object
 #' @family visualizing helpers
+#' @keywords internal
 #' @export
 #'
 #' @examples
-#' austen <- "austen.rds" |>
-#'   system.file(package = "tmtyro") |>
-#'   readRDS()
+#' if (FALSE) {
+#'   dubliners <- get_gutenberg_corpus(2814) |>
+#'     load_texts() |>
+#'     identify_by(part) |>
+#'     standardize_titles()
 #'
-#' austen_measured <- austen |>
-#'   add_vocabulary()
+#'   dubliners_measured <- dubliners |>
+#'     add_vocabulary()
 #'
-#' austen_measured |>
-#'   standardize_titles() |>
-#'   plot_hapax()
+#'   dubliners_measured |>
+#'     plot_hapax()
+#' }
 plot_hapax <- function(
     df,
     prop = 0.01,

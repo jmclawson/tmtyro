@@ -36,19 +36,13 @@ A ggplot object
 Visualize the top terms by tf-idf
 }
 \examples{
-library(tmtyro)
-library(dplyr)
+dubliners <- get_gutenberg_corpus(2814) |>
+  load_texts() |>
+  identify_by(part) |>
+  standardize_titles()
 
-austen <- "austen.rds" |>
-  system.file(package = "tmtyro") |>
-  readRDS()
-
-austen |>
+dubliners |>
   plot_tf_idf()
-
-austen |>
-  filter(pos \%in\% c("NN", "NNS")) |>
-  plot_tf_idf(feature = lemma)
 }
 \seealso{
 Other visualizing helpers: 
@@ -67,3 +61,4 @@ Other visualizing helpers:
 }
 \concept{tf-idf helpers}
 \concept{visualizing helpers}
+\keyword{internal}

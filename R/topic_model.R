@@ -145,26 +145,22 @@ load_topic_model <- function(
 #'
 #' @returns A ggplot2 visualization showing vertical facets of texts. The length of each text is shown on the X-axis, and area plots on the Y-axis show the distribution of the strongest topics in each part of the text.
 #' @family visualizing helpers
+#' @keywords internal
 #' @export
 #'
-#' @examples
-#' \dontrun{
+#' @section Examples:
+#' ```r
 #' austen <-
 #'   get_gutenberg_corpus(c(105, 121, 141, 158, 161, 946, 1342)) |>
-#'   select(doc_id = title, text)
+#'   dplyr::select(doc_id = title, text)
 #'
-#' # Creating the topic model for the package
-#' austen_lda <- make_topic_model(austen, k = 30)
-#'
-#' austen_lda |> saveRDS("inst/austen_lda.rds")
-#' }
-#'
-#' # Loading from the package
-#' austen_lda <- "austen_lda.rds" |>
-#'   system.file(package = "tmtyro") |>
-#'   readRDS()
+#' austen_lda <-
+#'   austen |>
+#'   make_topic_model(k = 30)
 #'
 #' plot_topic_distributions(austen_lda)
+#' ```
+#' \if{html}{\out{<div style="text-align: center">}\figure{topic_distributions.png}{options: style="width:1000px;max-width:100\%;"}\out{</div>}}
 plot_topic_distributions <- function(
     lda,
     top_n = 4,
@@ -404,26 +400,21 @@ prep_topic_distributions <- function(
 #' @param smooth After samples are rejoined, the measured value of each topic will vary wildly, even in samples that are beside each other in a document. This can make charts distractingly jittery. The default TRUE value of this parameter reduces chart noise by calculating rolling averages across three samples. Set the parameter to FALSE to skip this step and allow for visualization of extreme values.
 #'
 #' @returns Interactive plotly object
+#' @keywords internal
 #' @export
 #'
-#' @examples
-#' \dontrun{
+#' @section Examples:
+#' ```r
 #' austen <-
 #'   get_gutenberg_corpus(c(105, 121, 141, 158, 161, 946, 1342)) |>
-#'   select(doc_id = title, text)
+#'   dplyr::select(doc_id = title, text)
 #'
-#' # Creating the topic model for the package
-#' austen_lda <- make_topic_model(austen, k = 30)
-#'
-#' saveRDS(austen_lda, "inst/austen_lda.rds")
-#' }
-#'
-#' # Loading from the package
-#' austen_lda <- "austen_lda.rds" |>
-#'   system.file(package = "tmtyro") |>
-#'   readRDS()
+#' austen_lda <-
+#'   austen |>
+#'   make_topic_model(k = 30)
 #'
 #' interactive_topic_distributions(austen_lda)
+#' ```
 interactive_topic_distributions <- function(
     lda,
     top_n = 4,
@@ -498,27 +489,24 @@ interactive_topic_distributions <- function(
 #'
 #' @returns A ggplot2 visualization showing the top words in each of the chosen topics.
 #' @family visualizing helpers
+#' @keywords internal
 #' @export
 #'
-#' @examples
-#' \dontrun{
+#' @section Examples:
+#' ```r
 #' austen <-
 #'   get_gutenberg_corpus(c(105, 121, 141, 158, 161, 946, 1342)) |>
-#'   select(doc_id = title, text)
+#'   dplyr::select(doc_id = title, text)
 #'
-#' # Creating the topic model for the package
-#' austen_lda <- make_topic_model(austen, k = 30)
-#'
-#' saveRDS(austen_lda, "inst/austen_lda.rds")
-#' }
-#'
-#' # Loading from the package
-#' austen_lda <- "austen_lda.rds" |>
-#'   system.file(package = "tmtyro") |>
-#'   readRDS()
+#' austen_lda <-
+#'   austen |>
+#'   make_topic_model(k = 30)
 #'
 #' austen_lda |>
-#'   plot_topic_bars(topics = c(6, 15, 19))
+#'   plot_topic_bars(topics = c(22, 6)) +
+#'   labs(title = "Competing topics in Northanger Abbey")
+#' ```
+#' \if{html}{\out{<div style="text-align: center">}\figure{topic_bars.png}{options: style="width:800px;max-width:80\%;"}\out{</div>}}
 plot_topic_bars <- function(
     lda,
     topics,
@@ -551,6 +539,7 @@ plot_topic_bars <- function(
     ggplot2::labs(y = NULL,
          x = NULL,
          title = lda_string) +
+    ggplot2::scale_x_continuous(expand = c(0,0)) +
     ggplot2::theme_minimal() +
     ggplot2::theme(axis.text.x = ggplot2::element_blank(),
           panel.grid = ggplot2::element_blank())
@@ -596,27 +585,23 @@ plot_topic_bars <- function(
 #'
 #' @returns Graphic(s) prepared with `knitr` for Quarto or RMarkdown
 #' @family visualizing helpers
+#' @keywords internal
 #' @export
 #'
-#' @examples
-#' \dontrun{
+#' @section Examples:
+#' ```r
 #' austen <-
 #'   get_gutenberg_corpus(c(105, 121, 141, 158, 161, 946, 1342)) |>
-#'   select(doc_id = title, text)
+#'   dplyr::select(doc_id = title, text)
 #'
-#' # Creating the topic model for the package
-#' austen_lda <- make_topic_model(austen, k = 30)
-#'
-#' saveRDS(austen_lda, "inst/austen_lda.rds")
-#' }
-#'
-#' # Loading from the package
-#' austen_lda <- "austen_lda.rds" |>
-#'   system.file(package = "tmtyro") |>
-#'   readRDS()
+#' austen_lda <-
+#'   austen |>
+#'   make_topic_model(k = 30)
 #'
 #' austen_lda |>
-#'   plot_topic_wordcloud(topic = 28)
+#'   plot_topic_wordcloud(topic = 6)
+#' ```
+#' \if{html}{\out{<div style="text-align: center">}\figure{topic_cloud.png}{options: style="width:800px;max-width:80\%;"}\out{</div>}}
 plot_topic_wordcloud <- function(
     lda,
     topics = NULL,

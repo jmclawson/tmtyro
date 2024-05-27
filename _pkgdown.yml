@@ -10,39 +10,44 @@ authors:
     href: https://jmclawson.net
 
 reference:
-- title: Collect
-  desc: Collect a corpus of texts to study.
+- title: Prepare Texts
+  desc: Functions for collecting, loading, and cleaning a corpus of texts.
+- subtitle: Collecting Texts
 - contents:
-  - download_once
-  - starts_with("load_")
   - starts_with("get_")
+  - download_once
   - starts_with("micusp_")
   - parse_html
+- subtitle: Loading Texts
+- contents:
+  - starts_with("load_")
+- subtitle: Cleaning Text and Metadata
+  contents:
   - move_header_to_text
   - identify_by
+  - standardize_titles
   - unnest_without_caps
-- title: Measure
-  desc: Measure features of texts.
+- title: Measure Text Features
+  desc: Functions for measuring features of texts and being choosy about how you do it.
 - contents:
   - starts_with("add_")
   - starts_with("drop_")
   - starts_with("summarize_")
-  - starts_with("standardize_")
-- title: N-grams
-  desc: Work with phrases and sequences.
-- contents:
-  - ends_with("_ngrams")
-  - ends_with("_bigrams")
-- title: Model
+  - combine_ngrams
+  - separate_ngrams
+- subtitle: Model Topics
   desc: Model complex relationships in a corpus.
 - contents:
   - starts_with("make_")
-- title: Communicate
-  desc: Prepare tables and visualize features of texts.
+- title: Explore Results
+  desc: Generic functions make it easy to share results with an audience (or keep them to yourself)
 - contents:
-  - has_concept("table helpers")
-  - has_concept("visualizing helpers")
-  - starts_with("interactive_")
+  - tabulize
+  - visualize
+- subtitle: Adjusting tables and figures
+- contents:
+  - collapse_rows
+  - change_colors
 - title: Data
   desc: Data included
 - contents:

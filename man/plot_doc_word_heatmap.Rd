@@ -30,21 +30,23 @@ A ggplot object
 Plot a heatmap of ranked features
 }
 \examples{
-library(tmtyro)
-library(dplyr)
+dubliners <- get_gutenberg_corpus(2814) |>
+  load_texts(lemma = TRUE) |>
+  identify_by(part) |>
+  standardize_titles()
 
-austen <- "austen.rds" |>
-  system.file(package = "tmtyro") |>
-  readRDS()
+# Make a smaller example
+selected_titles <-
+  c("The Sisters", "An Encounter", "Araby",
+    "Counterparts", "The Dead")
 
-austen |>
-  filter(pos \%in\% c("NN", "NNS")) |>
+dubliners |>
+  dplyr::filter(doc_id \%in\% selected_titles) |>
   plot_doc_word_heatmap()
 
-austen |>
-  filter(pos \%in\% c("JJ", "RB")) |>
-  plot_doc_word_heatmap(feature = lemma)
-
+dubliners |>
+  dplyr::filter(doc_id \%in\% selected_titles) |>
+  plot_doc_word_heatmap(feature = lemma, rows = 1:6)
 }
 \seealso{
 Other visualizing helpers: 
@@ -62,3 +64,4 @@ Other visualizing helpers:
 \code{\link{visualize}()}
 }
 \concept{visualizing helpers}
+\keyword{internal}

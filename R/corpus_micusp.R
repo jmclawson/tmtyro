@@ -17,9 +17,14 @@ micusp_metadata <- function(micusp_dir = "micusp"){
                 filename = "micusp_metadata.csv",
                 destdir = micusp_dir)
 
-  readr::read_csv("micusp/micusp_metadata.csv",
-                  show_col_types = FALSE) |>
-    janitor::clean_names()
+  metadata <- readr::read_csv("micusp/micusp_metadata.csv",
+                  show_col_types = FALSE)
+
+  colnames(metadata) <- colnames(metadata) |>
+    tolower() |>
+    stringr::str_replace(" ", "_")
+
+  metadata
 }
 
 parse_micusp_paper <- function(paperid,

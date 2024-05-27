@@ -51,56 +51,59 @@ a ggplot2 object
 For some visualizations, an optional \code{type} parameter may be helpful to change the visualization. For example, setting \code{type = "htr"}, \code{type = "ttr"}, or \code{type = "hapax"} after \code{\link[=add_vocabulary]{add_vocabulary()}} will emphasize different columns added by that function. Similarly, \code{type = "cloud"} or \code{type = "wordcloud"} will show topic word clouds after \code{\link[=make_topic_model]{make_topic_model()}}, and \code{type = "heatmap"} will show an alternative visualization for word frequencies.
 }
 \examples{
-austen <- "austen.rds" |>
-  system.file(package = "tmtyro") |>
-  readRDS()
+dubliners <- get_gutenberg_corpus(2814) |>
+  load_texts() |>
+  identify_by(part) |>
+  standardize_titles()
 
 # A data frame with `doc_id` and `word` columns will visualize frequency by default
-austen |>
+dubliners |>
    visualize()
 
 # Applying `tmtyro` functions will choose an appropriate visualization
 
-austen |>
+dubliners |>
    add_ngrams() |>
    visualize()
 
-austen |>
+dubliners |>
    add_ngrams() |>
    combine_ngrams() |>
    visualize()
 
-austen |>
+dubliners |>
    summarize_tf_idf() |>
    visualize()
 
-austen |>
+dubliners |>
    add_vocabulary() |>
    visualize()
 
 if (FALSE) { # sentiment requires interaction on first load
-  austen |>
+  dubliners |>
      add_sentiment() |>
      visualize()
 }
 
 # Some visualizations are specified with the `type` argument
-austen |>
+dubliners |>
    add_vocabulary() |>
    visualize(type = "ttr")
 
-austen |>
+if (FALSE) { # puzzlingly broken for Dubliners, but usually works
+dubliners |>
    add_vocabulary() |>
    visualize(type = "hapax")
+}
 
 # Other arguments get passed along
-austen |>
+dubliners |>
    add_ngrams() |>
    visualize(top_n = 25)
 
-austen |>
+dubliners |>
    add_vocabulary() |>
-   visualize(labeling = "inline")
+   visualize(x = progress_percent)
 }
 \seealso{
 Other visualizing helpers: 

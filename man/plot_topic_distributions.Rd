@@ -41,25 +41,23 @@ A ggplot2 visualization showing vertical facets of texts. The length of each tex
 \description{
 \code{plot_topic_distributions()} prepares a visualization for exploring the most significant topics in each document over time.
 }
-\examples{
-\dontrun{
-austen <-
+\section{Examples}{
+
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{austen <-
   get_gutenberg_corpus(c(105, 121, 141, 158, 161, 946, 1342)) |>
-  select(doc_id = title, text)
+  dplyr::select(doc_id = title, text)
 
-# Creating the topic model for the package
-austen_lda <- make_topic_model(austen, k = 30)
-
-austen_lda |> saveRDS("inst/austen_lda.rds")
-}
-
-# Loading from the package
-austen_lda <- "austen_lda.rds" |>
-  system.file(package = "tmtyro") |>
-  readRDS()
+austen_lda <-
+  austen |>
+  make_topic_model(k = 30)
 
 plot_topic_distributions(austen_lda)
+}\if{html}{\out{</div>}}
+
+\if{html}{\out{<div style="text-align: center">}\figure{topic_distributions.png}{options: style="width:1000px;max-width:100\%;"}\out{</div>}}
 }
+
 \seealso{
 Other visualizing helpers: 
 \code{\link{change_colors}()},
@@ -76,3 +74,4 @@ Other visualizing helpers:
 \code{\link{visualize}()}
 }
 \concept{visualizing helpers}
+\keyword{internal}

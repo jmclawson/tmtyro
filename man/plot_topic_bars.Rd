@@ -35,26 +35,25 @@ A ggplot2 visualization showing the top words in each of the chosen topics.
 \description{
 Plot bars for words in each topic
 }
-\examples{
-\dontrun{
-austen <-
+\section{Examples}{
+
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{austen <-
   get_gutenberg_corpus(c(105, 121, 141, 158, 161, 946, 1342)) |>
-  select(doc_id = title, text)
+  dplyr::select(doc_id = title, text)
 
-# Creating the topic model for the package
-austen_lda <- make_topic_model(austen, k = 30)
-
-saveRDS(austen_lda, "inst/austen_lda.rds")
-}
-
-# Loading from the package
-austen_lda <- "austen_lda.rds" |>
-  system.file(package = "tmtyro") |>
-  readRDS()
+austen_lda <-
+  austen |>
+  make_topic_model(k = 30)
 
 austen_lda |>
-  plot_topic_bars(topics = c(6, 15, 19))
+  plot_topic_bars(topics = c(22, 6)) +
+  labs(title = "Competing topics in Northanger Abbey")
+}\if{html}{\out{</div>}}
+
+\if{html}{\out{<div style="text-align: center">}\figure{topic_bars.png}{options: style="width:800px;max-width:80\%;"}\out{</div>}}
 }
+
 \seealso{
 Other visualizing helpers: 
 \code{\link{change_colors}()},
@@ -71,3 +70,4 @@ Other visualizing helpers:
 \code{\link{visualize}()}
 }
 \concept{visualizing helpers}
+\keyword{internal}

@@ -30,7 +30,7 @@ plot_bigrams(
 A ggplot2 object
 }
 \description{
-Adapted from \verb{[visualize_bigrams()](https://www.tidytextmining.com/ngrams#visualizing-bigrams-in-other-texts)} in Julia Silge and David Robinson's *Text Mining with R.
+Adapted from \verb{[visualize_bigrams()](https://www.tidytextmining.com/ngrams#visualizing-bigrams-in-other-texts)} in Julia Silge and David Robinson's \emph{Text Mining with R}.
 }
 \examples{
 \dontrun{
@@ -47,7 +47,7 @@ df |>
 
 # Only bigrams influence the visualization These show the same networks:
 df |>
-  add_ngrams(2) |>
+  add_ngrams() |>
   plot_bigrams()
 
 df |>
@@ -56,29 +56,30 @@ df |>
 
 }
 
-austen <- "austen.rds" |>
-  system.file(package = "tmtyro") |>
-  readRDS()
+dubliners <- get_gutenberg_corpus(2814) |>
+  load_texts() |>
+  identify_by(part) |>
+  standardize_titles()
 
-austen |>
+dubliners |>
   plot_bigrams()
 
 # Loading `ggraph` enables edge to show connection strengths
 library(ggraph)
 
-austen |>
+dubliners |>
   plot_bigrams()
 
-austen |>
+dubliners |>
   add_ngrams(2) |>
   drop_stopwords(feature = word_1) |>
   drop_stopwords(feature = word_2) |>
   plot_bigrams()
 
-austen |>
-  dplyr::filter(doc_id == "northanger") |>
-  plot_bigrams(top_n = 80) |>
-  change_colors("lightgreen")
+dubliners |>
+  dplyr::filter(doc_id == "The Dead") |>
+  plot_bigrams(top_n = 70) |>
+  change_colors("lightblue")
 }
 \seealso{
 Other visualizing helpers: 
@@ -102,3 +103,4 @@ Other n-gram helpers:
 }
 \concept{n-gram helpers}
 \concept{visualizing helpers}
+\keyword{internal}

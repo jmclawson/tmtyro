@@ -4,7 +4,7 @@
 \alias{standardize_titles}
 \title{Standardize document titles}
 \usage{
-standardize_titles(.data, title = doc_id, drop_articles = TRUE)
+standardize_titles(.data, title = doc_id, drop_articles = FALSE)
 }
 \arguments{
 \item{.data}{A tidy data frame, potentially containing a title column called "doc_id". Alternatively, a simple character vector of titles.}
@@ -20,29 +20,29 @@ A data frame with one column adjusted. If .data is a character vector instead of
 Useful especially for visualizations. \code{standardize_titles} applies some English-language conventions, including converting underscores to spaces, capitalizing important words, removing leading articles, and dropping subtitles.
 }
 \examples{
-austen <- "austen.rds" |>
-  system.file(package = "tmtyro") |>
-  readRDS()
+dubliners <- get_gutenberg_corpus(2814) |>
+  load_texts() |>
+  identify_by(part)
 
 ##### Standardizing strings #####
 # Before `standardize_titles()`
-unique(austen$doc_id)
+unique(dubliners$doc_id)
 
 # After `standardize_titles()`
-unique(austen$doc_id) |>
+unique(dubliners$doc_id) |>
   standardize_titles()
 
 ##### Standardizing a data frame #####
 
-austen_measured <- austen |>
+dubliners_measured <- dubliners |>
   add_vocabulary()
 
 # Before `standardize_titles()`
-austen_measured |>
+dubliners_measured |>
   plot_vocabulary(labeling = "inline")
 
 # After `standardize_titles()`
-austen_measured |>
+dubliners_measured |>
   standardize_titles() |>
   plot_vocabulary(labeling = "inline")
 }

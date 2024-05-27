@@ -10,32 +10,32 @@
 #' @export
 #'
 #' @examples
-#' austen <- "austen.rds" |>
-#'   system.file(package = "tmtyro") |>
-#'   readRDS()
+#' dubliners <- get_gutenberg_corpus(2814) |>
+#'   load_texts() |>
+#'   identify_by(part)
 #'
 #' ##### Standardizing strings #####
 #' # Before `standardize_titles()`
-#' unique(austen$doc_id)
+#' unique(dubliners$doc_id)
 #'
 #' # After `standardize_titles()`
-#' unique(austen$doc_id) |>
+#' unique(dubliners$doc_id) |>
 #'   standardize_titles()
 #'
 #' ##### Standardizing a data frame #####
 #'
-#' austen_measured <- austen |>
+#' dubliners_measured <- dubliners |>
 #'   add_vocabulary()
 #'
 #' # Before `standardize_titles()`
-#' austen_measured |>
+#' dubliners_measured |>
 #'   plot_vocabulary(labeling = "inline")
 #'
 #' # After `standardize_titles()`
-#' austen_measured |>
+#' dubliners_measured |>
 #'   standardize_titles() |>
 #'   plot_vocabulary(labeling = "inline")
-standardize_titles <- function(.data, title = doc_id, drop_articles = TRUE){
+standardize_titles <- function(.data, title = doc_id, drop_articles = FALSE){
   # Prepositions, articles, and conjunctions
   lowercase_words <- c("a", "an", "and",
                        "about", "after", "against",
@@ -69,7 +69,14 @@ standardize_titles <- function(.data, title = doc_id, drop_articles = TRUE){
   }
 
   if (is.character(.data)) {
-    .data |> standardize_string(drop_articles)
+    .data |> standardize_string(drop_articles, drop_articles)
+  } else if (is.factor(.data)) {
+    the_levels <- .data |>
+      levels() |>
+      standardize_string(drop_articles)
+    .data |>
+      standardize_string(drop_articles) |>
+      factor(levels = the_levels)
   } else if ("doc_id" %in% colnames(.data) &&
              .data |>
              dplyr::pull(doc_id) |>

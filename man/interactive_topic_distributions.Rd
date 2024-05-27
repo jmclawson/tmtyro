@@ -32,22 +32,19 @@ Interactive plotly object
 \description{
 \code{interactive_topic_distributions()} uses plotly to prepare an interactive visualization to explore a topic model, showing the top "n" topics in each document. This kind of visualization is for use in the interactive IDE or as a web page.
 }
-\examples{
-\dontrun{
-austen <-
+\section{Examples}{
+
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{austen <-
   get_gutenberg_corpus(c(105, 121, 141, 158, 161, 946, 1342)) |>
-  select(doc_id = title, text)
+  dplyr::select(doc_id = title, text)
 
-# Creating the topic model for the package
-austen_lda <- make_topic_model(austen, k = 30)
-
-saveRDS(austen_lda, "inst/austen_lda.rds")
-}
-
-# Loading from the package
-austen_lda <- "austen_lda.rds" |>
-  system.file(package = "tmtyro") |>
-  readRDS()
+austen_lda <-
+  austen |>
+  make_topic_model(k = 30)
 
 interactive_topic_distributions(austen_lda)
+}\if{html}{\out{</div>}}
 }
+
+\keyword{internal}

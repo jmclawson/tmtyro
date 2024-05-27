@@ -24,12 +24,13 @@ The original data frame with one or more sentiment columns added.
 \code{\link[=add_sentiment]{add_sentiment()}} provides simple lexicon-based measures of sentiment, comparing words in a text to one of a number of controlled dictionaries.
 }
 \examples{
-austen <- "austen.rds" |>
-  system.file(package = "tmtyro") |>
-  readRDS()
+dubliners <- get_gutenberg_corpus(2814) |>
+  load_texts() |>
+  identify_by(part) |>
+  standardize_titles()
 
-austen |>
+dubliners |>
    add_sentiment() |>
-   tidyr::drop_na() |>
+   drop_empty() |>
    head()
 }

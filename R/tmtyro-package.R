@@ -79,12 +79,6 @@ words <- temp <- NULL
 #' @importFrom rlang :=
 #' @importFrom stats median
 #' @importFrom stats setNames
-#' @importFrom textdata lexicon_afinn
-#' @importFrom textdata lexicon_bing
-#' @importFrom textdata lexicon_loughran
-#' @importFrom textdata lexicon_nrc
-#' @importFrom textdata lexicon_nrc_eil
-#' @importFrom textdata lexicon_nrc_vad
 #' @importFrom tidyr drop_na
 ## usethis namespace: end
 NULL

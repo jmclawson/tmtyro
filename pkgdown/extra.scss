@@ -3,7 +3,7 @@
 
 /*-- scss:rules --*/
 
-#main ul li {
+#main ul li, .csl-entry {
   font-family: Georgia,Cambria,"Times New Roman",Times,serif;
 }
 
@@ -15,7 +15,7 @@
   text-decoration: underline;
 }
 
-p, ul, ol, dl {
+p, ul, ol, dl, .csl-entry {
   line-height: 175%;
 }
 

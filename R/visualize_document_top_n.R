@@ -8,24 +8,27 @@
 #'
 #' @returns A ggplot object
 #' @family visualizing helpers
+#' @keywords internal
 #' @export
 #'
 #' @examples
-#' library(tmtyro)
-#' library(dplyr)
+#' dubliners <- get_gutenberg_corpus(2814) |>
+#'   load_texts(lemma = TRUE) |>
+#'   identify_by(part) |>
+#'   standardize_titles()
 #'
-#' austen <- "austen.rds" |>
-#'   system.file(package = "tmtyro") |>
-#'   readRDS()
+#' # Make a smaller example
+#' selected_titles <-
+#'   c("The Sisters", "An Encounter", "Araby",
+#'     "Counterparts", "The Dead")
 #'
-#' austen |>
-#'   filter(pos %in% c("NN", "NNS")) |>
+#' dubliners |>
+#'   dplyr::filter(doc_id %in% selected_titles) |>
 #'   plot_doc_word_heatmap()
 #'
-#' austen |>
-#'   filter(pos %in% c("JJ", "RB")) |>
-#'   plot_doc_word_heatmap(feature = lemma)
-#'
+#' dubliners |>
+#'   dplyr::filter(doc_id %in% selected_titles) |>
+#'   plot_doc_word_heatmap(feature = lemma, rows = 1:6)
 plot_doc_word_heatmap <- function(
     df,
     rows = 1:10,
@@ -153,32 +156,21 @@ dplyr::count
 #'
 #' @returns A ggplot object
 #' @family visualizing helpers
+#' @keywords internal
 #' @export
 #'
 #' @examples
-#' library(tmtyro)
-#' library(dplyr)
+#' dubliners <- get_gutenberg_corpus(2814) |>
+#'   load_texts(lemma = TRUE) |>
+#'   identify_by(part) |>
+#'   standardize_titles()
 #'
-#' austen <- "austen.rds" |>
-#'   system.file(package = "tmtyro") |>
-#'   readRDS()
+#' dubliners |>
+#'   plot_doc_word_bars(rows = 1:4)
 #'
-#' austen |>
-#'   plot_doc_word_bars()
-#'
-#' austen |>
-#'   mutate(
-#'     pos_pair = paste(pos, lead(pos)),
-#'     `adjective + noun bigram` = paste(word, lead(word))) |>
-#'   filter(stringr::str_detect(pos_pair, "JJ N")) |>
-#'   standardize_titles() |>
-#'   plot_doc_word_bars(
-#'     rows = 1:5,
-#'     feature = `adjective + noun bigram`,
-#'     percents = FALSE,
-#'     label = TRUE,
-#'     label_inside = TRUE,
-#'     label_tweak = -1)
+#' dubliners |>
+#'   dplyr::filter(doc_id %in% c("The Sisters", "The Dead")) |>
+#'   plot_doc_word_bars(feature = lemma, rows = 1:20)
 plot_doc_word_bars <- function(
     df,
     rows = 1:10,

@@ -20,14 +20,12 @@ A summary of the original data frame, with rows for each document and term pairi
 \code{summarize_tf_idf()} prepares a summary table for each term in a corpus, including their frequencies by document and "tf-idf" measurements for comparing the relative importance in comparison to other documents in a set.
 }
 \examples{
-library(tmtyro)
-library(dplyr)
+dubliners <- get_gutenberg_corpus(2814) |>
+  load_texts() |>
+  identify_by(part) |>
+  standardize_titles()
 
-austen <- "austen.rds" |>
-  system.file(package = "tmtyro") |>
-  readRDS()
-
-austen |>
+dubliners |>
   summarize_tf_idf()
 }
 \concept{tf_idf helpers}

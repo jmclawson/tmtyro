@@ -11,14 +11,12 @@
 #' @export
 #'
 #' @examples
-#' library(tmtyro)
-#' library(dplyr)
+#' dubliners <- get_gutenberg_corpus(2814) |>
+#'   load_texts() |>
+#'   identify_by(part) |>
+#'   standardize_titles()
 #'
-#' austen <- "austen.rds" |>
-#'   system.file(package = "tmtyro") |>
-#'   readRDS()
-#'
-#' austen |>
+#' dubliners |>
 #'   summarize_tf_idf()
 summarize_tf_idf <- function(df, by = doc_id, feature = word) {
   df |>
@@ -45,22 +43,17 @@ summarize_tf_idf <- function(df, by = doc_id, feature = word) {
 #' @returns A ggplot object
 #' @family visualizing helpers
 #' @family tf-idf helpers
+#' @keywords internal
 #' @export
 #'
 #' @examples
-#' library(tmtyro)
-#' library(dplyr)
+#' dubliners <- get_gutenberg_corpus(2814) |>
+#'   load_texts() |>
+#'   identify_by(part) |>
+#'   standardize_titles()
 #'
-#' austen <- "austen.rds" |>
-#'   system.file(package = "tmtyro") |>
-#'   readRDS()
-#'
-#' austen |>
+#' dubliners |>
 #'   plot_tf_idf()
-#'
-#' austen |>
-#'   filter(pos %in% c("NN", "NNS")) |>
-#'   plot_tf_idf(feature = lemma)
 plot_tf_idf <- function(
     df,
     rows = 1:10,

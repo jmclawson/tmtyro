@@ -10,13 +10,14 @@
 #' @export
 #'
 #' @examples
-#' austen <- "austen.rds" |>
-#'   system.file(package = "tmtyro") |>
-#'   readRDS()
+#' dubliners <- get_gutenberg_corpus(2814) |>
+#'   load_texts() |>
+#'   identify_by(part) |>
+#'   standardize_titles()
 #'
-#' austen |>
+#' dubliners |>
 #'    add_sentiment() |>
-#'    tidyr::drop_na() |>
+#'    drop_empty() |>
 #'    head()
 add_sentiment <- function(
     df,
@@ -24,7 +25,7 @@ add_sentiment <- function(
                 "nrc", "nrc_eil", "nrc_vad"),
     feature = word) {
   lex <- match.arg(lexicon)
-
+  rlang::check_installed("textdata", reason = "for downloading sentiment lexicons")
   lex_df <- switch(lex,
     "afinn"    = textdata::lexicon_afinn(),#value = numeric
     "nrc"      = textdata::lexicon_nrc(),#senti = chr
@@ -33,8 +34,13 @@ add_sentiment <- function(
     "loughran" = textdata::lexicon_loughran(),#senti = chr
     "bing"     = textdata::lexicon_bing(),#senti = chr
     stop("Unexpected lexicon", call. = FALSE)
-  ) |>
-    janitor::clean_names() |>
+  )
+
+  colnames(lex_df) <- colnames(lex_df) |>
+    tolower() |>
+    stringr::str_replace_all("affectdimension", "affect_dimension")
+
+  lex_df <- lex_df |>
     dplyr::rename({{ feature }} := word)
 
   if (lex == "afinn") {

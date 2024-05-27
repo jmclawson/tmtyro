@@ -27,27 +27,28 @@ A gt table data object
 \section{Examples}{
 
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{austen <- "austen.rds" |>
-  system.file(package = "tmtyro") |>
-  readRDS()
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{dubliners <- get_gutenberg_corpus(2814) |>
+  load_texts() |>
+  identify_by(part) |>
+  standardize_titles()
 
 # A data frame with `doc_id` and `word` columns will show word counts by default
-austen |>
+dubliners |>
    tabulize()
 }\if{html}{\out{</div>}}
 
-\if{html}{\out{<div style="text-align: center">}\figure{tabulizer_default.png}{options: style="width:470px;max-width:35\%;"}\out{</div>}}
+\if{html}{\out{<div style="text-align: center">}\figure{tabulizer_default.png}{options: style="width:470px;max-width:32\%;"}\out{</div>}}
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{# Applying `tmtyro` functions prepares some other table
-  austen |>
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{# Applying tmtyro functions will prepare other tables
+  dubliners |>
    add_vocabulary() |>
    tabulize()
 }\if{html}{\out{</div>}}
 
 \if{html}{\out{<div style="text-align: center">}\figure{tabulizer_vocabulary.png}{options: style="width:900px;max-width:60\%;"}\out{</div>}}
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{  austen |>
-     dplyr::filter(doc_id == "Pride and Prejudice") |>
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{  dubliners |>
+     dplyr::filter(doc_id == "The Dead") |>
      add_sentiment() |>
      tabulize()
 }\if{html}{\out{</div>}}

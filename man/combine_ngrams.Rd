@@ -28,11 +28,12 @@ Combine ngram columns
     combine_ngrams()
 }
 
-austen <- "austen.rds" |>
-  system.file(package = "tmtyro") |>
-  readRDS()
+dubliners <- get_gutenberg_corpus(2814) |>
+  load_texts() |>
+  identify_by(part) |>
+  standardize_titles()
 
-austen |>
+dubliners |>
   add_ngrams(2) |>
   combine_ngrams() |>
   head()

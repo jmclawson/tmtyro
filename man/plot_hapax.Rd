@@ -36,16 +36,18 @@ A ggplot object
 \code{plot_hapax()} visualizes a sampling of hapax legomena projected on faceted curves of vocabulary growth over time
 }
 \examples{
-austen <- "austen.rds" |>
-  system.file(package = "tmtyro") |>
-  readRDS()
+if (FALSE) {
+  dubliners <- get_gutenberg_corpus(2814) |>
+    load_texts() |>
+    identify_by(part) |>
+    standardize_titles()
 
-austen_measured <- austen |>
-  add_vocabulary()
+  dubliners_measured <- dubliners |>
+    add_vocabulary()
 
-austen_measured |>
-  standardize_titles() |>
-  plot_hapax()
+  dubliners_measured |>
+    plot_hapax()
+}
 }
 \seealso{
 Other visualizing helpers: 
@@ -63,3 +65,4 @@ Other visualizing helpers:
 \code{\link{visualize}()}
 }
 \concept{visualizing helpers}
+\keyword{internal}

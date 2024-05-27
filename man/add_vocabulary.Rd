@@ -30,11 +30,12 @@ A data frame with 7 added columns
 \code{add_vocabulary()} augments a tidy text table with columns describing the lexical variety of the corpus. Among other things, checks for uniqueness and size of vocabulary, with additional ratios reporting these measurements in relation to document size.
 }
 \examples{
-austen <- "austen.rds" |>
-  system.file(package = "tmtyro") |>
-  readRDS()
+dubliners <- get_gutenberg_corpus(2814) |>
+  load_texts() |>
+  identify_by(part) |>
+  standardize_titles()
 
-austen |>
+dubliners |>
    add_vocabulary() |>
    head()
 }

@@ -43,14 +43,15 @@ A ggplot object
 Show hapax-token ratio over time
 }
 \examples{
-austen <- "austen.rds" |>
-  system.file(package = "tmtyro") |>
-  readRDS()
+dubliners <- get_gutenberg_corpus(2814) |>
+  load_texts() |>
+  identify_by(part) |>
+  standardize_titles()
 
-austen_measured <- austen |>
+dubliners_measured <- dubliners |>
   add_vocabulary()
 
-austen_measured |>
+dubliners_measured |>
   standardize_titles() |>
   plot_htr()
 }
@@ -70,3 +71,4 @@ Other visualizing helpers:
 \code{\link{visualize}()}
 }
 \concept{visualizing helpers}
+\keyword{internal}

@@ -12,32 +12,32 @@
 #'
 #' @section Examples:
 #' ```r
-#' austen <- "austen.rds" |>
-#'   system.file(package = "tmtyro") |>
-#'   readRDS()
+#' dubliners <- get_gutenberg_corpus(2814) |>
+#'   load_texts() |>
+#'   identify_by(part) |>
+#'   standardize_titles()
 #'
 #' # A data frame with `doc_id` and `word` columns will show word counts by default
-#' austen |>
+#' dubliners |>
 #'    tabulize()
 #' ```
-#' \if{html}{\out{<div style="text-align: center">}\figure{tabulizer_default.png}{options: style="width:470px;max-width:35\%;"}\out{</div>}}
+#' \if{html}{\out{<div style="text-align: center">}\figure{tabulizer_default.png}{options: style="width:470px;max-width:32\%;"}\out{</div>}}
 #'
 #' ```r
-#' # Applying `tmtyro` functions prepares some other table
-#'   austen |>
+#' # Applying tmtyro functions will prepare other tables
+#'   dubliners |>
 #'    add_vocabulary() |>
 #'    tabulize()
 #' ```
 #' \if{html}{\out{<div style="text-align: center">}\figure{tabulizer_vocabulary.png}{options: style="width:900px;max-width:60\%;"}\out{</div>}}
 #'
 #' ```r
-#'   austen |>
-#'      dplyr::filter(doc_id == "Pride and Prejudice") |>
+#'   dubliners |>
+#'      dplyr::filter(doc_id == "The Dead") |>
 #'      add_sentiment() |>
 #'      tabulize()
 #' ```
 #' \if{html}{\out{<div style="text-align: center">}\figure{tabulizer_sentiment.png}{options: style="width:700px;max-width:50\%;"}\out{</div>}}
-#'
 tabulize <- function(.data,...){
   UseMethod("tabulize")
 }
@@ -140,13 +140,13 @@ tabulize.vocabulary <- function(.data, digits = 3, ...) {
 #' @inheritParams tabulize
 #' @inheritParams tabulize.default
 #' @inheritParams tabulize.vocabulary
-#' @param drop_na Removes rows lacking sentiment
+#' @param drop_empty Removes rows lacking sentiment
 #' @param ignore Removes rows matching set sentiments
 #' @param count Determines whether frequencies will be counted for sentiments
 #'
 #' @keywords internal
 #' @export
-tabulize.sentiment <- function(.data, inorder = TRUE, digits = 2, drop_na = FALSE, ignore = NULL, rows = NULL, count = TRUE, ...) {
+tabulize.sentiment <- function(.data, inorder = TRUE, digits = 2, drop_empty = FALSE, ignore = NULL, rows = NULL, count = TRUE, ...) {
   if (is.null(rows)) rows <- 1:6
   if ("doc_id" %in% colnames(.data) && inorder) {
     .data <- .data |>
@@ -160,7 +160,7 @@ tabulize.sentiment <- function(.data, inorder = TRUE, digits = 2, drop_na = FALS
           TRUE ~ sentiment
         ))
   }
-  if (drop_na) {
+  if (drop_empty) {
     .data <- .data |>
       tidyr::drop_na(sentiment)
   }

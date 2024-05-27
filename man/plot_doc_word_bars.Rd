@@ -51,29 +51,17 @@ A ggplot object
 Plot bar graphs of frequent features
 }
 \examples{
-library(tmtyro)
-library(dplyr)
+dubliners <- get_gutenberg_corpus(2814) |>
+  load_texts(lemma = TRUE) |>
+  identify_by(part) |>
+  standardize_titles()
 
-austen <- "austen.rds" |>
-  system.file(package = "tmtyro") |>
-  readRDS()
+dubliners |>
+  plot_doc_word_bars(rows = 1:4)
 
-austen |>
-  plot_doc_word_bars()
-
-austen |>
-  mutate(
-    pos_pair = paste(pos, lead(pos)),
-    `adjective + noun bigram` = paste(word, lead(word))) |>
-  filter(stringr::str_detect(pos_pair, "JJ N")) |>
-  standardize_titles() |>
-  plot_doc_word_bars(
-    rows = 1:5,
-    feature = `adjective + noun bigram`,
-    percents = FALSE,
-    label = TRUE,
-    label_inside = TRUE,
-    label_tweak = -1)
+dubliners |>
+  dplyr::filter(doc_id \%in\% c("The Sisters", "The Dead")) |>
+  plot_doc_word_bars(feature = lemma, rows = 1:20)
 }
 \seealso{
 Other visualizing helpers: 
@@ -91,3 +79,4 @@ Other visualizing helpers:
 \code{\link{visualize}()}
 }
 \concept{visualizing helpers}
+\keyword{internal}

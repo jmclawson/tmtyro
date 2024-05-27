@@ -40,19 +40,18 @@ A ggplot object
 \code{plot_vocabulary()} visualizes the vocabulary growth as new words are used in each document.
 }
 \examples{
-austen <- "austen.rds" |>
-  system.file(package = "tmtyro") |>
-  readRDS()
+dubliners <- get_gutenberg_corpus(2814) |>
+  load_texts() |>
+  identify_by(part) |>
+  standardize_titles()
 
-austen_measured <- austen |>
+dubliners_measured <- dubliners |>
   add_vocabulary()
 
-austen_measured |>
-  standardize_titles() |>
+dubliners_measured |>
   plot_vocabulary(progress_percent)
 
-austen_measured |>
-  standardize_titles() |>
+dubliners_measured |>
   plot_vocabulary()
 
 \dontrun{
@@ -79,3 +78,4 @@ Other visualizing helpers:
 \code{\link{visualize}()}
 }
 \concept{visualizing helpers}
+\keyword{internal}

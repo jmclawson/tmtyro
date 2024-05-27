@@ -12,3 +12,4 @@ data/.*[.]rds
 plots/
 inst/austen/
 gutenberg/
+logo.png

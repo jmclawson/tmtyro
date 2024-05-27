@@ -104,14 +104,8 @@ get_gutenberg_corpus <- function(gutenberg_id, dir = "gutenberg",
         return(ret)
       }
     }
-    cli::cli_warn(
-      c(
-        "!" = "Could not download a book at {url}.",
-        "i" = "The book may have been archived.",
-        "i" = "Alternatively, You may need to select a different mirror.",
-        ">" = "See https://www.gutenberg.org/MIRRORS.ALL for options."
-      )
-    )
+    warnings(paste0("Could not download a book at ", url,
+                    ". The book may have been archived, or you may need to select a different mirror."))
     NULL
   }
 
@@ -177,7 +171,7 @@ get_gutenberg_corpus <- function(gutenberg_id, dir = "gutenberg",
   } else if (type == "htm") {
     ret <- guten_files |>
       stats::setNames(id) |>
-      purrr::map(\(x )parse_html(x, title = html_title)) |>
+      purrr::map(\(x) parse_html(x, title = html_title)) |>
       purrr::discard(is.null) |>
       dplyr::bind_rows(.id = "gutenberg_id") |>
       dplyr::relocate(text, .after = tidyr::last_col()) |>
@@ -241,7 +235,7 @@ parse_html <- function(html, title = TRUE){
     dplyr::select(-tag) |>
     tidyr::fill(h1, h2, h3, h4) |>
     tidyr::drop_na(text) |>
-    janitor::remove_empty("cols")
+    dplyr::select(dplyr::where(function(x) mean(is.na(x)) < 1))
 
   if (title) {
     table <- table |>
@@ -311,6 +305,6 @@ move_header_to_text <- function(.data, column, ...){
     tidyr::drop_na(value) |>
     dplyr::select(-c(.test1, .test2)) |>
     tidyr::pivot_wider(values_fn = list) |>
-    janitor::remove_empty("cols") |>
+    dplyr::select(dplyr::where(function(x) mean(is.na(x)) < 1)) |>
     tidyr::unchop(text)
 }
