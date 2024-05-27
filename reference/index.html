@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tmtyro</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.8.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,9 +47,15 @@
     </div>
 
     <div class="section level2">
-      <h2 id="collect">Collect<a class="anchor" aria-label="anchor" href="#collect"></a></h2>
+      <h2 id="prepare-texts">Prepare Texts<a class="anchor" aria-label="anchor" href="#prepare-texts"></a></h2>
       
-      <div class="section-desc"><p>Collect a corpus of texts to study.</p></div>
+      <div class="section-desc"><p>Functions for collecting, loading, and cleaning a corpus of texts.</p></div>
+
+      
+    </div><div class="section level2">
+      
+      <h3 id="collecting-texts">Collecting Texts<a class="anchor" aria-label="anchor" href="#collecting-texts"></a></h3>
+      
 
       
     </div><div id="" class="section level2">
@@ -58,21 +64,6 @@
       
 
       <dl><dt>
-          
-          <code><a href="download_once.html">download_once()</a></code> 
-        </dt>
-        <dd>Download a file once</dd>
-      </dl><dl><dt>
-          
-          <code><a href="load_texts.html">load_texts()</a></code> 
-        </dt>
-        <dd>Load a folder or data frame of texts</dd>
-      </dl><dl><dt>
-          
-          <code><a href="load_topic_model.html">load_topic_model()</a></code> 
-        </dt>
-        <dd>Load (or cache and load) a topic model</dd>
-      </dl><dl><dt>
           
           <code><a href="get_corpus.html">get_corpus()</a></code> 
         </dt>
@@ -89,6 +80,11 @@
         <dd>Get a MICUSP corpus</dd>
       </dl><dl><dt>
           
+          <code><a href="download_once.html">download_once()</a></code> 
+        </dt>
+        <dd>Download a file once</dd>
+      </dl><dl><dt>
+          
           <code><a href="micusp_metadata.html">micusp_metadata()</a></code> 
         </dt>
         <dd>Get MICUSP metadata</dd>
@@ -97,7 +93,39 @@
           <code><a href="parse_html.html">parse_html()</a></code> 
         </dt>
         <dd>Read HTML headers and text from file</dd>
+      </dl></div><div class="section level2">
+      
+      <h3 id="loading-texts">Loading Texts<a class="anchor" aria-label="anchor" href="#loading-texts"></a></h3>
+      
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="load_texts.html">load_texts()</a></code> 
+        </dt>
+        <dd>Load a folder or data frame of texts</dd>
       </dl><dl><dt>
+          
+          <code><a href="load_topic_model.html">load_topic_model()</a></code> 
+        </dt>
+        <dd>Load (or cache and load) a topic model</dd>
+      </dl></div><div class="section level2">
+      
+      <h3 id="cleaning-text-and-metadata">Cleaning Text and Metadata<a class="anchor" aria-label="anchor" href="#cleaning-text-and-metadata"></a></h3>
+      
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
           
           <code><a href="move_header_to_text.html">move_header_to_text()</a></code> 
         </dt>
@@ -109,13 +137,18 @@
         <dd>Choose a new doc_id column</dd>
       </dl><dl><dt>
           
+          <code><a href="standardize_titles.html">standardize_titles()</a></code> 
+        </dt>
+        <dd>Standardize document titles</dd>
+      </dl><dl><dt>
+          
           <code><a href="unnest_without_caps.html">unnest_without_caps()</a></code> 
         </dt>
         <dd>Split text into words and drop proper nouns</dd>
       </dl></div><div class="section level2">
-      <h2 id="measure">Measure<a class="anchor" aria-label="anchor" href="#measure"></a></h2>
+      <h2 id="measure-text-features">Measure Text Features<a class="anchor" aria-label="anchor" href="#measure-text-features"></a></h2>
       
-      <div class="section-desc"><p>Measure features of texts.</p></div>
+      <div class="section-desc"><p>Functions for measuring features of texts and being choosy about how you do it.</p></div>
 
       
     </div><div id="" class="section level2">
@@ -155,27 +188,6 @@
         <dd>Compare usage across a corpus</dd>
       </dl><dl><dt>
           
-          <code><a href="standardize_titles.html">standardize_titles()</a></code> 
-        </dt>
-        <dd>Standardize document titles</dd>
-      </dl></div><div class="section level2">
-      <h2 id="n-grams">N-grams<a class="anchor" aria-label="anchor" href="#n-grams"></a></h2>
-      
-      <div class="section-desc"><p>Work with phrases and sequences.</p></div>
-
-      
-    </div><div id="" class="section level2">
-      
-      
-      
-
-      <dl><dt>
-          
-          <code><a href="add_ngrams.html">add_ngrams()</a></code> 
-        </dt>
-        <dd>Add ngram columns</dd>
-      </dl><dl><dt>
-          
           <code><a href="combine_ngrams.html">combine_ngrams()</a></code> 
         </dt>
         <dd>Combine ngram columns</dd>
@@ -184,14 +196,9 @@
           <code><a href="separate_ngrams.html">separate_ngrams()</a></code> 
         </dt>
         <dd>Separate one word per column</dd>
-      </dl><dl><dt>
-          
-          <code><a href="plot_bigrams.html">plot_bigrams()</a></code> 
-        </dt>
-        <dd>Visualize bigram chains</dd>
       </dl></div><div class="section level2">
-      <h2 id="model">Model<a class="anchor" aria-label="anchor" href="#model"></a></h2>
       
+      <h3 id="model-topics">Model Topics<a class="anchor" aria-label="anchor" href="#model-topics"></a></h3>
       <div class="section-desc"><p>Model complex relationships in a corpus.</p></div>
 
       
@@ -206,9 +213,30 @@
         </dt>
         <dd>Construct a topic model</dd>
       </dl></div><div class="section level2">
-      <h2 id="communicate">Communicate<a class="anchor" aria-label="anchor" href="#communicate"></a></h2>
+      <h2 id="explore-results">Explore Results<a class="anchor" aria-label="anchor" href="#explore-results"></a></h2>
       
-      <div class="section-desc"><p>Prepare tables and visualize features of texts.</p></div>
+      <div class="section-desc"><p>Generic functions make it easy to share results with an audience (or keep them to yourself)</p></div>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="tabulize.html">tabulize()</a></code> 
+        </dt>
+        <dd>Prepare a table of data</dd>
+      </dl><dl><dt>
+          
+          <code><a href="visualize.html">visualize()</a></code> 
+        </dt>
+        <dd>Visualize output</dd>
+      </dl></div><div class="section level2">
+      
+      <h3 id="adjusting-tables-and-figures">Adjusting tables and figures<a class="anchor" aria-label="anchor" href="#adjusting-tables-and-figures"></a></h3>
+      
 
       
     </div><div id="" class="section level2">
@@ -223,79 +251,9 @@
         <dd>Collapse gt rows in the style of kableExtra</dd>
       </dl><dl><dt>
           
-          <code><a href="tabulize.html">tabulize()</a></code> 
-        </dt>
-        <dd>Prepare a table of data</dd>
-      </dl><dl><dt>
-          
           <code><a href="change_colors.html">change_colors()</a></code> 
         </dt>
         <dd>Choose other colors</dd>
-      </dl><dl><dt>
-          
-          <code><a href="plot_bigrams.html">plot_bigrams()</a></code> 
-        </dt>
-        <dd>Visualize bigram chains</dd>
-      </dl><dl><dt>
-          
-          <code><a href="plot_doc_word_bars.html">plot_doc_word_bars()</a></code> 
-        </dt>
-        <dd>Plot bar graphs of frequent features</dd>
-      </dl><dl><dt>
-          
-          <code><a href="plot_doc_word_heatmap.html">plot_doc_word_heatmap()</a></code> 
-        </dt>
-        <dd>Plot a heatmap of ranked features</dd>
-      </dl><dl><dt>
-          
-          <code><a href="plot_hapax.html">plot_hapax()</a></code> 
-        </dt>
-        <dd>Project hapax legomena onto vocabulary growth</dd>
-      </dl><dl><dt>
-          
-          <code><a href="plot_htr.html">plot_htr()</a></code> 
-        </dt>
-        <dd>Show hapax-token ratio over time</dd>
-      </dl><dl><dt>
-          
-          <code><a href="plot_tf_idf.html">plot_tf_idf()</a></code> 
-        </dt>
-        <dd>Visualize the top terms by tf-idf</dd>
-      </dl><dl><dt>
-          
-          <code><a href="plot_topic_bars.html">plot_topic_bars()</a></code> 
-        </dt>
-        <dd>Plot bars for words in each topic</dd>
-      </dl><dl><dt>
-          
-          <code><a href="plot_topic_distributions.html">plot_topic_distributions()</a></code> 
-        </dt>
-        <dd>Plot topic distributions</dd>
-      </dl><dl><dt>
-          
-          <code><a href="plot_topic_wordcloud.html">plot_topic_wordcloud()</a></code> 
-        </dt>
-        <dd>Plot topic wordclouds</dd>
-      </dl><dl><dt>
-          
-          <code><a href="plot_ttr.html">plot_ttr()</a></code> 
-        </dt>
-        <dd>Show type-token ratio over time</dd>
-      </dl><dl><dt>
-          
-          <code><a href="plot_vocabulary.html">plot_vocabulary()</a></code> 
-        </dt>
-        <dd>Show vocabulary growth</dd>
-      </dl><dl><dt>
-          
-          <code><a href="visualize.html">visualize()</a></code> 
-        </dt>
-        <dd>Visualize output</dd>
-      </dl><dl><dt>
-          
-          <code><a href="interactive_topic_distributions.html">interactive_topic_distributions()</a></code> 
-        </dt>
-        <dd>Explore topics interactively</dd>
       </dl></div><div class="section level2">
       <h2 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a></h2>
       

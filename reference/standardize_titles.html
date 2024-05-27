@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tmtyro</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.8.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,7 +54,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">standardize_titles</span><span class="op">(</span><span class="va">.data</span>, title <span class="op">=</span> <span class="va">doc_id</span>, drop_articles <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">standardize_titles</span><span class="op">(</span><span class="va">.data</span>, title <span class="op">=</span> <span class="va">doc_id</span>, drop_articles <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -80,29 +80,43 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">austen</span> <span class="op">&lt;-</span> <span class="st">"austen.rds"</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"tmtyro"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">dubliners</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_gutenberg_corpus.html">get_gutenberg_corpus</a></span><span class="op">(</span><span class="fl">2814</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="load_texts.html">load_texts</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="identify_by.html">identify_by</a></span><span class="op">(</span><span class="va">part</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">##### Standardizing strings #####</span></span></span>
 <span class="r-in"><span><span class="co"># Before `standardize_titles()`</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">austen</span><span class="op">$</span><span class="va">doc_id</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "lady_susan"          "northanger"          "persuasion"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4] "pride_and_prejudice" "emma"                "mansfield_park"     </span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">dubliners</span><span class="op">$</span><span class="va">doc_id</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] THE SISTERS                   AN ENCOUNTER                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3] ARABY                         EVELINE                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5] AFTER THE RACE                TWO GALLANTS                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] THE BOARDING HOUSE            A LITTLE CLOUD               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9] COUNTERPARTS                  CLAY                         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11] A PAINFUL CASE                IVY DAY IN THE COMMITTEE ROOM</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13] A MOTHER                      GRACE                        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15] THE DEAD                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15 Levels: THE SISTERS AN ENCOUNTER ARABY EVELINE ... THE DEAD</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># After `standardize_titles()`</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">austen</span><span class="op">$</span><span class="va">doc_id</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">dubliners</span><span class="op">$</span><span class="va">doc_id</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">standardize_titles</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Lady Susan"          "Northanger"          "Persuasion"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4] "Pride and Prejudice" "Emma"                "Mansfield Park"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] The Sisters                   An Encounter                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3] Araby                         Eveline                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5] After the Race                Two Gallants                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] The Boarding House            A Little Cloud               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9] Counterparts                  Clay                         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11] A Painful Case                Ivy Day in the Committee Room</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13] A Mother                      Grace                        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15] The Dead                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15 Levels: The Sisters An Encounter Araby Eveline ... The Dead</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">##### Standardizing a data frame #####</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">austen_measured</span> <span class="op">&lt;-</span> <span class="va">austen</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span><span class="va">dubliners_measured</span> <span class="op">&lt;-</span> <span class="va">dubliners</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="add_vocabulary.html">add_vocabulary</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Before `standardize_titles()`</span></span></span>
-<span class="r-in"><span><span class="va">austen_measured</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span><span class="va">dubliners_measured</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="plot_vocabulary.html">plot_vocabulary</a></span><span class="op">(</span>labeling <span class="op">=</span> <span class="st">"inline"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `geom_smooth()` using formula = 'y ~ s(x, bs = "cs")'</span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in geomtextpath::geom_textsmooth(ggplot2::aes(label = {    {        by    }}), hjust = 0.9, method = "gam"):</span> Problem while converting geom to grob.</span>
@@ -112,7 +126,7 @@
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> Column `x_midpoint` doesn't exist.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># After `standardize_titles()`</span></span></span>
-<span class="r-in"><span><span class="va">austen_measured</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span><span class="va">dubliners_measured</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">standardize_titles</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="plot_vocabulary.html">plot_vocabulary</a></span><span class="op">(</span>labeling <span class="op">=</span> <span class="st">"inline"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `geom_smooth()` using formula = 'y ~ s(x, bs = "cs")'</span>

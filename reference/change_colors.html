@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tmtyro</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.8.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,7 +44,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Choose other colors</h1>
-      <small class="dont-index">Source: <a href="https://github.com/jmclawson/tmtyro/blob/HEAD/R/visualize.R" class="external-link"><code>R/visualize.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/jmclawson/tmtyro/blob/HEAD/R/change_colors.R" class="external-link"><code>R/change_colors.R</code></a></small>
       <div class="d-none name"><code>change_colors.Rd</code></div>
     </div>
 
@@ -71,7 +71,7 @@
 
 
 <dt>colorset</dt>
-<dd><p>Either "brewer", "viridis", "okabe-ito" or a vector of colors.</p></dd>
+<dd><p>Either "brewer", "viridis", "okabe-ito", "dubois", or a vector of colors.</p></dd>
 
 
 <dt>palette</dt>
@@ -115,60 +115,93 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">austen</span> <span class="op">&lt;-</span> <span class="st">"austen.rds"</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"tmtyro"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">dubliners</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_gutenberg_corpus.html">get_gutenberg_corpus</a></span><span class="op">(</span><span class="fl">2814</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="load_texts.html">load_texts</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="identify_by.html">identify_by</a></span><span class="op">(</span><span class="va">part</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="standardize_titles.html">standardize_titles</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># By default, Brewer's "Dark2" palette is applied to categorical data</span></span></span>
-<span class="r-in"><span><span class="va">austen</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu">change_colors</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Too many titles for categorical data.</span></span></span>
+<span class="r-in"><span><span class="va">selected_titles</span> <span class="op">&lt;-</span> <span class="va">dubliners</span><span class="op">$</span><span class="va">doc_id</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="op">{</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"^The |^A |^An "</span>, <span class="va">x</span><span class="op">)</span><span class="op">]</span><span class="op">}</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">dubliners2</span> <span class="op">&lt;-</span> <span class="va">dubliners</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">doc_id</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">selected_titles</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">### CATEGORICAL DATA ##</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># By default, ggplot2's palette is applied</span></span></span>
+<span class="r-in"><span><span class="va">dubliners2</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="change_colors-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">austen</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="add_vocabulary.html">add_vocabulary</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="visualize.html">visualize</a></span><span class="op">(</span>labeling <span class="op">=</span> <span class="st">"axis"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span><span class="co"># change_color() starts with Brewer's "Dark2" palette</span></span></span>
+<span class="r-in"><span><span class="va">dubliners2</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">change_colors</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Scale for <span style="color: #00BB00;">y</span> is already present.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Adding another scale for <span style="color: #00BB00;">y</span>, which will replace the existing scale.</span>
 <span class="r-plt img"><img src="change_colors-2.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Other color sets and palettes can be chosen</span></span></span>
+<span class="r-in"><span><span class="va">dubliners2</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">change_colors</span><span class="op">(</span>colorset <span class="op">=</span> <span class="st">"okabe"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="change_colors-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Brewer's "BuGn" palette is applied to sequential data by default</span></span></span>
-<span class="r-in"><span><span class="va">austen</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span><span class="va">dubliners2</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">change_colors</span><span class="op">(</span>colorset <span class="op">=</span> <span class="st">"viridis"</span>, palette <span class="op">=</span> <span class="st">"turbo"</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="change_colors-4.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">dubliners2</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">change_colors</span><span class="op">(</span>colorset <span class="op">=</span> <span class="st">"brewer"</span>, palette <span class="op">=</span> <span class="st">"Set1"</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="change_colors-5.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Named cases can be highlighted</span></span></span>
+<span class="r-in"><span><span class="va">dubliners2</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="visualize.html">visualize</a></span><span class="op">(</span>inorder <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">change_colors</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="co">#rep("darkgray", 6),</span></span></span>
+<span class="r-in"><span>    <span class="st">"A Painful Case"</span> <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="change_colors-6.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">### SEQUENTIAL DATA ###</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># By default, the "viridis" palette is applied</span></span></span>
+<span class="r-in"><span><span class="va">dubliners2</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="visualize.html">visualize</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"heatmap"</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="change_colors-7.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># change_colors()  starts with Brewer's "BuGn" palette</span></span></span>
+<span class="r-in"><span><span class="va">dubliners2</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="visualize.html">visualize</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"heatmap"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">change_colors</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Scale for <span style="color: #00BB00;">fill</span> is already present.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Adding another scale for <span style="color: #00BB00;">fill</span>, which will replace the existing scale.</span>
-<span class="r-plt img"><img src="change_colors-4.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">austen</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu">change_colors</span><span class="op">(</span><span class="st">"viridis"</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="change_colors-5.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="change_colors-8.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Palettes can be numbered or named</span></span></span>
-<span class="r-in"><span><span class="va">austen</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span><span class="va">dubliners2</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="visualize.html">visualize</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"heatmap"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">change_colors</span><span class="op">(</span><span class="st">"viridis"</span>, palette <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Scale for <span style="color: #00BB00;">fill</span> is already present.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Adding another scale for <span style="color: #00BB00;">fill</span>, which will replace the existing scale.</span>
-<span class="r-plt img"><img src="change_colors-6.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="change_colors-9.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">austen</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span><span class="va">dubliners2</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="visualize.html">visualize</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"heatmap"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">change_colors</span><span class="op">(</span><span class="st">"viridis"</span>, palette <span class="op">=</span> <span class="st">"mako"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Scale for <span style="color: #00BB00;">fill</span> is already present.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Adding another scale for <span style="color: #00BB00;">fill</span>, which will replace the existing scale.</span>
-<span class="r-plt img"><img src="change_colors-7.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="change_colors-10.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Manually listing colors will adopt them. When</span></span></span>
-<span class="r-in"><span><span class="co"># the number of colors differs from what's needed,</span></span></span>
-<span class="r-in"><span><span class="co"># other colors will be filled in between.</span></span></span>
-<span class="r-in"><span><span class="va">austen</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span><span class="co">### POINT DATA ###</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">dubliners</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="add_ngrams.html">add_ngrams</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu">change_colors</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"brown"</span>, <span class="st">"red"</span>, <span class="st">"orange"</span>, <span class="st">"yellow"</span>, <span class="st">"#aaff00"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="change_colors-8.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span>  <span class="fu">change_colors</span><span class="op">(</span><span class="st">"orange"</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="change_colors-11.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

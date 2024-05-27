@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tmtyro</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.8.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -102,6 +102,24 @@
 <p>A ggplot2 visualization showing the top words in each of the chosen topics.</p>
     </div>
     <div class="section level2">
+    <h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h2>
+    
+
+
+<p></p><div class="sourceCode r"><pre><code><span><span class="va">austen</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="../reference/get_gutenberg_corpus.html">get_gutenberg_corpus</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">105</span>, <span class="fl">121</span>, <span class="fl">141</span>, <span class="fl">158</span>, <span class="fl">161</span>, <span class="fl">946</span>, <span class="fl">1342</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span>doc_id <span class="op">=</span> <span class="va">title</span>, <span class="va">text</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">austen_lda</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">austen</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/make_topic_model.html">make_topic_model</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">austen_lda</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/plot_topic_bars.html">plot_topic_bars</a></span><span class="op">(</span>topics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">22</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Competing topics in Northanger Abbey"</span><span class="op">)</span></span></code></pre><p></p></div>
+<p></p><div style="text-align: center"><img src="figures/topic_bars.png" style="width:800px;max-width:80%;"></div>
+    </div>
+    <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other visualizing helpers: 
 <code><a href="change_colors.html">change_colors</a>()</code>,
@@ -118,30 +136,6 @@
 <code><a href="visualize.html">visualize</a>()</code></p></div>
     </div>
 
-    <div class="section level2">
-    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span><span class="va">austen</span> <span class="op">&lt;-</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="get_gutenberg_corpus.html">get_gutenberg_corpus</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">105</span>, <span class="fl">121</span>, <span class="fl">141</span>, <span class="fl">158</span>, <span class="fl">161</span>, <span class="fl">946</span>, <span class="fl">1342</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span>doc_id <span class="op">=</span> <span class="va">title</span>, <span class="va">text</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Creating the topic model for the package</span></span></span>
-<span class="r-in"><span><span class="va">austen_lda</span> <span class="op">&lt;-</span> <span class="fu"><a href="make_topic_model.html">make_topic_model</a></span><span class="op">(</span><span class="va">austen</span>, k <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">saveRDS</a></span><span class="op">(</span><span class="va">austen_lda</span>, <span class="st">"inst/austen_lda.rds"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Loading from the package</span></span></span>
-<span class="r-in"><span><span class="va">austen_lda</span> <span class="op">&lt;-</span> <span class="st">"austen_lda.rds"</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"tmtyro"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">austen_lda</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu">plot_topic_bars</span><span class="op">(</span>topics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6</span>, <span class="fl">15</span>, <span class="fl">19</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Saving 6.67 x 6.67 in image</span>
-<span class="r-plt img"><img src="plot_topic_bars-1.png" alt="" width="700" height="433"></span>
-</code></pre></div>
-    </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 

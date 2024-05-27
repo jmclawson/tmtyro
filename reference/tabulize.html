@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tmtyro</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.8.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -91,21 +91,22 @@
     
 
 
-<p></p><div class="sourceCode r"><pre><code><span><span class="va">austen</span> <span class="op">&lt;-</span> <span class="st">"austen.rds"</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"tmtyro"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="op">)</span></span>
+<p></p><div class="sourceCode r"><pre><code><span><span class="va">dubliners</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_gutenberg_corpus.html">get_gutenberg_corpus</a></span><span class="op">(</span><span class="fl">2814</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/load_texts.html">load_texts</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/identify_by.html">identify_by</a></span><span class="op">(</span><span class="va">part</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/standardize_titles.html">standardize_titles</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># A data frame with `doc_id` and `word` columns will show word counts by default</span></span>
-<span><span class="va">austen</span> <span class="op">|&gt;</span></span>
+<span><span class="va">dubliners</span> <span class="op">|&gt;</span></span>
 <span>   <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre><p></p></div>
-<p></p><div style="text-align: center"><img src="figures/tabulizer_default.png" style="width:470px;max-width:35%;"></div>
-<p></p><div class="sourceCode r"><pre><code><span><span class="co"># Applying `tmtyro` functions prepares some other table</span></span>
-<span>  <span class="va">austen</span> <span class="op">|&gt;</span></span>
+<p></p><div style="text-align: center"><img src="figures/tabulizer_default.png" style="width:470px;max-width:32%;"></div>
+<p></p><div class="sourceCode r"><pre><code><span><span class="co"># Applying tmtyro functions will prepare other tables</span></span>
+<span>  <span class="va">dubliners</span> <span class="op">|&gt;</span></span>
 <span>   <span class="fu"><a href="../reference/add_vocabulary.html">add_vocabulary</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>   <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre><p></p></div>
 <p></p><div style="text-align: center"><img src="figures/tabulizer_vocabulary.png" style="width:900px;max-width:60%;"></div>
-<p></p><div class="sourceCode r"><pre><code><span>  <span class="va">austen</span> <span class="op">|&gt;</span></span>
-<span>     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">doc_id</span> <span class="op">==</span> <span class="st">"Pride and Prejudice"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<p></p><div class="sourceCode r"><pre><code><span>  <span class="va">dubliners</span> <span class="op">|&gt;</span></span>
+<span>     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">doc_id</span> <span class="op">==</span> <span class="st">"The Dead"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>     <span class="fu"><a href="../reference/add_sentiment.html">add_sentiment</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>     <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre><p></p></div>
 <p></p><div style="text-align: center"><img src="figures/tabulizer_sentiment.png" style="width:700px;max-width:50%;"></div>

@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tmtyro</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.8.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,14 +84,13 @@
 
     
     
-<p>Working with text as data is a multi-step process. One of the first
-steps involves figuring out which texts you’d like to study and
-gathering them in one place. After this, you’ll still need to load them
-in some structured way before anything else. Only then is it possible to
-“do text analysis”: tagging parts of speech, normalizing by lemma,
-comparing features, measuring sentiment, and so on. But even after doing
-the work, you’ll need to communicate findings by preparing compelling
-explanations, visualizations, and tables.</p>
+<p>Working with text as data is a multi-step process. After choosing and
+collecting documents, you’ll need to load them in some structured way
+before anything else. Only then is it possible to “do” text analysis:
+tagging parts of speech, normalizing by lemma, comparing features,
+measuring sentiment, and so on. Even then, you’ll need to communicate
+findings by preparing compelling explanations, tables, and
+visualizations of your results.</p>
 <p>The tmtyro package aims to make these steps fast and easy.</p>
 <ul>
 <li>Purpose-built functions for collecting a corpus let you focus on
@@ -102,15 +101,15 @@ from simple word count to grammar parsing and lemmatizing.</li>
 and vocabulary uniqueness, detecting sentiment, assessing term
 frequency–inverse document frequency, working with n-grams, and even
 building topic models.</li>
-<li>One simple visualizing function manages most use cases, returning
-clean, publication-ready figures. Additional functions and arguments
-make it easy to customize output to suit your need.</li>
 <li>One simple function prepares publication-ready tables, automatically
-adjusting based on the kind of data used.</li>
-<li>Every function is offered as a verb using complementary syntax. This
-keeps workflows easy to build, easy to understand, and easy to
-explain.</li>
+adjusting based on the kind of data used. Another simple function
+prepares compelling visualizations, returning clean, publication-ready
+figures.</li>
+<li>Every step is offered as a verb using complementary syntax. This
+keeps workflows easy to build, easy to understand, easy to explain, and
+easy to reproduce.</li>
 </ul>
+<p>Keep reading for an overview of tmtyro’s goals, or <a href="#preparing-texts">jump ahead</a> to get started.</p>
 <div class="section level2">
 <h2 id="differentiating-tmtyro">Differentiating tmtyro<a class="anchor" aria-label="anchor" href="#differentiating-tmtyro"></a>
 </h2>
@@ -121,49 +120,48 @@ powerful and easy to use for beginners; the comparatively recent <a href="https:
 designed to work with the popular <a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a> package suite; and
 the <a href="https://tm.r-forge.r-project.org" class="external-link">tm</a> package in R, a
 long-standing tool used by specialists. Their designs situate them for
-different audiences and purposes, but each is limited in part by lock-in
-or difficulty. The tmtyro package aims to address some of these
-concerns.</p>
-<p><a href="https://voyant-tools.org" class="external-link">Voyant</a> is one of the best
-tools for working with text data. Developed by Stéfan Sinclair and
-Geoffrey Rockwell more than twenty years ago, it has become a
-standard—and with good reason. Its graphical interface makes it
-accessible to complete novices without skimping on power or features.
-Still, everything has limits. Voyant’s easy-to-use interface ultimately
-limits users’ growth, since that interface keeps Voyant from serving as
-a skills ramp to other tools with more options.</p>
-<p>Unlike fixed tools like Voyant, code-based methods for working with
-text offer both reproducibility and open-ended tooling. In R, the <a href="https://juliasilge.github.io/tidytext/" class="external-link">tidytext</a> package
-authored by Julia Silge and David Robinson is made using a “tidy data”
-design philosophy that is consistent with many popular R packages. A
-companion book, <a href="https://www.tidytextmining.com" class="external-link"><em>Text Mining
-with R</em></a>, offers impressive documentation to the package, easing
-the learning curve for anyone new to text mining. But its <a href="https://www.tidytextmining.com/preface" class="external-link">preface</a> acknowledges a
+different audiences and purposes, but each has its own limitations.</p>
+<p>Voyant is one of the best-known tools for working with text data in
+the humanities. Developed by Stéfan Sinclair and Geoffrey Rockwell over
+more than twenty years, it has become a standard—and with good reason.
+Its graphical interface makes it accessible to novices without skimping
+on power or features. Still, Voyant’s easy-to-use interface ultimately
+limits users’ growth, since that interface can keep Voyant from serving
+as a skills ramp to other tools with more options.</p>
+<p>Unlike tools with graphical interfaces, code-based methods for
+working with text offer both reproducibility and open-ended tooling. In
+R, the tidytext package authored by Julia Silge and David Robinson is
+made using a “tidy data” design philosophy that is consistent with many
+popular R packages. A companion book, <a href="https://www.tidytextmining.com" class="external-link"><em>Text Mining with R</em></a>,
+offers impressive documentation to the package, easing the learning
+curve for anyone new to text mining. But its preface acknowledges a
 starting point quite a ways above zero, expecting that “the reader is at
 least slightly familiar with dplyr, ggplot2, and the %&gt;% ‘pipe’
 operator in R.” Without the book, tidytext is even less suited for
-beginners, leaving users to fend for themselves and find some other
-method to read text files into R.</p>
+beginners who must get up to speed before they can use it.</p>
 <p>If the tidytext package is a helpful tool to be picked up by a
-seasoned R user familiar with the tidyverse, then the <a href="https://tm.r-forge.r-project.org" class="external-link">tm</a> package, by contrast, is
-the kind of tool for which specialists will learn R to use. Authored by
-Ingo Feinerer and Kurt Hornik, it predates the tidyverse package by
-nearly a decade, and its data design is often incompatible with those
-workflows. Nevertheless, it provides power and specialized functionality
-beyond these other tools, making it worth learning for those who need
-it.</p>
+seasoned R user familiar with the tidyverse, then the tm package, by
+contrast, is the kind of tool for which specialists will learn R to use.
+Created by Ingo Feinerer and Kurt Hornik, it predates the tidyverse
+package by nearly a decade, and its data design is often incompatible
+with those workflows. Nevertheless, it provides power and specialized
+functionality beyond these other tools, making it worth learning for
+those who need it.</p>
 <p><img src="skill_speedometer.png"></p>
-<p>The tmtyro package is designed to fit into the space remaining. It
-was developed over two semesters of a course on literary text mining
-using R, following through examples from <em>Text Mining in R</em> while
-students applied techniques to ask their own questions about their own
-selections of texts. Because it was taught in an English department, our
-course was never meant to be a dedicated “coding class,” although it did
-walk some students through the process of writing their first code.
-Approaching texts from a different angle helped us to have new insights
-on the things we were reading. And having working tools in front of us
-helped everyone test the boundaries of this new world and map how we
-might follow the paths laid out in the research we read.</p>
+<p>In this context, the tmtyro package steps cautiously into the
+remaining space to fill a particular need. Developed while teaching two
+semesters of an undergraduate course on literary text mining, it grew
+from a folder of “helper” functions written for students. Our course was
+taught in the English department, and it was never meant to be a “coding
+class” so much as one that induced students to think about text in new
+ways. The syllabus followed through examples from <em>Text Mining in
+R</em> and, ambitiously, <em>Text Analysis with R for Students of
+Literature</em>, by Matthew Jockers and Rosamond Thalken, pairing
+methods with applications in recent research. Each week, students
+applied techniques to ask their own questions about their own selections
+of writing. Having working tools in front of us helped everyone test the
+boundaries of this new world and map how we might follow similar paths
+to those laid out in the readings.</p>
 <p>Like Voyant, tmtyro is designed for a beginner, and it strives for
 predictability. Workflows are provided for loading texts from a folder
 or for getting a corpus of texts from online collections. Once texts are
@@ -172,24 +170,24 @@ columns for analysis, and generic functions handle details of tables and
 figures.</p>
 <p>Most importantly, tmtyro provides a skills ramp for users who outgrow
 it. Code workflows are designed to help beginners move quickly at the
-start, to try things out. From there, a student who gains confidence in
+start to try things out. From there, a student who gains confidence in
 the methods provided by the package might step beyond it to tweak a
 visualization using functions from ggplot2. A researcher wishing to work
 with a subset of titles will begin to understand methods from dplyr. And
 since tmtyro’s data design is based on that of tidytext, a user can
-transition between both packages seamlessly. Nobody is expected to stick
-with tmtyro forever, but functions are designed to remain useful long
-past the “tyro” stage.</p>
+transition between both packages seamlessly, using them together. Nobody
+is expected to stick with tmtyro forever, but functions are designed to
+remain useful long past the “tyro” stage.</p>
 </div>
 <div class="section level2">
-<h2 id="starting-with-tmtyro">Starting with tmtyro<a class="anchor" aria-label="anchor" href="#starting-with-tmtyro"></a>
+<h2 id="preparing-texts">Preparing texts<a class="anchor" aria-label="anchor" href="#preparing-texts"></a>
 </h2>
 <p>tmtyro offers a few functions to gather and load texts for study:</p>
 <ul>
 <li>
-<code><a href="../reference/get_gutenberg_corpus.html">get_gutenberg_corpus()</a></code> caches books by their Project
-Gutenberg ID, parses their text and headers, and presents them in a
-table.</li>
+<code><a href="../reference/get_gutenberg_corpus.html">get_gutenberg_corpus()</a></code> caches the HTML version of books
+by their Project Gutenberg ID, parses their text and headers, and
+presents them in a table.</li>
 <li>
 <code><a href="../reference/get_micusp_corpus.html">get_micusp_corpus()</a></code> caches papers from the Michigan
 Corpus of Upper-level Student Papers, parses them for metadata and
@@ -221,27 +219,15 @@ document marker.</li>
 <h3 id="get-a-corpus">Get a corpus<a class="anchor" aria-label="anchor" href="#get-a-corpus"></a>
 </h3>
 <p>Collecting texts from Project Gutenberg will be a common first step
-for many who work with text. The function
-<code><a href="../reference/get_gutenberg_corpus.html">get_gutenberg_corpus()</a></code> does the job.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;This function was inspired by a similar function in the
-gutenbergr package, on which tmtyro depends, but it does noticeably
-more. By default it retrieves the “.htm” version of a text and caches a
-local copy. Once the files have been cached, it parses the file for
-headers and places these beside the text, along with metadata like title
-and author. By contrast, gutenbergr’s function tries to retrieve a
-“.zip” version of each text. While a smaller “.zip” version might be
-about a third of the “.htm” version of a text, it does not get cached
-and must be downloaded every time it is called. More frustratingly,
-Gutenberg mirrors increasingly seem to be dropping “.zip” files, leading
-to errors in loading corpora. To counter hitting the Project Gutenberg
-servers with too many requests, tmtyro delays each download with a two
-second delay. Since texts are cached locally, this delay is only felt
-the first time a text is used.&lt;/p&gt;"><sup>1</sup></a> All it needs is the
-Gutenberg ID number, found in the book’s URL. The resulting table will
-include columns for “gutenberg_id”, “title”, “author”, headers such as
-those used for chapters, and “text”:</p>
+for many. The function <code><a href="../reference/get_gutenberg_corpus.html">get_gutenberg_corpus()</a></code> needs only
+the Gutenberg ID number, found in the book’s URL. The resulting table
+draws metadata from the gutenbergr package, with columns for
+“gutenberg_id”, “title”, “author”, headers such as those used for
+chapters, and “text.”</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jmclawson/tmtyro" class="external-link">tmtyro</a></span><span class="op">)</span></span>
 <span><span class="va">joyce</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_gutenberg_corpus.html">get_gutenberg_corpus</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2814</span>, <span class="fl">4217</span>, <span class="fl">4300</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">joyce</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 7</span></span></span>
 <span><span class="co">#&gt;   gutenberg_id title     author       part        section subsection text       </span></span>
@@ -253,15 +239,14 @@ those used for chapters, and “text”:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>         <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>         “I have my…</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>         <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>         He began t…</span></span></code></pre></div>
 <p>In some cases, headers may make better sense if read as part of the
-text, such as this section of “Aeolus” where newspaper headlines pepper
-the page.</p>
+text, as in the “Aeolus” chapter of <em>Ulysses</em>, where frequent
+newspaper headlines pepper the page:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ulysses</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_gutenberg_corpus.html">get_gutenberg_corpus</a></span><span class="op">(</span><span class="fl">4300</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># dplyr is used here to choose a smaller example for comparison</span></span>
 <span><span class="va">ulysses</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">part</span> <span class="op">==</span> <span class="st">"— II —"</span>,</span>
-<span>                <span class="va">section</span> <span class="op">==</span> <span class="st">"[ 7 ]"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">section</span> <span class="op">==</span> <span class="st">"[ 7 ]"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 7</span></span></span>
 <span><span class="co">#&gt;   gutenberg_id title   author       part   section subsection              text </span></span>
@@ -279,8 +264,7 @@ the page.</p>
 <span></span>
 <span><span class="co"># dplyr is used here to choose a smaller example for comparison</span></span>
 <span><span class="va">ulysses</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">part</span> <span class="op">==</span> <span class="st">"— II —"</span>,</span>
-<span>                <span class="va">section</span> <span class="op">==</span> <span class="st">"[ 7 ]"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">section</span> <span class="op">==</span> <span class="st">"[ 7 ]"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 6</span></span></span>
 <span><span class="co">#&gt;    gutenberg_id title   author       part   section text                        </span></span>
@@ -302,8 +286,7 @@ filter like <code>title == "Ulysses"</code>:</p>
 <span>  <span class="fu"><a href="../reference/move_header_to_text.html">move_header_to_text</a></span><span class="op">(</span><span class="va">subsection</span>, <span class="va">title</span> <span class="op">==</span> <span class="st">"Ulysses"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">joyce</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">part</span> <span class="op">==</span> <span class="st">"— II —"</span>,</span>
-<span>                <span class="va">section</span> <span class="op">==</span> <span class="st">"[ 7 ]"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">section</span> <span class="op">==</span> <span class="st">"[ 7 ]"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
 <span><span class="co">#&gt;   gutenberg_id title   author       part   section text                         </span></span>
@@ -344,109 +327,86 @@ can be prepared in tidytext format with one word per row using
 <div class="section level4">
 <h4 id="from-files">From files<a class="anchor" aria-label="anchor" href="#from-files"></a>
 </h4>
-<p>If files are already collected in a folder on disk, they can be
-prepared in a table by passing the name of the folder to
-<code><a href="../reference/load_texts.html">load_texts()</a></code>. When loaded this way, the first part of the
-file name populates the <code>doc_id</code> column.</p>
+<p>If text files are already collected in a folder on disk, they can be
+prepared in a table by passing the path to the folder inside
+<code><a href="../reference/load_texts.html">load_texts()</a></code>. Used this way, <code><a href="../reference/load_texts.html">load_texts()</a></code> will
+load up every file using the “txt” file extension, populating the
+<code>doc_id</code> column with the first part of the file name.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">corpus_austen</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/load_texts.html">load_texts</a></span><span class="op">(</span><span class="st">"austen"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">corpus_austen</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 3</span></span></span>
-<span><span class="co">#&gt;   doc_id par_num word     </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> emma         1 volume   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> emma         1 i        </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> emma         2 chapter  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> emma         2 i        </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> emma         3 emma     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> emma         3 woodhouse</span></span></code></pre></div>
-<p>Passing the complete path makes it possible to work with a folder of
-texts outside the project directory. For instance, if a collection of
-Shakespeare plays are kept in some other folder on my computer, I can
-indicate that here:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">corpus_shakespeare</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/load_texts.html">load_texts</a></span><span class="op">(</span><span class="st">"~/DH-Local/shakespeare_plays/historical"</span>, poetry <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">corpus_shakespeare</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 4</span></span></span>
-<span><span class="co">#&gt;   doc_id                                            stanza_num line_num word    </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> The Famous History of the Life of King Henry VIII          2        1 shakesp…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> The Famous History of the Life of King Henry VIII          2        1 the     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> The Famous History of the Life of King Henry VIII          2        1 famous  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> The Famous History of the Life of King Henry VIII          2        1 history </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> The Famous History of the Life of King Henry VIII          2        1 of      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> The Famous History of the Life of King Henry VIII          2        1 the</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">corpus_austen</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/load_texts.html">load_texts</a></span><span class="op">(</span><span class="st">"austen"</span><span class="op">)</span></span></code></pre></div>
+<p>In this example, the “austen” folder is found within the current
+project. If it was instead found somewhere else on the computer, the
+complete path can be passed like this:<br><code>load_texts("~/corpora/austen")</code></p>
 </div>
-</div>
-<div class="section level3">
-<h3 id="standardize-titles">Standardize titles<a class="anchor" aria-label="anchor" href="#standardize-titles"></a>
-</h3>
-<p>The <code><a href="../reference/standardize_titles.html">standardize_titles()</a></code> function converts titles to
-something cleaner, adopting title case, converting underscores to
-spaces, and dropping initial articles.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">before</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">corpus_austen</span><span class="op">$</span><span class="va">doc_id</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">corpus_austen</span> <span class="op">&lt;-</span> <span class="va">corpus_austen</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/standardize_titles.html">standardize_titles</a></span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">after</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">corpus_austen</span><span class="op">$</span><span class="va">doc_id</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">before</span>, <span class="va">after</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                  before                 after</span></span>
-<span><span class="co">#&gt; 1                  emma                  Emma</span></span>
-<span><span class="co">#&gt; 2            lady_susan            Lady Susan</span></span>
-<span><span class="co">#&gt; 3        mansfield_park        Mansfield Park</span></span>
-<span><span class="co">#&gt; 4            northanger            Northanger</span></span>
-<span><span class="co">#&gt; 5            persuasion            Persuasion</span></span>
-<span><span class="co">#&gt; 6   pride_and_prejudice   Pride and Prejudice</span></span>
-<span><span class="co">#&gt; 7 sense_and_sensibility Sense and Sensibility</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="choose-a-different-doc_id">Choose a different <code>doc_id</code><a class="anchor" aria-label="anchor" href="#choose-a-different-doc_id"></a>
 </h3>
 <p>Documents loaded from <code><a href="../reference/get_gutenberg_corpus.html">get_gutenberg_corpus()</a></code> use the
-<code>gutenberg_id</code> column as their document identifier. If a
-different column is preferred, <code><a href="../reference/identify_by.html">identify_by()</a></code> makes the
-switch.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">corpus_joyce</span> <span class="op">&lt;-</span> <span class="va">joyce</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/load_texts.html">load_texts</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/identify_by.html">identify_by</a></span><span class="op">(</span><span class="va">title</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">corpus_joyce</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
-<span><span class="co">#&gt;   doc_id    author       part        section word </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      there</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      was  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      no   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      hope </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      for  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      him</span></span></code></pre></div>
-<p>The process is the same when comparing the chapters or stories in a
-collection of works, when it might make sense to choose some other
-column as the document identifier. Since the table for
-<em>Dubliners</em> shows each story’s title under “part,” it makes sense
-to identify documents by that column:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code>gutenberg_id</code> column as their document identifier.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">corpus_dubliners</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_gutenberg_corpus.html">get_gutenberg_corpus</a></span><span class="op">(</span><span class="fl">2814</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/load_texts.html">load_texts</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/identify_by.html">identify_by</a></span><span class="op">(</span><span class="va">part</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/standardize_titles.html">standardize_titles</a></span><span class="op">(</span>drop_articles <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="../reference/load_texts.html">load_texts</a></span><span class="op">(</span>lemma <span class="op">=</span> <span class="cn">TRUE</span>, pos <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">corpus_dubliners</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 4</span></span></span>
-<span><span class="co">#&gt;   title     author       doc_id      word </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Dubliners Joyce, James The Sisters there</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Dubliners Joyce, James The Sisters was  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Dubliners Joyce, James The Sisters no   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Dubliners Joyce, James The Sisters hope </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Dubliners Joyce, James The Sisters for  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Dubliners Joyce, James The Sisters him</span></span></code></pre></div>
-<p>This example also uses <code><a href="../reference/standardize_titles.html">standardize_titles()</a></code> to make the
-<code>doc_id</code> column look a little nicer.</p>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 7</span></span></span>
+<span><span class="co">#&gt;   doc_id title     author       part        word  pos   lemma</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>   <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS there EX    there</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>   <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS was   VBD   be   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS no    DT    no   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>   <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS hope  NN    hope </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>   <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS for   IN    for  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>   <span style="text-decoration: underline;">2</span>814 Dubliners Joyce, James THE SISTERS him   PRP   him</span></span></code></pre></div>
+<p>If a different column is preferred, <code><a href="../reference/identify_by.html">identify_by()</a></code> makes
+the switch. In this example from <em>Dubliners</em>, for instance, each
+story’s title is shown under “part”. The <code><a href="../reference/identify_by.html">identify_by()</a></code>
+function makes it easy to identify documents by that column:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">corpus_dubliners</span> <span class="op">&lt;-</span> <span class="va">corpus_dubliners</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/identify_by.html">identify_by</a></span><span class="op">(</span><span class="va">part</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">corpus_dubliners</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
+<span><span class="co">#&gt;   title     author       doc_id      word  pos   lemma</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Dubliners Joyce, James THE SISTERS there EX    there</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Dubliners Joyce, James THE SISTERS was   VBD   be   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Dubliners Joyce, James THE SISTERS no    DT    no   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Dubliners Joyce, James THE SISTERS hope  NN    hope </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Dubliners Joyce, James THE SISTERS for   IN    for  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Dubliners Joyce, James THE SISTERS him   PRP   him</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="standardize-titles">Standardize titles<a class="anchor" aria-label="anchor" href="#standardize-titles"></a>
+</h3>
+<p>The <code><a href="../reference/standardize_titles.html">standardize_titles()</a></code> function converts titles to
+something cleaner by adopting title case.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">before</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">corpus_dubliners</span><span class="op">$</span><span class="va">doc_id</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">corpus_dubliners</span> <span class="op">&lt;-</span> <span class="va">corpus_dubliners</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/standardize_titles.html">standardize_titles</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">after</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">corpus_dubliners</span><span class="op">$</span><span class="va">doc_id</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">before</span>, <span class="va">after</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                           before                         after</span></span>
+<span><span class="co">#&gt; 1                    THE SISTERS                   The Sisters</span></span>
+<span><span class="co">#&gt; 2                   AN ENCOUNTER                  An Encounter</span></span>
+<span><span class="co">#&gt; 3                          ARABY                         Araby</span></span>
+<span><span class="co">#&gt; 4                        EVELINE                       Eveline</span></span>
+<span><span class="co">#&gt; 5                 AFTER THE RACE                After the Race</span></span>
+<span><span class="co">#&gt; 6                   TWO GALLANTS                  Two Gallants</span></span>
+<span><span class="co">#&gt; 7             THE BOARDING HOUSE            The Boarding House</span></span>
+<span><span class="co">#&gt; 8                 A LITTLE CLOUD                A Little Cloud</span></span>
+<span><span class="co">#&gt; 9                   COUNTERPARTS                  Counterparts</span></span>
+<span><span class="co">#&gt; 10                          CLAY                          Clay</span></span>
+<span><span class="co">#&gt; 11                A PAINFUL CASE                A Painful Case</span></span>
+<span><span class="co">#&gt; 12 IVY DAY IN THE COMMITTEE ROOM Ivy Day in the Committee Room</span></span>
+<span><span class="co">#&gt; 13                      A MOTHER                      A Mother</span></span>
+<span><span class="co">#&gt; 14                         GRACE                         Grace</span></span>
+<span><span class="co">#&gt; 15                      THE DEAD                      The Dead</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -491,26 +451,26 @@ into one column per word.</li>
 <p>The <code><a href="../reference/add_vocabulary.html">add_vocabulary()</a></code> function adds measurements of
 vocabulary richness, including cumulative vocabulary size, indicators of
 hapax legomena, and markers of progress.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">vocab_dubliners</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="va">corpus_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/add_vocabulary.html">add_vocabulary</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">vocab_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 11</span></span></span>
-<span><span class="co">#&gt;    title     author       doc_id     word  new_word hapax vocabulary   ttr   htr</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Dubliners Joyce, James The Siste… there TRUE     FALSE          1   1   0    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Dubliners Joyce, James The Siste… was   TRUE     FALSE          2   1   0    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Dubliners Joyce, James The Siste… no    TRUE     FALSE          3   1   0    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Dubliners Joyce, James The Siste… hope  TRUE     TRUE           4   1   0.25 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Dubliners Joyce, James The Siste… for   TRUE     FALSE          5   1   0.2  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Dubliners Joyce, James The Siste… him   TRUE     FALSE          6   1   0.167</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Dubliners Joyce, James The Siste… this  TRUE     FALSE          7   1   0.143</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Dubliners Joyce, James The Siste… time  TRUE     FALSE          8   1   0.125</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Dubliners Joyce, James The Siste… it    TRUE     FALSE          9   1   0.111</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Dubliners Joyce, James The Siste… was   FALSE    FALSE          9   0.9 0.1  </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 13</span></span></span>
+<span><span class="co">#&gt;    title   author doc_id word  pos   lemma new_word hapax vocabulary   ttr   htr</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Dublin… Joyce… The S… there EX    there TRUE     FALSE          1   1   0    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Dublin… Joyce… The S… was   VBD   be    TRUE     FALSE          2   1   0    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Dublin… Joyce… The S… no    DT    no    TRUE     FALSE          3   1   0    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Dublin… Joyce… The S… hope  NN    hope  TRUE     TRUE           4   1   0.25 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Dublin… Joyce… The S… for   IN    for   TRUE     FALSE          5   1   0.2  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Dublin… Joyce… The S… him   PRP   him   TRUE     FALSE          6   1   0.167</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Dublin… Joyce… The S… this  DT    this  TRUE     FALSE          7   1   0.143</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Dublin… Joyce… The S… time  NN    time  TRUE     FALSE          8   1   0.125</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Dublin… Joyce… The S… it    PRP   it    TRUE     FALSE          9   1   0.111</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Dublin… Joyce… The S… was   VBD   be    FALSE    FALSE          9   0.9 0.1  </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2 more variables: progress_words &lt;int&gt;, progress_percent &lt;dbl&gt;</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -518,7 +478,7 @@ hapax legomena, and markers of progress.</p>
 </h3>
 <p><code><a href="../reference/add_sentiment.html">add_sentiment()</a></code> adds measurements of sentiment using the
 “Bing” lexicon by default.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sentiment_dubliners</span> <span class="op">&lt;-</span> <span class="va">corpus_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/add_sentiment.html">add_sentiment</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
@@ -538,7 +498,7 @@ hapax legomena, and markers of progress.</p>
 </h4>
 <p>Since many words may not be found in a given sentiment lexicon,
 <code><a href="../reference/drop_empty.html">drop_empty()</a></code> makes it easy to remove empty rows.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sentiment_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/drop_empty.html">drop_empty</a></span><span class="op">(</span><span class="va">sentiment</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -553,10 +513,10 @@ hapax legomena, and markers of progress.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Dubliners Joyce, James The Sisters strangely negative</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="choosing-sentiment-lexicon">Choosing sentiment lexicon<a class="anchor" aria-label="anchor" href="#choosing-sentiment-lexicon"></a>
+<h4 id="choosing-a-sentiment-lexicon">Choosing a sentiment lexicon<a class="anchor" aria-label="anchor" href="#choosing-a-sentiment-lexicon"></a>
 </h4>
 <p>The lexicon can be chosen at measurement.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sentiment_ulysses</span> <span class="op">&lt;-</span> <span class="va">ulysses</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/load_texts.html">load_texts</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/identify_by.html">identify_by</a></span><span class="op">(</span><span class="va">section</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -586,37 +546,41 @@ hapax legomena, and markers of progress.</p>
 <p>Following the same pattern, <code><a href="../reference/add_ngrams.html">add_ngrams()</a></code> adds columns
 for n-length phrases of words. By default, it prepares bigrams (or
 2-grams).</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">bigrams_austen</span> <span class="op">&lt;-</span> <span class="va">corpus_austen</span> <span class="op">|&gt;</span> </span>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">corpus_joyce</span> <span class="op">&lt;-</span> <span class="va">joyce</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/load_texts.html">load_texts</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/identify_by.html">identify_by</a></span><span class="op">(</span><span class="va">title</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">bigrams_joyce</span> <span class="op">&lt;-</span> <span class="va">corpus_joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/add_ngrams.html">add_ngrams</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">bigrams_austen</span> <span class="op">|&gt;</span> </span>
+<span><span class="va">bigrams_joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 4</span></span></span>
-<span><span class="co">#&gt;   doc_id par_num word_1    word_2   </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Emma         1 volume    i        </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Emma         1 i         chapter  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Emma         2 chapter   i        </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Emma         2 i         emma     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Emma         3 emma      woodhouse</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Emma         3 woodhouse handsome</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
+<span><span class="co">#&gt;   doc_id    author       part        section word_1 word_2</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      there  was   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      was    no    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      no     hope  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      hope   for   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      for    him   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      him    this</span></span></code></pre></div>
 <p>Other n-grams can be chosen by passing a vector of numbers.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">trigrams_austen</span> <span class="op">&lt;-</span> <span class="va">corpus_austen</span> <span class="op">|&gt;</span> </span>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">trigrams_joyce</span> <span class="op">&lt;-</span> <span class="va">corpus_joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/add_ngrams.html">add_ngrams</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">trigrams_austen</span> <span class="op">|&gt;</span> </span>
+<span><span class="va">trigrams_joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
-<span><span class="co">#&gt;   doc_id par_num word_1    word_2    word_3   </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Emma         1 volume    i         chapter  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Emma         1 i         chapter   i        </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Emma         2 chapter   i         emma     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Emma         2 i         emma      woodhouse</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Emma         3 emma      woodhouse handsome </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Emma         3 woodhouse handsome  clever</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 7</span></span></span>
+<span><span class="co">#&gt;   doc_id    author       part        section word_1 word_2 word_3</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      there  was    no    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      was    no     hope  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      no     hope   for   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      hope   for    him   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      for    him    this  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      him    this   time</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="tf-idf">Tf-idf<a class="anchor" aria-label="anchor" href="#tf-idf"></a>
@@ -626,7 +590,7 @@ doesn’t preserve word order, and it reduces documents to one instance of
 each token. Since any use of tf-idf can’t merely add a column,
 <code><a href="../reference/summarize_tf_idf.html">summarize_tf_idf()</a></code> avoids the <code>add_</code> naming
 convention. Results are returned in descending strength of tf-idf.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tfidf_dubliners</span> <span class="op">&lt;-</span> <span class="va">corpus_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/summarize_tf_idf.html">summarize_tf_idf</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
@@ -635,22 +599,22 @@ convention. Results are returned in descending strength of tf-idf.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
 <span><span class="co">#&gt;   doc_id                        word         n      tf   idf tf_idf</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>                         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Clay                          maria       40 0.015<span style="text-decoration: underline;">0</span>   2.71 0.040<span style="text-decoration: underline;">7</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Clay                          maria       40 0.015<span style="text-decoration: underline;">1</span>   2.71 0.040<span style="text-decoration: underline;">9</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Two Gallants                  corley      46 0.011<span style="text-decoration: underline;">7</span>   2.71 0.031<span style="text-decoration: underline;">8</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> After the Race                jimmy       24 0.010<span style="text-decoration: underline;">7</span>   2.71 0.029<span style="text-decoration: underline;">0</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Ivy Day in the Committee Room henchy      53 0.010<span style="text-decoration: underline;">1</span>   2.71 0.027<span style="text-decoration: underline;">3</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> A Little Cloud                gallaher    48 0.009<span style="text-decoration: underline;">71</span>  2.71 0.026<span style="text-decoration: underline;">3</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> The Dead                      gabriel    142 0.009<span style="text-decoration: underline;">03</span>  2.71 0.024<span style="text-decoration: underline;">4</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> After the Race                jimmy       24 0.010<span style="text-decoration: underline;">7</span>   2.71 0.029<span style="text-decoration: underline;">1</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Ivy Day in the Committee Room henchy      53 0.010<span style="text-decoration: underline;">1</span>   2.71 0.027<span style="text-decoration: underline;">2</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> A Little Cloud                gallaher    48 0.009<span style="text-decoration: underline;">64</span>  2.71 0.026<span style="text-decoration: underline;">1</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> The Dead                      gabriel    142 0.009<span style="text-decoration: underline;">06</span>  2.71 0.024<span style="text-decoration: underline;">5</span></span></span></code></pre></div>
 <p>Tf-idf’s method understandably emphasizes proper nouns that are
 unique to each document. The <code>remove_names</code> argument in
 <code><a href="../reference/load_texts.html">load_texts()</a></code> can help to filter out words that appear only
 in capitalized form. Removing names from <em>Dubliners</em> makes a
 noticeable difference in tf-idf results:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tfidf_dubliners</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_gutenberg_corpus.html">get_gutenberg_corpus</a></span><span class="op">(</span><span class="fl">2814</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/load_texts.html">load_texts</a></span><span class="op">(</span>remove_names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/identify_by.html">identify_by</a></span><span class="op">(</span><span class="va">part</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/standardize_titles.html">standardize_titles</a></span><span class="op">(</span>drop_articles <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/standardize_titles.html">standardize_titles</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/summarize_tf_idf.html">summarize_tf_idf</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">tfidf_dubliners</span> <span class="op">|&gt;</span> </span>
@@ -660,10 +624,13 @@ noticeable difference in tf-idf results:</p>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> The Dead       aunt     101 0.006<span style="text-decoration: underline;">93</span> 1.61  0.011<span style="text-decoration: underline;">2</span> </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Araby          bazaar     9 0.004<span style="text-decoration: underline;">06</span> 2.71  0.011<span style="text-decoration: underline;">0</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> The Sisters    aunt      19 0.006<span style="text-decoration: underline;">48</span> 1.61  0.010<span style="text-decoration: underline;">4</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> After the Race cars       6 0.002<span style="text-decoration: underline;">85</span> 2.71  0.007<span style="text-decoration: underline;">73</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> The Sisters    aunt      19 0.006<span style="text-decoration: underline;">49</span> 1.61  0.010<span style="text-decoration: underline;">4</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> After the Race cars       6 0.002<span style="text-decoration: underline;">86</span> 2.71  0.007<span style="text-decoration: underline;">73</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> An Encounter   we        58 0.018<span style="text-decoration: underline;">9</span>  0.405 0.007<span style="text-decoration: underline;">67</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> After the Race car       11 0.005<span style="text-decoration: underline;">23</span> 1.32  0.006<span style="text-decoration: underline;">92</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> After the Race car       11 0.005<span style="text-decoration: underline;">24</span> 1.32  0.006<span style="text-decoration: underline;">92</span></span></span></code></pre></div>
+<p>If <code><a href="../reference/load_texts.html">load_texts()</a></code> is used with <code>pos = TRUE</code>,
+proper nouns can be filtered, but these tags are sometimes
+inaccurate.</p>
 </div>
 </div>
 <div class="section level2">
@@ -677,7 +644,7 @@ findings without struggling to recall a specialized function.</p>
 </h3>
 <p>By default, <code><a href="../reference/tabulize.html">tabulize()</a></code> prepares a table showing the
 lengths of each document.</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">corpus_joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div id="mwlefoodfi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
@@ -1128,15 +1095,15 @@ lengths of each document.</p>
 <tbody class="gt_table_body">
 <tr>
 <td headers="doc_id" class="gt_row gt_center">Dubliners</td>
-<td headers="n" class="gt_row gt_right">67,953</td>
+<td headers="n" class="gt_row gt_right">67,945</td>
 </tr>
 <tr>
 <td headers="doc_id" class="gt_row gt_center">A Portrait of the Artist as a Young Man</td>
-<td headers="n" class="gt_row gt_right">84,933</td>
+<td headers="n" class="gt_row gt_right">84,926</td>
 </tr>
 <tr>
 <td headers="doc_id" class="gt_row gt_center">Ulysses</td>
-<td headers="n" class="gt_row gt_right">265,043</td>
+<td headers="n" class="gt_row gt_right">264,975</td>
 </tr>
 </tbody>
 </table>
@@ -1147,7 +1114,7 @@ lengths of each document.</p>
 </h3>
 <p>Adding <code>count = TRUE</code> will show the counts of the
 most-frequent words.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">corpus_joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span>count <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <div id="eexombwkke" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
@@ -1615,7 +1582,7 @@ most-frequent words.</p>
 <tr>
 <td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Ulysses</td>
 <td headers="word" class="gt_row gt_left">a</td>
-<td headers="n" class="gt_row gt_right">6,514</td>
+<td headers="n" class="gt_row gt_right">6,501</td>
 </tr>
 <tr>
 <td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Ulysses</td>
@@ -1645,7 +1612,7 @@ most-frequent words.</p>
 <tr>
 <td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">A Portrait of the Artist as a Young Man</td>
 <td headers="word" class="gt_row gt_left">a</td>
-<td headers="n" class="gt_row gt_right">1,950</td>
+<td headers="n" class="gt_row gt_right">1,948</td>
 </tr>
 <tr>
 <td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">A Portrait of the Artist as a Young Man</td>
@@ -1685,7 +1652,7 @@ most-frequent words.</p>
 <tr>
 <td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Dubliners</td>
 <td headers="word" class="gt_row gt_left">a</td>
-<td headers="n" class="gt_row gt_right">1,583</td>
+<td headers="n" class="gt_row gt_right">1,582</td>
 </tr>
 </tbody>
 </table>
@@ -1696,7 +1663,7 @@ most-frequent words.</p>
 </h3>
 <p>When used after <code><a href="../reference/add_vocabulary.html">add_vocabulary()</a></code>, the
 <code><a href="../reference/tabulize.html">tabulize()</a></code> function prepares a clean summary table.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">corpus_joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/add_vocabulary.html">add_vocabulary</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -2162,26 +2129,26 @@ most-frequent words.</p>
 <tbody class="gt_table_body">
 <tr>
 <td headers="doc_id" class="gt_row gt_center">Dubliners</td>
-<td headers="words" class="gt_row gt_right">67,953</td>
-<td headers="vocab" class="gt_row gt_right">7,337</td>
+<td headers="words" class="gt_row gt_right">67,945</td>
+<td headers="vocab" class="gt_row gt_right">7,339</td>
 <td headers="ttr" class="gt_row gt_right">0.108</td>
-<td headers="hlemona" class="gt_row gt_right">3,681</td>
+<td headers="hlemona" class="gt_row gt_right">3,683</td>
 <td headers="htr" class="gt_row gt_right">0.054</td>
 </tr>
 <tr>
 <td headers="doc_id" class="gt_row gt_center">A Portrait of the Artist as a Young Man</td>
-<td headers="words" class="gt_row gt_right">84,933</td>
-<td headers="vocab" class="gt_row gt_right">9,179</td>
+<td headers="words" class="gt_row gt_right">84,926</td>
+<td headers="vocab" class="gt_row gt_right">9,177</td>
 <td headers="ttr" class="gt_row gt_right">0.108</td>
 <td headers="hlemona" class="gt_row gt_right">4,581</td>
 <td headers="htr" class="gt_row gt_right">0.054</td>
 </tr>
 <tr>
 <td headers="doc_id" class="gt_row gt_center">Ulysses</td>
-<td headers="words" class="gt_row gt_right">265,043</td>
-<td headers="vocab" class="gt_row gt_right">29,930</td>
+<td headers="words" class="gt_row gt_right">264,975</td>
+<td headers="vocab" class="gt_row gt_right">29,959</td>
 <td headers="ttr" class="gt_row gt_right">0.113</td>
-<td headers="hlemona" class="gt_row gt_right">16,311</td>
+<td headers="hlemona" class="gt_row gt_right">16,331</td>
 <td headers="htr" class="gt_row gt_right">0.062</td>
 </tr>
 </tbody>
@@ -2193,7 +2160,7 @@ most-frequent words.</p>
 </h3>
 <p>For sentiment analysis, <code><a href="../reference/tabulize.html">tabulize()</a></code> returns a summary of
 figures for each document.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># dplyr is used here to choose a smaller example for comparison</span></span>
 <span><span class="va">sentiment_dubliners_part</span> <span class="op">&lt;-</span> <span class="va">sentiment_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">doc_id</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"The Sisters"</span>, <span class="st">"An Encounter"</span>,  <span class="st">"Araby"</span><span class="op">)</span><span class="op">)</span></span>
@@ -2705,11 +2672,11 @@ figures for each document.</p>
 </tbody>
 </table>
 </div>
-<p>Setting <code>drop_na = TRUE</code> removes rows without sentiment
+<p>Setting <code>drop_empty = TRUE</code> removes rows without sentiment
 measure.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sentiment_dubliners_part</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span>drop_na <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span>drop_empty <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <div id="txvafbsnay" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#txvafbsnay table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -3199,7 +3166,7 @@ measure.</p>
 </div>
 <p>The <code>ignore</code> parameter aids in selecting a subset of
 sentiments, converting the rest to <code>NA</code>.</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># dplyr is used here to choose a smaller example for comparison</span></span>
 <span><span class="va">sentiment_ulysses_part</span> <span class="op">&lt;-</span> <span class="va">sentiment_ulysses</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">doc_id</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[ 1 ]"</span>, <span class="st">"[ 2 ]"</span>, <span class="st">"[ 3 ]"</span><span class="op">)</span><span class="op">)</span></span>
@@ -3735,9 +3702,9 @@ sentiments, converting the rest to <code>NA</code>.</p>
 </h3>
 <p>After <code><a href="../reference/add_ngrams.html">add_ngrams()</a></code>, the <code><a href="../reference/tabulize.html">tabulize()</a></code> function
 returns the top n-grams per document. By default, the first six are
-shown, but rows can be chosen freely.</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">bigrams_austen</span> <span class="op">|&gt;</span> </span>
+shown for each group, but rows can be chosen freely.</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">bigrams_joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <div id="cbwjcfdjag" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#cbwjcfdjag table {
@@ -4181,95 +4148,47 @@ shown, but rows can be chosen freely.</p>
 </style>
 <table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead><tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id=""></th>
+<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id=""></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="ngram">ngram</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n">n</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="%">%</th>
     </tr></thead>
 <tbody class="gt_table_body">
 <tr>
-<td headers="doc_id" class="gt_row gt_left">Mansfield Park</td>
+<td headers="doc_id" class="gt_row gt_center">Ulysses</td>
 <td headers="ngram" class="gt_row gt_left">of the</td>
-<td headers="n" class="gt_row gt_right">748</td>
-<td headers="percent" class="gt_row gt_right">0.47</td>
+<td headers="n" class="gt_row gt_right">1,628</td>
+<td headers="percent" class="gt_row gt_right">0.61</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">Mansfield Park</td>
-<td headers="ngram" class="gt_row gt_left">to be</td>
-<td headers="n" class="gt_row gt_right">643</td>
-<td headers="percent" class="gt_row gt_right">0.40</td>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Ulysses</td>
+<td headers="ngram" class="gt_row gt_left">in the</td>
+<td headers="n" class="gt_row gt_right">1,447</td>
+<td headers="percent" class="gt_row gt_right">0.55</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left">Emma</td>
-<td headers="ngram" class="gt_row gt_left">to be</td>
-<td headers="n" class="gt_row gt_right">607</td>
-<td headers="percent" class="gt_row gt_right">0.38</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">Emma</td>
+<td headers="doc_id" class="gt_row gt_center">A Portrait of the Artist as a Young Man</td>
 <td headers="ngram" class="gt_row gt_left">of the</td>
-<td headers="n" class="gt_row gt_right">566</td>
-<td headers="percent" class="gt_row gt_right">0.35</td>
+<td headers="n" class="gt_row gt_right">896</td>
+<td headers="percent" class="gt_row gt_right">1.06</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left">Pride and Prejudice</td>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">A Portrait of the Artist as a Young Man</td>
+<td headers="ngram" class="gt_row gt_left">in the</td>
+<td headers="n" class="gt_row gt_right">499</td>
+<td headers="percent" class="gt_row gt_right">0.59</td>
+</tr>
+<tr>
+<td headers="doc_id" class="gt_row gt_center">Dubliners</td>
 <td headers="ngram" class="gt_row gt_left">of the</td>
-<td headers="n" class="gt_row gt_right">460</td>
-<td headers="percent" class="gt_row gt_right">0.38</td>
+<td headers="n" class="gt_row gt_right">507</td>
+<td headers="percent" class="gt_row gt_right">0.75</td>
 </tr>
 <tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">Pride and Prejudice</td>
-<td headers="ngram" class="gt_row gt_left">to be</td>
-<td headers="n" class="gt_row gt_right">438</td>
-<td headers="percent" class="gt_row gt_right">0.36</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left">Sense and Sensibility</td>
-<td headers="ngram" class="gt_row gt_left">to be</td>
-<td headers="n" class="gt_row gt_right">436</td>
-<td headers="percent" class="gt_row gt_right">0.36</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">Sense and Sensibility</td>
-<td headers="ngram" class="gt_row gt_left">of the</td>
-<td headers="n" class="gt_row gt_right">432</td>
-<td headers="percent" class="gt_row gt_right">0.36</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left">Persuasion</td>
-<td headers="ngram" class="gt_row gt_left">of the</td>
-<td headers="n" class="gt_row gt_right">429</td>
-<td headers="percent" class="gt_row gt_right">0.51</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">Persuasion</td>
-<td headers="ngram" class="gt_row gt_left">to be</td>
-<td headers="n" class="gt_row gt_right">378</td>
-<td headers="percent" class="gt_row gt_right">0.45</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left">Northanger</td>
-<td headers="ngram" class="gt_row gt_left">of the</td>
-<td headers="n" class="gt_row gt_right">379</td>
-<td headers="percent" class="gt_row gt_right">0.49</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">Northanger</td>
-<td headers="ngram" class="gt_row gt_left">to be</td>
-<td headers="n" class="gt_row gt_right">280</td>
-<td headers="percent" class="gt_row gt_right">0.36</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left">Lady Susan</td>
-<td headers="ngram" class="gt_row gt_left">i am</td>
-<td headers="n" class="gt_row gt_right">117</td>
-<td headers="percent" class="gt_row gt_right">0.51</td>
-</tr>
-<tr>
-<td headers="doc_id" class="gt_row gt_left" style="visibility:hidden;border-top:0px;">Lady Susan</td>
-<td headers="ngram" class="gt_row gt_left">i have</td>
-<td headers="n" class="gt_row gt_right">88</td>
-<td headers="percent" class="gt_row gt_right">0.38</td>
+<td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Dubliners</td>
+<td headers="ngram" class="gt_row gt_left">in the</td>
+<td headers="n" class="gt_row gt_right">353</td>
+<td headers="percent" class="gt_row gt_right">0.52</td>
 </tr>
 </tbody>
 </table>
@@ -4282,7 +4201,7 @@ shown, but rows can be chosen freely.</p>
 <code><a href="../reference/tabulize.html">tabulize()</a></code> function returns six rows of the top-scoring
 words for each document. This amount can be specified with the
 <code>rows</code> argument.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tfidf_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span></code></pre></div>
 <div id="fvsybhaagl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
@@ -4739,7 +4658,7 @@ words for each document. This amount can be specified with the
 <td headers="doc_id" class="gt_row gt_center">The Sisters</td>
 <td headers="word" class="gt_row gt_left">aunt</td>
 <td headers="n" class="gt_row gt_right">19</td>
-<td headers="tf" class="gt_row gt_right">0.00648</td>
+<td headers="tf" class="gt_row gt_right">0.00649</td>
 <td headers="idf" class="gt_row gt_right">1.60944</td>
 <td headers="tf_idf" class="gt_row gt_right">0.01044</td>
 </tr>
@@ -4757,7 +4676,7 @@ words for each document. This amount can be specified with the
 <td headers="n" class="gt_row gt_right">35</td>
 <td headers="tf" class="gt_row gt_right">0.01195</td>
 <td headers="idf" class="gt_row gt_right">0.31015</td>
-<td headers="tf_idf" class="gt_row gt_right">0.00370</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00371</td>
 </tr>
 <tr>
 <td headers="doc_id" class="gt_row gt_center">An Encounter</td>
@@ -4835,7 +4754,7 @@ words for each document. This amount can be specified with the
 <td headers="doc_id" class="gt_row gt_center">After the Race</td>
 <td headers="word" class="gt_row gt_left">cars</td>
 <td headers="n" class="gt_row gt_right">6</td>
-<td headers="tf" class="gt_row gt_right">0.00285</td>
+<td headers="tf" class="gt_row gt_right">0.00286</td>
 <td headers="idf" class="gt_row gt_right">2.70805</td>
 <td headers="tf_idf" class="gt_row gt_right">0.00773</td>
 </tr>
@@ -4843,7 +4762,7 @@ words for each document. This amount can be specified with the
 <td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">After the Race</td>
 <td headers="word" class="gt_row gt_left">car</td>
 <td headers="n" class="gt_row gt_right">11</td>
-<td headers="tf" class="gt_row gt_right">0.00523</td>
+<td headers="tf" class="gt_row gt_right">0.00524</td>
 <td headers="idf" class="gt_row gt_right">1.32176</td>
 <td headers="tf_idf" class="gt_row gt_right">0.00692</td>
 </tr>
@@ -4853,7 +4772,7 @@ words for each document. This amount can be specified with the
 <td headers="n" class="gt_row gt_right">3</td>
 <td headers="tf" class="gt_row gt_right">0.00143</td>
 <td headers="idf" class="gt_row gt_right">2.70805</td>
-<td headers="tf_idf" class="gt_row gt_right">0.00386</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00387</td>
 </tr>
 <tr>
 <td headers="doc_id" class="gt_row gt_center">Two Gallants</td>
@@ -4987,7 +4906,7 @@ words for each document. This amount can be specified with the
 <td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">A Painful Case</td>
 <td headers="word" class="gt_row gt_left">engine</td>
 <td headers="n" class="gt_row gt_right">5</td>
-<td headers="tf" class="gt_row gt_right">0.00141</td>
+<td headers="tf" class="gt_row gt_right">0.00142</td>
 <td headers="idf" class="gt_row gt_right">2.70805</td>
 <td headers="tf_idf" class="gt_row gt_right">0.00383</td>
 </tr>
@@ -4995,7 +4914,7 @@ words for each document. This amount can be specified with the
 <td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">A Painful Case</td>
 <td headers="word" class="gt_row gt_left">paragraph</td>
 <td headers="n" class="gt_row gt_right">5</td>
-<td headers="tf" class="gt_row gt_right">0.00141</td>
+<td headers="tf" class="gt_row gt_right">0.00142</td>
 <td headers="idf" class="gt_row gt_right">2.70805</td>
 <td headers="tf_idf" class="gt_row gt_right">0.00383</td>
 </tr>
@@ -5013,7 +4932,7 @@ words for each document. This amount can be specified with the
 <td headers="n" class="gt_row gt_right">7</td>
 <td headers="tf" class="gt_row gt_right">0.00149</td>
 <td headers="idf" class="gt_row gt_right">2.01490</td>
-<td headers="tf_idf" class="gt_row gt_right">0.00300</td>
+<td headers="tf_idf" class="gt_row gt_right">0.00301</td>
 </tr>
 <tr>
 <td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Ivy Day in the Committee Room</td>
@@ -5121,20 +5040,20 @@ modifying filled and colored layers.</li>
 </h3>
 <p>By default, <code><a href="../reference/visualize.html">visualize()</a></code> prepares a figure showing the
 lengths of each document.</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">corpus_joyce</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-32-1.png" width="700"></p>
+<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>inorder <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-30-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="word-counts-1">Word counts<a class="anchor" aria-label="anchor" href="#word-counts-1"></a>
 </h3>
 <p>Adding <code>count = TRUE</code> will show the counts of the
 most-frequent words.</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">corpus_joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>count <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-33-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-31-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="vocabulary-richness-2">Vocabulary richness<a class="anchor" aria-label="anchor" href="#vocabulary-richness-2"></a>
@@ -5143,49 +5062,49 @@ most-frequent words.</p>
 <code><a href="../reference/visualize.html">visualize()</a></code> function charts each document by its length and
 the number of unique tokens. A figure like this is useful to compare
 documents by their rate of vocabulary growth.</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">corpus_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/add_vocabulary.html">add_vocabulary</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-34-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-32-1.png" width="700"></p>
 <p>Other features, such as type-token ratio (“ttr”), hapax-token ratio
 (“htr”), or a sampling of hapax legomena (“hapax”) can also be
 shown.</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">vocab_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="st">"ttr"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-35-1.png" width="700"></p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-33-1.png" width="700"></p>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">corpus_joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/add_vocabulary.html">add_vocabulary</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="st">"hapax"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-36-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-34-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="sentiment-2">Sentiment<a class="anchor" aria-label="anchor" href="#sentiment-2"></a>
 </h3>
 <p>For sentiment analysis, <code><a href="../reference/visualize.html">visualize()</a></code> allows for
 comparison among documents in a set.</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sentiment_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-37-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-35-1.png" width="700"></p>
 <p>The <code>ignore</code> parameter stipulates values to remove from
 the Y-axis to focus a figure.</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sentiment_ulysses</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>ignore <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"anger"</span>, <span class="st">"anticipation"</span>, <span class="st">"disgust"</span>, <span class="st">"fear"</span>, <span class="st">"trust"</span>, <span class="st">"positive"</span>, <span class="st">"negative"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-38-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-36-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="n-grams-2">N-grams<a class="anchor" aria-label="anchor" href="#n-grams-2"></a>
 </h3>
 <p>For n-grams, <code><a href="../reference/visualize.html">visualize()</a></code> typically returns a network
 visualization like that demonstrated in <em>Text Mining with R</em>.</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">bigrams_austen</span> <span class="op">|&gt;</span> </span>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">bigrams_joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-39-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-37-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="combining-n-grams">Combining n-grams<a class="anchor" aria-label="anchor" href="#combining-n-grams"></a>
@@ -5194,11 +5113,12 @@ visualization like that demonstrated in <em>Text Mining with R</em>.</p>
 visualization. Certain arguments allow for deviation from typical
 charts, including choosing the rows to chart and modifying colors to be
 set by values on the Y-axis.</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">bigrams_austen</span> <span class="op">|&gt;</span> </span>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">bigrams_joyce</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">word_1</span> <span class="op">==</span> <span class="st">"he"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/combine_ngrams.html">combine_ngrams</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, color_y <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-40-1.png" width="700"></p>
+<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, color_y <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-38-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="tf-idf-2">Tf-idf<a class="anchor" aria-label="anchor" href="#tf-idf-2"></a>
@@ -5209,48 +5129,80 @@ in a set from each other. Because <code>tfidf_dubliners</code> was
 prepared with <code>load_texts(remove_names = TRUE)</code>, the
 resulting chart shows clearer delineation of topics characteristic of
 the stories in Joyce’s collection:</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tfidf_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-41-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-39-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="changing-colors">Changing colors<a class="anchor" aria-label="anchor" href="#changing-colors"></a>
 </h3>
 <p>The <code><a href="../reference/change_colors.html">change_colors()</a></code> function does what its name implies.
 By default, it adopts the “Dark2” palette from Brewer.</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sentiment_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-42-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-40-1.png" width="700"></p>
 <p>Colors can be chosen manually.</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">bigrams_austen</span> <span class="op">|&gt;</span> </span>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">bigrams_joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span><span class="st">"lightgreen"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-43-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-41-1.png" width="700"></p>
 <p>Optionally, use a named vector to set colors by value instead of by
 order.</p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">bigrams_austen</span> <span class="op">|&gt;</span> </span>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">bigrams_joyce</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">word_1</span> <span class="op">==</span> <span class="st">"he"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/combine_ngrams.html">combine_ngrams</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, color_y <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"i have"</span> <span class="op">=</span> <span class="st">"maroon"</span>, </span>
-<span>                  <span class="st">"i am"</span> <span class="op">=</span> <span class="st">"darkred"</span>, </span>
-<span>                  <span class="st">"to be"</span> <span class="op">=</span> <span class="st">"#555555"</span>,</span>
-<span>                  <span class="st">"of the"</span> <span class="op">=</span> <span class="st">"#333333"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-44-1.png" width="700"></p>
+<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, color_y <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"#555555"</span>,<span class="fl">5</span><span class="op">)</span>,</span>
+<span>                  <span class="st">"he is"</span> <span class="op">=</span> <span class="st">"blue"</span>, </span>
+<span>                  <span class="st">"he has"</span> <span class="op">=</span> <span class="st">"navy"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-42-1.png" width="700"></p>
 <p>Or choose a predetermined color set and palette, as described in
 function documentation.</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tfidf_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span>colorset <span class="op">=</span> <span class="st">"viridis"</span>, palette <span class="op">=</span> <span class="st">"mako"</span>, direction <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-45-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-43-1.png" width="700"></p>
 </div>
 </div>
-
+<div class="section level2 unnumbered">
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0" line-spacing="2">
+<div id="ref-tm" class="csl-entry">
+Feinerer, Ingo, and Kurt Hornik. <em><span class="nocase">tm</span>:
+Text Mining Package</em>. 2024, <a href="https://CRAN.R-project.org/package=tm" class="external-link">https://CRAN.R-project.org/package=tm</a>.
+</div>
+<div id="ref-jockers2020text" class="csl-entry">
+Jockers, Matthew L., and Rosamond Thalken. <em>Text Analysis with
+<span>R</span> for Students of Literature</em>. Springer, 2020.
+</div>
+<div id="ref-micusp" class="csl-entry">
+<em>Michigan Corpus of Upper-Level Student Papers</em>. The Regents of
+the University of Michigan, 2009, <a href="https://elicorpora.info/main" class="external-link">https://elicorpora.info/main</a>.
+</div>
+<div id="ref-gutenberg" class="csl-entry">
+<em>Project Gutenberg</em>. <a href="https://www.gutenberg.org" class="external-link">www.gutenberg.org</a>.
+</div>
+<div id="ref-silge2017text" class="csl-entry">
+Silge, Julia, and David Robinson. <em>Text Mining with <span>R</span>: A
+Tidy Approach</em>. O’Reilly Media, Inc., 2017, <a href="https://www.tidytextmining.com" class="external-link">https://www.tidytextmining.com</a>.
+</div>
+<div id="ref-tidytext" class="csl-entry">
+---. <span>“<span class="nocase">tidytext</span>: Text Mining and
+Analysis Using Tidy Data Principles in <span>R</span>.”</span>
+<em>JOSS</em>, vol. 1, no. 3, 2016, <a href="https://doi.org/10.21105/joss.00037" class="external-link">https://doi.org/10.21105/joss.00037</a>.
+</div>
+<div id="ref-voyant" class="csl-entry">
+Sinclair, Stéfan, and Geoffrey Rockwell. <em>Voyant Tools</em>. 2016, <a href="http://voyant-tools.org/" class="external-link">http://voyant-tools.org/</a>.
+</div>
+</div>
+</div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
 </div>
