@@ -1,5 +1,6 @@
 ---
 title: "Introduction to tmtyro"
+subtitle: "Simplified workflows for text-mining tyros"
 output: rmarkdown::html_vignette
 bibliography: references.bib
 csl: modern-language-association.csl
@@ -137,7 +138,7 @@ Collecting texts from Project Gutenberg will be a common first step for many. Th
 library(tmtyro)
 joyce <- get_gutenberg_corpus(c(2814, 4217, 4300))
 
-head(joyce)
+joyce
 ```
 
 In some cases, headers may make better sense if read as part of the text, as in the "Aeolus" chapter of *Ulysses*, where frequent newspaper headlines pepper the page:
@@ -147,8 +148,7 @@ ulysses <- get_gutenberg_corpus(4300)
 
 # dplyr is used here to choose a smaller example for comparison
 ulysses |> 
-  dplyr::filter(section == "[ 7 ]") |> 
-  head()
+  dplyr::filter(section == "[ 7 ]")
 ```
 
 These can be corrected with `move_header_to_text()`.
@@ -159,8 +159,7 @@ ulysses <- get_gutenberg_corpus(4300) |>
 
 # dplyr is used here to choose a smaller example for comparison
 ulysses |> 
-  dplyr::filter(section == "[ 7 ]") |> 
-  head(10)
+  dplyr::filter(section == "[ 7 ]")
 ```
 
 Headers can be moved for specific texts in a corpus by specifying a filter like `title == "Ulysses"`:
@@ -170,8 +169,7 @@ joyce <- joyce |>
   move_header_to_text(subsection, title == "Ulysses")
 
 joyce |> 
-  dplyr::filter(section == "[ 7 ]") |> 
-  head()
+  dplyr::filter(section == "[ 7 ]")
 ```
 
 ### Load texts
@@ -186,7 +184,7 @@ A table like the one prepared by `get_gutenberg_corpus()` can be prepared in tid
 corpus_ulysses <- ulysses |> 
   load_texts()
 
-head(corpus_ulysses)
+corpus_ulysses
 ```
 
 #### From files
@@ -208,7 +206,7 @@ Documents loaded from `get_gutenberg_corpus()` use the `gutenberg_id` column as 
 corpus_dubliners <- get_gutenberg_corpus(2814) |> 
   load_texts(lemma = TRUE, pos = TRUE)
 
-head(corpus_dubliners)
+corpus_dubliners
 ```
 
 If a different column is preferred, `identify_by()` makes the switch. In this example from *Dubliners*, for instance, each story's title is shown under "part". The `identify_by()` function makes it easy to identify documents by that column:
@@ -217,7 +215,7 @@ If a different column is preferred, `identify_by()` makes the switch. In this ex
 corpus_dubliners <- corpus_dubliners |> 
   identify_by(part)
 
-head(corpus_dubliners)
+corpus_dubliners
 ```
 
 ### Standardize titles
@@ -262,8 +260,7 @@ vocab_dubliners <-
   corpus_dubliners |> 
   add_vocabulary()
 
-vocab_dubliners |> 
-  head(10)
+vocab_dubliners
 ```
 
 ### Sentiment
@@ -275,8 +272,7 @@ vocab_dubliners |>
 sentiment_dubliners <- corpus_dubliners |> 
   add_sentiment()
 
-sentiment_dubliners |> 
-  head()
+sentiment_dubliners
 ```
 
 ```{r}
@@ -289,8 +285,7 @@ if (interactive()) {
   sentiment_dubliners <- readRDS("sentiment_dubliners.Rds")
 }
 
-sentiment_dubliners |> 
-  head()
+sentiment_dubliners
 ```
 
 #### Dropping empty rows
@@ -299,8 +294,7 @@ Since many words may not be found in a given sentiment lexicon, `drop_empty()` m
 
 ```{r}
 sentiment_dubliners |> 
-  drop_empty(sentiment) |> 
-  head()
+  drop_empty(sentiment)
 ```
 
 #### Choosing a sentiment lexicon
@@ -315,8 +309,7 @@ sentiment_ulysses <- ulysses |>
   add_sentiment(lexicon = "nrc")
 
 sentiment_ulysses |> 
-  drop_empty(sentiment) |> 
-  head(10)
+  drop_empty(sentiment)
 ```
 
 ```{r}
@@ -332,8 +325,7 @@ if (interactive()) {
 }
 
 sentiment_ulysses |> 
-  drop_empty(sentiment) |> 
-  head(10)
+  drop_empty(sentiment)
 ```
 
 ### N-grams
@@ -348,8 +340,7 @@ corpus_joyce <- joyce |>
 bigrams_joyce <- corpus_joyce |> 
   add_ngrams()
 
-bigrams_joyce |> 
-  head()
+bigrams_joyce
 ```
 
 Other n-grams can be chosen by passing a vector of numbers.
@@ -358,8 +349,7 @@ Other n-grams can be chosen by passing a vector of numbers.
 trigrams_joyce <- corpus_joyce |> 
   add_ngrams(1:3)
 
-trigrams_joyce |> 
-  head()
+trigrams_joyce
 ```
 
 ### Tf-idf
@@ -370,8 +360,7 @@ Unlike other measurements, term frequency--inverse document frequency doesn't pr
 tfidf_dubliners <- corpus_dubliners |> 
   summarize_tf_idf()
 
-tfidf_dubliners |> 
-  head()
+tfidf_dubliners
 ```
 
 Tf-idf's method understandably emphasizes proper nouns that are unique to each document. The `remove_names` argument in `load_texts()` can help to filter out words that appear only in capitalized form. Removing names from *Dubliners* makes a noticeable difference in tf-idf results:
@@ -383,8 +372,7 @@ tfidf_dubliners <- get_gutenberg_corpus(2814) |>
   standardize_titles() |> 
   summarize_tf_idf()
 
-tfidf_dubliners |> 
-  head()
+tfidf_dubliners
 ```
 
 If `load_texts()` is used with `pos = TRUE`, proper nouns can be filtered, but these tags are sometimes inaccurate.
