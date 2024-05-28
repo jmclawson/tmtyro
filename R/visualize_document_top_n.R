@@ -103,18 +103,21 @@ plot_doc_word_heatmap <- function(
         data = ~ dplyr::filter(.x, !is.na(true_rank)),
         ggplot2::aes(label = true_rank,
             color = as.numeric(as.character(true_rank)) > (max_rank/2)),
-        show.legend = FALSE
-        )
+        show.legend = FALSE) +
+      ggplot2::scale_fill_viridis_c(
+        option = "viridis",
+        na.value = "white")
   } else {
     the_plot <- the_plot +
       ggplot2::geom_tile(ggplot2::aes(fill = true_rank),
-                         color = "gray")
+                         color = "gray") +
+      ggplot2::scale_fill_viridis_d(
+        option = "viridis",
+        na.value = "white",
+        na.translate = FALSE)
   }
 
   the_plot <- the_plot +
-    ggplot2::scale_fill_viridis_c(
-      option = "viridis",
-      na.value = "white") +
     ggplot2::scale_color_manual(values = c("white", "black"))
 
   the_plot <- the_plot +
@@ -122,8 +125,9 @@ plot_doc_word_heatmap <- function(
                      expand = c(0,0)) +
     ggplot2::labs(x = NULL, fill = "rank") +
     ggplot2::theme_minimal() +
-    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 0),
-          panel.grid = ggplot2::element_blank())
+    ggplot2::theme(
+      axis.text.x = ggplot2::element_text(angle = 45, hjust = 0),
+      panel.grid = ggplot2::element_blank())
 
   if (label) {
     the_plot +
