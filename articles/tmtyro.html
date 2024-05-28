@@ -111,44 +111,60 @@ figures.</li>
 keeps workflows easy to build, easy to understand, easy to explain, and
 easy to reproduce.</li>
 </ul>
-<p>Keep reading for an overview of tmtyro’s goals, or <a href="#preparing-texts">jump ahead</a> to get started.</p>
+<p>Keep reading for an overview of tmtyro’s goals, or <a href="#preparing-texts">jump ahead</a> for an introduction to its
+features.</p>
 <div class="section level2">
 <h2 id="differentiating-tmtyro">Differentiating tmtyro<a class="anchor" aria-label="anchor" href="#differentiating-tmtyro"></a>
 </h2>
 <p>Wonderful text mining tools already exist for digital humanities
 classrooms and researchers working with text data, including the online
 tool <a href="https://voyant-tools.org" class="external-link">Voyant</a>, which is both
-powerful and easy to use for beginners; the comparatively recent <a href="https://juliasilge.github.io/tidytext/" class="external-link">tidytext</a> package in R,
-designed to work with the popular <a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a> package suite; and
-the <a href="https://tm.r-forge.r-project.org" class="external-link">tm</a> package in R, a
+powerful and easy to use for beginners; the <a href="https://juliasilge.github.io/tidytext/" class="external-link">tidytext</a> package in R,
+designed to work with the popular <a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a> package suite; the
+<a href="https://quanteda.io/index.html" class="external-link">quanteda</a> package in R, with
+many options offering precision and power; and the <a href="https://tm.r-forge.r-project.org" class="external-link">tm</a> package in R, a
 long-standing tool used by specialists. Their designs situate them for
 different audiences and purposes, but each has its own limitations.</p>
+<p><img src="skill_speedometer_without.png"></p>
 <p>Voyant is one of the best-known tools for working with text data in
-the humanities. Developed by Stéfan Sinclair and Geoffrey Rockwell over
-more than twenty years, it has become a standard—and with good reason.
-Its graphical interface makes it accessible to novices without skimping
-on power or features. Still, Voyant’s easy-to-use interface ultimately
-limits users’ growth, since that interface can keep Voyant from serving
-as a skills ramp to other tools with more options.</p>
-<p>Unlike tools with graphical interfaces, code-based methods for
-working with text offer both reproducibility and open-ended tooling. In
-R, the tidytext package authored by Julia Silge and David Robinson is
-made using a “tidy data” design philosophy that is consistent with many
-popular R packages. A companion book, <a href="https://www.tidytextmining.com" class="external-link"><em>Text Mining with R</em></a>,
-offers impressive documentation to the package, easing the learning
-curve for anyone new to text mining. But its preface acknowledges a
-starting point quite a ways above zero, expecting that “the reader is at
-least slightly familiar with dplyr, ggplot2, and the %&gt;% ‘pipe’
-operator in R.” Without the book, tidytext is even less suited for
-beginners who must get up to speed before they can use it.</p>
-<p>If the tidytext package is a helpful tool to be picked up by a
-seasoned R user familiar with the tidyverse, then the tm package, by
-contrast, is the kind of tool for which specialists will learn R to use.
-Created by Ingo Feinerer and Kurt Hornik, it predates the tidyverse
-package by nearly a decade, and its data design is often incompatible
-with those workflows. Nevertheless, it provides power and specialized
-functionality beyond these other tools, making it worth learning for
-those who need it.</p>
+the humanities. Begun in development by Stéfan Sinclair and Geoffrey
+Rockwell over more than twenty years ago, it has become a standard—and
+with good reason. Its graphical interface makes it accessible to novices
+without compromising ability or features. Still, Voyant’s easy-to-use
+interface ultimately limits users’ growth, since that same interface can
+keep Voyant from serving as a skills ramp to other options.</p>
+<p>Unlike Voyant, code-based methods for working with text offer both
+reproducibility and open-ended tooling. In R, the tm package created by
+Ingo Feinerer and Kurt Hornik is among the oldest and most widely used
+packages for text mining.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Among the three packages discussed here, tm is by far
+the most downloaded from CRAN, with more than 57 thousand downloads last
+month, compared to 44 thousand for tidytext and 37 thousand for
+quanteda.&lt;/p&gt;"><sup>1</sup></a> First published on CRAN in 2007, it
+predates the other packages described here by almost a decade, and its
+data design makes it sometimes hard to work with modern workflows.</p>
+<p>The quanteda package, released by Kenneth Benoit in 2015, is in
+continual development. It provides helpful documentation and many
+methods for working with text data and visualizing outputs, but its
+abundance of options and multiple-step workflows can be overwhelming.
+And like tm, quanteda’s primary data design is not ideally suited for
+popular packages.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Among these, dplyr’s monthly download numbers typically
+rival quanteda’s lifetime downloads. And although an experimental
+package &lt;em&gt;quanteda.tidy&lt;/em&gt; was started to make quanteda work more
+consistently with dplyr and other packages in the tidyverse family, it
+seems no longer in development.&lt;/p&gt;"><sup>2</sup></a> Nevertheless, both tm and quanteda provide
+power and specialized functionality that make them worth steep learning
+curves.</p>
+<p>The newest package of this group is tidytext, created by Julia Silge
+and David Robinson in 2019. Unlike the other two, tidytext is made using
+a “tidy” design philosophy that is consistent with many popular R
+packages.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;This design might account for its higher download rate
+when compared to the more powerful quanteda.&lt;/p&gt;"><sup>3</sup></a> Additionally, a companion book, <a href="https://www.tidytextmining.com" class="external-link"><em>Text Mining with R</em></a>,
+offers impressive documentation, easing the learning curve for anyone
+new to text mining. But this book’s preface acknowledges a starting
+point quite a ways above zero, expecting that “the reader is at least
+slightly familiar with dplyr, ggplot2, and the %&gt;% ‘pipe’ operator in
+R.” These expectations make tidytext tough for complete beginners who
+must get up to speed with other tools before using it.</p>
 <p><img src="skill_speedometer.png"></p>
 <p>In this context, the tmtyro package steps cautiously into the
 remaining space to fill a particular need. Developed while teaching two
@@ -168,8 +184,8 @@ to those laid out in the readings.</p>
 predictability. Workflows are provided for loading texts from a folder
 or for getting a corpus of texts from online collections. Once texts are
 loaded, repetitive conventions for function names make it easy to add
-columns for analysis, and generic functions handle details of tables and
-figures.</p>
+columns for analysis in a single step, and generic functions handle
+details of tables and figures.</p>
 <p>Most importantly, tmtyro provides a skills ramp for users who outgrow
 it. Code workflows are designed to help beginners move quickly at the
 start to try things out. From there, a student who gains confidence in
@@ -5228,6 +5244,12 @@ function documentation.</p>
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
 <div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0" line-spacing="2">
+<div id="ref-quanteda" class="csl-entry">
+Benoit, Kenneth, et al. <span>“<span class="nocase">quanteda</span>: An
+<span>R</span> Package for the Quantitative Analysis of Textual
+Data.”</span> <em>Journal of Open Source Software</em>, vol. 3, no. 30,
+2018, p. 774, <a href="https://doi.org/10.21105/joss.00774" class="external-link">https://doi.org/10.21105/joss.00774</a>.
+</div>
 <div id="ref-tm" class="csl-entry">
 Feinerer, Ingo, and Kurt Hornik. <em><span class="nocase">tm</span>:
 Text Mining Package</em>. 2024, <a href="https://CRAN.R-project.org/package=tm" class="external-link">https://CRAN.R-project.org/package=tm</a>.
@@ -5255,8 +5277,13 @@ Analysis Using Tidy Data Principles in <span>R</span>.”</span>
 <div id="ref-voyant" class="csl-entry">
 Sinclair, Stéfan, and Geoffrey Rockwell. <em>Voyant Tools</em>. 2016, <a href="http://voyant-tools.org/" class="external-link">http://voyant-tools.org/</a>.
 </div>
+<div id="ref-tidyverse" class="csl-entry">
+Wickham, Hadley, et al. <span>“Welcome to the <span class="nocase">tidyverse</span>.”</span> <em>Journal of Open Source
+Software</em>, vol. 4, no. 43, 2019, p. 1686, <a href="https://doi.org/10.21105/joss.01686" class="external-link">https://doi.org/10.21105/joss.01686</a>.
 </div>
 </div>
+</div>
+
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
 </div>
