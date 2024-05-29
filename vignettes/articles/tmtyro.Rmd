@@ -2,10 +2,6 @@
 title: "Introduction to tmtyro"
 subtitle: "Simplified workflows for text-mining tyros"
 output: rmarkdown::html_vignette
-bibliography: references.bib
-csl: modern-language-association.csl
-link-citations: true
-nocite: '@*'
 vignette: >
   %\VignetteIndexEntry{Introduction to tmtyro}
   %\VignetteEngine{knitr::rmarkdown}
@@ -24,79 +20,6 @@ knitr::opts_chunk$set(
 library(tmtyro)
 ```
 
-```{r}
-#| echo: false
-#| eval: false
-library(ggplot2)
-make_radial_plot <- function(data) {
-  the_plot <- 
-    data |> 
-    ggplot(
-    aes(x = position, xend = position,
-        y = start, yend = end,
-        color = type)
-  ) +
-  geom_segment(
-    linewidth = 6.7,
-    alpha = 0.3, show.legend = TRUE) +
-  coord_radial(theta = "y", 
-               start = -0.3 * pi, end = 0.3 * pi,
-               inner.radius = 0.4, expand = FALSE) +
-  scale_y_continuous(
-    breaks = c(0, 50, 100),
-    limits = c(0, 100),
-    labels = c("beginner", "intermediate", "expert")
-  ) +
-  scale_x_continuous(
-    limits = c(1.5,6.5),
-    breaks = c(0, 50, 100),
-    labels = c("beginner", "intermediate", "expert")
-    ) +
-  labs(x = NULL, y = "skill level", color = "interface") +
-  geomtextpath::geom_labelsegment(
-    aes(label = tool), show.legend = FALSE,
-    # hjust = 0,
-    arrow = arrow(length = unit(0.03, "npc"))) +
-  theme_minimal() +
-  theme(panel.grid.major.x = element_blank(),
-        panel.grid.minor.x = element_blank(),
-        panel.grid.minor.y = element_blank(),
-        axis.text.y = element_blank(),
-        axis.ticks.y = element_blank())
-  
-  if ("comparison_set" %in% colnames(data)) {
-    the_plot <- the_plot +
-      facet_wrap(facets = vars(comparison_set))
-  }
-  the_plot <- the_plot |> 
-    change_colors(start = 3, direction = -1)
-}
-
-comparison <- data.frame(
-  tool = c("Voyant", "tmtyro", "tidytext", "quanteda", "tm") |> 
-    forcats::fct_inorder(),
-  position = c(2, 3, 4, 5, 6),
-  start = c(0, 10, 45, 55, 65),
-  end = c(60, 65, 90, 100, 100),
-  type = c("graphical", "code", "code", "code", "code"))
-
-comparison |>
-  dplyr::filter(tool != "tmtyro") |>
-  make_radial_plot() +
-  grid.brackets(100, 100, 2.5, 100, lwd=1, ticks=NA)
-
-grid::grid.locator(unit="native")
-grid.brackets(1.5, 100, 2.5, 100, lwd=1, ticks=NA)
-
-
-ggsave("skill_speedometer_without.png", bg = "white", width = 6, height = 3.5)
-
-comparison |> 
-  make_radial_plot() 
-
-ggsave("skill_speedometer.png", bg = "white", width = 6, height = 3.5)
-```
-
 Working with text as data is a multi-step process. After choosing and collecting documents, you'll need to load them in some structured way before anything else. Only then is it possible to "do" text analysis: tagging parts of speech, normalizing by lemma, comparing features, measuring sentiment, and so on. Even then, you'll need to communicate findings by preparing compelling explanations, tables, and visualizations of your results.
 
 The tmtyro package aims to make these steps fast and easy.
@@ -106,30 +29,6 @@ The tmtyro package aims to make these steps fast and easy.
 * Additional functions standardize approaches for measuring word use and vocabulary uniqueness, detecting sentiment, assessing term frequency--inverse document frequency, working with n-grams, and even building topic models.
 * One simple function prepares publication-ready tables, automatically adjusting based on the kind of data used. Another simple function prepares compelling visualizations, returning clean, publication-ready figures.
 * Every step is offered as a verb using complementary syntax. This keeps workflows easy to build, easy to understand, easy to explain, and easy to reproduce.
-
-Keep reading for an overview of tmtyro's goals, or [jump ahead](#preparing-texts) for an introduction to its features.
-
-## Differentiating tmtyro
-
-Wonderful text mining tools already exist for digital humanities classrooms and researchers working with text data, including the online tool [Voyant](https://voyant-tools.org), which is both powerful and easy to use for beginners; the [tidytext](https://juliasilge.github.io/tidytext/) package in R, designed to work with the popular [tidyverse](https://tidyverse.tidyverse.org) package suite; the [quanteda](https://quanteda.io/index.html) package in R, with many options offering precision and power; and the [tm](https://tm.r-forge.r-project.org) package in R, a long-standing tool used by specialists. Their designs situate them for different audiences and purposes, but each has its own limitations. 
-
-![](skill_speedometer_without.png)
-
-Voyant is one of the best-known tools for working with text data in the humanities. Begun in development by Stéfan Sinclair and Geoffrey Rockwell over more than twenty years ago, it has become a standard---and with good reason. Its graphical interface makes it accessible to novices without compromising ability or features. Still, Voyant's easy-to-use interface ultimately limits users' growth, since that same interface can keep Voyant from serving as a skills ramp to other options.
-
-Unlike Voyant, code-based methods for working with text offer both reproducibility and open-ended tooling. In R, the tm package created by Ingo Feinerer and Kurt Hornik is among the oldest and most widely used packages for text mining.^[Among the three packages discussed here, tm is by far the most downloaded from CRAN, with more than 57 thousand downloads last month, compared to 44 thousand for tidytext and 37 thousand for quanteda.] First published on CRAN in 2007, it predates the other packages described here by almost a decade, and its data design makes it sometimes hard to work with modern workflows. 
-
-The quanteda package, released by Kenneth Benoit in 2015, is in continual development. It provides helpful documentation and many methods for working with text data and visualizing outputs, but its abundance of options and multiple-step workflows can be overwhelming. And like tm, quanteda's primary data design is not ideally suited for popular packages.^[Among these, dplyr's monthly download numbers typically rival quanteda's lifetime downloads. And although an experimental package *quanteda.tidy* was started to make quanteda work more consistently with dplyr and other packages in the tidyverse family, it seems no longer in development.] Nevertheless, both tm and quanteda provide power and specialized functionality that make them worth steep learning curves.
-
-The newest package of this group is tidytext, created by Julia Silge and David Robinson in 2019. Unlike the other two, tidytext is made using a "tidy" design philosophy that is consistent with many popular R packages.^[This design might account for its higher download rate when compared to the more powerful quanteda.] Additionally, a companion book, [*Text Mining with R*](https://www.tidytextmining.com), offers impressive documentation, easing the learning curve for anyone new to text mining. But this book's preface acknowledges a starting point quite a ways above zero, expecting that "the reader is at least slightly familiar with dplyr, ggplot2, and the %>% 'pipe' operator in R." These expectations make tidytext tough for complete beginners who must get up to speed with other tools before using it.
-
-![](skill_speedometer.png)
-
-In this context, the tmtyro package steps cautiously into the remaining space to fill a particular need. Developed while teaching two semesters of an undergraduate course on literary text mining, it grew from a folder of "helper" functions written for students. Our course was taught in the English department, and it was never meant to be a "coding class" so much as one that induced students to think about text in new ways. The syllabus followed through examples from *Text Mining in R* and, ambitiously, *Text Analysis with R for Students of Literature*, by Matthew Jockers and Rosamond Thalken, pairing methods with applications in recent research. Each week, students applied techniques to ask their own questions about their own selections of writing. Having working tools in front of us helped everyone test the boundaries of this new world and map how we might follow similar paths to those laid out in the readings. 
-
-Like Voyant, tmtyro is designed for a beginner, and it strives for predictability. Workflows are provided for loading texts from a folder or for getting a corpus of texts from online collections. Once texts are loaded, repetitive conventions for function names make it easy to add columns for analysis in a single step, and generic functions handle details of tables and figures. 
-
-Most importantly, tmtyro provides a skills ramp for users who outgrow it. Code workflows are designed to help beginners move quickly at the start to try things out. From there, a student who gains confidence in the methods provided by the package might step beyond it to tweak a visualization using functions from ggplot2. A researcher wishing to work with a subset of titles will begin to understand methods from dplyr. And since tmtyro's data design is based on that of tidytext, a user can transition between both packages seamlessly, using them together. Nobody is expected to stick with tmtyro forever, but functions are designed to remain useful long past the "tyro" stage.
 
 ## Preparing texts 
 
@@ -610,5 +509,3 @@ tfidf_dubliners |>
   visualize(rows = 1:4) |> 
   change_colors(colorset = "viridis", palette = "mako", direction = -1)
 ```
-
-## References

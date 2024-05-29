@@ -13,22 +13,26 @@ mining techniques before they’re deeply familiar with R code.
 
 ## Installation
 
-You can install the development version of tmtyro from
-[GitHub](https://github.com/) with:
+You can install the development version of tmtyro from GitHub with:
 
 ``` r
 # install.packages("remotes")
 remotes::install_github("jmclawson/tmtyro")
 ```
 
-## Example
+## Use
 
-One of the first steps of any text mining workflow is to load a corpus
-of texts from a directory. While doing so, it may be desirable to detect
-paragraph breaks and prepare a data frame with one word per row. The
-`load_texts()` function makes this easy.
+When you’re ready, begin with the
+[introduction](https://jmclawson.github.io/tmtyro/articles/tmtyro.html),
+or start using the package right away to load texts from a directory,
+measure sentiment, and visualize the results:
 
 ``` r
 library(tmtyro)
+
 mysteries <- load_texts("mycorpus")
+
+mysteries <- add_sentiment(mysteries)
+
+visualize(mysteries)
 ```
