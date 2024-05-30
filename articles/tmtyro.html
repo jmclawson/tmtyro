@@ -48,6 +48,12 @@
 <li class="nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/differentiating.html">Differentiating tmtyro</a>
+  </div>
+</li>
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
 </li>
@@ -111,92 +117,6 @@ figures.</li>
 keeps workflows easy to build, easy to understand, easy to explain, and
 easy to reproduce.</li>
 </ul>
-<p>Keep reading for an overview of tmtyro’s goals, or <a href="#preparing-texts">jump ahead</a> for an introduction to its
-features.</p>
-<div class="section level2">
-<h2 id="differentiating-tmtyro">Differentiating tmtyro<a class="anchor" aria-label="anchor" href="#differentiating-tmtyro"></a>
-</h2>
-<p>Wonderful text mining tools already exist for digital humanities
-classrooms and researchers working with text data, including the online
-tool <a href="https://voyant-tools.org" class="external-link">Voyant</a>, which is both
-powerful and easy to use for beginners; the <a href="https://juliasilge.github.io/tidytext/" class="external-link">tidytext</a> package in R,
-designed to work with the popular <a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a> package suite; the
-<a href="https://quanteda.io/index.html" class="external-link">quanteda</a> package in R, with
-many options offering precision and power; and the <a href="https://tm.r-forge.r-project.org" class="external-link">tm</a> package in R, a
-long-standing tool used by specialists. Their designs situate them for
-different audiences and purposes, but each has its own limitations.</p>
-<p><img src="skill_speedometer_without.png"></p>
-<p>Voyant is one of the best-known tools for working with text data in
-the humanities. Begun in development by Stéfan Sinclair and Geoffrey
-Rockwell over more than twenty years ago, it has become a standard—and
-with good reason. Its graphical interface makes it accessible to novices
-without compromising ability or features. Still, Voyant’s easy-to-use
-interface ultimately limits users’ growth, since that same interface can
-keep Voyant from serving as a skills ramp to other options.</p>
-<p>Unlike Voyant, code-based methods for working with text offer both
-reproducibility and open-ended tooling. In R, the tm package created by
-Ingo Feinerer and Kurt Hornik is among the oldest and most widely used
-packages for text mining.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Among the three packages discussed here, tm is by far
-the most downloaded from CRAN, with more than 57 thousand downloads last
-month, compared to 44 thousand for tidytext and 37 thousand for
-quanteda.&lt;/p&gt;"><sup>1</sup></a> First published on CRAN in 2007, it
-predates the other packages described here by almost a decade, and its
-data design makes it sometimes hard to work with modern workflows.</p>
-<p>The quanteda package, released by Kenneth Benoit in 2015, is in
-continual development. It provides helpful documentation and many
-methods for working with text data and visualizing outputs, but its
-abundance of options and multiple-step workflows can be overwhelming.
-And like tm, quanteda’s primary data design is not ideally suited for
-popular packages.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Among these, dplyr’s monthly download numbers typically
-rival quanteda’s lifetime downloads. And although an experimental
-package &lt;em&gt;quanteda.tidy&lt;/em&gt; was started to make quanteda work more
-consistently with dplyr and other packages in the tidyverse family, it
-seems no longer in development.&lt;/p&gt;"><sup>2</sup></a> Nevertheless, both tm and quanteda provide
-power and specialized functionality that make them worth steep learning
-curves.</p>
-<p>The newest package of this group is tidytext, created by Julia Silge
-and David Robinson in 2019. Unlike the other two, tidytext is made using
-a “tidy” design philosophy that is consistent with many popular R
-packages.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;This design might account for its higher download rate
-when compared to the more powerful quanteda.&lt;/p&gt;"><sup>3</sup></a> Additionally, a companion book, <a href="https://www.tidytextmining.com" class="external-link"><em>Text Mining with R</em></a>,
-offers impressive documentation, easing the learning curve for anyone
-new to text mining. But this book’s preface acknowledges a starting
-point quite a ways above zero, expecting that “the reader is at least
-slightly familiar with dplyr, ggplot2, and the %&gt;% ‘pipe’ operator in
-R.” These expectations make tidytext tough for complete beginners who
-must get up to speed with other tools before using it.</p>
-<p><img src="skill_speedometer.png"></p>
-<p>In this context, the tmtyro package steps cautiously into the
-remaining space to fill a particular need. Developed while teaching two
-semesters of an undergraduate course on literary text mining, it grew
-from a folder of “helper” functions written for students. Our course was
-taught in the English department, and it was never meant to be a “coding
-class” so much as one that induced students to think about text in new
-ways. The syllabus followed through examples from <em>Text Mining in
-R</em> and, ambitiously, <em>Text Analysis with R for Students of
-Literature</em>, by Matthew Jockers and Rosamond Thalken, pairing
-methods with applications in recent research. Each week, students
-applied techniques to ask their own questions about their own selections
-of writing. Having working tools in front of us helped everyone test the
-boundaries of this new world and map how we might follow similar paths
-to those laid out in the readings.</p>
-<p>Like Voyant, tmtyro is designed for a beginner, and it strives for
-predictability. Workflows are provided for loading texts from a folder
-or for getting a corpus of texts from online collections. Once texts are
-loaded, repetitive conventions for function names make it easy to add
-columns for analysis in a single step, and generic functions handle
-details of tables and figures.</p>
-<p>Most importantly, tmtyro provides a skills ramp for users who outgrow
-it. Code workflows are designed to help beginners move quickly at the
-start to try things out. From there, a student who gains confidence in
-the methods provided by the package might step beyond it to tweak a
-visualization using functions from ggplot2. A researcher wishing to work
-with a subset of titles will begin to understand methods from dplyr. And
-since tmtyro’s data design is based on that of tidytext, a user can
-transition between both packages seamlessly, using them together. Nobody
-is expected to stick with tmtyro forever, but functions are designed to
-remain useful long past the “tyro” stage.</p>
-</div>
 <div class="section level2">
 <h2 id="preparing-texts">Preparing texts<a class="anchor" aria-label="anchor" href="#preparing-texts"></a>
 </h2>
@@ -5113,7 +5033,7 @@ lengths of each document.</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">corpus_joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>inorder <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-30-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-29-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="word-counts-1">Word counts<a class="anchor" aria-label="anchor" href="#word-counts-1"></a>
@@ -5123,7 +5043,7 @@ most-frequent words.</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">corpus_joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>count <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-31-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-30-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="vocabulary-richness-2">Vocabulary richness<a class="anchor" aria-label="anchor" href="#vocabulary-richness-2"></a>
@@ -5136,19 +5056,19 @@ documents by their rate of vocabulary growth.</p>
 <code class="sourceCode R"><span><span class="va">corpus_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/add_vocabulary.html">add_vocabulary</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-32-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-31-1.png" width="700"></p>
 <p>Other features, such as type-token ratio (“ttr”), hapax-token ratio
 (“htr”), or a sampling of hapax legomena (“hapax”) can also be
 shown.</p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">vocab_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="st">"ttr"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-33-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-32-1.png" width="700"></p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">corpus_joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/add_vocabulary.html">add_vocabulary</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="st">"hapax"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-34-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-33-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="sentiment-2">Sentiment<a class="anchor" aria-label="anchor" href="#sentiment-2"></a>
@@ -5158,13 +5078,13 @@ comparison among documents in a set.</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sentiment_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-35-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-34-1.png" width="700"></p>
 <p>The <code>ignore</code> parameter stipulates values to remove from
 the Y-axis to focus a figure.</p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sentiment_ulysses</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>ignore <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"anger"</span>, <span class="st">"anticipation"</span>, <span class="st">"disgust"</span>, <span class="st">"fear"</span>, <span class="st">"trust"</span>, <span class="st">"positive"</span>, <span class="st">"negative"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-36-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-35-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="n-grams-2">N-grams<a class="anchor" aria-label="anchor" href="#n-grams-2"></a>
@@ -5174,7 +5094,7 @@ visualization like that demonstrated in <em>Text Mining with R</em>.</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bigrams_joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-37-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-36-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="combining-n-grams">Combining n-grams<a class="anchor" aria-label="anchor" href="#combining-n-grams"></a>
@@ -5188,7 +5108,7 @@ set by values on the Y-axis.</p>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">word_1</span> <span class="op">==</span> <span class="st">"he"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/combine_ngrams.html">combine_ngrams</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, color_y <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-38-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-37-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="tf-idf-2">Tf-idf<a class="anchor" aria-label="anchor" href="#tf-idf-2"></a>
@@ -5202,7 +5122,7 @@ the stories in Joyce’s collection:</p>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tfidf_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-39-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-38-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="changing-colors">Changing colors<a class="anchor" aria-label="anchor" href="#changing-colors"></a>
@@ -5213,13 +5133,13 @@ By default, it adopts the “Dark2” palette from Brewer.</p>
 <code class="sourceCode R"><span><span class="va">sentiment_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-40-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-39-1.png" width="700"></p>
 <p>Colors can be chosen manually.</p>
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bigrams_joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span><span class="st">"lightgreen"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-41-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-40-1.png" width="700"></p>
 <p>Optionally, use a named vector to set colors by value instead of by
 order.</p>
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
@@ -5230,60 +5150,16 @@ order.</p>
 <span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"#555555"</span>,<span class="fl">5</span><span class="op">)</span>,</span>
 <span>                  <span class="st">"he is"</span> <span class="op">=</span> <span class="st">"blue"</span>, </span>
 <span>                  <span class="st">"he has"</span> <span class="op">=</span> <span class="st">"navy"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-42-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-41-1.png" width="700"></p>
 <p>Or choose a predetermined color set and palette, as described in
 function documentation.</p>
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tfidf_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span>colorset <span class="op">=</span> <span class="st">"viridis"</span>, palette <span class="op">=</span> <span class="st">"mako"</span>, direction <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-43-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-42-1.png" width="700"></p>
 </div>
 </div>
-<div class="section level2 unnumbered">
-<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
-</h2>
-<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0" line-spacing="2">
-<div id="ref-quanteda" class="csl-entry">
-Benoit, Kenneth, et al. <span>“<span class="nocase">quanteda</span>: An
-<span>R</span> Package for the Quantitative Analysis of Textual
-Data.”</span> <em>Journal of Open Source Software</em>, vol. 3, no. 30,
-2018, p. 774, <a href="https://doi.org/10.21105/joss.00774" class="external-link">https://doi.org/10.21105/joss.00774</a>.
-</div>
-<div id="ref-tm" class="csl-entry">
-Feinerer, Ingo, and Kurt Hornik. <em><span class="nocase">tm</span>:
-Text Mining Package</em>. 2024, <a href="https://CRAN.R-project.org/package=tm" class="external-link">https://CRAN.R-project.org/package=tm</a>.
-</div>
-<div id="ref-jockers2020text" class="csl-entry">
-Jockers, Matthew L., and Rosamond Thalken. <em>Text Analysis with
-<span>R</span> for Students of Literature</em>. Springer, 2020.
-</div>
-<div id="ref-micusp" class="csl-entry">
-<em>Michigan Corpus of Upper-Level Student Papers</em>. The Regents of
-the University of Michigan, 2009, <a href="https://elicorpora.info/main" class="external-link">https://elicorpora.info/main</a>.
-</div>
-<div id="ref-gutenberg" class="csl-entry">
-<em>Project Gutenberg</em>. <a href="https://www.gutenberg.org" class="external-link">www.gutenberg.org</a>.
-</div>
-<div id="ref-silge2017text" class="csl-entry">
-Silge, Julia, and David Robinson. <em>Text Mining with <span>R</span>: A
-Tidy Approach</em>. O’Reilly Media, Inc., 2017, <a href="https://www.tidytextmining.com" class="external-link">https://www.tidytextmining.com</a>.
-</div>
-<div id="ref-tidytext" class="csl-entry">
----. <span>“<span class="nocase">tidytext</span>: Text Mining and
-Analysis Using Tidy Data Principles in <span>R</span>.”</span>
-<em>JOSS</em>, vol. 1, no. 3, 2016, <a href="https://doi.org/10.21105/joss.00037" class="external-link">https://doi.org/10.21105/joss.00037</a>.
-</div>
-<div id="ref-voyant" class="csl-entry">
-Sinclair, Stéfan, and Geoffrey Rockwell. <em>Voyant Tools</em>. 2016, <a href="http://voyant-tools.org/" class="external-link">http://voyant-tools.org/</a>.
-</div>
-<div id="ref-tidyverse" class="csl-entry">
-Wickham, Hadley, et al. <span>“Welcome to the <span class="nocase">tidyverse</span>.”</span> <em>Journal of Open Source
-Software</em>, vol. 4, no. 43, 2019, p. 1686, <a href="https://doi.org/10.21105/joss.01686" class="external-link">https://doi.org/10.21105/joss.01686</a>.
-</div>
-</div>
-</div>
-
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
 </div>

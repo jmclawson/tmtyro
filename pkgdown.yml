@@ -2,8 +2,9 @@ pandoc: 3.1.11
 pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
+  differentiating: differentiating.html
   tmtyro: tmtyro.html
-last_built: 2024-05-28T23:15Z
+last_built: 2024-05-30T11:05Z
 urls:
   reference: https://jmclawson.github.io/tmtyro/reference
   article: https://jmclawson.github.io/tmtyro/articles
