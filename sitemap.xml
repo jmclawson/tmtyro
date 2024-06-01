@@ -10,7 +10,10 @@
     <loc>https://jmclawson.github.io/tmtyro/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://jmclawson.github.io/tmtyro/articles/differentiating.html</loc>
+    <loc>https://jmclawson.github.io/tmtyro/articles/01-differentiating.html</loc>
+  </url>
+  <url>
+    <loc>https://jmclawson.github.io/tmtyro/articles/02-changing-colors.html</loc>
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/articles/index.html</loc>
@@ -28,7 +31,13 @@
     <loc>https://jmclawson.github.io/tmtyro/news/index.html</loc>
   </url>
   <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/add_dictionary.html</loc>
+  </url>
+  <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/add_ngrams.html</loc>
+  </url>
+  <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/add_partitions.html</loc>
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/add_sentiment.html</loc>
@@ -46,13 +55,19 @@
     <loc>https://jmclawson.github.io/tmtyro/reference/combine_ngrams.html</loc>
   </url>
   <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/count.html</loc>
+  </url>
+  <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/download_once.html</loc>
   </url>
   <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/drop_empty.html</loc>
+    <loc>https://jmclawson.github.io/tmtyro/reference/drop_na.html</loc>
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/drop_stopwords.html</loc>
+  </url>
+  <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/expand_documents.html</loc>
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/get_corpus.html</loc>
@@ -77,6 +92,9 @@
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/load_topic_model.html</loc>
+  </url>
+  <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/make_dictionary.html</loc>
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/make_topic_model.html</loc>
@@ -127,9 +145,6 @@
     <loc>https://jmclawson.github.io/tmtyro/reference/pos_tags.html</loc>
   </url>
   <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/reexports.html</loc>
-  </url>
-  <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/separate_ngrams.html</loc>
   </url>
   <url>
@@ -143,6 +158,9 @@
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/tabulize.default.html</loc>
+  </url>
+  <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/tabulize.expanded.html</loc>
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/tabulize.html</loc>

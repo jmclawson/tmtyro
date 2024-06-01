@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tmtyro</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,7 +27,8 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/differentiating.html">Differentiating tmtyro</a>
+    <a class="dropdown-item" href="../articles/01-differentiating.html">Differentiating tmtyro</a>
+    <a class="dropdown-item" href="../articles/02-changing-colors.html">Customizing colors</a>
   </div>
 </li>
 <li class="active nav-item">
@@ -53,6 +54,18 @@
       <small>Source: <a href="https://github.com/jmclawson/tmtyro/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.0" id="tmtyro-020">tmtyro 0.2.0<a class="anchor" aria-label="anchor" href="#tmtyro-020"></a></h2>
+<ul><li>
+<code><a href="../reference/add_partitions.html">add_partitions()</a></code> adds a partition column, useful for getting same-sized samples</li>
+<li>
+<code><a href="../reference/identify_by.html">identify_by()</a></code> now works with multiple columns, and it keeps existing metadata columns. This is especially useful with the new <code><a href="../reference/add_partitions.html">add_partitions()</a></code> column, using something like <code>my_corpus() |&gt; add_partitions() |&gt; identify_by(title, partition)</code> before continuing to work with partitioned documents. To return framing to unpartitioned data, used <code>identify_by(title)</code> or whatever other column is most relevant.</li>
+<li>New visualization and tabulization methods for expand_documents()</li>
+<li>Functions now imported: count() and drop_na()</li>
+<li>When the ggraph package is loaded, <code><a href="../reference/plot_bigrams.html">plot_bigrams()</a></code> now uses a color scale on edges, rather than spot color on nodes, with full support for <code>change_color()</code>
+</li>
+<li>Improved documentation with website articles for customizing colors and showing code comparisons</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="tmtyro-010">tmtyro 0.1.0<a class="anchor" aria-label="anchor" href="#tmtyro-010"></a></h2>
 <ul><li>First “public” release! 🎉</li>

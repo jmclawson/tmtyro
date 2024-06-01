@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tmtyro</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,7 +51,8 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/differentiating.html">Differentiating tmtyro</a>
+    <a class="dropdown-item" href="../articles/01-differentiating.html">Differentiating tmtyro</a>
+    <a class="dropdown-item" href="../articles/02-changing-colors.html">Customizing colors</a>
   </div>
 </li>
 <li class="nav-item">
@@ -328,19 +329,19 @@ function makes it easy to identify documents by that column:</p>
 <span>  <span class="fu"><a href="../reference/identify_by.html">identify_by</a></span><span class="op">(</span><span class="va">part</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">corpus_dubliners</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 67,885 × 6</span></span></span>
-<span><span class="co">#&gt;    title     author       doc_id      word  pos   lemma</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Dubliners Joyce, James THE SISTERS there EX    there</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Dubliners Joyce, James THE SISTERS was   VBD   be   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Dubliners Joyce, James THE SISTERS no    DT    no   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Dubliners Joyce, James THE SISTERS hope  NN    hope </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Dubliners Joyce, James THE SISTERS for   IN    for  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Dubliners Joyce, James THE SISTERS him   PRP   him  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Dubliners Joyce, James THE SISTERS this  DT    this </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Dubliners Joyce, James THE SISTERS time  NN    time </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Dubliners Joyce, James THE SISTERS it    PRP   it   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Dubliners Joyce, James THE SISTERS was   VBD   be   </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 67,885 × 7</span></span></span>
+<span><span class="co">#&gt;    doc_id      title     author       part        word  pos   lemma</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> THE SISTERS Dubliners Joyce, James THE SISTERS there EX    there</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> THE SISTERS Dubliners Joyce, James THE SISTERS was   VBD   be   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> THE SISTERS Dubliners Joyce, James THE SISTERS no    DT    no   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> THE SISTERS Dubliners Joyce, James THE SISTERS hope  NN    hope </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> THE SISTERS Dubliners Joyce, James THE SISTERS for   IN    for  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> THE SISTERS Dubliners Joyce, James THE SISTERS him   PRP   him  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> THE SISTERS Dubliners Joyce, James THE SISTERS this  DT    this </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> THE SISTERS Dubliners Joyce, James THE SISTERS time  NN    time </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> THE SISTERS Dubliners Joyce, James THE SISTERS it    PRP   it   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> THE SISTERS Dubliners Joyce, James THE SISTERS was   VBD   be   </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 67,875 more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -402,8 +403,8 @@ frequency-inverse document frequency.</li>
 <p>Along with these, other functions assist with the process:</p>
 <ul>
 <li>
-<code><a href="../reference/drop_empty.html">drop_empty()</a></code> drops rows with missing data in any column
-or in specified columns.</li>
+<code><a href="../reference/drop_na.html">drop_na()</a></code> drops rows with missing data in any column or
+in specified columns.</li>
 <li>
 <code><a href="../reference/combine_ngrams.html">combine_ngrams()</a></code> combines multiple columns for n-grams
 into one.</li>
@@ -423,21 +424,21 @@ hapax legomena, and markers of progress.</p>
 <span>  <span class="fu"><a href="../reference/add_vocabulary.html">add_vocabulary</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">vocab_dubliners</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 67,885 × 13</span></span></span>
-<span><span class="co">#&gt;    title   author doc_id word  pos   lemma new_word hapax vocabulary   ttr   htr</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Dublin… Joyce… The S… there EX    there TRUE     FALSE          1   1   0    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Dublin… Joyce… The S… was   VBD   be    TRUE     FALSE          2   1   0    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Dublin… Joyce… The S… no    DT    no    TRUE     FALSE          3   1   0    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Dublin… Joyce… The S… hope  NN    hope  TRUE     TRUE           4   1   0.25 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Dublin… Joyce… The S… for   IN    for   TRUE     FALSE          5   1   0.2  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Dublin… Joyce… The S… him   PRP   him   TRUE     FALSE          6   1   0.167</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Dublin… Joyce… The S… this  DT    this  TRUE     FALSE          7   1   0.143</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Dublin… Joyce… The S… time  NN    time  TRUE     FALSE          8   1   0.125</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Dublin… Joyce… The S… it    PRP   it    TRUE     FALSE          9   1   0.111</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Dublin… Joyce… The S… was   VBD   be    FALSE    FALSE          9   0.9 0.1  </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 67,885 × 14</span></span></span>
+<span><span class="co">#&gt;    doc_id   title author part  word  pos   lemma new_word hapax vocabulary   ttr</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> The Sis… Dubl… Joyce… THE … there EX    there TRUE     FALSE          1   1  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> The Sis… Dubl… Joyce… THE … was   VBD   be    TRUE     FALSE          2   1  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> The Sis… Dubl… Joyce… THE … no    DT    no    TRUE     FALSE          3   1  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> The Sis… Dubl… Joyce… THE … hope  NN    hope  TRUE     TRUE           4   1  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> The Sis… Dubl… Joyce… THE … for   IN    for   TRUE     FALSE          5   1  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> The Sis… Dubl… Joyce… THE … him   PRP   him   TRUE     FALSE          6   1  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> The Sis… Dubl… Joyce… THE … this  DT    this  TRUE     FALSE          7   1  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> The Sis… Dubl… Joyce… THE … time  NN    time  TRUE     FALSE          8   1  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> The Sis… Dubl… Joyce… THE … it    PRP   it    TRUE     FALSE          9   1  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> The Sis… Dubl… Joyce… THE … was   VBD   be    FALSE    FALSE          9   0.9</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 67,875 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2 more variables: progress_words &lt;int&gt;, progress_percent &lt;dbl&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 more variables: htr &lt;dbl&gt;, progress_words &lt;int&gt;, progress_percent &lt;dbl&gt;</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="sentiment">Sentiment<a class="anchor" aria-label="anchor" href="#sentiment"></a>
@@ -467,10 +468,10 @@ hapax legomena, and markers of progress.</p>
 <h4 id="dropping-empty-rows">Dropping empty rows<a class="anchor" aria-label="anchor" href="#dropping-empty-rows"></a>
 </h4>
 <p>Since many words may not be found in a given sentiment lexicon,
-<code><a href="../reference/drop_empty.html">drop_empty()</a></code> makes it easy to remove empty rows.</p>
+<code><a href="../reference/drop_na.html">drop_na()</a></code> makes it easy to remove empty rows.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sentiment_dubliners</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/drop_empty.html">drop_empty</a></span><span class="op">(</span><span class="va">sentiment</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="../reference/drop_na.html">drop_na</a></span><span class="op">(</span><span class="va">sentiment</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3,868 × 5</span></span></span>
 <span><span class="co">#&gt;    title     author       doc_id      word      sentiment</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
@@ -497,7 +498,7 @@ hapax legomena, and markers of progress.</p>
 <span>  <span class="fu"><a href="../reference/add_sentiment.html">add_sentiment</a></span><span class="op">(</span>lexicon <span class="op">=</span> <span class="st">"nrc"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">sentiment_ulysses</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/drop_empty.html">drop_empty</a></span><span class="op">(</span><span class="va">sentiment</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="../reference/drop_na.html">drop_na</a></span><span class="op">(</span><span class="va">sentiment</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 63,006 × 6</span></span></span>
 <span><span class="co">#&gt;    title   author       part  doc_id word    sentiment   </span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       </span></span>
@@ -529,19 +530,19 @@ for n-length phrases of words. By default, it prepares bigrams (or
 <span>  <span class="fu"><a href="../reference/add_ngrams.html">add_ngrams</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">bigrams_joyce</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 417,846 × 6</span></span></span>
-<span><span class="co">#&gt;    doc_id    author       part        section word_1 word_2</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      there  was   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      was    no    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      no     hope  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      hope   for   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      for    him   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      him    this  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      this   time  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      time   it    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      it     was   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      was    the   </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 417,846 × 7</span></span></span>
+<span><span class="co">#&gt;    doc_id    title     author       part        section word_1 word_2</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Dubliners Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      there  was   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Dubliners Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      was    no    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Dubliners Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      no     hope  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Dubliners Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      hope   for   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Dubliners Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      for    him   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Dubliners Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      him    this  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Dubliners Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      this   time  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Dubliners Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      time   it    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Dubliners Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      it     was   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Dubliners Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      was    the   </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 417,836 more rows</span></span></span></code></pre></div>
 <p>Other n-grams can be chosen by passing a vector of numbers.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
@@ -549,19 +550,19 @@ for n-length phrases of words. By default, it prepares bigrams (or
 <span>  <span class="fu"><a href="../reference/add_ngrams.html">add_ngrams</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">trigrams_joyce</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 417,846 × 7</span></span></span>
-<span><span class="co">#&gt;    doc_id    author       part        section word_1 word_2 word_3</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      there  was    no    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      was    no     hope  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      no     hope   for   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      hope   for    him   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      for    him    this  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      him    this   time  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      this   time   it    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      time   it     was   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      it     was    the   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      was    the    third </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 417,846 × 8</span></span></span>
+<span><span class="co">#&gt;    doc_id    title     author       part        section word_1 word_2 word_3</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Dubliners Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      there  was    no    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Dubliners Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      was    no     hope  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Dubliners Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      no     hope   for   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Dubliners Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      hope   for    him   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Dubliners Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      for    him    this  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Dubliners Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      him    this   time  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Dubliners Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      this   time   it    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Dubliners Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      time   it     was   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Dubliners Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      it     was    the   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Dubliners Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      was    the    third </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 417,836 more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -2662,11 +2663,11 @@ figures for each document.</p>
 </tbody>
 </table>
 </div>
-<p>Setting <code>drop_empty = TRUE</code> removes rows without sentiment
+<p>Setting <code>drop_na = TRUE</code> removes rows without sentiment
 measure.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sentiment_dubliners_part</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span>drop_empty <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span>drop_na <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <div id="txvafbsnay" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#txvafbsnay table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -5090,7 +5091,8 @@ the Y-axis to focus a figure.</p>
 <h3 id="n-grams-2">N-grams<a class="anchor" aria-label="anchor" href="#n-grams-2"></a>
 </h3>
 <p>For n-grams, <code><a href="../reference/visualize.html">visualize()</a></code> typically returns a network
-visualization like that demonstrated in <em>Text Mining with R</em>.</p>
+visualization inspired by the bigram network in <em>Text Mining with
+R</em>.</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bigrams_joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -5136,13 +5138,18 @@ By default, it adopts the “Dark2” palette from Brewer.</p>
 <p><img src="tmtyro_files/figure-html/unnamed-chunk-39-1.png" width="700"></p>
 <p>Colors can be chosen manually.</p>
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggraph.data-imaginist.com" class="external-link">ggraph</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Loading required package: ggplot2</span></span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bigrams_joyce</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span><span class="st">"lightgreen"</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>top_n <span class="op">=</span> <span class="fl">60</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#555555"</span>, <span class="st">"blue"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Scale for <span style="color: #00BB00;">edge_colour</span> is already present.</span></span>
+<span><span class="co">#&gt; Adding another scale for <span style="color: #00BB00;">edge_colour</span>, which will replace the existing scale.</span></span></code></pre></div>
 <p><img src="tmtyro_files/figure-html/unnamed-chunk-40-1.png" width="700"></p>
 <p>Optionally, use a named vector to set colors by value instead of by
 order.</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bigrams_joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">word_1</span> <span class="op">==</span> <span class="st">"he"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/combine_ngrams.html">combine_ngrams</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -5153,7 +5160,7 @@ order.</p>
 <p><img src="tmtyro_files/figure-html/unnamed-chunk-41-1.png" width="700"></p>
 <p>Or choose a predetermined color set and palette, as described in
 function documentation.</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tfidf_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span>colorset <span class="op">=</span> <span class="st">"viridis"</span>, palette <span class="op">=</span> <span class="st">"mako"</span>, direction <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span></span></code></pre></div>
