@@ -97,6 +97,7 @@ Color names like "pink" and "orange" work in R, as do specific hues like "forest
 [^1]: If you're more comfortable thinking in percentages, the `rgb()` function is a good way to go. Feeding this function three arguments will yield a useful code that can be used anywhere a hex code can be used: `rgb(red = 0.60, green = 0.00, blue = 1.00)` returns the color ["#9900FF"]{style="color:#9900FF;"}.
 
 ```{r}
+#| label: hexcolors
 #| echo: false
 #| warning: false
 #| message: false
@@ -159,8 +160,11 @@ color_chart <-
   coord_equal()
 
 library(grid)
-# grid.newpage()
-print(color_chart, vp = viewport(width = unit(0.5, "npc"),height = unit(0.5, "npc"), angle = -45))
+
+grid.newpage()
+pushViewport(viewport(angle = -45))
+grid.draw(ggplotGrob(color_chart))
+
 ```
 
 Use manual colors---as named colors or as hex codes---by combining them in a vector inside `change_colors()`:
