@@ -22,7 +22,10 @@ Difficulty grows from there. Colors and fills are set in different ways for disc
 #| message: false
 #| tbl-cap-location: margin
 #| tbl-cap: Functions used for choosing colors for each type of data. Get comfortable with one of these rows, using either manual palettes, Brewer palettes, or Viridis palettes. For all functions, `_color_` can be replaced with `_fill_` to change which mapping it affects.
-library(tidyverse)
+library(tibble)
+library(ggplot2)
+library(stringr)
+library(gt)
 
 overview <- tribble(
   ~type, ~manual, ~Brewer, ~Viridis,
@@ -35,8 +38,6 @@ overview <- tribble(
   rownames_to_column("type") |> 
   dplyr::filter(binned != "binned") |>
   tibble()
-
-library(gt)
 
 overview |> 
   gt() |> 
