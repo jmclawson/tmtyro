@@ -27,18 +27,23 @@ reference:
   - identify_by
   - standardize_titles
   - unnest_without_caps
+
 - title: Measure Text Features
   desc: Functions for measuring features of texts and being choosy about how you do it.
 - contents:
   - starts_with("add_")
   - starts_with("drop_")
   - starts_with("summarize_")
+  - count
+  - expand_documents
   - combine_ngrams
   - separate_ngrams
+  - make_dictionary
 - subtitle: Model Topics
   desc: Model complex relationships in a corpus.
 - contents:
   - ends_with("_model")
+
 - title: Explore Results
   desc: Generic functions make it easy to share results with an audience (or keep them to yourself)
 - contents:
@@ -48,6 +53,7 @@ reference:
 - contents:
   - collapse_rows
   - change_colors
+
 - title: Data
   desc: Data included
 - contents:

@@ -2,7 +2,7 @@
 % Please edit documentation in R/sentiment.R
 \name{add_sentiment}
 \alias{add_sentiment}
-\title{Measure sentiment}
+\title{Add sentiment markers}
 \usage{
 add_sentiment(
   df,
@@ -31,6 +31,6 @@ dubliners <- get_gutenberg_corpus(2814) |>
 
 dubliners |>
    add_sentiment() |>
-   drop_empty() |>
+   drop_na() |>
    head()
 }

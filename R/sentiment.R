@@ -1,4 +1,4 @@
-#' Measure sentiment
+#' Add sentiment markers
 #'
 #' [add_sentiment()] provides simple lexicon-based measures of sentiment, comparing words in a text to one of a number of controlled dictionaries.
 #'
@@ -17,7 +17,7 @@
 #'
 #' dubliners |>
 #'    add_sentiment() |>
-#'    drop_empty() |>
+#'    drop_na() |>
 #'    head()
 add_sentiment <- function(
     df,
@@ -26,15 +26,18 @@ add_sentiment <- function(
     feature = word) {
   lex <- match.arg(lexicon)
   rlang::check_installed("textdata", reason = "for downloading sentiment lexicons")
-  lex_df <- switch(lex,
-    "afinn"    = textdata::lexicon_afinn(),#value = numeric
-    "nrc"      = textdata::lexicon_nrc(),#senti = chr
-    "nrc_eil"  = textdata::lexicon_nrc_eil(),#score = num, AfDi=chr
-    "nrc_vad"  = textdata::lexicon_nrc_vad(),# v/a/d = num/num/num
-    "loughran" = textdata::lexicon_loughran(),#senti = chr
-    "bing"     = textdata::lexicon_bing(),#senti = chr
-    stop("Unexpected lexicon", call. = FALSE)
-  )
+  if (lex %in% c("bing", "afinn", "loughran",
+                 "nrc")) {
+    lex_df <- tidytext::get_sentiments(lex)
+  } else {
+    lex_df <- switch(
+      lex,
+      "nrc_eil"  = textdata::lexicon_nrc_eil(),#score = num, AfDi=chr
+      "nrc_vad"  = textdata::lexicon_nrc_vad(),# v/a/d = num/num/num
+      stop("Unexpected lexicon", call. = FALSE)
+    )
+  }
+
 
   colnames(lex_df) <- colnames(lex_df) |>
     tolower() |>

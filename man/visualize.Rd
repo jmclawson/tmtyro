@@ -25,7 +25,7 @@ visualize(.data, ...)
     \item{\code{na_rm}}{Whether to drop empty features}
     \item{\code{random_seed}}{Whether to randomize the creation of the network chart.}
     \item{\code{set_seed}}{A specific seed to use if not random}
-    \item{\code{edge_color}}{The color of the edges. When the \code{ggraph} package is not loaded, the default \code{edge_color=NULL} setting presents edges as gray. When that package is is loaded, a \code{NULL} edge color colors edges black. Whatever the color defined by this parameter, loading \code{ggraph} enables transparency to show strength of each bigram connection.}
+    \item{\code{legend}}{Whether to show a legend for the edge color}
     \item{\code{top_n}}{The number of pairs to visualize}
     \item{\code{identity}}{A grouping column for lines}
     \item{\code{descriptive_labels}}{A toggle for disabling descriptive labels of progress_percent on the X-axis}

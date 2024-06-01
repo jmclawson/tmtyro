@@ -4,21 +4,19 @@
 \alias{identify_by}
 \title{Choose a new doc_id column}
 \usage{
-identify_by(data, column, old = NULL, drop = TRUE, inorder = TRUE)
+identify_by(data, ..., inorder = TRUE, sep = "_")
 }
 \arguments{
 \item{data}{A data frame, potentially with a \code{doc_id} column}
 
-\item{column}{The column that will become the new identifier}
-
-\item{old}{The name to give to the prior \code{doc_id} column, if retained}
-
-\item{drop}{Whether to drop the prior \code{doc_id} column or retain it}
+\item{...}{The column or columns that will become the new identifier}
 
 \item{inorder}{Whether to establish \code{doc_id} order as shown in the document}
+
+\item{sep}{Separator between values when identifying by multiple columns}
 }
 \value{
-A data frame with a new doc_id column
+A data frame with a redefined doc_id column
 }
 \description{
 Choose a new doc_id column
@@ -27,6 +25,6 @@ Choose a new doc_id column
 if (FALSE) {
   corpus |>
     load_texts() |>
-    identify_by(author, drop = FALSE)
+    identify_by(author)
 }
 }

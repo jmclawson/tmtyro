@@ -9,8 +9,8 @@ plot_bigrams(
   feature = word,
   random_seed = TRUE,
   set_seed = NULL,
-  edge_color = NULL,
-  top_n = 25
+  legend = FALSE,
+  top_n = 35
 )
 }
 \arguments{
@@ -22,7 +22,7 @@ plot_bigrams(
 
 \item{set_seed}{A specific seed to use if not random}
 
-\item{edge_color}{The color of the edges. When the \code{ggraph} package is not loaded, the default \code{edge_color=NULL} setting presents edges as gray. When that package is is loaded, a \code{NULL} edge color colors edges black. Whatever the color defined by this parameter, loading \code{ggraph} enables transparency to show strength of each bigram connection.}
+\item{legend}{Whether to show a legend for the edge color}
 
 \item{top_n}{The number of pairs to visualize}
 }
@@ -79,7 +79,7 @@ dubliners |>
 dubliners |>
   dplyr::filter(doc_id == "The Dead") |>
   plot_bigrams(top_n = 70) |>
-  change_colors("lightblue")
+  change_colors(c("black", "orange"))
 }
 \seealso{
 Other visualizing helpers: 

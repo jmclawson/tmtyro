@@ -1,0 +1,295 @@
+---
+title: "Customizing colors"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Not everyone has experience coding, but everyone has a favorite color. To help beginners feel a sense of ownership for the work they do, tmtyro prioritizes simple customization using a single function: `change_colors()`. It takes the place of twelve different scaling functions from ggplot2 while providing a standard interface for any visualization created by tmtyro.
+
+## Colors are tricky
+
+ggplot2 can set color in many different ways, but only one way will work for any given scenario. Clearest is the distinction between *color* and *fill*. The first applies color to points, lines, and edges. It's adjusted with functions that have *color* in their names, like `scale_color_manual()`. The *fill* aesthetic, on the other hand, defines areas, inside shapes, and in bars. It's adjusted with functions that have *fill* in their names, like `scale_fill_manual()`. In every case, the **`_fill_`** or **`_color_`** part of a function will indicate its target.
+
+Difficulty grows from there. Colors and fills are set in different ways for discrete data, continuous data, and binned data. Worse, color palettes are chosen using three incompatible methods depending on color set, with one method for custom manual palettes, another method for Brewer palettes, and a third for Viridis palettes. Many other options are available through additional packages, but this combination of two aesthetics, three types of data, and three types of palettes are built in to ggplot2.
+
+```{r}
+#| echo: false
+#| message: false
+#| tbl-cap-location: margin
+#| tbl-cap: Functions used for choosing colors for each type of data. Get comfortable with one of these rows, using either manual palettes, Brewer palettes, or Viridis palettes. For all functions, `_color_` can be replaced with `_fill_` to change which mapping it affects.
+library(tidyverse)
+
+overview <- tribble(
+  ~type, ~manual, ~Brewer, ~Viridis,
+  "discrete", "`scale_color_manual()`", "`scale_color_brewer()`", "`scale_color_viridis_d()`",
+  "sequential", "`scale_color_gradient()`", "`scale_color_distiller()`", "`scale_color_viridis_c()`",
+  "binned", "`scale_color_steps()`", "`scale_color_fermenter()`", "`scale_color_viridis_b()`") |> 
+  t() |> 
+  data.frame() |> 
+  setNames(c("discrete", "sequential", "binned")) |> 
+  rownames_to_column("type") |> 
+  dplyr::filter(binned != "binned") |>
+  tibble()
+
+library(gt)
+
+overview |> 
+  gt() |> 
+  cols_label(
+    type = "",
+    discrete = "discrete data",
+    sequential = "continuous")|> 
+  gt::tab_spanner("numeric data",
+                  columns = c("sequential", "binned")) |> 
+  tab_footnote(
+    footnote = md("For manual palettes, define a vector of colors using the `values` argument. Set gradient colors in the `high` and `low` (and optionally `mid`) arguments. Colors can be chosen from a list of named colors or defined with a hex code"),
+    locations = cells_body(column = type, 
+                           row = type == "manual")) |> 
+  tab_footnote(
+    footnote = md("For Brewer palettes, choose a numbered or named set with the `palette` argument."),
+    locations = cells_body(column = type, 
+                           row = type == "Brewer")) |> 
+  tab_footnote(
+    footnote = md("For Viridis palettes, choose a lettered or named set with the `option` argument."),
+    locations = cells_body(column = type, 
+                           row = type == "Viridis")) |> 
+  fmt_markdown(columns = everything()) |> 
+  gt::tab_header(
+    title = "Nine functions for adjusting color depending on data type and palette choice")
+```
+
+This table shows half of the 18 commonest functions for changing colors, but ggplot2 offers 44 without counting spelling variants. And each row of functions uses different parameters for choosing colors. The path to color customization is steep.
+
+## `change_colors()` is easy
+
+All visualization functions from tmtyro can be changed from one standard method: `change_colors()`. This function considers a figure, figures out whether it makes more sense to change *color* or *fill*, and applies a standard interface for manual palettes, Brewer palettes, and Viridis palettes.
+
+`change_colors()` manages differentiation among data types.
+
+* `scale_color_manual()` works only for discrete data, and `scale_color_gradient()` is only good with continuous values.
+* `scale_color_brewer()` will only work for discrete data types, while `scale_color_distiller()` works only for continuous data
+* `scale_color_viridis_d()` will only work for discrete data types, while `scale_color_viridis_c()` will only work for continous data.
+* **`change_colors()` accommodates discrete and continuous data**
+
+`change_colors()` also introduces one standard interface of arguments.
+
+* `scale_color_manual()` sets colors using named or hexadecimal colors in the `values` argument
+* `scale_color_brewer()` sets colors using numbers with the `palette` argument
+* `scale_color_viridis_d()` sets colors using letters with the `option` argument
+* **`change_colors()` uses the `palettes` argument for everything**
+
+When code is easy, the only difficult part is choice.
+
+## Options are many
+
+### manual colors
+
+Most simply, `change_colors()` will set the colors you choose. Setting four colors for four items will assign them directly; any other number will make a gradient.
+
+Color names like "pink" and "orange" work in R, as do specific hues like "forestgreen" and "steelblue."^[The full list of named colors can be viewed in the ["Colors in R" cheat sheet](http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf).] In addition to named colors, R will accept colors as "hex codes" using hexadecimal notation.^[Unlike decimal notation, which uses 10 digits, hexadecimal notation uses 16. The first ten digits run 0 through 9, and the remaining six digits go from A to F, with A representing 10, B representing 11, and so on.] The first two digits of a hex code describe how *red* a color is; the middle two describe how *green* it is; and the last two describe how *blue*. Combinations in the following chart give a sense of how they work, but an [online color picker](https://www.w3schools.com/colors/colors_picker.asp) may help to narrow things down.[^1]
+
+[^1]: If you're more comfortable thinking in percentages, the `rgb()` function is a good way to go. Feeding this function three arguments will yield a useful code that can be used anywhere a hex code can be used: `rgb(red = 0.60, green = 0.00, blue = 1.00)` returns the color ["#9900FF"]{style="color:#9900FF;"}.
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+hex_red <- tribble(
+  ~hex,         ~x,    ~y,
+  "#000000",    -2,    -2,
+  "#008800",    -1,    -2,
+  "#00FF00",     0,    -2,
+  "#000088",    -2,    -1,
+  "#0088FF",    -3,    -1,
+  "#0000FF",    -2,     0,
+  "#008888",    -2,    -3,
+  "#8888FF",    -3,    -2,
+  "#00FF88",    -1,    -3,
+  "#00FFFF",    -2,    -4,
+  "#888888",    -3,    -3,
+  "#880000",    -1,    -1,
+  "#888800",     0,    -1,
+  "#88FF00",     1,    -1,
+  "#880088",    -1,     0,
+  "#8800FF",    -1,     1,
+  "#FF0000",     0,     0,
+  "#FF8800",     1,     0,
+  "#FFFF00",     2,     0,
+  "#FF0088",     0,     1,
+  "#FF00FF",     0,     2,
+  "#FF88FF",     1,     2,
+  "#FFFF88",     2,     1,
+  "#FFFFFF",     2,     2,
+  "#FF8888",     1,     1
+) 
+
+color_chart <- 
+  hex_red |> 
+  dplyr::mutate(
+    text_color = dplyr::case_when(
+      y == -3 & x == -1 ~ "black",
+      y == -4 ~ "black",
+      x == 0 & y == -2 ~ "black",
+      x <= 0 & y <= 0 ~ "white",
+      x == -1 & y == 1 ~ "white",
+      TRUE ~ "black"
+    )) |> 
+  ggplot(aes(
+    x, 
+    y, 
+    fill = hex, 
+    label = hex)) +
+  geom_tile() +
+  geom_text(
+    aes(color = text_color),
+    size = 3,
+    angle = 45
+  ) +
+  theme_void() +
+  theme(plot.margin = unit(c(-2, -2, -2, -2), "cm")) +
+  scale_fill_identity() +
+  scale_color_identity() +
+  coord_equal()
+
+library(grid)
+# grid.newpage()
+print(color_chart, vp = viewport(width = unit(0.5, "npc"),height = unit(0.5, "npc"), angle = -45))
+```
+
+Use manual colors---as named colors or as hex codes---by combining them in a vector inside `change_colors()`:
+
+```{r}
+#| include: false
+library(tmtyro)
+dubliners <- get_gutenberg_corpus(2814) |>
+  load_texts() |>
+  identify_by(part) |>
+  standardize_titles()
+
+dubliners_count <- dubliners |> 
+  count(doc_id, word) |> 
+  visualize(rows = 1:3)
+
+joyce <- get_gutenberg_corpus(c(2814, 4217, 4300)) |>
+  load_texts() |>
+  identify_by(title) 
+
+joyce_count <- joyce |> 
+  count(doc_id, word) |> 
+  visualize(rows = 1:5, color_y = TRUE)
+
+dubliners_dfm <- dubliners |> 
+  expand_documents() |> 
+  visualize(digits = 1)
+```
+
+
+```{r}
+dubliners_count |> 
+  change_colors(c("#00BBBB", "tan", "purple"))
+```
+
+Custom colors also work well when naming particular values:
+
+```{r fig.height=3}
+joyce_count |> 
+  change_colors(c(
+    to = "#88FF00", 
+    the = "#00FF00",
+    of = "#00FF88", 
+    and = "#00DDBB",
+    a = "#00EEEE",
+    he = "red"))
+```
+
+
+### Brewer palettes
+
+If you'd rather not pick colors manually, [Brewer palettes](https://colorbrewer2.org) are an excellent choice. The Brewer qualitative palettes are well suited for discrete data, using color to distinguish categories like documents or words.
+
+```{r}
+#| echo: false
+#| fig-height: 2
+par(mar=c(1.1,3.1,0,1.1))
+RColorBrewer::display.brewer.all(type = c("qual"))
+par(mar=c(5.1,4.1,4.1,2.1))
+```
+
+Brewer's sequential palettes are ideal for showing differences in magnitude: 
+
+```{r}
+#| echo: false
+#| fig-height: 4.5
+par(mar=c(1.1,3.1,0,1.1))
+RColorBrewer::display.brewer.all(type = c("seq"))
+par(mar=c(5.1,4.1,4.1,2.1))
+```
+
+Choose a Brewer palette by using its name or number in the `palette` argument:
+
+```{r fig.height=3}
+joyce_count |> 
+  change_colors("Brewer", palette = "Dark2")
+```
+
+### Viridis palettes
+
+Viridis palettes offer another set of choices for colors in your visualizations. These palettes not only look beautiful on the screen, but they typically work well for monochrome print and are designed to accommodate most color vision needs. 
+
+These palettes work especially well for continuous data. Option "H" or "turbo" could work for discrete scales, but it also has a few caveats: among them, it's poorly suited for black and white printing since it doesn't follow a linear path between dark and light.
+
+```{r}
+#| echo: false
+viridis_palette_df <- function(pal_num, number = 9) {
+  theme_letters <- LETTERS[1:8]
+  theme_names <- c("magma", "inferno", "plasma", 
+                   "viridis", "cividis", "rocket", 
+                   "mako", "turbo")
+  theme_letter <- theme_letters[pal_num]
+  theme_name <- theme_names[pal_num]
+  root <- ceiling(sqrt(number))
+  
+  viridis::viridis_pal(option = theme_letter)(number) |>
+    data.frame() |>
+    setNames("hex") |>
+    dplyr::mutate(
+      x = rep(1:root, times = root)[1:number],
+      y = rep(1:root, each = root)[1:number],
+      letter = theme_letter,
+      name = theme_name,
+      label = paste0(
+        "“", theme_letter,
+        "” or ",
+        "“", theme_name,
+        "”"
+      )
+    )
+}
+
+1:8 |>
+  purrr::map(viridis_palette_df) |>
+  dplyr::bind_rows() |>
+  ggplot(aes(x, y, fill = hex)) +
+  geom_tile() +
+  scale_fill_identity() +
+  theme_void() +
+  facet_wrap(~label) +
+  coord_equal() +
+  theme(
+    strip.text.x = element_text(margin = margin(b = 1.1)))
+
+```
+
+Choose a Viridis palette by using its name or letter in the `palette` argument:
+
+```{r}
+dubliners_dfm |> 
+  change_colors("Viridis", palette = "mako")
+```
+

@@ -87,14 +87,14 @@
 change_colors <- function(
     x,
     colorset = "brewer",
-    palette = 2,
+    palette = "Dark2",
     kind = "qualitative",
     direction = 1,
     start = 1) {
 
   mapped <- names(x$mapping)[names(x$mapping) %in% c("color", "colour", "fill")]
   if ("ggraph" %in% class(x)) {
-    mapped <- "color"
+    mapped <- "edge_color"
   }
 
   secondary <- if(!is.null(x$plot_env$sec_y)) {x$plot_env$sec_y} else {NULL}
@@ -129,8 +129,10 @@ change_colors <- function(
     is_sequential <-
       tryCatch(is.numeric(as.numeric(as.character(x$data[[color_map]]))), warning = function(e) return(FALSE))
   } else {
-    color_map_length <- 1
-    is_sequential <- FALSE
+    color_map_length <- x$plot_env$df_export$n |>
+      unique() |>
+      length()
+    is_sequential <- TRUE
   }
 
   if (is_sequential) {
@@ -212,18 +214,52 @@ change_colors <- function(
   } else if (kind != "seq"){
     x +
       ggplot2::scale_fill_manual(aesthetics = mapped, values = the_colors)
-  } else if (length(colorset)==1 && colorset == "brewer") {
+  } else if (length(colorset)==1 && tolower(colorset) == "brewer") {
+    if ("ggraph" %in% class(x)) {
+      x +
+        ggplot2::scale_fill_distiller(
+          palette = palette,
+          direction = ifelse(direction == 1, 1, -1),
+          aesthetics = mapped,
+          na.value = "white",
+          trans = "log",
+          labels = scales::label_comma(),
+          guide = ggraph::guide_edge_colorbar())
+    } else {
+      x +
+        ggplot2::scale_fill_distiller(
+          palette = palette,
+          direction = ifelse(direction == 1, -1, 1),
+          aesthetics = mapped,
+          na.value = "white")
+    }
+  } else if (length(colorset)==1 && tolower(colorset) == "viridis") {
+    if ("ggraph" %in% class(x)) {
+      x +
+        ggplot2::scale_fill_viridis_c(
+          option = palette,
+          direction = ifelse(direction == 1, -1, 1),
+          aesthetics = mapped,
+          na.value = "white",
+          trans = "log",
+          labels = scales::label_comma(),
+          guide = ggraph::guide_edge_colorbar())
+    } else {
+      x +
+        ggplot2::scale_fill_viridis_c(
+          option = palette,
+          direction = ifelse(direction == 1, 1, -1),
+          aesthetics = mapped,
+          na.value = "white")
+    }
+  } else if ("ggraph" %in% class(x)) {
     x +
-      ggplot2::scale_fill_distiller(palette = palette,
-                                    direction = ifelse(direction == 1, -1, 1),
-                                    aesthetics = mapped,
-                                    na.value = "white")
-  } else if (length(colorset)==1 && colorset == "viridis") {
-    x +
-      ggplot2::scale_fill_viridis_c(option = palette,
-                                    direction = ifelse(direction == 1, 1, -1),
-                                    aesthetics = mapped,
-                                    na.value = "white")
+      ggplot2::scale_fill_gradientn(
+        colours = the_colors,
+        aesthetics = mapped,
+        na.value = "white",
+        labels = scales::label_comma(),
+        guide = ggraph::guide_edge_colorbar())
   } else if (length(colorset) > 1) {
     x +
       ggplot2::scale_fill_gradientn(colours = the_colors,

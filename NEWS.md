@@ -1,3 +1,12 @@
+# tmtyro 0.2.0
+
+* `add_partitions()` adds a partition column, useful for getting same-sized samples
+* `identify_by()` now works with multiple columns, and it keeps existing metadata columns. This is especially useful with the new `add_partitions()` column, using something like `my_corpus() |> add_partitions() |> identify_by(title, partition)` before continuing to work with partitioned documents. To return framing to unpartitioned data, used `identify_by(title)` or whatever other column is most relevant.
+* New visualization and tabulization methods for expand_documents()
+* Functions now imported: count() and drop_na()
+* When the ggraph package is loaded, `plot_bigrams()` now uses a color scale on edges, rather than spot color on nodes, with full support for `change_color()`
+* Improved documentation with website articles for customizing colors and showing code comparisons
+
 # tmtyro 0.1.0
 
 * First "public" release! 🎉

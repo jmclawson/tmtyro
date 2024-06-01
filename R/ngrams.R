@@ -192,7 +192,7 @@ separate_ngrams <- function(df, names_prefix = "word") {
 #' @param feature The feature to use when constructing ngrams
 #' @param random_seed Whether to randomize the creation of the network chart.
 #' @param set_seed A specific seed to use if not random
-#' @param edge_color The color of the edges. When the `ggraph` package is not loaded, the default `edge_color=NULL` setting presents edges as gray. When that package is is loaded, a `NULL` edge color colors edges black. Whatever the color defined by this parameter, loading `ggraph` enables transparency to show strength of each bigram connection.
+#' @param legend Whether to show a legend for the edge color
 #' @param top_n The number of pairs to visualize
 #'
 #' @returns A ggplot2 object
@@ -248,21 +248,19 @@ separate_ngrams <- function(df, names_prefix = "word") {
 #' dubliners |>
 #'   dplyr::filter(doc_id == "The Dead") |>
 #'   plot_bigrams(top_n = 70) |>
-#'   change_colors("lightblue")
+#'   change_colors(c("black", "orange"))
 plot_bigrams <- function(
     df,
     feature = word,
     random_seed = TRUE,
     set_seed = NULL,
-    edge_color = NULL,
-    top_n = 25) {
+    legend = FALSE,
+    top_n = 35) {
 
-  if (is.null(edge_color)) {
-    if ("ggraph" %in% (.packages())) {
-      edge_color <- "black"
-    } else {
-      edge_color <- "gray"
-    }
+  if ("ggraph" %in% (.packages())) {
+    dynamic <- TRUE
+  } else {
+    dynamic <- FALSE
   }
 
   if (!random_seed & is.null(set_seed)) {
@@ -286,28 +284,48 @@ plot_bigrams <- function(
       sort = TRUE) |>
     dplyr::slice_head(n = top_n)
 
-  df_export_2 <-
-    df_export |>
-    igraph::graph_from_data_frame()
+  the_plot <- df_export |>
+    igraph::graph_from_data_frame() |>
+    ggraph::ggraph(layout = "fr")
 
-  df_export_2 |>
-    ggraph::ggraph(layout = "fr") +
-    ggraph::geom_edge_link(
-      ggplot2::aes(alpha = n),
-      color = edge_color,
-      show.legend = FALSE,
-      lineend = "round",
-      linejoin = "mitre",
-      arrow = ggplot2::arrow(
-        length = ggplot2::unit(.10, "inches")),
-      end_cap = ggraph::circle(.07, "inches")) +
-    ggraph::geom_node_point(
-      ggplot2::aes(color = "color"),
-      alpha = .8,
-      show.legend = FALSE,
-      size = 5) +
+  if (dynamic) {
+    the_plot <- the_plot +
+      ggraph::geom_edge_link(
+        ggplot2::aes(
+          start_cap = ggraph::label_rect(node1.name),
+          end_cap = ggraph::label_rect(node2.name),
+          color = n),
+        alpha = 0.8,
+        show.legend = legend,
+        lineend = "round",
+        linejoin = "mitre",
+        arrow = ggplot2::arrow(
+          length = ggplot2::unit(1.5, 'mm'),
+          type = "closed")) +
+      ggraph::scale_edge_color_continuous(
+        na.value = "white",
+        trans = "log",
+        labels = scales::label_comma(),
+        guide = ggraph::guide_edge_colorbar())
+  } else {
+    the_plot <- the_plot +
+      ggraph::geom_edge_link(
+        ggplot2::aes(
+          start_cap = ggraph::label_rect(node1.name),
+          end_cap = ggraph::label_rect(node2.name)),
+        color = "#444444",
+        alpha = 0.6,
+        show.legend = legend,
+        lineend = "round",
+        linejoin = "mitre",
+        arrow = ggplot2::arrow(
+          length = ggplot2::unit(1.5, 'mm'),
+          type = "closed"))
+  }
+  the_plot +
     ggraph::geom_node_text(
       ggplot2::aes(label = name),
       vjust = 0.5, hjust = 0.5) +
-    ggplot2::theme_void()
+    ggplot2::theme_void() +
+    ggplot2::labs(edge_color = "connections")
 }

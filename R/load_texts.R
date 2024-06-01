@@ -339,41 +339,50 @@ corpus_missing <- function(corpus, cache = FALSE) {
 #' Choose a new doc_id column
 #'
 #' @param data A data frame, potentially with a `doc_id` column
-#' @param column The column that will become the new identifier
-#' @param old The name to give to the prior `doc_id` column, if retained
-#' @param drop Whether to drop the prior `doc_id` column or retain it
+#' @param ... The column or columns that will become the new identifier
 #' @param inorder Whether to establish `doc_id` order as shown in the document
+#' @param sep Separator between values when identifying by multiple columns
 #'
-#' @returns A data frame with a new doc_id column
+#' @returns A data frame with a redefined doc_id column
 #' @export
 #'
 #' @examples
 #' if (FALSE) {
 #'   corpus |>
 #'     load_texts() |>
-#'     identify_by(author, drop = FALSE)
+#'     identify_by(author)
 #' }
-identify_by <- function(data, column, old = NULL, drop = TRUE, inorder = TRUE) {
+identify_by <- function(
+    data,
+    ...,
+    inorder = TRUE,
+    sep = "_") {
   cols <- colnames(data)
-  relevant <- deparse(substitute(column))
-  if (relevant != "doc_id") {
+  relevant <- lapply(substitute(list(...))[-1], deparse) |>
+    unlist()
+  if (!"doc_id" %in% relevant) {
     cols <- cols[cols != "doc_id"]
   }
-  if (drop) {
-    data <- data |>
-      dplyr::select(tidyr::all_of(cols))
-  } else if (!is.null(old)) {
-    data |>
-      dplyr::rename({{ old }} := doc_id)
-  } else {
-    new_col <- 1
-    while (paste0("other_", new_col) %in% cols) {
-      new_col <- new_col + 1
-    }
-    colnames(data)[colnames(data) == "doc_id"] <- paste0("other_", new_col)
-  }
+  # if (drop) {
+  #   data <- data |>
+  #     dplyr::select(tidyr::all_of(cols))
+  # } else if (!is.null(old)) {
+  #   data <- data |>
+  #     dplyr::mutate({{ old }} := doc_id)
+  # } else {
+  #   new_col <- 1
+  #   while (paste0("other_", new_col) %in% cols) {
+  #     new_col <- new_col + 1
+  #   }
+  #   new_colname <- paste0("other_", new_col)
+  #   data <- data |>
+  #     dplyr::mutate({{ new_colname }} := doc_id)
+  # }
   data <- data |>
-    dplyr::rename(doc_id = {{ column }})
+    tidyr::unite(doc_id, ...,
+                 sep = sep,
+                 remove = FALSE) |>
+    dplyr::relocate(doc_id)
   if (inorder) {
     data <- data |>
       dplyr::mutate(doc_id = forcats::fct_inorder(doc_id))

@@ -139,10 +139,6 @@ plot_doc_word_heatmap <- function(
   }
 }
 
-#' @importFrom dplyr count
-#' @export
-dplyr::count
-
 #' Plot bar graphs of frequent features
 #'
 #' @param df A tidy data frame, potentially containing columns called "doc_id" and "word"

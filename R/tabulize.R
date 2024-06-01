@@ -140,13 +140,13 @@ tabulize.vocabulary <- function(.data, digits = 3, ...) {
 #' @inheritParams tabulize
 #' @inheritParams tabulize.default
 #' @inheritParams tabulize.vocabulary
-#' @param drop_empty Removes rows lacking sentiment
+#' @param drop_na Removes rows lacking sentiment
 #' @param ignore Removes rows matching set sentiments
 #' @param count Determines whether frequencies will be counted for sentiments
 #'
 #' @keywords internal
 #' @export
-tabulize.sentiment <- function(.data, inorder = TRUE, digits = 2, drop_empty = FALSE, ignore = NULL, rows = NULL, count = TRUE, ...) {
+tabulize.sentiment <- function(.data, inorder = TRUE, digits = 2, drop_na = FALSE, ignore = NULL, rows = NULL, count = TRUE, ...) {
   if (is.null(rows)) rows <- 1:6
   if ("doc_id" %in% colnames(.data) && inorder) {
     .data <- .data |>
@@ -160,7 +160,7 @@ tabulize.sentiment <- function(.data, inorder = TRUE, digits = 2, drop_empty = F
           TRUE ~ sentiment
         ))
   }
-  if (drop_empty) {
+  if (drop_na) {
     .data <- .data |>
       tidyr::drop_na(sentiment)
   }
@@ -274,6 +274,44 @@ tabulize.combined_ngrams <- function(.data, rows = NULL, count = TRUE, digits = 
       gt::gt() |>
       gt::sub_missing()
   }
+}
+
+#' @export
+tabulize.count <- function(.data, rows = NULL, ...) {
+  if (is.null(rows)) rows <- 1:6
+  .data |>
+    dplyr::arrange(-n) |>
+    dplyr::slice(rows, .by = doc_id) |>
+    gt::gt() |>
+    gt::fmt_number(columns = n, decimals = 0) |>
+    gt::sub_missing() |>
+    collapse_rows(doc_id) |>
+    gt::cols_label(doc_id = "")
+}
+
+#' Prepare a table showing a document-feature matrix
+#'
+#' @inheritParams tabulize
+#' @inheritParams tabulize.default
+#' @inheritParams tabulize.vocabulary
+#' @param columns Chooses columns to be shown
+#'
+#' @keywords internal
+#' @export
+tabulize.expanded <- function(.data, columns = NULL, digits = 2, ...) {
+  if (is.null(columns)) {
+    columns <- 1:7
+  } else {
+    columns <- c(0, columns - 1) + 1
+  }
+  .data |>
+    dplyr::select(tidyr::all_of(columns)) |>
+    gt::gt() |>
+    gt::cols_label(doc_id = "") |>
+    gt::fmt_percent(
+      columns = columns[columns != 1],
+      decimals = digits) |>
+    collapse_rows(doc_id)
 }
 
 #' Collapse gt rows in the style of kableExtra

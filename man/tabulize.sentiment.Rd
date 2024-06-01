@@ -8,7 +8,7 @@
   .data,
   inorder = TRUE,
   digits = 2,
-  drop_empty = FALSE,
+  drop_na = FALSE,
   ignore = NULL,
   rows = NULL,
   count = TRUE,
@@ -22,7 +22,7 @@
 
 \item{digits}{The number of digits to show past the decimal point}
 
-\item{drop_empty}{Removes rows lacking sentiment}
+\item{drop_na}{Removes rows lacking sentiment}
 
 \item{ignore}{Removes rows matching set sentiments}
 

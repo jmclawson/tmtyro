@@ -162,7 +162,7 @@ Not every method preserves the size or shape of data passed to it:
 
 Along with these, other functions assist with the process:
 
-* `drop_empty()` drops rows with missing data in any column or in specified columns.
+* `drop_na()` drops rows with missing data in any column or in specified columns.
 * `combine_ngrams()` combines multiple columns for n-grams into one.
 * `separate_ngrams()` separatesa  single column of n-grams into one column per word.
 
@@ -205,11 +205,11 @@ sentiment_dubliners
 
 #### Dropping empty rows
 
-Since many words may not be found in a given sentiment lexicon, `drop_empty()` makes it easy to remove empty rows.
+Since many words may not be found in a given sentiment lexicon, `drop_na()` makes it easy to remove empty rows.
 
 ```{r}
 sentiment_dubliners |> 
-  drop_empty(sentiment)
+  drop_na(sentiment)
 ```
 
 #### Choosing a sentiment lexicon
@@ -224,7 +224,7 @@ sentiment_ulysses <- ulysses |>
   add_sentiment(lexicon = "nrc")
 
 sentiment_ulysses |> 
-  drop_empty(sentiment)
+  drop_na(sentiment)
 ```
 
 ```{r}
@@ -240,7 +240,7 @@ if (interactive()) {
 }
 
 sentiment_ulysses |> 
-  drop_empty(sentiment)
+  drop_na(sentiment)
 ```
 
 ### N-grams
@@ -338,11 +338,11 @@ sentiment_dubliners_part |>
   tabulize()
 ```
 
-Setting `drop_empty = TRUE` removes rows without sentiment measure.
+Setting `drop_na = TRUE` removes rows without sentiment measure.
 
 ```{r}
 sentiment_dubliners_part |> 
-  tabulize(drop_empty = TRUE)
+  tabulize(drop_na = TRUE)
 ```
 
 The `ignore` parameter aids in selecting a subset of sentiments, converting the rest to `NA`.
@@ -444,7 +444,7 @@ sentiment_ulysses |>
 
 ### N-grams
 
-For n-grams, `visualize()` typically returns a network visualization like that demonstrated in *Text Mining with R*.
+For n-grams, `visualize()` typically returns a network visualization inspired by the bigram network in *Text Mining with R*.
 
 ```{r}
 #| message: false
@@ -485,9 +485,10 @@ sentiment_dubliners |>
 Colors can be chosen manually.
 
 ```{r}
+library(ggraph)
 bigrams_joyce |> 
-  visualize() |> 
-  change_colors("lightgreen")
+  visualize(top_n = 60) |> 
+  change_colors(c("#555555", "blue"))
 ```
 
 Optionally, use a named vector to set colors by value instead of by order.

@@ -79,7 +79,7 @@ visualize <- function(.data,...){
 }
 
 #' @export
-visualize.default <- function(.data, inorder = TRUE, count = NULL, type = NULL, ...){
+visualize.default <- function(.data, inorder = TRUE, count = NULL, rows = NULL, type = NULL, ...){
   if ("doc_id" %in% colnames(.data) &&
       "word" %in% colnames(.data)) {
     if (!is.null(type) && type == "heatmap") {
@@ -123,7 +123,92 @@ visualize.default <- function(.data, inorder = TRUE, count = NULL, type = NULL, 
       ggplot2::geom_col() +
       ggplot2::labs(x = "words",
                     y = NULL)
+  } else if (count && "n" %in% colnames(.data)) {
+
   }
+}
+
+#' @export
+visualize.count <- function(.data, rows = NULL, ...) {
+  if (is.null(rows)) rows <- 1:10
+  if ("doc_id" %in% colnames(.data) &&
+      length(colnames(.data)) > 2) {
+    .data |>
+      plot_doc_word_bars(rows = rows, ...)
+  } else {
+    other_col <- colnames(.data)[colnames(.data) != "n"][1]
+    .data |>
+      dplyr::arrange(dplyr::desc(n)) |>
+      dplyr::slice(rows) |>
+      ggplot2::ggplot(ggplot2::aes(
+        x = n,
+        y = reorder(.data[[other_col]], n))) +
+      ggplot2::geom_col() +
+      ggplot2::theme_minimal() +
+      ggplot2::scale_x_continuous(
+        labels = scales::label_comma(),
+        expand = c(0,0)) +
+      ggplot2::theme(
+        panel.grid.major.y = ggplot2::element_blank(),
+        panel.grid.minor.x = ggplot2::element_blank()) +
+      ggplot2::labs(x = NULL,
+                    y = NULL)
+  }
+}
+
+#' @export
+visualize.expanded <- function(.data, columns = 1:6, digits = 2, ...) {
+  if ("doc_id" %in% colnames(.data)) {
+    columns <- c(0, columns) + 1
+    .data <- .data |>
+      dplyr::select(tidyr::all_of(columns)) |>
+      tidyr::pivot_longer(
+        cols = -doc_id,
+        names_to = "feature") |>
+      dplyr::mutate(
+        feature = forcats::fct_inorder(feature))
+
+    midpoint <- .data |>
+      dplyr::pull(value) |>
+      mean(na.rm = TRUE)
+
+    .data |>
+      dplyr::mutate(
+        label_color = ifelse(value > midpoint, "white", "black")
+      ) |>
+      ggplot2::ggplot(ggplot2::aes(
+        y = forcats::fct_rev(doc_id),
+        x = feature,
+        fill = -value,
+        label = value |>
+          scales::label_percent(
+            accuracy = 1 / (10 ^ digits)#,
+            # suffix = ""
+            )())) +
+      ggplot2::geom_tile(
+        color = "gray",
+        show.legend = FALSE
+      ) +
+      ggplot2::geom_text(
+        ggplot2::aes(color = label_color),
+        show.legend = FALSE
+      ) +
+      ggplot2::scale_x_discrete(
+        expand = c(0,0),
+        position = "top") +
+      ggplot2::scale_y_discrete(
+        expand = c(0,0)) +
+      ggplot2::theme_minimal() +
+      ggplot2::labs(
+        y = NULL,
+        x = NULL) +
+      ggplot2::theme(
+        panel.grid.major = ggplot2::element_blank(),
+        panel.grid.minor = ggplot2::element_blank(),
+      ) +
+      ggplot2::scale_color_identity()
+  }
+
 }
 
 #' @export

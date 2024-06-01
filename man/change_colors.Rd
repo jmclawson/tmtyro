@@ -7,7 +7,7 @@
 change_colors(
   x,
   colorset = "brewer",
-  palette = 2,
+  palette = "Dark2",
   kind = "qualitative",
   direction = 1,
   start = 1

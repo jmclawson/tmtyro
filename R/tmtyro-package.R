@@ -23,6 +23,7 @@ n_smooth <- temp <- NULL
 name <- temp <- NULL
 ngram <- temp <- NULL
 new_word <- temp <- NULL
+node1.name <- node2.name <- temp <- NULL
 paper_id <- temp <- NULL
 par_num <- temp <- NULL
 percent <- temp <- NULL
@@ -64,7 +65,6 @@ words <- temp <- NULL
 "_PACKAGE"
 
 ## usethis namespace: start
-#' @importFrom dplyr count
 #' @importFrom grDevices colorRampPalette
 #' @importFrom gt cells_body
 #' @importFrom gt cols_label
