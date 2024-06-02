@@ -87,7 +87,7 @@
 change_colors <- function(
     x,
     colorset = "brewer",
-    palette = "Dark2",
+    palette = 2,
     kind = "qualitative",
     direction = 1,
     start = 1) {
