@@ -262,7 +262,7 @@ change_colors <- function(
         guide = ggraph::guide_edge_colorbar())
   } else if (length(colorset) > 1) {
     x +
-      ggplot2::scale_fill_gradientn(colours = the_colors,
+      ggplot2::scale_fill_gradientn(colours = colorset,
                                     aesthetics = mapped,
                                     na.value = "white")
   } else {
