@@ -186,8 +186,6 @@ separate_ngrams <- function(df, names_prefix = "word") {
 
 #' Visualize bigram chains
 #'
-#' Adapted from `[visualize_bigrams()](https://www.tidytextmining.com/ngrams#visualizing-bigrams-in-other-texts)` in Julia Silge and David Robinson's *Text Mining with R*.
-#'
 #' @param df A tidy data frame potentially containing a column called "word" or columns called "word_1" and "word_2".
 #' @param feature The feature to use when constructing ngrams
 #' @param random_seed Whether to randomize the creation of the network chart.

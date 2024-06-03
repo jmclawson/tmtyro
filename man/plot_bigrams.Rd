@@ -30,7 +30,7 @@ plot_bigrams(
 A ggplot2 object
 }
 \description{
-Adapted from \verb{[visualize_bigrams()](https://www.tidytextmining.com/ngrams#visualizing-bigrams-in-other-texts)} in Julia Silge and David Robinson's \emph{Text Mining with R}.
+Visualize bigram chains
 }
 \examples{
 \dontrun{
