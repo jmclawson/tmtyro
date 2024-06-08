@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tmtyro</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -115,29 +115,31 @@ keep Voyant from serving as a skills ramp to other options.</p>
 <p>Unlike Voyant, code-based methods for working with text offer both
 reproducibility and open-ended tooling. In R, the tm package created by
 Ingo Feinerer and Kurt Hornik is among the oldest and most widely used
-packages for text mining.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Among the three packages discussed here, tm is by far
-the most downloaded from CRAN, with more than 57 thousand downloads last
+packages for text mining.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Among the three packages discussed here, tm shows the
+most downloads from CRAN, with more than 57 thousand downloads last
 month, compared to 44 thousand for tidytext and 37 thousand for
 quanteda.&lt;/p&gt;"><sup>1</sup></a> It emphasizes corpus creation and choosing
 text features for study. First published on CRAN in 2007, it predates
 the other packages described here by almost a decade, and its data
-design makes it sometimes hard to work with modern workflows.</p>
+design—emphasizing document-term matrices or DTMs (sometimes called
+document-feature matrices or DFMs)—makes it sometimes hard to work with
+common workflows.</p>
 <p>The quanteda package, released by Kenneth Benoit in 2015, is in
-continual development. It provides workflows for corpus creation,
+continual development, and it probably offers the most robust feature
+set of any in this list. It provides workflows for corpus creation,
 choosing features, searching words in context, working with custom
 dictionaries, and visualizing results, among other things, providing
-helpful documentation along the way. But its abundance of options and
-multiple-step workflows can be overwhelming for a beginner. And like tm,
+helpful documentation along the way. For a beginner, its abundance of
+options and multiple-step workflows can be overwhelming. And like tm,
 quanteda’s primary data design is not ideally suited for popular
-packages.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Among these, dplyr’s monthly download numbers typically
-rival quanteda’s lifetime downloads. And although an experimental
-package &lt;em&gt;quanteda.tidy&lt;/em&gt; was started to make quanteda work more
-consistently with dplyr and other packages in the tidyverse family, it
-seems no longer in development.&lt;/p&gt;"><sup>2</sup></a> Nevertheless, quanteda provides power and
-specialized functionality that makes it worth a steep learning
-curve.</p>
-<p>The newest of these four is tidytext, created by Julia Silge and
-David Robinson in 2019. Unlike the other two, tidytext is made using a
+packages like dplyr.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;For comparison, dplyr’s monthly download numbers
+typically rival quanteda’s lifetime downloads. And although an
+experimental package &lt;em&gt;quanteda.tidy&lt;/em&gt; was started to make quanteda
+work more consistently with dplyr and other packages in the tidyverse
+family, it seems no longer in development.&lt;/p&gt;"><sup>2</sup></a> Nevertheless, quanteda provides power and
+specialized functionality that merit its learning curve.</p>
+<p>The newest of these options is tidytext, created by Julia Silge and
+David Robinson in 2019. Unlike tm and quanteda, tidytext is made using a
 “tidy” design philosophy that is consistent with many popular R
 packages.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;This design might account for its higher download rate
 when compared to the more powerful quanteda.&lt;/p&gt;"><sup>3</sup></a> Additionally, a companion book, <a href="https://www.tidytextmining.com" class="external-link"><em>Text Mining with R</em></a>,
@@ -430,10 +432,10 @@ Well-prepared figures can help communicate results.</p>
 <code class="sourceCode R"><span><span class="va">my_corpus</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/count.html">count</a></span><span class="op">(</span><span class="va">word</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>The <code><a href="../reference/count.html">count()</a></code> function is reexported from dplyr. For
-showing word counts, <code><a href="../reference/visualize.html">visualize()</a></code> also uses ggplot2. Other
-kinds of visualizations will add the forcats, scales, tidyr, ggraph, and
-igraph packages.</p>
+<p><code><a href="../reference/count.html">count()</a></code> is reexported from dplyr. For showing word
+counts, <code><a href="../reference/visualize.html">visualize()</a></code> also uses ggplot2. Other kinds of
+visualizations will add the forcats, scales, tidyr, ggraph, and igraph
+packages.</p>
 </div>
 <div class="tab-pane" id="tidytext-4" role="tabpanel" aria-labelledby="tidytext-4-tab">
 

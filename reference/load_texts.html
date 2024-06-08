@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tmtyro</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -72,7 +72,8 @@
 <span>  pos <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  poetry <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  paragraph <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  n <span class="op">=</span> <span class="fl">1L</span></span>
+<span>  n <span class="op">=</span> <span class="fl">1L</span>,</span>
+<span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -120,6 +121,10 @@
 
 <dt>n</dt>
 <dd><p>The number of words per row. By default, <code>load_texts()</code> unnests a text one word at a time using a column called <code>word</code>. When <code>n</code> is a value greater than 1, <code>load_texts()</code> will instead use <code><a href="https://juliasilge.github.io/tidytext/reference/unnest_tokens.html" class="external-link">tidytext::unnest_tokens()</a></code> with <code>token = "ngrams"</code> to create a column called <code>ngram</code>.</p></dd>
+
+
+<dt>...</dt>
+<dd><p>Additional arguments passed along to <code><a href="https://juliasilge.github.io/tidytext/reference/unnest_tokens.html" class="external-link">tidytext::unnest_tokens()</a></code> for use with <code>tokenizers</code></p></dd>
 
 </dl></div>
     <div class="section level2">

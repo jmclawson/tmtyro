@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tmtyro</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,13 +55,31 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.3.0" id="tmtyro-030">tmtyro 0.3.0<a class="anchor" aria-label="anchor" href="#tmtyro-030"></a></h2>
+<ul><li>
+<code><a href="../reference/add_dictionary.html">add_dictionary()</a></code> now supports n-gram dictionaries, matching across multiple words</li>
+<li>
+<code><a href="../reference/make_dictionary.html">make_dictionary()</a></code> has a slightly changed syntax, with clearer argument names <code>definitions</code> and <code>name</code>
+</li>
+<li>Along with its related <code><a href="../reference/visualize.html">visualize()</a></code> methods, <code><a href="../reference/plot_doc_word_bars.html">plot_doc_word_bars()</a></code> improves support for <code>color_y = TRUE</code> and <code>reorder_y = TRUE</code>
+</li>
+<li>When naming colors, <code>change_color()</code> now allows setting colors for unnamed values</li>
+<li>
+<code><a href="../reference/standardize_titles.html">standardize_titles()</a></code> capitalizes Roman numerals</li>
+<li>
+<code><a href="../reference/load_texts.html">load_texts()</a></code> adds support for custom tokenization using the dots parameter from <code><a href="https://juliasilge.github.io/tidytext/reference/unnest_tokens.html" class="external-link">tidytext::unnest_tokens()</a></code>
+</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.0" id="tmtyro-020">tmtyro 0.2.0<a class="anchor" aria-label="anchor" href="#tmtyro-020"></a></h2>
 <ul><li>
 <code><a href="../reference/add_partitions.html">add_partitions()</a></code> adds a partition column, useful for getting same-sized samples</li>
 <li>
 <code><a href="../reference/identify_by.html">identify_by()</a></code> now works with multiple columns, and it keeps existing metadata columns. This is especially useful with the new <code><a href="../reference/add_partitions.html">add_partitions()</a></code> column, using something like <code>my_corpus() |&gt; add_partitions() |&gt; identify_by(title, partition)</code> before continuing to work with partitioned documents. To return framing to unpartitioned data, used <code>identify_by(title)</code> or whatever other column is most relevant.</li>
-<li>New visualization and tabulization methods for expand_documents()</li>
-<li>Functions now imported: count() and drop_na()</li>
+<li>New visualization and tabulization methods for <code><a href="../reference/expand_documents.html">expand_documents()</a></code>
+</li>
+<li>Functions now imported: <code><a href="../reference/count.html">count()</a></code> and <code><a href="../reference/drop_na.html">drop_na()</a></code>
+</li>
 <li>When the ggraph package is loaded, <code><a href="../reference/plot_bigrams.html">plot_bigrams()</a></code> now uses a color scale on edges, rather than spot color on nodes, with full support for <code>change_color()</code>
 </li>
 <li>Improved documentation with website articles for customizing colors and showing code comparisons</li>

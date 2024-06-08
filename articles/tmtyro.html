@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tmtyro</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -322,8 +322,8 @@ complete path can be passed like this:<br><code>load_texts("~/corpora/austen")</
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 67,875 more rows</span></span></span></code></pre></div>
 <p>If a different column is preferred, <code><a href="../reference/identify_by.html">identify_by()</a></code> makes
 the switch. In this example from <em>Dubliners</em>, for instance, each
-story’s title is shown under “part”. The <code><a href="../reference/identify_by.html">identify_by()</a></code>
-function makes it easy to identify documents by that column:</p>
+story’s title is shown under “part”. <code><a href="../reference/identify_by.html">identify_by()</a></code> makes it
+easy to identify documents by that column:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">corpus_dubliners</span> <span class="op">&lt;-</span> <span class="va">corpus_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/identify_by.html">identify_by</a></span><span class="op">(</span><span class="va">part</span><span class="op">)</span></span>
@@ -347,8 +347,8 @@ function makes it easy to identify documents by that column:</p>
 <div class="section level3">
 <h3 id="standardize-titles">Standardize titles<a class="anchor" aria-label="anchor" href="#standardize-titles"></a>
 </h3>
-<p>The <code><a href="../reference/standardize_titles.html">standardize_titles()</a></code> function converts titles to
-something cleaner by adopting title case.</p>
+<p><code><a href="../reference/standardize_titles.html">standardize_titles()</a></code> converts titles to something
+cleaner by adopting title case.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">before</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">corpus_dubliners</span><span class="op">$</span><span class="va">doc_id</span><span class="op">)</span></span>
 <span></span>
@@ -415,9 +415,9 @@ into one column per word.</li>
 <div class="section level3">
 <h3 id="vocabulary-richness">Vocabulary richness<a class="anchor" aria-label="anchor" href="#vocabulary-richness"></a>
 </h3>
-<p>The <code><a href="../reference/add_vocabulary.html">add_vocabulary()</a></code> function adds measurements of
-vocabulary richness, including cumulative vocabulary size, indicators of
-hapax legomena, and markers of progress.</p>
+<p><code><a href="../reference/add_vocabulary.html">add_vocabulary()</a></code> adds measurements of vocabulary
+richness, including cumulative vocabulary size, indicators of hapax
+legomena, and markers of progress.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">vocab_dubliners</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="va">corpus_dubliners</span> <span class="op">|&gt;</span> </span>
@@ -627,8 +627,8 @@ inaccurate.</p>
 <div class="section level2">
 <h2 id="preparing-tables">Preparing tables<a class="anchor" aria-label="anchor" href="#preparing-tables"></a>
 </h2>
-<p>The <code><a href="../reference/tabulize.html">tabulize()</a></code> function prepares tables for every kind
-of measurement. This repetition makes it easy to see and appreciate
+<p><code><a href="../reference/tabulize.html">tabulize()</a></code> prepares tables for every kind of
+measurement. This repetition makes it easy to see and appreciate
 findings without struggling to recall a specialized function.</p>
 <div class="section level3">
 <h3 id="corpus-details">Corpus details<a class="anchor" aria-label="anchor" href="#corpus-details"></a>
@@ -1652,8 +1652,8 @@ most-frequent words.</p>
 <div class="section level3">
 <h3 id="vocabulary-richness-1">Vocabulary richness<a class="anchor" aria-label="anchor" href="#vocabulary-richness-1"></a>
 </h3>
-<p>When used after <code><a href="../reference/add_vocabulary.html">add_vocabulary()</a></code>, the
-<code><a href="../reference/tabulize.html">tabulize()</a></code> function prepares a clean summary table.</p>
+<p>When used after <code><a href="../reference/add_vocabulary.html">add_vocabulary()</a></code>,
+<code><a href="../reference/tabulize.html">tabulize()</a></code> prepares a clean summary table.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">corpus_joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/add_vocabulary.html">add_vocabulary</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -3691,9 +3691,9 @@ sentiments, converting the rest to <code>NA</code>.</p>
 <div class="section level3">
 <h3 id="n-grams-1">N-grams<a class="anchor" aria-label="anchor" href="#n-grams-1"></a>
 </h3>
-<p>After <code><a href="../reference/add_ngrams.html">add_ngrams()</a></code>, the <code><a href="../reference/tabulize.html">tabulize()</a></code> function
-returns the top n-grams per document. By default, the first six are
-shown for each group, but rows can be chosen freely.</p>
+<p>After <code><a href="../reference/add_ngrams.html">add_ngrams()</a></code>, <code><a href="../reference/tabulize.html">tabulize()</a></code> returns the
+top n-grams per document. By default, the first six are shown for each
+group, but rows can be chosen freely.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bigrams_joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
@@ -4188,10 +4188,10 @@ shown for each group, but rows can be chosen freely.</p>
 <div class="section level3">
 <h3 id="tf-idf-1">Tf-idf<a class="anchor" aria-label="anchor" href="#tf-idf-1"></a>
 </h3>
-<p>For data frames prepared with <code><a href="../reference/summarize_tf_idf.html">summarize_tf_idf()</a></code>, the
-<code><a href="../reference/tabulize.html">tabulize()</a></code> function returns six rows of the top-scoring
-words for each document. This amount can be specified with the
-<code>rows</code> argument.</p>
+<p>For data frames prepared with <code><a href="../reference/summarize_tf_idf.html">summarize_tf_idf()</a></code>,
+<code><a href="../reference/tabulize.html">tabulize()</a></code> returns six rows of the top-scoring words for
+each document. This amount can be specified with the <code>rows</code>
+argument.</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tfidf_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span></code></pre></div>
@@ -5049,9 +5049,9 @@ most-frequent words.</p>
 <div class="section level3">
 <h3 id="vocabulary-richness-2">Vocabulary richness<a class="anchor" aria-label="anchor" href="#vocabulary-richness-2"></a>
 </h3>
-<p>When used after <code><a href="../reference/add_vocabulary.html">add_vocabulary()</a></code>, the
-<code><a href="../reference/visualize.html">visualize()</a></code> function charts each document by its length and
-the number of unique tokens. A figure like this is useful to compare
+<p>When used after <code><a href="../reference/add_vocabulary.html">add_vocabulary()</a></code>,
+<code><a href="../reference/visualize.html">visualize()</a></code> charts each document by its length and the
+number of unique tokens. A figure like this is useful to compare
 documents by their rate of vocabulary growth.</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">corpus_dubliners</span> <span class="op">|&gt;</span> </span>
@@ -5115,12 +5115,12 @@ set by values on the Y-axis.</p>
 <div class="section level3">
 <h3 id="tf-idf-2">Tf-idf<a class="anchor" aria-label="anchor" href="#tf-idf-2"></a>
 </h3>
-<p>The <code><a href="../reference/visualize.html">visualize()</a></code> function returns bars showing the top
-words for each document. This can be a useful way to differentiate texts
-in a set from each other. Because <code>tfidf_dubliners</code> was
-prepared with <code>load_texts(remove_names = TRUE)</code>, the
-resulting chart shows clearer delineation of topics characteristic of
-the stories in Joyce’s collection:</p>
+<p><code><a href="../reference/visualize.html">visualize()</a></code> returns bars showing the top words for each
+document. This can be a useful way to differentiate texts in a set from
+each other. Because <code>tfidf_dubliners</code> was prepared with
+<code>load_texts(remove_names = TRUE)</code>, the resulting chart shows
+clearer delineation of topics characteristic of the stories in Joyce’s
+collection:</p>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tfidf_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span></code></pre></div>
@@ -5129,8 +5129,8 @@ the stories in Joyce’s collection:</p>
 <div class="section level3">
 <h3 id="changing-colors">Changing colors<a class="anchor" aria-label="anchor" href="#changing-colors"></a>
 </h3>
-<p>The <code><a href="../reference/change_colors.html">change_colors()</a></code> function does what its name implies.
-By default, it adopts the “Dark2” palette from Brewer.</p>
+<p><code><a href="../reference/change_colors.html">change_colors()</a></code> does what its name implies. By default,
+it adopts the “Dark2” palette from Brewer.</p>
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sentiment_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -5139,32 +5139,41 @@ By default, it adopts the “Dark2” palette from Brewer.</p>
 <p>Colors can be chosen manually.</p>
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggraph.data-imaginist.com" class="external-link">ggraph</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Loading required package: ggplot2</span></span></code></pre></div>
+<span><span class="va">bigrams_joyce</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>top_n <span class="op">=</span> <span class="fl">60</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#999999"</span>, </span>
+<span>                  <span class="st">"orange"</span>, </span>
+<span>                  <span class="st">"darkred"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-40-1.png" width="700"></p>
+<p>Optionally, use a named vector to set some colors by value instead of
+by order. By default unnamed colors are gray.</p>
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bigrams_joyce</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>top_n <span class="op">=</span> <span class="fl">60</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#555555"</span>, <span class="st">"blue"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Scale for <span style="color: #00BB00;">edge_colour</span> is already present.</span></span>
-<span><span class="co">#&gt; Adding another scale for <span style="color: #00BB00;">edge_colour</span>, which will replace the existing scale.</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-40-1.png" width="700"></p>
-<p>Optionally, use a named vector to set colors by value instead of by
-order.</p>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">word_1</span> <span class="op">==</span> <span class="st">"he"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/combine_ngrams.html">combine_ngrams</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, color_y <span class="op">=</span> <span class="cn">TRUE</span>, reorder_y <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>    <span class="st">"he is"</span> <span class="op">=</span> <span class="st">"darkorange"</span>,</span>
+<span>    <span class="st">"he has"</span> <span class="op">=</span> <span class="st">"orange"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-41-1.png" width="700"></p>
+<p>Unnamed colors fill in as needed.</p>
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bigrams_joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">word_1</span> <span class="op">==</span> <span class="st">"he"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/combine_ngrams.html">combine_ngrams</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, color_y <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"#555555"</span>,<span class="fl">5</span><span class="op">)</span>,</span>
-<span>                  <span class="st">"he is"</span> <span class="op">=</span> <span class="st">"blue"</span>, </span>
-<span>                  <span class="st">"he has"</span> <span class="op">=</span> <span class="st">"navy"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-41-1.png" width="700"></p>
+<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, color_y <span class="op">=</span> <span class="cn">TRUE</span>, reorder_y <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>    <span class="st">"he is"</span> <span class="op">=</span> <span class="st">"darkorange"</span>,</span>
+<span>    <span class="st">"he has"</span> <span class="op">=</span> <span class="st">"orange"</span>, </span>
+<span>    <span class="st">"navy"</span>, <span class="st">"skyblue"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-42-1.png" width="700"></p>
 <p>Or choose a predetermined color set and palette, as described in
 function documentation.</p>
 <div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tfidf_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span>colorset <span class="op">=</span> <span class="st">"viridis"</span>, palette <span class="op">=</span> <span class="st">"mako"</span>, direction <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-42-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-43-1.png" width="700"></p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

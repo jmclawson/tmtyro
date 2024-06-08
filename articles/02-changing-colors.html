@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tmtyro</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -699,12 +699,10 @@ of a hex code describe how <em>red</em> a color is; the middle two
 describe how <em>green</em> it is; and the last two describe how
 <em>blue</em>. Combinations in the following chart give a sense of how
 they work, but an <a href="https://www.w3schools.com/colors/colors_picker.asp" class="external-link">online color
-picker</a> may help to narrow things down.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;If you’re more comfortable thinking in percentages, the
-&lt;code&gt;&lt;a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link"&gt;rgb()&lt;/a&gt;&lt;/code&gt; function is a good way to go. Feeding this function
-three arguments will yield a useful code that can be used anywhere a hex
-code can be used:
-&lt;code&gt;rgb(red = 0.60, green = 0.00, blue = 1.00)&lt;/code&gt; returns the
-color &lt;span style="color:#9900FF;"&gt;“#9900FF”&lt;/span&gt;.&lt;/p&gt;'><sup>3</sup></a></p>
+picker</a> may help to narrow things down.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;If you’re more comfortable thinking in percentages,
+&lt;code&gt;&lt;a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link"&gt;rgb()&lt;/a&gt;&lt;/code&gt; will be useful. Feeding this function three arguments
+will return the corresponding hex code:
+&lt;code&gt;rgb(red = 0.60, green = 0.00, blue = 1.00)&lt;/code&gt; returns &lt;span style="color:#9900FF;"&gt;“#9900FF”&lt;/span&gt;.&lt;/p&gt;'><sup>3</sup></a></p>
 <p><img src="02-changing-colors_files/figure-html/hexcolors-1.png" width="700"></p>
 <p>Use manual colors—as named colors or as hex codes—by combining them
 in a vector inside <code><a href="../reference/change_colors.html">change_colors()</a></code>:</p>
@@ -716,11 +714,7 @@ in a vector inside <code><a href="../reference/change_colors.html">change_colors
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">joyce_count</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>    to <span class="op">=</span> <span class="st">"#88FF00"</span>, </span>
-<span>    the <span class="op">=</span> <span class="st">"#00FF00"</span>,</span>
-<span>    of <span class="op">=</span> <span class="st">"#00FF88"</span>, </span>
-<span>    and <span class="op">=</span> <span class="st">"#00DDBB"</span>,</span>
-<span>    a <span class="op">=</span> <span class="st">"#00EEEE"</span>,</span>
+<span>    <span class="st">"#88DD00"</span>, <span class="st">"#00DDDD"</span>,</span>
 <span>    he <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="02-changing-colors_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 </div>
