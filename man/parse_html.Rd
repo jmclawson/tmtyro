@@ -19,6 +19,21 @@ Read HTML headers and text from file
 }
 \examples{
 if (FALSE) {
-  ulysses <- parse_html("4300.htm")
+  library(dplyr)
+  library(stringr)
+  library(tmtyro)
+
+  orlando <-
+    "http://gutenberg.net.au/ebooks02/0200331h.html" |>
+    download_once() |>
+    parse_html() |>
+    filter(str_detect(part, "CHAPTER")) |>
+    mutate(
+      chapter = str_extract(part, "\\\\d"),
+      author = "Virginia Woolf") |>
+    select(author, title, chapter, text) |>
+    drop_na(chapter) |>
+    identify_by(title, chapter) |>
+    load_texts()
 }
 }

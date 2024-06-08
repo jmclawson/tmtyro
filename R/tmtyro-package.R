@@ -8,12 +8,15 @@ doc_id <- temp <- NULL
 docranksum <- temp <- NULL
 document <- temp <- NULL
 dominance <- temp <- NULL
+feature <- temp <- NULL
+fill_it <- temp <- NULL
 Freq <- temp <- NULL
 h1 <- h2 <- h3 <- h4 <- temp <- NULL
 hapax <- temp <- NULL
 hlemona <- temp <- NULL
 htr <- temp <- NULL
 id <- temp <- NULL
+label_color <- temp <- NULL
 level <- temp <- NULL
 line_num <- temp <- NULL
 n <- temp <- NULL
@@ -30,12 +33,14 @@ percent <- temp <- NULL
 progress_words <- temp <- NULL
 ranksum <- temp <- NULL
 reorder <- temp <- NULL
+rnumeral <- temp <- NULL
 sentiment_valence <- temp <- NULL
 score <- temp <- NULL
 sentiment <- temp <- NULL
 set <- temp <- NULL
 set_count <- temp <- NULL
 set_id <- temp <- NULL
+.size <- temp <- NULL
 stanza_num <- temp <- NULL
 tag <- temp <- NULL
 term <- temp <- NULL
@@ -78,6 +83,7 @@ words <- temp <- NULL
 #' @importFrom gutenbergr gutenberg_get_mirror
 #' @importFrom rlang :=
 #' @importFrom stats median
+#' @importFrom stats reorder
 #' @importFrom stats setNames
 #' @importFrom tidyr drop_na
 ## usethis namespace: end

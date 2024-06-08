@@ -9,7 +9,7 @@ add_dictionary(df, dictionary, feature = word)
 \arguments{
 \item{df}{A tidy data frame, potentially containing a column called "word"}
 
-\item{dictionary}{A data frame with two or more columns, potentially made with the \code{make_dictionary()} function}
+\item{dictionary}{A data frame with two or more columns, potentially made with \code{make_dictionary()}}
 
 \item{feature}{The column (like "word") to use for looking up values in the dictionary}
 }
@@ -29,7 +29,7 @@ my_sentiments <- make_dictionary(
   list(
     "😊" = c("happy", "joy", "smile"),
     "😔" = c("unhappy", "sad", "frown")),
-  identifier = "emoji")
+  name = "emoji")
 
 dubliners |>
    add_dictionary(my_sentiments) |>

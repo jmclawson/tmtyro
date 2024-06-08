@@ -146,6 +146,7 @@ combine_ngrams <- function(df, feature = word, keep = FALSE){
 #'
 #' @param df A tidy data frame containing a column called "ngram"
 #' @param names_prefix The prefixed name of the new columns, as in "word_1", "word_2", etc.
+#' @param ... Additional options passed to [tidyr::separate_wider_delim()]
 #'
 #' @returns A data frame with one column separated into many
 #' @family n-gram helpers
@@ -169,17 +170,23 @@ combine_ngrams <- function(df, feature = word, keep = FALSE){
 #'   combine_ngrams() |>
 #'   separate_ngrams() |>
 #'   head()
-separate_ngrams <- function(df, names_prefix = "word") {
+separate_ngrams <- function(df, names_prefix = "word", ...) {
   if(!"ngram" %in% colnames(df)){
     stop("`separate_ngrams()` only works on tables with an `ngram` column.")
   }
 
   df |>
-    dplyr::rename({{ names_prefix }} := ngram) |>
+    # dplyr::rename({{ names_prefix }} := ngram) |>
     tidyr::separate_wider_delim(
-      {{ names_prefix }},
+      ngram,
       delim = " ",
-      names_sep = "_") |>
+      names_sep = "_",
+      ...) |>
+    {\(x) setNames(x,
+                   colnames(x) |>
+                     stringr::str_replace_all(
+                       pattern = "ngram_",
+                       replacement = paste0(names_prefix, "_")))}() |>
     add_class("ngrams", remove = "combined_ngrams")
 }
 

@@ -356,7 +356,7 @@ my_corpus |>
   visualize()
 ```
 
-The `count()` function is reexported from dplyr. For showing word counts, `visualize()` also uses ggplot2. Other kinds of visualizations will add the forcats, scales, tidyr, ggraph, and igraph packages.
+`count()` is reexported from dplyr. For showing word counts, `visualize()` also uses ggplot2. Other kinds of visualizations will add the forcats, scales, tidyr, ggraph, and igraph packages.
 
 #### tidytext
 

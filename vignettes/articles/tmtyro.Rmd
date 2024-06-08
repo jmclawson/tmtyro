@@ -124,7 +124,7 @@ corpus_dubliners <- get_gutenberg_corpus(2814) |>
 corpus_dubliners
 ```
 
-If a different column is preferred, `identify_by()` makes the switch. In this example from *Dubliners*, for instance, each story's title is shown under "part". The `identify_by()` function makes it easy to identify documents by that column:
+If a different column is preferred, `identify_by()` makes the switch. In this example from *Dubliners*, for instance, each story's title is shown under "part". `identify_by()` makes it easy to identify documents by that column:
 
 ```{r}
 corpus_dubliners <- corpus_dubliners |> 
@@ -135,7 +135,7 @@ corpus_dubliners
 
 ### Standardize titles
 
-The `standardize_titles()` function converts titles to something cleaner by adopting title case.
+`standardize_titles()` converts titles to something cleaner by adopting title case.
 
 ```{r}
 before <- unique(corpus_dubliners$doc_id)
@@ -168,7 +168,7 @@ Along with these, other functions assist with the process:
 
 ### Vocabulary richness
 
-The `add_vocabulary()` function adds measurements of vocabulary richness, including cumulative vocabulary size, indicators of hapax legomena, and markers of progress.
+`add_vocabulary()` adds measurements of vocabulary richness, including cumulative vocabulary size, indicators of hapax legomena, and markers of progress.
 
 ```{r}
 vocab_dubliners <- 
@@ -294,7 +294,7 @@ If `load_texts()` is used with `pos = TRUE`, proper nouns can be filtered, but t
 
 ## Preparing tables
 
-The `tabulize()` function prepares tables for every kind of measurement. This repetition makes it easy to see and appreciate findings without struggling to recall a specialized function.
+`tabulize()` prepares tables for every kind of measurement. This repetition makes it easy to see and appreciate findings without struggling to recall a specialized function.
 
 ### Corpus details
 
@@ -317,7 +317,7 @@ corpus_joyce |>
 
 ### Vocabulary richness
 
-When used after `add_vocabulary()`, the `tabulize()` function prepares a clean summary table.
+When used after `add_vocabulary()`, `tabulize()` prepares a clean summary table.
 
 ```{r}
 corpus_joyce |> 
@@ -358,7 +358,7 @@ sentiment_ulysses_part |>
 
 ### N-grams
 
-After `add_ngrams()`, the `tabulize()` function returns the top n-grams per document. By default, the first six are shown for each group, but rows can be chosen freely.
+After `add_ngrams()`, `tabulize()` returns the top n-grams per document. By default, the first six are shown for each group, but rows can be chosen freely.
 
 ```{r}
 bigrams_joyce |> 
@@ -367,7 +367,7 @@ bigrams_joyce |>
 
 ### Tf-idf
 
-For data frames prepared with `summarize_tf_idf()`, the `tabulize()` function returns six rows of the top-scoring words for each document. This amount can be specified with the `rows` argument.
+For data frames prepared with `summarize_tf_idf()`, `tabulize()` returns six rows of the top-scoring words for each document. This amount can be specified with the `rows` argument.
 
 ```{r}
 tfidf_dubliners |> 
@@ -405,7 +405,7 @@ corpus_joyce |>
 
 ### Vocabulary richness
 
-When used after `add_vocabulary()`, the `visualize()` function charts each document by its length and the number of unique tokens. A figure like this is useful to compare documents by their rate of vocabulary growth.
+When used after `add_vocabulary()`, `visualize()` charts each document by its length and the number of unique tokens. A figure like this is useful to compare documents by their rate of vocabulary growth.
 
 ```{r}
 corpus_dubliners |> 
@@ -465,7 +465,7 @@ bigrams_joyce |>
 
 ### Tf-idf
 
-The `visualize()` function returns bars showing the top words for each document. This can be a useful way to differentiate texts in a set from each other. Because `tfidf_dubliners` was prepared with `load_texts(remove_names = TRUE)`, the resulting chart shows clearer delineation of topics characteristic of the stories in Joyce's collection:
+`visualize()` returns bars showing the top words for each document. This can be a useful way to differentiate texts in a set from each other. Because `tfidf_dubliners` was prepared with `load_texts(remove_names = TRUE)`, the resulting chart shows clearer delineation of topics characteristic of the stories in Joyce's collection:
 
 ```{r}
 tfidf_dubliners |> 
@@ -474,7 +474,7 @@ tfidf_dubliners |>
 
 ### Changing colors
 
-The `change_colors()` function does what its name implies. By default, it adopts the "Dark2" palette from Brewer.
+`change_colors()` does what its name implies. By default, it adopts the "Dark2" palette from Brewer.
 
 ```{r}
 sentiment_dubliners |> 
@@ -485,22 +485,38 @@ sentiment_dubliners |>
 Colors can be chosen manually.
 
 ```{r}
+#| message: false
 library(ggraph)
 bigrams_joyce |> 
   visualize(top_n = 60) |> 
-  change_colors(c("#555555", "blue"))
+  change_colors(c("#999999", 
+                  "orange", 
+                  "darkred"))
 ```
 
-Optionally, use a named vector to set colors by value instead of by order.
+Optionally, use a named vector to set some colors by value instead of by order. By default unnamed colors are gray.
 
 ```{r}
 bigrams_joyce |> 
   dplyr::filter(word_1 == "he") |> 
   combine_ngrams() |> 
-  visualize(rows = 1:5, color_y = TRUE) |> 
-  change_colors(c(rep("#555555",5),
-                  "he is" = "blue", 
-                  "he has" = "navy"))
+  visualize(rows = 1:5, color_y = TRUE, reorder_y = TRUE) |> 
+  change_colors(c(
+    "he is" = "darkorange",
+    "he has" = "orange"))
+```
+
+Unnamed colors fill in as needed.
+
+```{r}
+bigrams_joyce |> 
+  dplyr::filter(word_1 == "he") |> 
+  combine_ngrams() |> 
+  visualize(rows = 1:5, color_y = TRUE, reorder_y = TRUE) |> 
+  change_colors(c(
+    "he is" = "darkorange",
+    "he has" = "orange", 
+    "navy", "skyblue"))
 ```
 
 Or choose a predetermined color set and palette, as described in function documentation.

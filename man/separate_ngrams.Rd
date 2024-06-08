@@ -4,12 +4,14 @@
 \alias{separate_ngrams}
 \title{Separate one word per column}
 \usage{
-separate_ngrams(df, names_prefix = "word")
+separate_ngrams(df, names_prefix = "word", ...)
 }
 \arguments{
 \item{df}{A tidy data frame containing a column called "ngram"}
 
 \item{names_prefix}{The prefixed name of the new columns, as in "word_1", "word_2", etc.}
+
+\item{...}{Additional options passed to \code{\link[tidyr:separate_wider_delim]{tidyr::separate_wider_delim()}}}
 }
 \value{
 A data frame with one column separated into many

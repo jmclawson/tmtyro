@@ -229,13 +229,30 @@ plot_doc_word_bars <- function(
     dplyr::group_by({{ by }}) |>
     dplyr::arrange(dplyr::desc(n))
 
-  if (reorder_y) {
+  if (reorder_y && !color_y) {
     df <- df |>
       dplyr::mutate(
         {{ feature }} := tidytext::reorder_within(
           {{ feature }},
           by = n,
           within = {{ by }}))
+  } else if (reorder_y && color_y) {
+    df <- df |>
+      dplyr::mutate(
+        fill_it = reorder({{ feature }}, -n),
+        {{ feature }} := tidytext::reorder_within(
+          {{ feature }},
+          by = n,
+          within = {{ by }}))
+  } else if (!reorder_y) {
+    df <- df |>
+      dplyr::mutate(
+        {{ feature }} := forcats::fct_reorder(
+            .f = {{ feature }},
+            .x = n,
+            .fun = max,
+            .na_rm = TRUE,
+            .desc = FALSE))
   }
 
   prefix <- deparse(substitute(feature))
@@ -287,11 +304,17 @@ internal_plot_word_bars <- function(
   precision <- label_tweak + 1
   offset <- label_tweak + 2
 
-  if (color_y) {
+  if (color_y &&
+      !"fill_it" %in% colnames(df)) {
     the_plot <- df |>
       ggplot2::ggplot(ggplot2::aes(x = {{ x_value }},
                                    y = !! feature,
                                    fill = !! feature))
+  } else if (color_y) {
+    the_plot <- df |>
+      ggplot2::ggplot(ggplot2::aes(x = {{ x_value }},
+                                   y = !! feature,
+                                   fill = fill_it))
   } else {
     the_plot <- df |>
       ggplot2::ggplot(ggplot2::aes(x = {{ x_value }},

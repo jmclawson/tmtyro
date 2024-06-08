@@ -13,6 +13,7 @@
 #' @param poetry Whether to detect and indicate stanza breaks and line breaks. Defaults to FALSE.
 #' @param paragraph Whether to detect paragraph breaks for prose. Defaults to TRUE.
 #' @param n The number of words per row. By default, `load_texts()` unnests a text one word at a time using a column called `word`. When `n` is a value greater than 1, `load_texts()` will instead use [tidytext::unnest_tokens()] with `token = "ngrams"` to create a column called `ngram`.
+#' @param ... Additional arguments passed along to [tidytext::unnest_tokens()] for use with `tokenizers`
 #'
 #' @returns A data frame with two to five columns and one row for each token (optionally, one row for each paragraph or one row for each line) in the corpus.
 #' @export
@@ -45,7 +46,8 @@ load_texts <- function(
     pos = FALSE,
     poetry = FALSE,
     paragraph = TRUE,
-    n = 1L) {
+    n = 1L,
+    ...) {
   if (length(class(src)) == 1 && "character" %in% class(src)) {
     if (!dir.exists(src) & !dir.exists(paste0("data/",src))) {
       stop(corpus_missing(src),
@@ -79,7 +81,7 @@ load_texts <- function(
   }
 
   full_corpus <- full_corpus |>
-    tidy_texts_internal(word, lemma, lemma_replace, to_lower, remove_names, pos, n)
+    tidy_texts_internal(word, lemma, lemma_replace, to_lower, remove_names, pos, n, ...)
 
   if (!paragraph & !poetry) {
     full_corpus <- full_corpus |>
@@ -90,7 +92,7 @@ load_texts <- function(
     add_class("tmtyro")
 }
 
-tidy_texts_internal <- function(df, to_word, lemma, lemma_replace, to_lower, remove_names, pos = FALSE, n = 1) {
+tidy_texts_internal <- function(df, to_word, lemma, lemma_replace, to_lower, remove_names, pos = FALSE, n = 1, ...) {
 
   if (n > 1) {
     if (remove_names) {
@@ -108,12 +110,12 @@ tidy_texts_internal <- function(df, to_word, lemma, lemma_replace, to_lower, rem
 
   if (to_word & !remove_names) {
     df <- df |>
-      tidytext::unnest_tokens(word, text, to_lower = FALSE)
+      tidytext::unnest_tokens(word, text, to_lower = FALSE, ...)
   }
 
   if (n > 1) {
     df <- df |>
-      tidytext::unnest_tokens(ngram, text, to_lower = FALSE, token = "ngrams", n = n)
+      tidytext::unnest_tokens(ngram, text, to_lower = FALSE, token = "ngrams", n = n, ...)
   }
 
   if (to_word & remove_names) {

@@ -94,7 +94,7 @@ Most simply, `change_colors()` will set the colors you choose. Setting four colo
 
 Color names like "pink" and "orange" work in R, as do specific hues like "forestgreen" and "steelblue."^[The full list of named colors can be viewed in the ["Colors in R" cheat sheet](http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf).] In addition to named colors, R will accept colors as "hex codes" using hexadecimal notation.^[Unlike decimal notation, which uses 10 digits, hexadecimal notation uses 16. The first ten digits run 0 through 9, and the remaining six digits go from A to F, with A representing 10, B representing 11, and so on.] The first two digits of a hex code describe how *red* a color is; the middle two describe how *green* it is; and the last two describe how *blue*. Combinations in the following chart give a sense of how they work, but an [online color picker](https://www.w3schools.com/colors/colors_picker.asp) may help to narrow things down.[^1]
 
-[^1]: If you're more comfortable thinking in percentages, the `rgb()` function is a good way to go. Feeding this function three arguments will yield a useful code that can be used anywhere a hex code can be used: `rgb(red = 0.60, green = 0.00, blue = 1.00)` returns the color ["#9900FF"]{style="color:#9900FF;"}.
+[^1]: If you're more comfortable thinking in percentages, `rgb()` will be useful. Feeding this function three arguments will return the corresponding hex code: `rgb(red = 0.60, green = 0.00, blue = 1.00)` returns ["#9900FF"]{style="color:#9900FF;"}.
 
 ```{r}
 #| label: hexcolors
@@ -187,7 +187,7 @@ joyce <- get_gutenberg_corpus(c(2814, 4217, 4300)) |>
 
 joyce_count <- joyce |> 
   count(doc_id, word) |> 
-  visualize(rows = 1:5, color_y = TRUE)
+  visualize(rows = 1:5, color_y = TRUE, reorder_y = TRUE)
 
 dubliners_dfm <- dubliners |> 
   expand_documents() |> 
@@ -205,11 +205,7 @@ Custom colors also work well when naming particular values:
 ```{r fig.height=3}
 joyce_count |> 
   change_colors(c(
-    to = "#88FF00", 
-    the = "#00FF00",
-    of = "#00FF88", 
-    and = "#00DDBB",
-    a = "#00EEEE",
+    "#88DD00", "#00DDDD",
     he = "red"))
 ```
 

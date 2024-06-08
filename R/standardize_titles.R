@@ -53,6 +53,31 @@ standardize_titles <- function(.data, title = doc_id, drop_articles = FALSE){
   names(lowercase_words) <- lowercase_words |>
     stringr::str_to_title()
 
+  if (rlang::is_installed("utils")) {
+    roman_numerals <- utils::as.roman(1:100) |>
+      stringr::str_to_title() |>
+      setNames(utils::as.roman(1:100))
+  } else {
+    make_rns <- function(base = "I",
+                         mid = "V",
+                         top = "X") {
+      result_1.3 <- 1:3 |>
+        sapply(\(x) paste0(rep(base, x), collapse =""))
+      result_4 <- paste0(base, mid)
+      result_5 <- mid
+      result_6.8 <- paste0(mid, result_1.3)
+      result_9 <- paste0(base, top)
+      return(c(result_1.3, result_4, result_5,
+               result_6.8, result_9))
+    }
+    roman_numerals <-
+      expand.grid(c("", make_rns("I", "V", "X")),
+                  c("", make_rns("X", "L", "C"))) |>
+      dplyr::mutate(rnumeral = paste0(Var2, Var1)) |>
+      dplyr::pull(rnumeral) |>
+      {\(x) x[x!=""]}()
+  }
+
   standardize_string <- function(.data, drop_articles){
     .data <- .data |>
       stringr::str_replace_all("_", " ") |>

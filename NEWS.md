@@ -1,9 +1,18 @@
+# tmtyro 0.3.0
+
+* `add_dictionary()` now supports n-gram dictionaries, matching across multiple words
+* `make_dictionary()` has a slightly changed syntax, with clearer argument names `definitions` and `name`
+* Along with its related `visualize()` methods, `plot_doc_word_bars()` improves support for `color_y = TRUE` and `reorder_y = TRUE`
+* When naming colors, `change_color()` now allows setting colors for unnamed values
+* `standardize_titles()` capitalizes Roman numerals 
+* `load_texts()` adds support for custom tokenization using the dots parameter from `tidytext::unnest_tokens()`
+
 # tmtyro 0.2.0
 
 * `add_partitions()` adds a partition column, useful for getting same-sized samples
 * `identify_by()` now works with multiple columns, and it keeps existing metadata columns. This is especially useful with the new `add_partitions()` column, using something like `my_corpus() |> add_partitions() |> identify_by(title, partition)` before continuing to work with partitioned documents. To return framing to unpartitioned data, used `identify_by(title)` or whatever other column is most relevant.
-* New visualization and tabulization methods for expand_documents()
-* Functions now imported: count() and drop_na()
+* New visualization and tabulization methods for `expand_documents()`
+* Functions now imported: `count()` and `drop_na()`
 * When the ggraph package is loaded, `plot_bigrams()` now uses a color scale on edges, rather than spot color on nodes, with full support for `change_color()`
 * Improved documentation with website articles for customizing colors and showing code comparisons
 

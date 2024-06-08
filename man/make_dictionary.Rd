@@ -4,15 +4,15 @@
 \alias{make_dictionary}
 \title{Create a lexicon}
 \usage{
-make_dictionary(list, identifier = "value")
+make_dictionary(definitions, name = "value")
 }
 \arguments{
-\item{list}{A list of named word vectors}
+\item{definitions}{A list of named word vectors}
 
-\item{identifier}{The kind of dictionary}
+\item{name}{The kind of dictionary}
 }
 \value{
-A data frame with two columns, "word" and \if{html}{\out{<identifier>}}
+A data frame with two columns, "word" and \if{html}{\out{<name>}}
 }
 \description{
 \code{make_dictionary()} creates a dictionary for use with \code{add_dictionary()}.
@@ -22,10 +22,10 @@ my_sentiments <- make_dictionary(
   list(
     "😊" = c("happy", "joy", "smile"),
     "😔" = c("unhappy", "sad", "frown")),
-  identifier = "emoji")
+  name = "emoji")
 
 border_states <- make_dictionary(
-  list(
+  definitions = list(
     "Canada" = c(
       "Alaska", "Washington", "Idaho",
       "Montana", "North_Dakota", "Minnesota",
@@ -37,5 +37,5 @@ border_states <- make_dictionary(
     "Mexico" = c(
       "California", "Arizona", "New_Mexico",
       "Texas", "CA", "AZ", "NM", "TX")),
-  identifier = "borders")
+  name = "borders")
 }

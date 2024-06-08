@@ -106,6 +106,7 @@ change_colors <- function(
     unique() |>
     {\(x) x[x!="NULL"]}() |>
     {\(x) ifelse(length(x) > 0, x, NA)}()
+  # if "__" in color_map, then the number of colors should be equal to str_remove_all(color_map, "__.*$")
   if (length(mapped) == 0) {
     mapped <- names(x$layers[[1]]$mapping)[names(x$layers[[1]]$mapping) %in% c("color", "colour", "fill")]
 
@@ -139,23 +140,32 @@ change_colors <- function(
     kind <- "seq"
   }
 
-  if (length(colorset) == 1 && tolower(colorset) == "viridis") {
+  ##### Setting colors #####
+  if (length(colorset) == 1 &&
+      tolower(colorset) == "viridis") {
+    ##### Viridis #####
     if (is.numeric(palette)) {
       palette <- LETTERS[palette]
     }
     the_colors <- color_map_length |>
       {\(x) viridis::viridis_pal(option = palette)(x)}()
-  } else if (length(colorset) == 1 && grepl("okabe", tolower(colorset))) {
+  } else if (length(colorset) == 1 &&
+             grepl("okabe", tolower(colorset))) {
+    ##### Okabe Ito #####
     the_colors <- c("#E69F00", "#56B4E9", "#009E73",
                     "#F0E442", "#0072B2", "#D55E00",
                     "#CC79A7", "#999999", "#000000")[start:(color_map_length + start - 1)]
-  } else if (length(colorset) == 1 && grepl("dubois", tolower(colorset))) {
+  } else if (length(colorset) == 1 &&
+             grepl("dubois", tolower(colorset))) {
+    ##### Dubois #####
     # from https://github.com/ajstarks/dubois-data-portraits/
     the_colors <- c("#dc143c", "#ffd700", "#654321",
                     "#4682b4", "#ffc0cb", "#00aa00",
                     "#d2b48c", "#7e6583", "#000000")[start:(color_map_length + start - 1)] |>
       rev()
-  } else if (length(colorset) == 1 && tolower(colorset) == "brewer") {
+  } else if (length(colorset) == 1 &&
+             tolower(colorset) == "brewer") {
+    ##### Brewer #####
     rlang::check_installed("RColorBrewer")
     if (kind == "sequential") {
       kind <- "seq"
@@ -184,26 +194,56 @@ change_colors <- function(
       }
     }
   } else if (length(colorset) != color_map_length) {
-    the_colors <- colorRampPalette(colorset)(color_map_length)
+    ##### Manual, whether named or not #####
+    colors_named <- colorset |>
+      {\(x) x[names(x) != ""]}()
+    colors_other <- colorset |>
+      {\(x) x[names(x) == ""]}()
+    if (length(colors_named) == 0) colors_other <- colorset
+    values_named <- names(colorset)[names(colorset) != ""]
+    if ("ggraph" %in% class(x)) {
+      values_unnamed <- x$plot_env$df_export$n |>
+        unique()
+    } else {
+      values_unnamed <- x$data[[color_map]] |>
+        {\(x) x[!x %in% values_named]}() |>
+        unique() |>
+        sort()
+    }
+
+    if (length(colors_other) == 0) {
+      colors_other <- "grey60"
+    }
+    colors_other_length <- colors_named |>
+      length() |>
+      {\(x) color_map_length - x}()
+    the_colors_other <-
+      colorRampPalette(colors_other)(colors_other_length)
+    names(the_colors_other) <- values_unnamed
+    the_colors <- c(colors_named, the_colors_other)
   } else {
     the_colors <- colorset
   }
 
   if (direction != 1) {
-    if (length(colorset) == 1 && colorset == "brewer"){
+    if (length(colorset) == 1 &&
+        colorset == "brewer"){
       if (!is_sequential) {
         the_colors <- rev(the_colors)
       }
-    } else if (length(colorset) == 1 && colorset != "brewer") {
+    } else if (length(colorset) == 1 &&
+               colorset != "brewer") {
       the_colors <- rev(the_colors)
     } else if (length(colorset) != 1) {
-      the_colors <- rev(the_colors)
+      names(the_colors_other) <- rev(values_unnamed)
+      the_colors <- c(colors_named, the_colors_other)
     }
   }
 
   if (!is.null(secondary)) {
     x +
-      ggplot2::scale_fill_manual(aesthetics = mapped, values = the_colors) +
+      ggplot2::scale_fill_manual(aesthetics = mapped,
+                                 values = the_colors) +
       ggplot2::scale_y_continuous(
         labels = scales::label_comma(),
         sec.axis = ggplot2::dup_axis(
@@ -214,7 +254,8 @@ change_colors <- function(
   } else if (kind != "seq"){
     x +
       ggplot2::scale_fill_manual(aesthetics = mapped, values = the_colors)
-  } else if (length(colorset)==1 && tolower(colorset) == "brewer") {
+  } else if (length(colorset) == 1 &&
+             tolower(colorset) == "brewer") {
     if ("ggraph" %in% class(x)) {
       x +
         ggplot2::scale_fill_distiller(
@@ -233,7 +274,8 @@ change_colors <- function(
           aesthetics = mapped,
           na.value = "white")
     }
-  } else if (length(colorset)==1 && tolower(colorset) == "viridis") {
+  } else if (length(colorset) == 1 &&
+             tolower(colorset) == "viridis") {
     if ("ggraph" %in% class(x)) {
       x +
         ggplot2::scale_fill_viridis_c(
