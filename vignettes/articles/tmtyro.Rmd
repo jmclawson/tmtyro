@@ -150,7 +150,7 @@ data.frame(before, after)
 
 ## Studying texts
 
-Most functions for studying texts follow a predictable naming convention: 
+Useful at many stages of work with a corpus, `contextualize()` shows the context of a search term, with an adjustable window on either side and options for searching with regular expressions. Most other functions for studying texts follow a predictable naming convention: 
 
 * `add_vocabulary()` adds columns measuring the lexical variety of texts.
 * `add_sentiment()` adds a column of sentiment identifiers from a chosen lexicon.
@@ -165,6 +165,44 @@ Along with these, other functions assist with the process:
 * `drop_na()` drops rows with missing data in any column or in specified columns.
 * `combine_ngrams()` combines multiple columns for n-grams into one.
 * `separate_ngrams()` separatesa  single column of n-grams into one column per word.
+
+But understanding context of key words with `show_context()` might be especially helpful.
+
+### Showing context
+
+`contextualize()` finds uses of a word within a corpus and returns a window of context around each use. 
+
+```{r}
+corpus_dubliners |> 
+  contextualize("snow")
+```
+
+By default, `contextualize()` returns five results, showing a window of three words before and after an exact search term. Adjusting `limit` changes the number of results, with `limit = 0` returning a table. Other options include `window` to adjust the number of words shown and `regex` to accept partial matches.
+
+```{r}
+corpus_dubliners |> 
+  contextualize(regex = "sno",
+                window = 2,
+                limit = 0)
+```
+
+When loading texts, `load_texts()` provides an option to keep original capitalization and punctuation. This option doesn't always work, and it seems incompatible with the current implementation of part-of-speech parsing, so it's not always appropriate. But using `contextualize()` on corpora loaded with `load_texts(keep_original = TRUE)` will show search terms much closer to their original context:
+
+```{r}
+corpus_joyce <- joyce |> 
+  load_texts(keep_original = TRUE) |> 
+  identify_by(title)
+
+tundish <- 
+  corpus_joyce |> 
+  contextualize("tundish", limit = 1:7)
+```
+
+Even when `limit` is set to some value other than 0, the table of results is returned invisibly for later recall.
+
+```{r}
+tundish
+```
 
 ### Vocabulary richness
 
@@ -248,10 +286,6 @@ sentiment_ulysses |>
 Following the same pattern, `add_ngrams()` adds columns for n-length phrases of words. By default, it prepares bigrams (or 2-grams).
 
 ```{r}
-corpus_joyce <- joyce |> 
-  load_texts() |> 
-  identify_by(title)
-
 bigrams_joyce <- corpus_joyce |> 
   add_ngrams()
 

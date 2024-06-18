@@ -1,6 +1,6 @@
 ---
 title: "Differentiating tmtyro"
-bibliography: references.bib
+bibliography: differentiating.bib
 csl: modern-language-association.csl
 link-citations: true
 nocite: '@*'
@@ -117,6 +117,12 @@ The code to use each package is shown below for comparison. Every approach assum
 ```{r}
 #| eval: false
 text_directory <- "path/to/files"
+```
+
+```{r}
+#| include: false
+#| eval: false
+text_directory <- "~/Corpora/durrell_quartet"
 ```
 
 It is likely that someone more familiar with a given package would take a different approach, but these examples demonstrate the method someone might try after searching documentation and the internet. When methods are benchmarked, some might be faster than others, but speeds feel comparable in testing.
@@ -275,6 +281,21 @@ sentiment_qu <-
     dictionary = data_dictionary_LSD2015, 
     exclusive = FALSE)
 ```
+
+```{r}
+#| label: dictionary-quanteda
+#| eval: false
+#| include: false
+dict <- dictionary(list(christmas = c("Christmas", "Santa", "holiday"),
+                        opposition = c("Opposition", "reject", "notincorpus"),
+                        taxing = "taxing",
+                        taxation = "taxation",
+                        taxregex = "tax*",
+                        country = "america"))
+
+dict
+```
+
 
 #### tm
 

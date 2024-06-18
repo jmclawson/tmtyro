@@ -4,7 +4,7 @@
 \alias{add_dictionary}
 \title{Add values from a dictionary}
 \usage{
-add_dictionary(df, dictionary, feature = word)
+add_dictionary(df, dictionary, feature = word, keep_term = NULL)
 }
 \arguments{
 \item{df}{A tidy data frame, potentially containing a column called "word"}
@@ -12,6 +12,8 @@ add_dictionary(df, dictionary, feature = word)
 \item{dictionary}{A data frame with two or more columns, potentially made with \code{make_dictionary()}}
 
 \item{feature}{The column (like "word") to use for looking up values in the dictionary}
+
+\item{keep_term}{Whether to retain the original term value. This option is especially useful with dictionaries containing terms longer than one word in length; the NULL value will keep the term for these dictionaries while discarding it for those with terms of only one word.}
 }
 \value{
 The original data frame with one or more columns added.

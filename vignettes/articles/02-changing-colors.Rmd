@@ -92,7 +92,7 @@ When code is easy, the only difficult part is choice.
 
 Most simply, `change_colors()` will set the colors you choose. Setting four colors for four items will assign them directly; any other number will make a gradient.
 
-Color names like "pink" and "orange" work in R, as do specific hues like "forestgreen" and "steelblue."^[The full list of named colors can be viewed in the ["Colors in R" cheat sheet](http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf).] In addition to named colors, R will accept colors as "hex codes" using hexadecimal notation.^[Unlike decimal notation, which uses 10 digits, hexadecimal notation uses 16. The first ten digits run 0 through 9, and the remaining six digits go from A to F, with A representing 10, B representing 11, and so on.] The first two digits of a hex code describe how *red* a color is; the middle two describe how *green* it is; and the last two describe how *blue*. Combinations in the following chart give a sense of how they work, but an [online color picker](https://www.w3schools.com/colors/colors_picker.asp) may help to narrow things down.[^1]
+Color names like "pink" and "orange" work in R, as do specific hues like "forestgreen" and "steelblue."^[The full list of named colors can be viewed in the ["Colors in R" cheat sheet](http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf).] In addition to named colors, R will accept colors as "hex codes" using hexadecimal notation.^[Unlike decimal notation, which uses 10 digits, hexadecimal notation uses 16. The first ten digits run 0 through 9, and the remaining six digits go from A to F, with A representing 10, B representing 11, and so on.] The first two digits of a hex code describe how *red* a color is from 0 to 255; the middle two describe how *green* it is; and the last two describe how *blue*. Combinations in the following chart give a sense of how they work, but an [online color picker](https://www.w3schools.com/colors/colors_picker.asp) may help to narrow things down.[^1]
 
 [^1]: If you're more comfortable thinking in percentages, `rgb()` will be useful. Feeding this function three arguments will return the corresponding hex code: `rgb(red = 0.60, green = 0.00, blue = 1.00)` returns ["#9900FF"]{style="color:#9900FF;"}.
 
@@ -102,39 +102,42 @@ Color names like "pink" and "orange" work in R, as do specific hues like "forest
 #| warning: false
 #| message: false
 
-hex_red <- tribble(
+hex_coordinates <- tribble(
   ~hex,         ~x,    ~y,
   "#000000",    -2,    -2,
-  "#008800",    -1,    -2,
+  "#008000",    -1,    -2,
   "#00FF00",     0,    -2,
-  "#000088",    -2,    -1,
-  "#0088FF",    -3,    -1,
+  "#000080",    -2,    -1,
+  "#0080FF",    -3,    -1,
   "#0000FF",    -2,     0,
-  "#008888",    -2,    -3,
-  "#8888FF",    -3,    -2,
-  "#00FF88",    -1,    -3,
-  "#00FFFF",    -2,    -4,
-  "#888888",    -3,    -3,
-  "#880000",    -1,    -1,
-  "#888800",     0,    -1,
-  "#88FF00",     1,    -1,
-  "#880088",    -1,     0,
-  "#8800FF",    -1,     1,
+  "#008080",    -2,    -3,
+  "#8080FF",    -3,    -2,
+  "#00FF80",    -1,    -3,
+  "#00FFFF",    -4,    -3,
+  "#80FFFF",    -4,    -2,
+  "#80FF80",    -2,    -4,
+  "#808080",    -3,    -3,
+  "#800000",    -1,    -1,
+  "#808000",     0,    -1,
+  "#80FF00",     1,    -1,
+  "#800080",    -1,     0,
+  "#8000FF",    -1,     1,
   "#FF0000",     0,     0,
-  "#FF8800",     1,     0,
+  "#FF8000",     1,     0,
   "#FFFF00",     2,     0,
-  "#FF0088",     0,     1,
+  "#FF0080",     0,     1,
   "#FF00FF",     0,     2,
-  "#FF88FF",     1,     2,
-  "#FFFF88",     2,     1,
+  "#FF80FF",     1,     2,
+  "#FFFF80",     2,     1,
   "#FFFFFF",     2,     2,
-  "#FF8888",     1,     1
+  "#FF8080",     1,     1
 ) 
 
 color_chart <- 
-  hex_red |> 
+  hex_coordinates |> 
   dplyr::mutate(
     text_color = dplyr::case_when(
+      hex %in% c("#00FFFF", "#80FFFF") ~ "black",
       y == -3 & x == -1 ~ "black",
       y == -4 ~ "black",
       x == 0 & y == -2 ~ "black",
@@ -161,10 +164,20 @@ color_chart <-
 
 library(grid)
 
+# goal_values <- expand.grid(c("00", "80", "FF"), 
+#                            c("00", "80", "FF")) |> 
+#   dplyr::mutate(value = paste0(Var1, Var2)) |> 
+#   dplyr::pull(value) |> 
+#   expand.grid(c("00", "80", "FF")) |> 
+#   dplyr::mutate(value = paste0(Var1, Var2)) |> 
+#   dplyr::pull(value) |> 
+#   {\(x) paste0("#", x)}()
+# 
+# setdiff(goal_values, hex_coordinates$hex)
+
 grid.newpage()
 pushViewport(viewport(angle = -45))
 grid.draw(ggplotGrob(color_chart))
-
 ```
 
 Use manual colors---as named colors or as hex codes---by combining them in a vector inside `change_colors()`:
@@ -208,7 +221,6 @@ joyce_count |>
     "#88DD00", "#00DDDD",
     he = "red"))
 ```
-
 
 ### Brewer palettes
 

@@ -47,6 +47,7 @@ reference:
 - title: Explore Results
   desc: Generic functions make it easy to share results with an audience (or keep them to yourself)
 - contents:
+  - contextualize
   - tabulize
   - visualize
 - subtitle: Adjusting tables and figures

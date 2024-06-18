@@ -1,3 +1,13 @@
+# tmtyro 0.4.0
+
+* New function `contextualize()` shows terms in a window of context
+* New function `add_index()` adds a column showing word indices within each document
+* `load_texts()` adds support to keep original capitalization and punctuation alongside the tokenized `word` column with the `keep_original` argument. This process does not work in all instances, so the option defaults to `FALSE`.
+* `add_dictionary()` includes an option to keep original terms. This is useful for n-gram dictionaries, where a match might otherwise span multiple rows.
+* `add_ngrams()` supports negative ranges, for building context windows
+* `add_partitions()` supports overlapping partitions
+* `standardize_titles()` capitalizes words after terminal punctuation
+
 # tmtyro 0.3.0
 
 * `add_dictionary()` now supports n-gram dictionaries, matching across multiple words
@@ -9,7 +19,7 @@
 
 # tmtyro 0.2.0
 
-* `add_partitions()` adds a partition column, useful for getting same-sized samples
+* New function `add_partitions()` adds a partition column, useful for getting same-sized samples
 * `identify_by()` now works with multiple columns, and it keeps existing metadata columns. This is especially useful with the new `add_partitions()` column, using something like `my_corpus() |> add_partitions() |> identify_by(title, partition)` before continuing to work with partitioned documents. To return framing to unpartitioned data, used `identify_by(title)` or whatever other column is most relevant.
 * New visualization and tabulization methods for `expand_documents()`
 * Functions now imported: `count()` and `drop_na()`

@@ -78,12 +78,13 @@
 #'   visualize(type = "heatmap") |>
 #'   change_colors("viridis", palette = "mako")
 #'
-#' ### POINT DATA ###
+#' ### N-GRAMS ###
+#' library(ggraph)
 #'
 #' dubliners |>
 #'   add_ngrams() |>
 #'   visualize() |>
-#'   change_colors("orange")
+#'   change_colors(c("#444488","orange"))
 change_colors <- function(
     x,
     colorset = "brewer",

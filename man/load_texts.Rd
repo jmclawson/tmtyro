@@ -13,6 +13,7 @@ load_texts(
   to_lower = TRUE,
   remove_names = FALSE,
   pos = FALSE,
+  keep_original = FALSE,
   poetry = FALSE,
   paragraph = TRUE,
   n = 1L,
@@ -35,6 +36,8 @@ load_texts(
 \item{remove_names}{When \code{word} is TRUE, toggles whether to remove words that only appear with the form of initial capitals. Defaults to FALSE.}
 
 \item{pos}{Whether to add a column for part-of-speech tag. This step can add a lot of time, so it defaults to FALSE.}
+
+\item{keep_original}{Whether to try to retain the original punctuation and capitalization in a parallel column. This won't always work, so it defaults to FALSE.}
 
 \item{poetry}{Whether to detect and indicate stanza breaks and line breaks. Defaults to FALSE.}
 

@@ -10,6 +10,7 @@
 #' @param to_lower When `word` is TRUE, toggles whether to convert all words to lowercase. Defaults to TRUE.
 #' @param remove_names When `word` is TRUE, toggles whether to remove words that only appear with the form of initial capitals. Defaults to FALSE.
 #' @param pos Whether to add a column for part-of-speech tag. This step can add a lot of time, so it defaults to FALSE.
+#' @param keep_original Whether to try to retain the original punctuation and capitalization in a parallel column. This won't always work, so it defaults to FALSE.
 #' @param poetry Whether to detect and indicate stanza breaks and line breaks. Defaults to FALSE.
 #' @param paragraph Whether to detect paragraph breaks for prose. Defaults to TRUE.
 #' @param n The number of words per row. By default, `load_texts()` unnests a text one word at a time using a column called `word`. When `n` is a value greater than 1, `load_texts()` will instead use [tidytext::unnest_tokens()] with `token = "ngrams"` to create a column called `ngram`.
@@ -44,6 +45,7 @@ load_texts <- function(
     to_lower = TRUE,
     remove_names = FALSE,
     pos = FALSE,
+    keep_original = FALSE,
     poetry = FALSE,
     paragraph = TRUE,
     n = 1L,
@@ -79,9 +81,59 @@ load_texts <- function(
 
     full_corpus <- src
   }
+  # browser()
+  if (word & keep_original) {
+    original_df <- full_corpus |>
+      dplyr::mutate(
+        text = text |>
+          stringr::str_replace_all("\\s+(?=[.,!:-])",
+                                   "") |>
+          stringr::str_replace_all("\\s+(?=[\u201d])",# rdquo
+                                   "") |>
+          stringr::str_replace_all("\\s+(?=[\u2014])",# emdash
+                                   "") |>
+          stringr::str_replace_all("\\s+(?=[\u2013])",# endash
+                                   "")) |>
+      tidytext::unnest_tokens(
+        output = word,
+        input = text,
+        token = "regex",
+        pattern = "[[:space:]]|[.]{3}",
+        to_lower = FALSE) |>
+      dplyr::mutate(
+        adjusted = tolower(word) |>
+          stringr::str_remove_all("['\u2019](?=[:punct:])") |>
+          stringr::str_remove_all("(?=[:punct:])") |>
+          stringr::str_remove_all("[\U0336]?[\U0337]?[\U0338]?") |>
+          stringr::str_remove_all("[:punct:]+$") |>
+          stringr::str_remove_all("^[:punct:]+") |>
+          stringr::str_extract_all("[[:alnum:].]+[.]+(?=['\u2019][:alnum:])|(?<=[[:alnum:]][.])[[:alnum:]'\u2019]+|[[:alnum:]'\u2019.,]+")) |> # debug here
+      tidyr::unnest_longer(adjusted)
+
+    original <- original_df |>
+      dplyr::pull(word)
+  }
 
   full_corpus <- full_corpus |>
     tidy_texts_internal(word, lemma, lemma_replace, to_lower, remove_names, pos, n, ...)
+
+  if (word & keep_original) {
+    if (nrow(full_corpus) == length(original)) {
+      full_corpus <- full_corpus |>
+        dplyr::mutate(
+          original = original,
+          .before = word) |>
+        dplyr::mutate(
+          original = dplyr::case_when(
+            original == dplyr::lag(original) &
+              word != dplyr::lag(word) ~ NA_character_,
+            TRUE ~ original))
+    } else {
+      message("Something didn't work. See `original_df`.")
+      original_df <<- original_df
+    }
+
+  }
 
   if (!paragraph & !poetry) {
     full_corpus <- full_corpus |>

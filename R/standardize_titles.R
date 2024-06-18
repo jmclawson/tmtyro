@@ -48,10 +48,16 @@ standardize_titles <- function(.data, title = doc_id, drop_articles = FALSE){
                        "the", "through", "to",
                        "under", "upon",
                        "with", "within", "without") |>
-    {\(x) paste0(" ", x, " ")}()
+    {\(x) paste0("(?<![.?]) ", x, " ")}()
 
-  names(lowercase_words) <- lowercase_words |>
+  lowercase_names <- lowercase_words |>
     stringr::str_to_title()
+
+  lowercase_words <-
+    lowercase_words |>
+    stringr::str_remove_all("\\(\\?\\<\\!\\[\\.\\?\\]\\)")
+
+  names(lowercase_words) <- lowercase_names
 
   if (rlang::is_installed("utils")) {
     roman_numerals <- utils::as.roman(1:100) |>
@@ -82,7 +88,8 @@ standardize_titles <- function(.data, title = doc_id, drop_articles = FALSE){
     .data <- .data |>
       stringr::str_replace_all("_", " ") |>
       stringr::str_to_title() |>
-      stringr::str_remove_all("[;:].*")
+      stringr::str_remove_all("[;:].*") |>
+      stringr::str_remove_all("[.]$")
 
     if (drop_articles) {
       .data <- .data |>
@@ -94,7 +101,7 @@ standardize_titles <- function(.data, title = doc_id, drop_articles = FALSE){
   }
 
   if (is.character(.data)) {
-    .data |> standardize_string(drop_articles, drop_articles)
+    .data |> standardize_string(drop_articles)
   } else if (is.factor(.data)) {
     the_levels <- .data |>
       levels() |>

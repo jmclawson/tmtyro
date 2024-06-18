@@ -4,7 +4,7 @@
 \alias{make_dictionary}
 \title{Create a lexicon}
 \usage{
-make_dictionary(definitions, name = "value")
+make_dictionary(definitions, name = NULL)
 }
 \arguments{
 \item{definitions}{A list of named word vectors}
