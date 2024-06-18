@@ -96,7 +96,7 @@
 
 
 <dt>feature</dt>
-<dd><p>The column to show for context</p></dd>
+<dd><p>The column to show for context. When <code>NULL</code>, <code>contextualize()</code> looks first for an "original" column and then for a "word" column.</p></dd>
 
 
 <dt>match</dt>
@@ -111,17 +111,24 @@
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>A data frame with four columns: <by>, <match>, "index", and "context"</match></by></p>
+<p>Invisibly, a data frame with four columns: <code>&lt;by&gt;</code>, <code>&lt;match&gt;</code>, "index", and "context"</p>
+    </div>
+    <div class="section level2">
+    <h2 id="hiding-results">Hiding results<a class="anchor" aria-label="anchor" href="#hiding-results"></a></h2>
+    <p><code>contextualize()</code> uses <code><a href="https://cli.r-lib.org/reference/ansi-styles.html" class="external-link">cli::style_underline()</a></code> and <code><a href="https://rdrr.io/pkg/fansi/man/to_html.html" class="external-link">fansi::to_html()</a></code>, if these packages are installed, to show formatted results in the console or in a document rendered to HTML. These formatted results can be hidden by setting <code>limit = 0</code> in the function, by suppressing messages with <code><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressMessages()</a></code> in the console, or by setting a <code>message: false</code> chunk option in Quarto or R Markdown.</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="va">dubliners</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_gutenberg_corpus.html">get_gutenberg_corpus</a></span><span class="op">(</span><span class="fl">2814</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">dubliners</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_gutenberg_corpus.html">get_gutenberg_corpus</a></span><span class="op">(</span><span class="fl">2814</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>    <span class="fu"><a href="load_texts.html">load_texts</a></span><span class="op">(</span>keep_original <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="fu">contextualize</span><span class="op">(</span><span class="va">dubliners</span>, regex <span class="op">=</span> <span class="st">"dog[s]?$"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="fu">contextualize</span><span class="op">(</span><span class="va">dubliners</span>, regex <span class="op">=</span> <span class="st">"dog[s]?$"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> on a thick bull<span style="color: #BB00BB; text-decoration: underline;">dog</span> face and a</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> gone to the <span style="color: #BB00BB; text-decoration: underline;">dogs</span>.” “But Hogan has</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> throw to a <span style="color: #BB00BB; text-decoration: underline;">dog</span>. He stands and</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> order. ‘Down, ye <span style="color: #BB00BB; text-decoration: underline;">dogs</span>! Lie down, ye</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> these two fighting <span style="color: #BB00BB; text-decoration: underline;">dog</span> and devil until</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
