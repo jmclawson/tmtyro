@@ -26,23 +26,25 @@ contextualize(
 
 \item{by}{The document identifier, for limiting context window}
 
-\item{feature}{The column to show for context}
+\item{feature}{The column to show for context. When \code{NULL}, \code{contextualize()} looks first for an "original" column and then for a "word" column.}
 
 \item{match}{The column to use for matching}
 
 \item{regex}{When defined, a regular expression for searches using greater control}
 }
 \value{
-A data frame with four columns: \if{html}{\out{<by>}}, \if{html}{\out{<match>}}, "index", and "context"
+Invisibly, a data frame with four columns: \verb{<by>}, \verb{<match>}, "index", and "context"
 }
 \description{
 Show a term in context
 }
+\section{Hiding results}{
+\code{contextualize()} uses \code{\link[cli:ansi-styles]{cli::style_underline()}} and \code{\link[fansi:to_html]{fansi::to_html()}}, if these packages are installed, to show formatted results in the console or in a document rendered to HTML. These formatted results can be hidden by setting \code{limit = 0} in the function, by suppressing messages with \code{\link[=suppressMessages]{suppressMessages()}} in the console, or by setting a \code{message: false} chunk option in Quarto or R Markdown.
+}
+
 \examples{
-if (FALSE) {
-  dubliners <- get_gutenberg_corpus(2814) |>
+dubliners <- get_gutenberg_corpus(2814) |>
     load_texts(keep_original = TRUE)
 
-  contextualize(dubliners, regex = "dog[s]?$")
-}
+contextualize(dubliners, regex = "dog[s]?$")
 }

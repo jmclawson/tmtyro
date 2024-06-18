@@ -5,20 +5,22 @@
 #' @param window The number of terms to show before and after
 #' @param limit The number of results to return in the console using cli, if installed
 #' @param by The document identifier, for limiting context window
-#' @param feature The column to show for context
+#' @param feature The column to show for context. When `NULL`, `contextualize()` looks first for an "original" column and then for a "word" column.
 #' @param match The column to use for matching
 #' @param regex When defined, a regular expression for searches using greater control
 #'
-#' @returns A data frame with four columns: <by>, <match>, "index", and "context"
+#' @details
+#' # Hiding results
+#' `contextualize()` uses [cli::style_underline()] and [fansi::to_html()], if these packages are installed, to show formatted results in the console or in a document rendered to HTML. These formatted results can be hidden by setting `limit = 0` in the function, by suppressing messages with [`suppressMessages()`] in the console, or by setting a `message: false` chunk option in Quarto or R Markdown.
+#'
+#' @returns Invisibly, a data frame with four columns: `<by>`, `<match>`, "index", and "context"
 #' @export
 #'
 #' @examples
-#' if (FALSE) {
-#'   dubliners <- get_gutenberg_corpus(2814) |>
+#' dubliners <- get_gutenberg_corpus(2814) |>
 #'     load_texts(keep_original = TRUE)
 #'
-#'   contextualize(dubliners, regex = "dog[s]?$")
-#' }
+#' contextualize(dubliners, regex = "dog[s]?$")
 contextualize <- function(df, term, window = 3, limit = 1:5, by = doc_id, feature = NULL, match = word, regex = NULL) {
   feature_str <- deparse(substitute(feature))
   if (length(limit) == 1 &
