@@ -34,6 +34,9 @@
     <loc>https://jmclawson.github.io/tmtyro/reference/add_dictionary.html</loc>
   </url>
   <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/add_index.html</loc>
+  </url>
+  <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/add_ngrams.html</loc>
   </url>
   <url>
@@ -53,6 +56,9 @@
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/combine_ngrams.html</loc>
+  </url>
+  <url>
+    <loc>https://jmclawson.github.io/tmtyro/reference/contextualize.html</loc>
   </url>
   <url>
     <loc>https://jmclawson.github.io/tmtyro/reference/count.html</loc>

@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tmtyro</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,6 +70,7 @@
 <span>  to_lower <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  remove_names <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  pos <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  keep_original <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  poetry <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  paragraph <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  n <span class="op">=</span> <span class="fl">1L</span>,</span>
@@ -109,6 +110,10 @@
 
 <dt>pos</dt>
 <dd><p>Whether to add a column for part-of-speech tag. This step can add a lot of time, so it defaults to FALSE.</p></dd>
+
+
+<dt>keep_original</dt>
+<dd><p>Whether to try to retain the original punctuation and capitalization in a parallel column. This won't always work, so it defaults to FALSE.</p></dd>
 
 
 <dt>poetry</dt>

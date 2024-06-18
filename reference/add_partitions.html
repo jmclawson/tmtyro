@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tmtyro</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,7 +61,14 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">add_partitions</span><span class="op">(</span><span class="va">df</span>, length <span class="op">=</span> <span class="fl">1000</span>, by <span class="op">=</span> <span class="va">doc_id</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">add_partitions</span><span class="op">(</span></span>
+<span>  <span class="va">df</span>,</span>
+<span>  size <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  overlap <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  minimum <span class="op">=</span> <span class="fl">0.25</span>,</span>
+<span>  by <span class="op">=</span> <span class="va">doc_id</span>,</span>
+<span>  character <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -70,12 +77,24 @@
 <dd><p>A tidy data frame, potentially containing a column called "word"</p></dd>
 
 
-<dt>length</dt>
+<dt>size</dt>
 <dd><p>Size of each partition</p></dd>
+
+
+<dt>overlap</dt>
+<dd><p>Size each partition should overlap. If a value between 0 and 1 is used, <code>overlap</code> will be calculated as a percentage of <code>size</code>.</p></dd>
+
+
+<dt>minimum</dt>
+<dd><p>Minimum partition size. If a value between 0 and 1 is used, <code>minimum</code> will be calculated as a percentage of <code>size</code>.</p></dd>
 
 
 <dt>by</dt>
 <dd><p>A column containing document grouping</p></dd>
+
+
+<dt>character</dt>
+<dd><p>Whether to return a <code>partition</code> column as a character vector with zeroes added for padding. This feature may be helpful if using <code><a href="identify_by.html">identify_by()</a></code> to consider <code>partition</code> when defining documents in a corpus.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -96,14 +115,14 @@
 <span class="r-in"><span>  <span class="fu">add_partitions</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 6</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   doc_id      title     author       part        word  partition</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> The Sisters Dubliners Joyce, James THE SISTERS there         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> The Sisters Dubliners Joyce, James THE SISTERS was           1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> The Sisters Dubliners Joyce, James THE SISTERS no            1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> The Sisters Dubliners Joyce, James THE SISTERS hope          1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> The Sisters Dubliners Joyce, James THE SISTERS for           1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> The Sisters Dubliners Joyce, James THE SISTERS him           1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   doc_id      title     author       part        partition word </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> The Sisters Dubliners Joyce, James THE SISTERS         1 there</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> The Sisters Dubliners Joyce, James THE SISTERS         1 was  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> The Sisters Dubliners Joyce, James THE SISTERS         1 no   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> The Sisters Dubliners Joyce, James THE SISTERS         1 hope </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> The Sisters Dubliners Joyce, James THE SISTERS         1 for  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> The Sisters Dubliners Joyce, James THE SISTERS         1 him  </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

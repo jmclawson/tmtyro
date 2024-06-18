@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tmtyro</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,6 +55,21 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.4.0" id="tmtyro-040">tmtyro 0.4.0<a class="anchor" aria-label="anchor" href="#tmtyro-040"></a></h2>
+<ul><li>New function <code><a href="../reference/contextualize.html">contextualize()</a></code> shows terms in a window of context</li>
+<li>New function <code><a href="../reference/add_index.html">add_index()</a></code> adds a column showing word indices within each document</li>
+<li>
+<code><a href="../reference/load_texts.html">load_texts()</a></code> adds support to keep original capitalization and punctuation alongside the tokenized <code>word</code> column with the <code>keep_original</code> argument. This process does not work in all instances, so the option defaults to <code>FALSE</code>.</li>
+<li>
+<code><a href="../reference/add_dictionary.html">add_dictionary()</a></code> includes an option to keep original terms. This is useful for n-gram dictionaries, where a match might otherwise span multiple rows.</li>
+<li>
+<code><a href="../reference/add_ngrams.html">add_ngrams()</a></code> supports negative ranges, for building context windows</li>
+<li>
+<code><a href="../reference/add_partitions.html">add_partitions()</a></code> supports overlapping partitions</li>
+<li>
+<code><a href="../reference/standardize_titles.html">standardize_titles()</a></code> capitalizes words after terminal punctuation</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3.0" id="tmtyro-030">tmtyro 0.3.0<a class="anchor" aria-label="anchor" href="#tmtyro-030"></a></h2>
 <ul><li>
 <code><a href="../reference/add_dictionary.html">add_dictionary()</a></code> now supports n-gram dictionaries, matching across multiple words</li>
@@ -72,8 +87,7 @@
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.0" id="tmtyro-020">tmtyro 0.2.0<a class="anchor" aria-label="anchor" href="#tmtyro-020"></a></h2>
-<ul><li>
-<code><a href="../reference/add_partitions.html">add_partitions()</a></code> adds a partition column, useful for getting same-sized samples</li>
+<ul><li>New function <code><a href="../reference/add_partitions.html">add_partitions()</a></code> adds a partition column, useful for getting same-sized samples</li>
 <li>
 <code><a href="../reference/identify_by.html">identify_by()</a></code> now works with multiple columns, and it keeps existing metadata columns. This is especially useful with the new <code><a href="../reference/add_partitions.html">add_partitions()</a></code> column, using something like <code>my_corpus() |&gt; add_partitions() |&gt; identify_by(title, partition)</code> before continuing to work with partitioned documents. To return framing to unpartitioned data, used <code>identify_by(title)</code> or whatever other column is most relevant.</li>
 <li>New visualization and tabulization methods for <code><a href="../reference/expand_documents.html">expand_documents()</a></code>
