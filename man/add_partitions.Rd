@@ -4,14 +4,27 @@
 \alias{add_partitions}
 \title{Divide documents in equal lengths}
 \usage{
-add_partitions(df, length = 1000, by = doc_id)
+add_partitions(
+  df,
+  size = 1000,
+  overlap = 0,
+  minimum = 0.25,
+  by = doc_id,
+  character = FALSE
+)
 }
 \arguments{
 \item{df}{A tidy data frame, potentially containing a column called "word"}
 
-\item{length}{Size of each partition}
+\item{size}{Size of each partition}
+
+\item{overlap}{Size each partition should overlap. If a value between 0 and 1 is used, \code{overlap} will be calculated as a percentage of \code{size}.}
+
+\item{minimum}{Minimum partition size. If a value between 0 and 1 is used, \code{minimum} will be calculated as a percentage of \code{size}.}
 
 \item{by}{A column containing document grouping}
+
+\item{character}{Whether to return a \code{partition} column as a character vector with zeroes added for padding. This feature may be helpful if using \code{\link[=identify_by]{identify_by()}} to consider \code{partition} when defining documents in a corpus.}
 }
 \value{
 The original data frame with a column added for partition.

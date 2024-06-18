@@ -35,10 +35,22 @@ add_ngrams <- function(df, n = 1:2, feature = word, keep = FALSE, collapse = FAL
     n
   }
 
-  n <- make_range(n) - 1
+  if (!0 %in% n) {
+    num <- make_range(n) - 1
+  } else {
+    num <- make_range(n)
+  }
 
-  map_lead <- n |>
-    purrr::map(~purrr::partial(dplyr::lead, n = .x))
+  int_shift <- function (x, n = 1L, default = NULL, order_by = NULL, ...){
+    if (n > 0L) {
+      dplyr::lead(x, n = n, default = default, order_by = order_by)
+    } else {
+      dplyr::lag(x, n = -n, default = default, order_by = order_by)
+    }
+  }
+
+  map_shift <- num |>
+    purrr::map(~purrr::partial(int_shift, n = .x))
 
   by_col <- deparse(substitute(by))
 
@@ -52,9 +64,10 @@ add_ngrams <- function(df, n = 1:2, feature = word, keep = FALSE, collapse = FAL
   }
 
   the_df <- df |>
-    dplyr::mutate(dplyr::across(.cols = {{ feature }},
-                                .fns = map_lead,
-                                .names = "{.col}_{n+1}")) |>
+    dplyr::mutate(dplyr::across(
+      .cols = {{ feature }},
+      .fns = map_shift,
+      .names = '{.col}_{num}')) |>
     dplyr::ungroup()
 
   if (!keep) {
@@ -62,13 +75,22 @@ add_ngrams <- function(df, n = 1:2, feature = word, keep = FALSE, collapse = FAL
       dplyr::select(-{{ feature }})
   }
 
-  if (collapse) {
+  if (!is.character(feature)) {
     col_string <- deparse(substitute(feature))
+  } else {
+    col_string <- feature
+  }
+
+  if (collapse) {
     the_df <- the_df |>
       tidyr::unite(
         "ngram",
-        stringr::str_glue("{col_string}_{min(n+1)}"):stringr::str_glue("{col_string}_{max(n+1)}"),
+        stringr::str_glue("{col_string}_{min(num)}"):stringr::str_glue("{col_string}_{max(num)}"),
         sep = " ")
+  }
+
+  if (mean(n > 0) == 1) {
+    colnames(the_df)[colnames(the_df) %in% stringr::str_glue("{col_string}_{num}")] <- stringr::str_glue("{col_string}_{make_range(n)}")
   }
 
   the_df |>
@@ -107,13 +129,14 @@ combine_ngrams <- function(df, feature = word, keep = FALSE){
   # browser()
   col_string <- deparse(substitute(feature))
   if (!paste0(col_string,"_1") %in% colnames(df)) {
-    col_string <- colnames(df)[grepl("_1",colnames(df))][1] |>
-      stringr::str_remove_all("_1")
+    col_string <- colnames(df)[grepl("_[01]",colnames(df))][1] |>
+      stringr::str_remove_all("_[01]")
     feature <- as.name(col_string)
   }
 
   col_names <- df |>
     dplyr::select(tidyr::starts_with(paste0(col_string,"_"))) |>
+    dplyr::select(tidyr::matches("[_][-]?\\d$")) |>
     colnames()
 
   if (length(col_names) < 2) {
@@ -122,6 +145,7 @@ combine_ngrams <- function(df, feature = word, keep = FALSE){
 
     col_names <- df |>
       dplyr::select(tidyr::starts_with(paste0(col_string,"_"))) |>
+      dplyr::select(tidyr::matches("[_]\\d$")) |>
       colnames()
   }
 
