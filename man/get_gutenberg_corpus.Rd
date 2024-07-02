@@ -7,9 +7,7 @@
 get_gutenberg_corpus(
   gutenberg_id,
   dir = "gutenberg",
-  mirror = NULL,
-  meta_fields = c("title", "author"),
-  type = c("htm", "txt"),
+  meta_fields = c("gutenberg_id", "title", "author"),
   html_title = FALSE,
   ...
 )
@@ -19,11 +17,7 @@ get_gutenberg_corpus(
 
 \item{dir}{The directory for storing downloaded \code{.txt} files. Default value is "gutenberg".}
 
-\item{mirror}{Optionally a mirror URL to retrieve the books from. By default uses the mirror from \code{\link[gutenbergr:gutenberg_get_mirror]{gutenbergr::gutenberg_get_mirror()}}.}
-
 \item{meta_fields}{Additional fields to add from \link[gutenbergr:gutenberg_metadata]{gutenbergr::gutenberg_metadata} describing each book. By default, title and author are added.}
-
-\item{type}{Indicate whether the corpus should be created from the plain text "txt" versions of books (previously the only type) or from enhanced "htm" versions, which attempt to find markers for chapters and sections.}
 
 \item{html_title}{Whether to use the h1 header from an HTML file to determine a document's title. By default, uses \link[gutenbergr:gutenberg_metadata]{gutenbergr::gutenberg_metadata}.}
 
@@ -36,18 +30,14 @@ A data frame with one row for each line of the texts in the corpus.
 \code{get_gutenberg_corpus()} improves upon the functionality
 of \code{\link[gutenbergr:gutenberg_download]{gutenbergr::gutenberg_download()}} in three key ways.
 \enumerate{
-\item First, its default setting is to retrieve the ".htm"
-version of texts and parse the headers. This change allows for
-consideration of texts by sections and chapters. Parsing is
-handled by \code{\link[=parse_html]{parse_html()}}, and \code{\link[=move_header_to_text]{move_header_to_text()}} is
-available to correct any parsing errors.
-\item Second, when using the ".txt" format,
-\code{get_gutenberg_corpus()} doesn't rely on the presence of
-".zip" files. This change improves coverage of files
-dramatically.
-\item Finally, it caches a copy of files locally to avoid the
-need for repeated downloads. This change helps with code
-portability, offline access, and server bandwidth.
+\item First, it retrieves the ".htm" version of texts and
+parses the headers. This change allows for consideration
+of texts by sections and chapters. Parsing is handled by
+\code{\link[=parse_html]{parse_html()}}, and \code{\link[=move_header_to_text]{move_header_to_text()}} is available
+to correct any parsing errors.
+\item Second, it caches a copy of files locally to avoid
+the need for repeated downloads. This change helps with
+code portability, offline access, and server bandwidth.
 }
 All changes are made with consideration for server bandwidth,
 so a two-second delay is introduced between each download

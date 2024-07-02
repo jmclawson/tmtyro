@@ -1,6 +1,6 @@
 Package: tmtyro
 Title: tmtyro: Simplified Workflows for Text Mining Tyros
-Version: 0.4.0
+Version: 0.4.1
 Authors@R: 
     person("James", "Clawson", , "clawson@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0009-0008-6756-0607"))

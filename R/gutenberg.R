@@ -3,18 +3,14 @@
 #' `get_gutenberg_corpus()` improves upon the functionality
 #' of [gutenbergr::gutenberg_download()] in three key ways.
 #' \enumerate{
-#' \item First, its default setting is to retrieve the ".htm"
-#' version of texts and parse the headers. This change allows for
-#' consideration of texts by sections and chapters. Parsing is
-#' handled by [parse_html()], and [move_header_to_text()] is
-#' available to correct any parsing errors.
-#' \item Second, when using the ".txt" format,
-#' `get_gutenberg_corpus()` doesn't rely on the presence of
-#' ".zip" files. This change improves coverage of files
-#' dramatically.
-#' \item Finally, it caches a copy of files locally to avoid the
-#' need for repeated downloads. This change helps with code
-#' portability, offline access, and server bandwidth.
+#' \item First, it retrieves the ".htm" version of texts and
+#' parses the headers. This change allows for consideration
+#' of texts by sections and chapters. Parsing is handled by
+#' [parse_html()], and [move_header_to_text()] is available
+#' to correct any parsing errors.
+#' \item Second, it caches a copy of files locally to avoid
+#' the need for repeated downloads. This change helps with
+#' code portability, offline access, and server bandwidth.
 #' }
 #' All changes are made with consideration for server bandwidth,
 #' so a two-second delay is introduced between each download
@@ -24,9 +20,7 @@
 #'
 #' @param gutenberg_id A vector of ID numbers from Project Gutenberg or a data frame containing a `gutenberg_id` column, such as from the results of a call to [gutenbergr::gutenberg_works()].
 #' @param dir The directory for storing downloaded `.txt` files. Default value is "gutenberg".
-#' @param mirror Optionally a mirror URL to retrieve the books from. By default uses the mirror from [gutenbergr::gutenberg_get_mirror()].
 #' @param meta_fields Additional fields to add from [gutenbergr::gutenberg_metadata] describing each book. By default, title and author are added.
-#' @param type Indicate whether the corpus should be created from the plain text "txt" versions of books (previously the only type) or from enhanced "htm" versions, which attempt to find markers for chapters and sections.
 #' @param html_title Whether to use the h1 header from an HTML file to determine a document's title. By default, uses [gutenbergr::gutenberg_metadata].
 #' @param ... Additional parameters passed along to [gutenbergr::gutenberg_strip()].
 #'
@@ -39,158 +33,113 @@
 #' dalloway <- gutenberg_works(author == "Woolf, Virginia",
 #'                             title == "Mrs Dalloway in Bond Street") |>
 #'   get_gutenberg_corpus()
-get_gutenberg_corpus <- function(gutenberg_id, dir = "gutenberg",
-                                 mirror = NULL,
-                                 meta_fields = c("title", "author"),
-                                 type = c("htm","txt"),
-                                 html_title = FALSE,
-                                 ...) {
-  # browser()
-  type <- match.arg(type)
+get_gutenberg_corpus <- function(
+    gutenberg_id, dir = "gutenberg",
+    meta_fields = c("gutenberg_id", "title", "author"),
+    html_title = FALSE,
+    ...) {
 
-  # adapted from gutenberg_download
-  if (is.null(mirror)) {
-    mirror <- gutenbergr::gutenberg_get_mirror(verbose = FALSE)
-  }
-
-  if (inherits(gutenberg_id, "data.frame")) {
+    if ("data.frame" %in% class(gutenberg_id) &&
+      "gutenberg_id" %in% colnames(gutenberg_id)) {
     gutenberg_id <- gutenberg_id[["gutenberg_id"]]
+  } else if ("data.frame" %in% class(gutenberg_id)) {
+    stop("A `gutenberg_id` column is necessary when using a data frame.")
   }
 
-  id <- as.character(gutenberg_id)
+  make_url <- function(x) {
+    y <- if (as.numeric(x) > 10) {
+      strsplit(x, "") |>
+        unlist() |>
+        {\(x) x[1:(length(x)-1)]}() |>
+        paste0(collapse = "/")
+    } else {
+      "0"
+    }
+    stringr::str_c(
+      gutenbergr::gutenberg_get_mirror(verbose = FALSE),
+      y, x,
+      stringr::str_c(x, "-h"),
+      stringr::str_c(x, "-h.htm"),
+      sep = "/")
+  }
 
-  path <- id |>
-    stringr::str_sub(1, -2) |>
-    stringr::str_split("") |>
-    purrr::map_chr(stringr::str_c, collapse = "/")
-
-  path <- ifelse(nchar(id) == 1, "0", path)
-
-  # modifications away from gutenbergr::gutenberg_download
-  # .txt files don't seem to be against policy
-  full_url <- stringr::str_c(mirror, path, id,
-                             stringr::str_c(id, ".txt"),
-                             sep = "/")
-  names(full_url) <- id
+  gut_df <-
+    data.frame(
+      id = as.character(gutenberg_id)) |>
+    dplyr::rowwise() |>
+    dplyr::mutate(
+      url = make_url(id)) |>
+    dplyr::ungroup()
 
   # save downloads locally to avoid repeats
-  try_download <- function(url, type = "txt") {
-    if (type == "txt") {
-      ret <- suppressWarnings(download_once(url, destdir=dir))
-      if (!is.null(ret)) {
-        return(ret)
-      }
-      base_url <- stringr::str_replace(url, "[.][a-z]{3}$", "")
-      base_id <- stringr::str_extract(base_url, "[0-9]*$")
-      for (suffix in c("-8", "-0")) {
-        Sys.sleep(2)
-        new_url <- stringr::str_glue("{base_url}{suffix}.txt")
-        ret <- suppressWarnings(
-          download_once(new_url,
-                        filename = paste0(base_id, ".txt"),
-                        destdir = dir))
-        if (!is.null(ret)) {
-          return(ret)
-        }
-      }
-    } else if (type == "htm") {
-      base_url <- stringr::str_replace(url, "[.][a-z]{3}$", "")
-      base_id <- stringr::str_extract(base_url, "[0-9]*$")
-      url <- paste0(base_url, "-h/", base_id, "-h.htm")
-      ret <- suppressWarnings(download_once(url,
-                                            filename = paste0(base_id, ".htm"),
-                                            destdir=dir))
-      if (!is.null(ret)) {
-        return(ret)
-      }
+  get_book <- function(url) {
+    base_id <- stringr::str_extract(
+      url,
+      "\\d*(?=\\-h\\.htm)")
+    the_book <- suppressWarnings(
+      download_once(
+        url,
+        filename = paste0(base_id, ".htm"),
+        destdir = dir))
+    if (!is.null(the_book)) {
+      return(the_book)
     }
-    warnings(paste0("Could not download a book at ", url,
-                    ". The book may have been archived, or you may need to select a different mirror."))
+    warnings(paste("Could not get", url))
     NULL
   }
 
   # add a 2-second delay between books
-  download_slowly <- purrr::slowly(\(x, type) try_download(x, type),
+  download_slowly <- purrr::slowly(\(x) get_book(x),
                   rate = purrr::rate_delay(2), quiet = TRUE)
 
-  # extra checks to avoid attempting redownload for ids with suffixes
-  if (dir.exists(dir)) {
-    if (length(dir(path = dir)) > 0) {
-      already_existing <- dir(path = dir, pattern = type) |>
-        # stringr::str_remove_all(paste0(".", type)) |>
-        stringr::str_remove_all("-8") |>
-        stringr::str_remove_all("-0") |>
-        # paste0(".txt") |>
-        unique() |>
-        paste0(collapse="|")
-      some_urls <- full_url[!grepl(already_existing, full_url)]
-      # message(some_urls)
-      if(length(some_urls) > 0) {
-        some_urls |>
-          purrr::walk(\(x) download_slowly(x, type))
-      }
-    } else {
-      full_url |>
-        purrr::walk(\(x) download_slowly(x, type))
+  if (dir.exists(dir) &&
+      length(dir(path = dir)) > 0) {
+    already_existing <- dir(path = dir, pattern = "htm") |>
+      stringr::str_replace_all(
+        "(?<=\\d)[.]htm",
+        "-h.htm") |>
+      paste0(collapse="|")
+    some_urls <- gut_df$url |>
+      stringr::str_subset(already_existing, negate = TRUE)
+    if(length(some_urls) > 0) {
+      some_urls |>
+        purrr::walk(\(x) download_slowly(x))
     }
   } else {
-    full_url |>
-      purrr::walk(\(x) download_slowly(x, type))
+    gut_df$url |>
+      purrr::walk(\(x) download_slowly(x))
   }
 
-  ids <- sort(id)
-  collapsed_ids <- paste0("/", ids, ".", type, collapse = "|")
+  ids <- sort(gut_df$id)
+  collapsed_ids <- paste0("/", ids, ".htm", collapse = "|")
   all_files <- dir(path = dir,
-                   pattern = paste0(".", type, "$"),
+                   pattern = paste0(".htm$"),
                    full.names = TRUE)
   guten_files <- all_files[grepl(collapsed_ids, all_files)]
-  if (type == "htm") { # maybe should do this for all types
-    id <- guten_files |>
-      stringr::str_remove_all(paste0(dir, "/")) |>
-      stringr::str_remove_all(".htm")
-  }
+  id <- guten_files |>
+    stringr::str_remove_all(paste0(dir, "/")) |>
+    stringr::str_remove_all(".htm")
 
-  if (type == "txt") {
-    # borrowed from gutenberg_download
-    # gutenbergr::gutenberg_download(ids, files = guten_files, meta_fields = meta_fields, ...)
-    downloaded <- guten_files |>
-      stats::setNames(id) |>
-      purrr::map(readr::read_lines)
-
-    ret <- downloaded |>
-      purrr::discard(is.null) |>
-      purrr::map(\(x) x |>
-                   data.frame() |>
-                   setNames("text")) |>
-      dplyr::bind_rows(.id = "gutenberg_id") |>
-      dplyr::mutate(gutenberg_id = as.integer(gutenberg_id)) |>
-      dplyr::group_by(gutenberg_id) |>
-      # dplyr::do(dplyr::tibble(text = gutenberg_strip(.$text, ...))) |>
-      dplyr::reframe(text = gutenbergr::gutenberg_strip(text, ...)) |>
-      dplyr::ungroup()
-  } else if (type == "htm") {
-    ret <- guten_files |>
-      stats::setNames(id) |>
-      purrr::map(\(x) parse_html(x, title = html_title)) |>
-      purrr::discard(is.null) |>
-      dplyr::bind_rows(.id = "gutenberg_id") |>
-      dplyr::relocate(text, .after = tidyr::last_col()) |>
-      dplyr::mutate(gutenberg_id = as.integer(gutenberg_id))
-  }
+  the_books <- guten_files |>
+    stats::setNames(id) |>
+    purrr::map(\(x) parse_html(x, title = html_title)) |>
+    purrr::discard(is.null) |>
+    dplyr::bind_rows(.id = "gutenberg_id") |>
+    dplyr::relocate(text, .after = tidyr::last_col()) |>
+    dplyr::mutate(gutenberg_id = as.integer(gutenberg_id))
 
   if (length(meta_fields) > 0) {
     if (html_title) {
       meta_fields <- meta_fields[meta_fields != "title"]
     }
-    ret <- ret[,!colnames(ret) %in% meta_fields[meta_fields != "gutenberg_id"]]
+    the_books <- the_books[,!colnames(the_books) %in% meta_fields[meta_fields != "gutenberg_id"]]
     meta_fields <- unique(c("gutenberg_id", meta_fields))
     md <- gutenbergr::gutenberg_metadata[meta_fields]
-    ret <- dplyr::right_join(md, by = "gutenberg_id", ret)
+    the_books <- dplyr::right_join(md, by = "gutenberg_id", the_books)
   }
 
-  ret
+  the_books
 }
-
 
 
 #' Read HTML headers and text from file

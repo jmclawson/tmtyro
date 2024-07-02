@@ -1,3 +1,7 @@
+# tmtyro 0.4.1
+
+* `get_gutenberg_corpus()` should do less, and now it does. Other functionality is available via gutenbergr.
+
 # tmtyro 0.4.0
 
 * New function `contextualize()` shows terms in a window of context
