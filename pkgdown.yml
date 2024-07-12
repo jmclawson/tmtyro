@@ -1,12 +1,11 @@
 pandoc: 3.1.11
-pkgdown: 2.0.9
+pkgdown: 2.1.0
 pkgdown_sha: ~
 articles:
-  01-differentiating: 01-differentiating.html
-  02-changing-colors: 02-changing-colors.html
-  tmtyro: tmtyro.html
-last_built: 2024-07-02T15:23Z
+  articles/01-differentiating: 01-differentiating.html
+  articles/02-changing-colors: 02-changing-colors.html
+  articles/tmtyro: tmtyro.html
+last_built: 2024-07-12T20:52Z
 urls:
   reference: https://jmclawson.github.io/tmtyro/reference
   article: https://jmclawson.github.io/tmtyro/articles
-

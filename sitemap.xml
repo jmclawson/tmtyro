@@ -1,195 +1,67 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/404.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/articles/01-differentiating.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/articles/02-changing-colors.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/articles/tmtyro.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/index.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/add_dictionary.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/add_index.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/add_ngrams.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/add_partitions.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/add_sentiment.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/add_vocabulary.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/change_colors.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/collapse_rows.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/combine_ngrams.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/contextualize.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/count.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/download_once.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/drop_na.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/drop_stopwords.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/expand_documents.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/get_corpus.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/get_gutenberg_corpus.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/get_micusp_corpus.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/identify_by.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/interactive_topic_distributions.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/load_texts.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/load_topic_model.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/make_dictionary.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/make_topic_model.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/micusp_metadata.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/move_header_to_text.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/parse_html.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/plot_bigrams.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/plot_doc_word_bars.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/plot_doc_word_heatmap.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/plot_hapax.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/plot_htr.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/plot_tf_idf.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/plot_topic_bars.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/plot_topic_distributions.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/plot_topic_wordcloud.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/plot_ttr.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/plot_vocabulary.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/pos_tags.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/separate_ngrams.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/standardize_titles.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/summarize_tf_idf.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/tabulize.combined_ngrams.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/tabulize.default.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/tabulize.expanded.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/tabulize.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/tabulize.ngrams.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/tabulize.sentiment.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/tabulize.tf_idf.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/tabulize.vocabulary.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/tmtyro-package.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/unnest_without_caps.html</loc>
-  </url>
-  <url>
-    <loc>https://jmclawson.github.io/tmtyro/reference/visualize.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://jmclawson.github.io/tmtyro/404.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/LICENSE-text.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/LICENSE.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/articles/01-differentiating.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/articles/02-changing-colors.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/articles/index.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/articles/tmtyro.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/authors.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/index.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/news/index.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/add_dictionary.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/add_index.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/add_ngrams.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/add_partitions.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/add_sentiment.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/add_vocabulary.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/change_colors.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/collapse_rows.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/combine_ngrams.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/contextualize.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/count.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/download_once.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/drop_na.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/drop_stopwords.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/expand_documents.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/get_corpus.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/get_gutenberg_corpus.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/get_micusp_corpus.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/identify_by.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/index.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/interactive_topic_distributions.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/load_texts.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/load_topic_model.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/make_dictionary.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/make_topic_model.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/micusp_metadata.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/move_header_to_text.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/parse_html.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/plot_bigrams.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/plot_doc_word_bars.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/plot_doc_word_heatmap.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/plot_hapax.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/plot_htr.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/plot_tf_idf.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/plot_topic_bars.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/plot_topic_distributions.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/plot_topic_wordcloud.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/plot_ttr.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/plot_vocabulary.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/pos_tags.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/separate_ngrams.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/standardize_titles.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/summarize_tf_idf.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/tabulize.combined_ngrams.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/tabulize.default.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/tabulize.expanded.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/tabulize.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/tabulize.ngrams.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/tabulize.sentiment.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/tabulize.tf_idf.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/tabulize.vocabulary.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/tmtyro-package.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/unnest_without_caps.html</loc></url>
+<url><loc>https://jmclawson.github.io/tmtyro/reference/visualize.html</loc></url>
 </urlset>
+
