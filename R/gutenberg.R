@@ -3,14 +3,16 @@
 #' `get_gutenberg_corpus()` improves upon the functionality
 #' of [gutenbergr::gutenberg_download()] in three key ways.
 #' \enumerate{
-#' \item First, it retrieves the ".htm" version of texts and
-#' parses the headers. This change allows for consideration
-#' of texts by sections and chapters. Parsing is handled by
-#' [parse_html()], and [move_header_to_text()] is available
-#' to correct any parsing errors.
-#' \item Second, it caches a copy of files locally to avoid
-#' the need for repeated downloads. This change helps with
-#' code portability, offline access, and server bandwidth.
+#' \item Retrieving the ".htm" version of texts
+#' instead of the ".zip" version typically used by
+#' gutenberger dramatically improves file coverage.
+#' \item Parsing HTML headers allows texts to be studied
+#' by sections and chapters. Parsing is handled by
+#' [parse_html()], with [move_header_to_text()]
+#' available for corrections.
+#' \item Caching files locally avoids repeated
+#' downloads, thereby improving code portability,
+#' allowing offline access, and reducing network use.
 #' }
 #' All changes are made with consideration for server bandwidth,
 #' so a two-second delay is introduced between each download
