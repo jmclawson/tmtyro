@@ -10,7 +10,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-tmtyro is optimized for a fast start, speeding users along a standard workflow made possible by tidytext and the tidyverse packages on which it's built. It also offers a pathway for growth by providing vectorized functions for use in a larger ecosystem of tools and simplifying the transition to text mining for anyone familiar with those tools.
+tmtyro is optimized for a fast start, speeding users along a standard workflow made possible by tidytext and the tidyverse packages on which it's built. But it also offers a pathway for growth by providing vectorized functions for use in a larger ecosystem of tools and simplifying the transition to text mining for anyone familiar with those tools.
 
 ## Loading a corpus
 
@@ -144,7 +144,7 @@ Matching sentiment with `get_sentiment()` just uses a special kind of dictionary
 ```{r}
 corpus_dubliners |> 
   mutate(
-    sent_1 = get_match(word, textdata::lexicon_bing()),
+    sent_1 = get_match(word, tidytext::get_sentiments("bing")),
     sent_2 = get_sentiment(word, "bing")) |> 
   drop_na()
 ```
