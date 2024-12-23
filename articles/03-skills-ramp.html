@@ -65,8 +65,8 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Vectorized functions</h1>
-            <h3 data-toc-skip class="subtitle">with custom tables and
-figures</h3>
+            <h3 data-toc-skip class="subtitle">with custom columns,
+tables, and figures</h3>
             
       
       <small class="dont-index">Source: <a href="https://github.com/jmclawson/tmtyro/blob/master/vignettes/articles/03-skills-ramp.Rmd" class="external-link"><code>vignettes/articles/03-skills-ramp.Rmd</code></a></small>
@@ -82,14 +82,12 @@ vectorized functions for use in a larger ecosystem of tools and
 simplifying the transition to text mining for anyone familiar with those
 tools.</p>
 <div class="section level2">
-<h2 id="loading-a-corpus">Loading a corpus<a class="anchor" aria-label="anchor" href="#loading-a-corpus"></a>
+<h2 id="loading-a-corpus-with-tmtyro">Loading a corpus with tmtyro<a class="anchor" aria-label="anchor" href="#loading-a-corpus-with-tmtyro"></a>
 </h2>
 <p>Regardless of a user’s starting point, tmtyro’s main verbs for
 gathering and preparing a corpus will prove useful:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Error in get(paste0(generic, ".", class), envir = get_method_env()) : </span></span>
-<span><span class="co">#&gt;   object 'type_sum.accel' not found</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://gt.rstudio.com" class="external-link">gt</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jmclawson/tmtyro" class="external-link">tmtyro</a></span><span class="op">)</span></span>
@@ -5089,11 +5087,10 @@ like this:</p>
 <h2 id="preparing-figures-with-ggplot2">Preparing figures with ggplot2<a class="anchor" aria-label="anchor" href="#preparing-figures-with-ggplot2"></a>
 </h2>
 <p>Vectorized functions beginning <code>get_...()</code> and
-<code>is...()</code> won’t work well with tmtyro’s
-<code><a href="../reference/visualize.html">visualize()</a></code> function, which is made for the standard
-workflow. Those visualizations are all built with ggplot2, so they can
-be recreated with a little effort and nearly limitless customization.
-Consult the <a href="https://ggplot2.tidyverse.org/articles/ggplot2.html" class="external-link">ggplot2
+<code>is...()</code> don’t work well with <code><a href="../reference/visualize.html">visualize()</a></code>,
+which is made for the standard workflow. Those visualizations are all
+built with ggplot2, so they can be recreated with a little effort and
+nearly limitless customization. Consult the <a href="https://ggplot2.tidyverse.org/articles/ggplot2.html" class="external-link">ggplot2
 documentation</a> to learn more methods than can be demonstrated
 here.</p>
 <div class="section level3">
