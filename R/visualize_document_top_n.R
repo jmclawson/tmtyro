@@ -152,6 +152,7 @@ plot_doc_word_heatmap <- function(
 #' @param label Whether to show the value as a label with each bar
 #' @param label_tweak The numeric value by which to tweak the label, if shown. For percentages, this value adjusts the decimal-point precision. For raw counts, this value adjusts labels' offset from the bars
 #' @param label_inside Whether to show the value as a label inside each bar
+#' @param label_color The color to use for the label text. If no value is chosen, labels will be black when `label_inside` is `FALSE` and white when `TRUE`.
 #' @param na_rm Whether to drop empty features
 #'
 #' @returns A ggplot object
@@ -180,11 +181,14 @@ plot_doc_word_bars <- function(
     reorder_y = NULL,
     color_y = FALSE,
     percents = TRUE,
-    label = FALSE,
+    label = NULL,
     label_tweak = 2,
     label_inside = FALSE,
+    label_color = NULL,
     na_rm = TRUE
 ){
+  # browser()
+  label <- label %||% label_inside
   precision <- label_tweak + 1
   offset <- label_tweak + 2
 
@@ -208,6 +212,8 @@ plot_doc_word_bars <- function(
   if (percents) {
     df <- df |>
       dplyr::ungroup() |>
+      dplyr::select({{ by }}, {{ feature }}, n) |>
+      dplyr::distinct() |>
       dplyr::mutate(
         n = n / sum(n),
         .by = {{ by }})
@@ -220,6 +226,8 @@ plot_doc_word_bars <- function(
 
   df <- df |>
     dplyr::ungroup() |>
+    dplyr::select({{ by }}, {{ feature }}, n) |>
+    dplyr::distinct() |>
     dplyr::group_by({{ by }}) |>
     dplyr::arrange(dplyr::desc(n), .by_group = TRUE) |>
     dplyr::ungroup() |>
@@ -255,7 +263,14 @@ plot_doc_word_bars <- function(
             .desc = FALSE))
   }
 
-  prefix <- deparse(substitute(feature))
+  prefix <- df |>
+    colnames() |>
+    stringr::str_subset(
+      "^doc_id$",
+      negate = TRUE) |>
+    stringr::str_subset(
+      "^n$",
+      negate = TRUE)
 
   if (percents) {
     x_lab <- paste(prefix, "frequency")
@@ -265,7 +280,7 @@ plot_doc_word_bars <- function(
 
   the_plot <- df |>
     internal_plot_word_bars(
-      n, rlang::enquo(by), color_y, rlang::enquo(feature), percents, label, label_tweak, label_inside)
+      n, rlang::enquo(by), color_y, rlang::enquo(feature), percents, label, label_tweak, label_inside, label_color)
 
   if (reorder_y) {
     the_plot <- the_plot +
@@ -299,7 +314,8 @@ internal_plot_word_bars <- function(
     percents,
     label,
     label_tweak,
-    label_inside
+    label_inside,
+    label_color
 ){
   precision <- label_tweak + 1
   offset <- label_tweak + 2
@@ -335,6 +351,7 @@ internal_plot_word_bars <- function(
           label = 100 *
             round(n,
                   precision)),
+        color = label_color %||% "black",
         hjust = 0)
   } else if (label & percents & label_inside) {
     the_plot <- the_plot +
@@ -344,6 +361,7 @@ internal_plot_word_bars <- function(
           label = 100 *
             round(n,
                   precision)),
+        color = label_color %||% "white",
         hjust = 1)
   } else if (label & !label_inside) {
     the_plot <- the_plot +
@@ -351,6 +369,7 @@ internal_plot_word_bars <- function(
         ggplot2::aes(
           x = n + offset,
           label = n),
+        color = label_color %||% "black",
         hjust = 0)
   } else if (label & label_inside) {
     the_plot <- the_plot +
@@ -358,6 +377,7 @@ internal_plot_word_bars <- function(
         ggplot2::aes(
           x = n - offset,
           label = n),
+        color = label_color %||% "white",
         hjust = 1)
   }
 

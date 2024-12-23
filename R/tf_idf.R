@@ -1,5 +1,36 @@
 #' Compare usage across a corpus
 #'
+#' `add_tf_idf()` adds measurements including term frequency by document and "tf-idf" measurements for weighing relative importance in comparison to other documents in a set.
+#'
+#' @param df A tidy data frame, potentially containing columns called "doc_id" and "word"
+#' @param by A column containing document grouping
+#' @param feature A column containing the terms to be measured across document groupings
+#'
+#' @returns The original data frame with additional columns added for term, feature_n, (the number of times this term was used in this document), tf (term's frequency in this document), idf (inverse document frequency), and tf_idf (previous two columns combined).
+#' @family tf_idf helpers
+#' @export
+#'
+#' @examples
+#' dubliners <- get_gutenberg_corpus(2814) |>
+#'   load_texts() |>
+#'   identify_by(part) |>
+#'   standardize_titles()
+#'
+#' dubliners |>
+#'   add_tf_idf()
+add_tf_idf <- function(df, by = doc_id, feature = word) {
+  df_tfidf <- df |>
+    summarize_tf_idf({{ by }}, {{ feature }})
+
+  df |>
+    dplyr::left_join(
+      df_tfidf,
+      by = dplyr::join_by({{ by }}, {{ feature }})) |>
+    add_class("tf_idf")
+}
+
+#' Compare usage across a corpus
+#'
 #' `summarize_tf_idf()` prepares a summary table for each term in a corpus, including their frequencies by document and "tf-idf" measurements for comparing the relative importance in comparison to other documents in a set.
 #'
 #' @param df A tidy data frame, potentially containing columns called "doc_id" and "word"
@@ -67,6 +98,12 @@ plot_tf_idf <- function(
     df <- df |>
       summarize_tf_idf(by = {{ by }}, feature = {{ feature }})
   }
+
+  df <- df |>
+    dplyr::select({{ by }},
+                  {{ feature }},
+                  n, tf, idf, tf_idf) |>
+    dplyr::distinct()
 
   feature_col <- deparse(substitute(feature))
   if (!feature_col %in% colnames(df)) {

@@ -9,11 +9,16 @@
 #' @export
 #'
 #' @examples
-#' my_sentiments <- make_dictionary(
+#' emoji_weather <- make_dictionary(
 #'   list(
-#'     "😊" = c("happy", "joy", "smile"),
-#'     "😔" = c("unhappy", "sad", "frown")),
-#'   name = "emoji")
+#'     "️☔️" = c("rain", "rains", "rainy", "raining"),
+#'     "️⛈️" = c("storm", "storms", "stormy", "storming"),
+#'     "☁️" = c("cloud", "clouds", "cloudy"),
+#'     "🌞" = c("sun", "sunny"),
+#'     "🌫️" = c("fog", "fogs", "foggy", "mist", "misty"),
+#'     "🌬️" = c("wind", "winds", "windy"),
+#'     "️❄️" = c("snow", "snows", "snowing")),
+#'   name = "weather")
 #'
 #' border_states <- make_dictionary(
 #'   definitions = list(
@@ -75,14 +80,19 @@ make_dictionary <- function(
 #'   identify_by(part) |>
 #'   standardize_titles()
 #'
-#' my_sentiments <- make_dictionary(
+#' emoji_weather <- make_dictionary(
 #'   list(
-#'     "😊" = c("happy", "joy", "smile"),
-#'     "😔" = c("unhappy", "sad", "frown")),
-#'   name = "emoji")
+#'     "️☔️" = c("rain", "rains", "rainy", "raining"),
+#'     "️⛈️" = c("storm", "storms", "stormy", "storming"),
+#'     "☁️" = c("cloud", "clouds", "cloudy"),
+#'     "🌞" = c("sun", "sunny"),
+#'     "🌫️" = c("fog", "fogs", "foggy", "mist", "misty"),
+#'     "🌬️" = c("wind", "winds", "windy"),
+#'     "️❄️" = c("snow", "snows", "snowing")),
+#'   name = "weather")
 #'
 #' dubliners |>
-#'    add_dictionary(my_sentiments) |>
+#'    add_dictionary(emoji_weather) |>
 #'    drop_na() |>
 #'    head()
 add_dictionary <- function(
@@ -144,7 +154,7 @@ add_dictionary <- function(
 
   if ("data.frame" %in% class(df) &&
       deparse(substitute(feature)) %in% colnames(df)) {
-    df |>
+    result <- df |>
       dplyr::left_join(
         dictionary,
         by = dplyr::join_by({{ feature }} == word))
@@ -153,12 +163,15 @@ add_dictionary <- function(
     dictionary_replace <- dictionary[,colnames(dictionary) != "word"]
     names(dictionary_replace) <-
       paste0("\\b",dictionary$word,"\\b")
-    df |>
+    result <- df |>
       dplyr::mutate(
         text = text |>
           stringr::str_replace_all(dictionary_replace)
       )
   }
+  result |>
+    add_class("dictionary") |>
+    set_feature(dict_name)
 }
 
 add_ngram_dictionary <- function(df, dictionary){

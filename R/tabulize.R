@@ -219,7 +219,13 @@ tabulize.sentiment <- function(.data, inorder = TRUE, digits = 2, drop_na = FALS
 #'
 #' @keywords internal
 #' @export
-tabulize.tf_idf <- function(.data, rows = NULL, digits = 5, ...) {
+tabulize.tf_idf <- function(.data, rows = NULL, digits = 5, feature = word, ...) {
+  .data <- .data |>
+    dplyr::select(doc_id,
+                  {{ feature }},
+                  n, tf, idf, tf_idf) |>
+    dplyr::distinct() |>
+    dplyr::arrange(dplyr::desc(tf_idf))
   if (is.null(rows)) rows <- 1:6
   .data |>
     dplyr::slice(rows, .by = doc_id) |>
@@ -277,7 +283,23 @@ tabulize.combined_ngrams <- function(.data, rows = NULL, count = TRUE, digits = 
 }
 
 #' @export
-tabulize.count <- function(.data, rows = NULL, ...) {
+tabulize.frequency <- function(.data, rows = NULL, feature = word, ...) {
+  # feature_n <- deparse(substitute(feature)) |>
+  #   paste0("_n")
+  # if (feature_n %in% colnames(.data)) {
+  #   .data[["n"]] <- .data[[feature_n]]
+  # }
+  if (is.null(feature) && "feature" %in% names(attributes(.data))) {
+    feature <- attr(.data, "feature")
+    the_cols <- c("doc_id", feature, "n")
+    .data <- .data |>
+      dplyr::select(tidyr::all_of(the_cols)) |>
+      dplyr::distinct()
+  } else {
+    .data <- .data |>
+      dplyr::select(doc_id, {{ feature }}, n) |>
+      dplyr::distinct()
+  }
   if (is.null(rows)) rows <- 1:6
   .data |>
     dplyr::arrange(-n) |>

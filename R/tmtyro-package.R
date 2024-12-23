@@ -6,7 +6,7 @@ category <- temp <- NULL
 context <- temp <- NULL
 corpus <- temp <- NULL
 display <- temp <- NULL
-doc_id <- temp <- NULL
+doc_id <- doc <- temp <- NULL
 docranksum <- temp <- NULL
 document <- temp <- NULL
 dominance <- temp <- NULL
@@ -16,9 +16,11 @@ fill_it <- temp <- NULL
 Freq <- temp <- NULL
 h1 <- h2 <- h3 <- h4 <- temp <- NULL
 hapax <- temp <- NULL
+hir <- temp <- NULL
 hlemona <- temp <- NULL
 htr <- temp <- NULL
 id <- temp <- NULL
+idf <- temp <- NULL
 label_color <- temp <- NULL
 level <- temp <- NULL
 line_num <- temp <- NULL

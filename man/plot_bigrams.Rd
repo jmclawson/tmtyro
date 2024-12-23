@@ -87,7 +87,7 @@ Other visualizing helpers:
 \code{\link{plot_doc_word_bars}()},
 \code{\link{plot_doc_word_heatmap}()},
 \code{\link{plot_hapax}()},
-\code{\link{plot_htr}()},
+\code{\link{plot_hir}()},
 \code{\link{plot_tf_idf}()},
 \code{\link{plot_topic_bars}()},
 \code{\link{plot_topic_distributions}()},

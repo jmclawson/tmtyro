@@ -28,4 +28,8 @@ dubliners <- get_gutenberg_corpus(2814) |>
 dubliners |>
   summarize_tf_idf()
 }
+\seealso{
+Other tf_idf helpers: 
+\code{\link{add_tf_idf}()}
+}
 \concept{tf_idf helpers}

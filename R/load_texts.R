@@ -448,3 +448,8 @@ add_class <- function(x, class, remove = NULL) {
   class(x) <- append(class, class(x)[!class(x) %in% remove])
   x
 }
+
+set_feature <- function(x, feature) {
+  attr(x, "feature") <- feature
+  x
+}

@@ -55,6 +55,10 @@ reference:
   - collapse_rows
   - change_colors
 
+- title: Vectorized functions
+- contents:
+  - has_concept("vectorized functions")
+
 - title: Data
   desc: Data included
 - contents:

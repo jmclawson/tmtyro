@@ -152,6 +152,7 @@ data.frame(before, after)
 
 Useful at many stages of work with a corpus, `contextualize()` shows the context of a search term, with an adjustable window on either side and options for searching with regular expressions. Most other functions for studying texts follow a predictable naming convention: 
 
+* `add_frequency()` adds a column for word frequencies.
 * `add_vocabulary()` adds columns measuring the lexical variety of texts.
 * `add_sentiment()` adds a column of sentiment identifiers from a chosen lexicon.
 * `add_ngrams()` adds columns of words for bigrams, trigrams, or more.
@@ -202,6 +203,25 @@ Even when `limit` is set to some value other than 0, the table of results is ret
 
 ```{r}
 tundish
+```
+
+### Word frequencies
+
+`add_frequency()` adds word counts for each document in a new column, `n`.
+
+```{r}
+counts_dubliners <- 
+  corpus_dubliners |> 
+  add_frequency()
+
+counts_dubliners
+```
+
+To count by some other column, indicate it in the parentheses:
+
+```{r}
+corpus_dubliners |> 
+  add_frequency(lemma)
 ```
 
 ### Vocabulary richness
@@ -303,7 +323,14 @@ trigrams_joyce
 
 ### Tf-idf
 
-Unlike other measurements, term frequency--inverse document frequency doesn't preserve word order, and it reduces documents to one instance of each token. Since any use of tf-idf can't merely add a column, `summarize_tf_idf()` avoids the `add_` naming convention. Results are returned in descending strength of tf-idf.
+`add_tf_idf()` adds measurements of term frequency (`tf`), inverse document frequency (`idf`), and combined term frequency--inverse document frequency (`tf_idf`).
+
+```{r}
+corpus_dubliners |> 
+  add_tf_idf()
+```
+
+Term frequency--inverse document frequency is most commonly used as a way of summarizing language used, paying less attention word order and reducing documents to one instance of each token. To study texts this way, `summarize_tf_idf()` returns a table arranged in descending strength of tf-idf.
 
 ```{r}
 tfidf_dubliners <- corpus_dubliners |> 
@@ -340,13 +367,14 @@ corpus_joyce |>
 ```
 
 
-### Word counts
+### Word frequencies
 
-Adding `count = TRUE` will show the counts of the most-frequent words.
+After `add_frequency()`, `tabulize()` will show the counts of the most-frequent words.
 
 ```{r}
 corpus_joyce |> 
-  tabulize(count = TRUE)
+  add_frequency() |> 
+  tabulize()
 ```
 
 ### Vocabulary richness
@@ -401,7 +429,7 @@ bigrams_joyce |>
 
 ### Tf-idf
 
-For data frames prepared with `summarize_tf_idf()`, `tabulize()` returns six rows of the top-scoring words for each document. This amount can be specified with the `rows` argument.
+For data frames prepared with `add_tf_idf()` or `summarize_tf_idf()`, `tabulize()` returns six rows of the top-scoring words for each document. This amount can be adjusted with the `rows` argument.
 
 ```{r}
 tfidf_dubliners |> 
@@ -430,11 +458,21 @@ corpus_joyce |>
 
 ### Word counts
 
-Adding `count = TRUE` will show the counts of the most-frequent words.
+Using `visualize()` after `add_frequency()` will chart the most frequent words of each document.
 
 ```{r}
 corpus_joyce |> 
-  visualize(count = TRUE)
+  add_frequency() |> 
+  visualize()
+```
+
+`visualize()` takes additional arguments for customizing results.
+
+```{r}
+counts_dubliners |> 
+  visualize(rows = 1:3, 
+            color_y = TRUE, 
+            reorder_y = TRUE)
 ```
 
 ### Vocabulary richness
@@ -447,7 +485,7 @@ corpus_dubliners |>
   visualize()
 ```
 
-Other features, such as type-token ratio ("ttr"), hapax-token ratio ("htr"), or a sampling of hapax legomena ("hapax") can also be shown. 
+Other features, such as type-token ratio ("ttr"), hapax introduction ratio ("hir"), or a sampling of hapax legomena ("hapax") can also be shown. 
 
 ```{r}
 vocab_dubliners |> 

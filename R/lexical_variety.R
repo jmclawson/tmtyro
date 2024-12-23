@@ -30,7 +30,7 @@ internal_plot_engine <- function(
 
   if (labeling == "inline") {
     rlang::check_installed("geomtextpath", reason = "for inline labeling")
-    if (y_check == "htr") {
+    if (y_check == "hir") {
       the_plot <- the_plot +
         geomtextpath::geom_textline(
           ggplot2::aes(label = {{ by }}),
@@ -110,11 +110,11 @@ internal_plot_engine <- function(
       ggplot2::theme(panel.grid.minor = ggplot2::element_blank())
   }
 
-  if (y_check %in% c("vocabulary", "ttr", "htr")){
+  if (y_check %in% c("vocabulary", "ttr", "hir")){
     y_label <- dplyr::case_when(
       y_check == "vocabulary" ~ "vocabulary (words)",
       y_check == "ttr" ~ "type-token ratio (TTR)",
-      y_check == "htr" ~ "hapax-token ratio (HTR)",
+      y_check == "hir" ~ "hapax introduction ratio",
     )
 
     the_plot <- the_plot +
@@ -199,7 +199,7 @@ internal_plot_engine <- function(
 #'   * `hapax` (logical) Indicates whether this word is the only incident of a given word, or hapax legomenon
 #'   * `vocabulary` (integer) Running count of words used
 #'   * `ttr` (double) Type-token ratio, derived from the running count of words divided by the total number of words used
-#'   * `htr` (double) Hapax-token ratio, derived from the running count of hapax legomena divided by the total number of words used
+#'   * `hir` (double) Hapax introduction ratio, derived from the running count of hapax legomena divided by the total number of words used.
 #'   * `progress_words` (integer) Running count of total words used so far in a document
 #'   * `progress_percent` (double) Words used so far as a percentage of the total number of words used in a document
 #'
@@ -231,7 +231,7 @@ add_vocabulary <- function(df, by = doc_id, feature = word) {
       .after = new_word) |>
     dplyr::ungroup() |>
     dplyr::mutate(
-      htr = cumsum(hapax) / dplyr::row_number(),
+      hir = cumsum(hapax) / dplyr::row_number(),
       .by = {{ by }},
       .after = ttr) |>
     add_class("vocabulary")
@@ -352,7 +352,7 @@ plot_ttr <- function(df, x = progress_words, by = doc_id, identity = NULL, descr
 
 }
 
-#' Show hapax-token ratio over time
+#' Show hapax introduction ratio over time
 #'
 #' @param df A tidy data frame, potentially containing a column called "doc_id" and "word"
 #' @param x The progress column to show. Default option is progress_percent, but progress_words is also appropriate.
@@ -383,20 +383,20 @@ plot_ttr <- function(df, x = progress_words, by = doc_id, identity = NULL, descr
 #'
 #' dubliners_measured |>
 #'   standardize_titles() |>
-#'   plot_htr()
-plot_htr <- function(df, x = progress_words, by = doc_id, identity = doc_id, descriptive_labels = TRUE, labeling = c("point", "inline", "axis", "inset"), log_y = TRUE){
+#'   plot_hir()
+plot_hir <- function(df, x = progress_words, by = doc_id, identity = doc_id, descriptive_labels = TRUE, labeling = c("point", "inline", "axis", "inset"), log_y = TRUE){
 
   viz_attr <- attr(df, "visualize")
   if (is.null(viz_attr)) viz_attr <- FALSE
 
   if (is.null(identity)) {
     internal_plot_engine(
-      df, rlang::enquo(x), y = rlang::expr(htr),
+      df, rlang::enquo(x), y = rlang::expr(hir),
       rlang::enquo(by), identity = rlang::enquo(by), descriptive_labels, labeling,
       log_y, skip_print = viz_attr)
   } else {
     internal_plot_engine(
-      df, rlang::enquo(x), y = rlang::expr(htr),
+      df, rlang::enquo(x), y = rlang::expr(hir),
       rlang::enquo(by), identity = rlang::enquo(identity), descriptive_labels, labeling,
       log_y, skip_print = viz_attr)
   }

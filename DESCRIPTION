@@ -1,6 +1,6 @@
 Package: tmtyro
 Title: tmtyro: Simplified Workflows for Text Mining Tyros
-Version: 0.4.1
+Version: 0.5
 Authors@R: 
     person("James", "Clawson", , "clawson@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0009-0008-6756-0607"))
@@ -45,15 +45,16 @@ LazyData: true
 Suggests: 
     cli,
     fansi,
-    geomtextpath,
+    geomtextpath (>= 0.1.4),
     ggrepel,
     NLP,
     openNLP,
     plotly,
     RColorBrewer,
     rmarkdown,
+    testthat (>= 3.0.0),
     textdata,
     textstem,
     utils,
     wordcloud
-VignetteBuilder: knitr
+Config/testthat/edition: 3

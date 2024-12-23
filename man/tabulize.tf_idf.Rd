@@ -4,7 +4,7 @@
 \alias{tabulize.tf_idf}
 \title{Prepare a table of term frequency--inverse document frequency}
 \usage{
-\method{tabulize}{tf_idf}(.data, rows = NULL, digits = 5, ...)
+\method{tabulize}{tf_idf}(.data, rows = NULL, digits = 5, feature = word, ...)
 }
 \arguments{
 \item{.data}{data processed with one or more functions from \code{tmtyro}}

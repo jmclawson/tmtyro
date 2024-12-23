@@ -13,9 +13,10 @@ plot_doc_word_bars(
   reorder_y = NULL,
   color_y = FALSE,
   percents = TRUE,
-  label = FALSE,
+  label = NULL,
   label_tweak = 2,
   label_inside = FALSE,
+  label_color = NULL,
   na_rm = TRUE
 )
 }
@@ -41,6 +42,8 @@ plot_doc_word_bars(
 \item{label_tweak}{The numeric value by which to tweak the label, if shown. For percentages, this value adjusts the decimal-point precision. For raw counts, this value adjusts labels' offset from the bars}
 
 \item{label_inside}{Whether to show the value as a label inside each bar}
+
+\item{label_color}{The color to use for the label text. If no value is chosen, labels will be black when \code{label_inside} is \code{FALSE} and white when \code{TRUE}.}
 
 \item{na_rm}{Whether to drop empty features}
 }
@@ -69,7 +72,7 @@ Other visualizing helpers:
 \code{\link{plot_bigrams}()},
 \code{\link{plot_doc_word_heatmap}()},
 \code{\link{plot_hapax}()},
-\code{\link{plot_htr}()},
+\code{\link{plot_hir}()},
 \code{\link{plot_tf_idf}()},
 \code{\link{plot_topic_bars}()},
 \code{\link{plot_topic_distributions}()},

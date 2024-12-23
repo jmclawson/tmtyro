@@ -10,7 +10,7 @@ visualize(.data, ...)
 \item{.data}{data processed with one or more functions from \code{tmtyro}}
 
 \item{...}{
-  Arguments passed on to \code{\link[=plot_doc_word_bars]{plot_doc_word_bars}}, \code{\link[=plot_bigrams]{plot_bigrams}}, \code{\link[=plot_vocabulary]{plot_vocabulary}}, \code{\link[=plot_ttr]{plot_ttr}}, \code{\link[=plot_htr]{plot_htr}}, \code{\link[=plot_topic_distributions]{plot_topic_distributions}}, \code{\link[=plot_topic_bars]{plot_topic_bars}}, \code{\link[=plot_topic_wordcloud]{plot_topic_wordcloud}}
+  Arguments passed on to \code{\link[=plot_doc_word_bars]{plot_doc_word_bars}}, \code{\link[=plot_bigrams]{plot_bigrams}}, \code{\link[=plot_vocabulary]{plot_vocabulary}}, \code{\link[=plot_ttr]{plot_ttr}}, \code{\link[=plot_hir]{plot_hir}}, \code{\link[=plot_topic_distributions]{plot_topic_distributions}}, \code{\link[=plot_topic_bars]{plot_topic_bars}}, \code{\link[=plot_topic_wordcloud]{plot_topic_wordcloud}}
   \describe{
     \item{\code{rows}}{The features to show}
     \item{\code{by}}{The column used for document grouping, with doc_id as the default}
@@ -112,7 +112,7 @@ Other visualizing helpers:
 \code{\link{plot_doc_word_bars}()},
 \code{\link{plot_doc_word_heatmap}()},
 \code{\link{plot_hapax}()},
-\code{\link{plot_htr}()},
+\code{\link{plot_hir}()},
 \code{\link{plot_tf_idf}()},
 \code{\link{plot_topic_bars}()},
 \code{\link{plot_topic_distributions}()},

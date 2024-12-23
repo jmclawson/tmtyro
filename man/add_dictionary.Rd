@@ -27,14 +27,19 @@ dubliners <- get_gutenberg_corpus(2814) |>
   identify_by(part) |>
   standardize_titles()
 
-my_sentiments <- make_dictionary(
+emoji_weather <- make_dictionary(
   list(
-    "😊" = c("happy", "joy", "smile"),
-    "😔" = c("unhappy", "sad", "frown")),
-  name = "emoji")
+    "️☔️" = c("rain", "rains", "rainy", "raining"),
+    "️⛈️" = c("storm", "storms", "stormy", "storming"),
+    "☁️" = c("cloud", "clouds", "cloudy"),
+    "🌞" = c("sun", "sunny"),
+    "🌫️" = c("fog", "fogs", "foggy", "mist", "misty"),
+    "🌬️" = c("wind", "winds", "windy"),
+    "️❄️" = c("snow", "snows", "snowing")),
+  name = "weather")
 
 dubliners |>
-   add_dictionary(my_sentiments) |>
+   add_dictionary(emoji_weather) |>
    drop_na() |>
    head()
 }

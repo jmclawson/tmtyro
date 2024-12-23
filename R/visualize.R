@@ -8,7 +8,7 @@
 #' @inheritDotParams plot_bigrams feature:top_n
 #' @inheritDotParams plot_vocabulary identity:labeling
 #' @inheritDotParams plot_ttr log_y
-#' @inheritDotParams plot_htr log_y
+#' @inheritDotParams plot_hir log_y
 #' @inheritDotParams plot_topic_distributions top_n
 #' @inheritDotParams plot_topic_bars topics
 #' @inheritDotParams plot_topic_wordcloud topics
@@ -129,12 +129,21 @@ visualize.default <- function(.data, inorder = TRUE, count = NULL, rows = NULL, 
 }
 
 #' @export
-visualize.count <- function(.data, rows = NULL, ...) {
+visualize.frequency <- function(.data, rows = NULL, ...) {
+  # browser()
   if (is.null(rows)) rows <- 1:10
   if ("doc_id" %in% colnames(.data) &&
       length(colnames(.data)) > 2) {
-    .data |>
-      plot_doc_word_bars(rows = rows, ...)
+    if ("feature" %in% names(attributes(.data))) {
+      feature <- attr(.data, "feature") |>
+        as.name()
+      the_feature <- rlang::enquo(feature)
+      .data |>
+        plot_doc_word_bars(feature = !!the_feature, rows = rows, ...)
+    } else {
+      .data |>
+        plot_doc_word_bars(rows = rows, ...)
+    }
   } else {
     other_col <- colnames(.data)[colnames(.data) != "n"][1]
     .data |>
@@ -217,9 +226,9 @@ visualize.vocabulary <- function(.data, type = NULL, ...) {
     if (type == "ttr") {
       .data |>
         plot_ttr(...)
-    } else if (type == "htr") {
+    } else if (type == "hir") {
       .data |>
-        plot_htr(...)
+        plot_hir(...)
     } else if (type == "hapax") {
       .data |>
         plot_hapax(...)
@@ -273,6 +282,31 @@ visualize.sentiment <- function(.data, inorder = TRUE, ignore = NULL, ...) {
 
   .data |>
     plot_doc_word_bars(feature = sentiment, reorder_y = FALSE, color_y = TRUE, ...)
+}
+
+#' @export
+visualize.dictionary <- function(.data, inorder = TRUE, ignore = NULL, reorder_y = TRUE, color_y = TRUE, ...) {
+  feature <- attr(.data, "feature") |>
+    as.name()
+  the_feature <- rlang::enquo(feature)
+  if ("doc_id" %in% colnames(.data) && inorder) {
+    .data <- .data |>
+      dplyr::mutate(doc_id = forcats::fct_inorder(doc_id))
+  }
+
+  if (!is.null(ignore)) {
+    .data <- .data |>
+      dplyr::mutate(
+        {{ feature }} := dplyr::case_when(
+          {{ feature }} %in% ignore ~ NA_character_,
+          TRUE ~ {{ feature }}
+        ))
+  }
+
+  cl <- match.call()
+
+  .data |>
+    plot_doc_word_bars(feature = !!the_feature, reorder_y = reorder_y, color_y = color_y, ...)
 }
 
 #' @export

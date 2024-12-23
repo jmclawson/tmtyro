@@ -21,7 +21,7 @@ A data frame with 7 added columns
 \item \code{hapax} (logical) Indicates whether this word is the only incident of a given word, or hapax legomenon
 \item \code{vocabulary} (integer) Running count of words used
 \item \code{ttr} (double) Type-token ratio, derived from the running count of words divided by the total number of words used
-\item \code{htr} (double) Hapax-token ratio, derived from the running count of hapax legomena divided by the total number of words used
+\item \code{hir} (double) Hapax introduction ratio, derived from the running count of hapax legomena divided by the total number of words used.
 \item \code{progress_words} (integer) Running count of total words used so far in a document
 \item \code{progress_percent} (double) Words used so far as a percentage of the total number of words used in a document
 }
