@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Differentiating tmtyro">
 </head>
 <body>
@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tmtyro</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,6 +42,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/01-differentiating.html">Differentiating tmtyro</a></li>
     <li><a class="dropdown-item" href="../articles/02-changing-colors.html">Customizing colors</a></li>
+    <li><a class="dropdown-item" href="../articles/03-skills-ramp.html">Vectorized functions</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -92,7 +93,8 @@ Rockwell over more than twenty years ago, it has become a standard—and
 with good reason. Its graphical interface makes it accessible to novices
 without compromising ability or features. Still, Voyant’s easy-to-use
 interface ultimately limits users’ growth, since that same interface can
-keep Voyant from serving as a skills ramp to other options.</p>
+keep Voyant from serving as a <a href="03-skills-ramp.html">skills
+ramp</a> to other options.</p>
 <p>Unlike Voyant, code-based methods for working with text offer both
 reproducibility and open-ended tooling. In R, the tm package created by
 Ingo Feinerer and Kurt Hornik is among the oldest and most widely used
@@ -336,7 +338,7 @@ textdata, and tidytext.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mjockers/syuzhet" class="external-link">syuzhet</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">sentiment_tm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/syuzhet/man/get_sentiment.html" class="external-link">get_sentiment</a></span><span class="op">(</span><span class="va">my_corpus_tm</span><span class="op">)</span></span>
+<span><span class="va">sentiment_tm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_sentiment.html">get_sentiment</a></span><span class="op">(</span><span class="va">my_corpus_tm</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># This doesn't actually do the job. I'm not sure what the equivalent would be using tm.</span></span></code></pre></div>
 </div>
@@ -604,7 +606,7 @@ Software</em>, vol. 4, no. 43, 2019, p. 1686, <a href="https://doi.org/10.21105/
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer>

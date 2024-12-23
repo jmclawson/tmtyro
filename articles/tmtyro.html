@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Introduction to tmtyro">
 </head>
 <body>
@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tmtyro</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,6 +42,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/01-differentiating.html">Differentiating tmtyro</a></li>
     <li><a class="dropdown-item" href="../articles/02-changing-colors.html">Customizing colors</a></li>
+    <li><a class="dropdown-item" href="../articles/03-skills-ramp.html">Vectorized functions</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -74,6 +75,8 @@ text-mining tyros</h3>
 
     
     
+<pre><code><span><span class="co">#&gt; Error in get(paste0(generic, ".", class), envir = get_method_env()) : </span></span>
+<span><span class="co">#&gt;   object 'type_sum.accel' not found</span></span></code></pre>
 <p>Working with text as data is a multi-step process. After choosing and
 collecting documents, you’ll need to load them in some structured way
 before anything else. Only then is it possible to “do” text analysis:
@@ -144,7 +147,7 @@ the Gutenberg ID number, found in the book’s URL. The resulting table
 draws metadata from the gutenbergr package, with columns for
 “gutenberg_id”, “title”, “author”, headers such as those used for
 chapters, and “text.”</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jmclawson/tmtyro" class="external-link">tmtyro</a></span><span class="op">)</span></span>
 <span><span class="va">joyce</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_gutenberg_corpus.html">get_gutenberg_corpus</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2814</span>, <span class="fl">4217</span>, <span class="fl">4300</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -166,7 +169,7 @@ chapters, and “text.”</p>
 <p>In some cases, headers may make better sense if read as part of the
 text, as in the “Aeolus” chapter of <em>Ulysses</em>, where frequent
 newspaper headlines pepper the page:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ulysses</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_gutenberg_corpus.html">get_gutenberg_corpus</a></span><span class="op">(</span><span class="fl">4300</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># dplyr is used here to choose a smaller example for comparison</span></span>
@@ -187,7 +190,7 @@ newspaper headlines pepper the page:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>         <span style="text-decoration: underline;">4</span>300 Ulysses Joyce, James — II — [ 7 ]   GENTLEMEN OF THE PRESS The …</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 466 more rows</span></span></span></code></pre></div>
 <p>These can be corrected with <code><a href="../reference/move_header_to_text.html">move_header_to_text()</a></code>.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ulysses</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_gutenberg_corpus.html">get_gutenberg_corpus</a></span><span class="op">(</span><span class="fl">4300</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/move_header_to_text.html">move_header_to_text</a></span><span class="op">(</span><span class="va">subsection</span><span class="op">)</span></span>
 <span></span>
@@ -210,7 +213,7 @@ newspaper headlines pepper the page:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 529 more rows</span></span></span></code></pre></div>
 <p>Headers can be moved for specific texts in a corpus by specifying a
 filter like <code>title == "Ulysses"</code>:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">joyce</span> <span class="op">&lt;-</span> <span class="va">joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/move_header_to_text.html">move_header_to_text</a></span><span class="op">(</span><span class="va">subsection</span>, <span class="va">title</span> <span class="op">==</span> <span class="st">"Ulysses"</span><span class="op">)</span></span>
 <span></span>
@@ -242,7 +245,7 @@ either from a table or from a folder of files.</p>
 <p>A table like the one prepared by <code><a href="../reference/get_gutenberg_corpus.html">get_gutenberg_corpus()</a></code>
 can be prepared in tidytext format with one word per row using
 <code><a href="../reference/load_texts.html">load_texts()</a></code>.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">corpus_ulysses</span> <span class="op">&lt;-</span> <span class="va">ulysses</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/load_texts.html">load_texts</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
@@ -270,7 +273,7 @@ prepared in a table by passing the path to the folder inside
 <code><a href="../reference/load_texts.html">load_texts()</a></code>. Used this way, <code><a href="../reference/load_texts.html">load_texts()</a></code> will
 load up every file using the “txt” file extension, populating the
 <code>doc_id</code> column with the first part of the file name.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">corpus_austen</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/load_texts.html">load_texts</a></span><span class="op">(</span><span class="st">"austen"</span><span class="op">)</span></span></code></pre></div>
 <p>In this example, the “austen” folder is found within the current
 project. If it was instead found somewhere else on the computer, the
@@ -282,7 +285,7 @@ complete path can be passed like this:<br><code>load_texts("~/corpora/austen")</
 </h3>
 <p>Documents loaded from <code><a href="../reference/get_gutenberg_corpus.html">get_gutenberg_corpus()</a></code> use the
 <code>gutenberg_id</code> column as their document identifier.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">corpus_dubliners</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_gutenberg_corpus.html">get_gutenberg_corpus</a></span><span class="op">(</span><span class="fl">2814</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/load_texts.html">load_texts</a></span><span class="op">(</span>lemma <span class="op">=</span> <span class="cn">TRUE</span>, pos <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
@@ -305,7 +308,7 @@ complete path can be passed like this:<br><code>load_texts("~/corpora/austen")</
 the switch. In this example from <em>Dubliners</em>, for instance, each
 story’s title is shown under “part”. <code><a href="../reference/identify_by.html">identify_by()</a></code> makes it
 easy to identify documents by that column:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">corpus_dubliners</span> <span class="op">&lt;-</span> <span class="va">corpus_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/identify_by.html">identify_by</a></span><span class="op">(</span><span class="va">part</span><span class="op">)</span></span>
 <span></span>
@@ -330,7 +333,7 @@ easy to identify documents by that column:</p>
 </h3>
 <p><code><a href="../reference/standardize_titles.html">standardize_titles()</a></code> converts titles to something
 cleaner by adopting title case.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">before</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">corpus_dubliners</span><span class="op">$</span><span class="va">doc_id</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">corpus_dubliners</span> <span class="op">&lt;-</span> <span class="va">corpus_dubliners</span> <span class="op">|&gt;</span> </span>
@@ -366,6 +369,9 @@ adjustable window on either side and options for searching with regular
 expressions. Most other functions for studying texts follow a
 predictable naming convention:</p>
 <ul>
+<li>
+<code><a href="../reference/add_frequency.html">add_frequency()</a></code> adds a column for word
+frequencies.</li>
 <li>
 <code><a href="../reference/add_vocabulary.html">add_vocabulary()</a></code> adds columns measuring the lexical
 variety of texts.</li>
@@ -403,7 +409,7 @@ into one column per word.</li>
 </h3>
 <p><code><a href="../reference/contextualize.html">contextualize()</a></code> finds uses of a word within a corpus and
 returns a window of context around each use.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">corpus_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/contextualize.html">contextualize</a></span><span class="op">(</span><span class="st">"snow"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; mat scraping the <span style="color: #BB00BB; text-decoration: underline;">snow</span> from his goloshes</span></span>
@@ -417,7 +423,7 @@ Adjusting <code>limit</code> changes the number of results, with
 <code>limit = 0</code> returning a table. Other options include
 <code>window</code> to adjust the number of words shown and
 <code>regex</code> to accept partial matches.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">corpus_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/contextualize.html">contextualize</a></span><span class="op">(</span>regex <span class="op">=</span> <span class="st">"sno"</span>,</span>
 <span>                window <span class="op">=</span> <span class="fl">2</span>,</span>
@@ -443,7 +449,7 @@ part-of-speech parsing, so it’s not always appropriate. But using
 <code><a href="../reference/contextualize.html">contextualize()</a></code> on corpora loaded with
 <code>load_texts(keep_original = TRUE)</code> will show search terms
 much closer to their original context:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">corpus_joyce</span> <span class="op">&lt;-</span> <span class="va">joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/load_texts.html">load_texts</a></span><span class="op">(</span>keep_original <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/identify_by.html">identify_by</a></span><span class="op">(</span><span class="va">title</span><span class="op">)</span></span>
@@ -460,7 +466,7 @@ much closer to their original context:</p>
 <span><span class="co">#&gt; April 13. That <span style="color: #BB00BB; text-decoration: underline;">tundish</span> has been on</span></span></code></pre></div>
 <p>Even when <code>limit</code> is set to some value other than 0, the
 table of results is returned invisibly for later recall.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tundish</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 7 × 4</span></span></span>
 <span><span class="co">#&gt;   doc_id                                  word    index context                 </span></span>
@@ -474,12 +480,56 @@ table of results is returned invisibly for later recall.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> A Portrait of the Artist as a Young Man tundish <span style="text-decoration: underline;">84</span>352 April 13. That TUNDISH …</span></span></code></pre></div>
 </div>
 <div class="section level3">
+<h3 id="word-frequencies">Word frequencies<a class="anchor" aria-label="anchor" href="#word-frequencies"></a>
+</h3>
+<p><code><a href="../reference/add_frequency.html">add_frequency()</a></code> adds word counts for each document in a
+new column, <code>n</code>.</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">counts_dubliners</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="va">corpus_dubliners</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/add_frequency.html">add_frequency</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">counts_dubliners</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 67,885 × 8</span></span></span>
+<span><span class="co">#&gt;    doc_id      title     author       part        word  pos   lemma     n</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> The Sisters Dubliners Joyce, James THE SISTERS there EX    there    15</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> The Sisters Dubliners Joyce, James THE SISTERS was   VBD   be       57</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> The Sisters Dubliners Joyce, James THE SISTERS no    DT    no       16</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> The Sisters Dubliners Joyce, James THE SISTERS hope  NN    hope      1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> The Sisters Dubliners Joyce, James THE SISTERS for   IN    for      32</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> The Sisters Dubliners Joyce, James THE SISTERS him   PRP   him      43</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> The Sisters Dubliners Joyce, James THE SISTERS this  DT    this      6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> The Sisters Dubliners Joyce, James THE SISTERS time  NN    time      3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> The Sisters Dubliners Joyce, James THE SISTERS it    PRP   it       40</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> The Sisters Dubliners Joyce, James THE SISTERS was   VBD   be       57</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 67,875 more rows</span></span></span></code></pre></div>
+<p>To count by some other column, indicate it in the parentheses:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">corpus_dubliners</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/add_frequency.html">add_frequency</a></span><span class="op">(</span><span class="va">lemma</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 67,885 × 8</span></span></span>
+<span><span class="co">#&gt;    doc_id      title     author       part        word  pos   lemma     n</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> The Sisters Dubliners Joyce, James THE SISTERS there EX    there    15</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> The Sisters Dubliners Joyce, James THE SISTERS was   VBD   be       98</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> The Sisters Dubliners Joyce, James THE SISTERS no    DT    no       16</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> The Sisters Dubliners Joyce, James THE SISTERS hope  NN    hope      1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> The Sisters Dubliners Joyce, James THE SISTERS for   IN    for      32</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> The Sisters Dubliners Joyce, James THE SISTERS him   PRP   him      43</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> The Sisters Dubliners Joyce, James THE SISTERS this  DT    this      9</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> The Sisters Dubliners Joyce, James THE SISTERS time  NN    time      3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> The Sisters Dubliners Joyce, James THE SISTERS it    PRP   it       40</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> The Sisters Dubliners Joyce, James THE SISTERS was   VBD   be       98</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 67,875 more rows</span></span></span></code></pre></div>
+</div>
+<div class="section level3">
 <h3 id="vocabulary-richness">Vocabulary richness<a class="anchor" aria-label="anchor" href="#vocabulary-richness"></a>
 </h3>
 <p><code><a href="../reference/add_vocabulary.html">add_vocabulary()</a></code> adds measurements of vocabulary
 richness, including cumulative vocabulary size, indicators of hapax
 legomena, and markers of progress.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">vocab_dubliners</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="va">corpus_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/add_vocabulary.html">add_vocabulary</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -499,60 +549,60 @@ legomena, and markers of progress.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> The Sis… Dubl… Joyce… THE … it    PRP   it    TRUE     FALSE          9   1  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> The Sis… Dubl… Joyce… THE … was   VBD   be    FALSE    FALSE          9   0.9</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 67,875 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 more variables: htr &lt;dbl&gt;, progress_words &lt;int&gt;, progress_percent &lt;dbl&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 more variables: hir &lt;dbl&gt;, progress_words &lt;int&gt;, progress_percent &lt;dbl&gt;</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="sentiment">Sentiment<a class="anchor" aria-label="anchor" href="#sentiment"></a>
 </h3>
 <p><code><a href="../reference/add_sentiment.html">add_sentiment()</a></code> adds measurements of sentiment using the
 “Bing” lexicon by default.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sentiment_dubliners</span> <span class="op">&lt;-</span> <span class="va">corpus_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/add_sentiment.html">add_sentiment</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">sentiment_dubliners</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 67,946 × 5</span></span></span>
-<span><span class="co">#&gt;    title     author       doc_id      word  sentiment</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Dubliners Joyce, James The Sisters there <span style="color: #BB0000;">NA</span>       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Dubliners Joyce, James The Sisters was   <span style="color: #BB0000;">NA</span>       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Dubliners Joyce, James The Sisters no    <span style="color: #BB0000;">NA</span>       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Dubliners Joyce, James The Sisters hope  <span style="color: #BB0000;">NA</span>       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Dubliners Joyce, James The Sisters for   <span style="color: #BB0000;">NA</span>       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Dubliners Joyce, James The Sisters him   <span style="color: #BB0000;">NA</span>       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Dubliners Joyce, James The Sisters this  <span style="color: #BB0000;">NA</span>       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Dubliners Joyce, James The Sisters time  <span style="color: #BB0000;">NA</span>       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Dubliners Joyce, James The Sisters it    <span style="color: #BB0000;">NA</span>       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Dubliners Joyce, James The Sisters was   <span style="color: #BB0000;">NA</span>       </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 67,936 more rows</span></span></span></code></pre>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 67,886 × 8</span></span></span>
+<span><span class="co">#&gt;    doc_id      title     author       part        word  pos   lemma sentiment</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> The Sisters Dubliners Joyce, James THE SISTERS there EX    there <span style="color: #BB0000;">NA</span>       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> The Sisters Dubliners Joyce, James THE SISTERS was   VBD   be    <span style="color: #BB0000;">NA</span>       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> The Sisters Dubliners Joyce, James THE SISTERS no    DT    no    <span style="color: #BB0000;">NA</span>       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> The Sisters Dubliners Joyce, James THE SISTERS hope  NN    hope  <span style="color: #BB0000;">NA</span>       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> The Sisters Dubliners Joyce, James THE SISTERS for   IN    for   <span style="color: #BB0000;">NA</span>       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> The Sisters Dubliners Joyce, James THE SISTERS him   PRP   him   <span style="color: #BB0000;">NA</span>       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> The Sisters Dubliners Joyce, James THE SISTERS this  DT    this  <span style="color: #BB0000;">NA</span>       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> The Sisters Dubliners Joyce, James THE SISTERS time  NN    time  <span style="color: #BB0000;">NA</span>       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> The Sisters Dubliners Joyce, James THE SISTERS it    PRP   it    <span style="color: #BB0000;">NA</span>       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> The Sisters Dubliners Joyce, James THE SISTERS was   VBD   be    <span style="color: #BB0000;">NA</span>       </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 67,876 more rows</span></span></span></code></pre>
 <div class="section level4">
 <h4 id="dropping-empty-rows">Dropping empty rows<a class="anchor" aria-label="anchor" href="#dropping-empty-rows"></a>
 </h4>
 <p>Since many words may not be found in a given sentiment lexicon,
 <code><a href="../reference/drop_na.html">drop_na()</a></code> makes it easy to remove empty rows.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sentiment_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/drop_na.html">drop_na</a></span><span class="op">(</span><span class="va">sentiment</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3,868 × 5</span></span></span>
-<span><span class="co">#&gt;    title     author       doc_id      word      sentiment</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Dubliners Joyce, James The Sisters evenly    positive </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Dubliners Joyce, James The Sisters dead      negative </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Dubliners Joyce, James The Sisters darkened  negative </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Dubliners Joyce, James The Sisters blind     negative </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Dubliners Joyce, James The Sisters idle      negative </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Dubliners Joyce, James The Sisters strangely negative </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Dubliners Joyce, James The Sisters like      positive </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Dubliners Joyce, James The Sisters like      positive </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Dubliners Joyce, James The Sisters sinful    negative </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Dubliners Joyce, James The Sisters fear      negative </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3,858 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3,787 × 8</span></span></span>
+<span><span class="co">#&gt;    doc_id      title     author       part        word     pos   lemma sentiment</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> The Sisters Dubliners Joyce, James THE SISTERS evenly   RB    even… positive </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> The Sisters Dubliners Joyce, James THE SISTERS dead     JJ    dead  negative </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> The Sisters Dubliners Joyce, James THE SISTERS darkened VBN   dark… negative </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> The Sisters Dubliners Joyce, James THE SISTERS blind    NN    blind negative </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> The Sisters Dubliners Joyce, James THE SISTERS idle     VB    idle  negative </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> The Sisters Dubliners Joyce, James THE SISTERS strange… RB    stra… negative </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> The Sisters Dubliners Joyce, James THE SISTERS like     IN    like  positive </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> The Sisters Dubliners Joyce, James THE SISTERS like     IN    like  positive </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> The Sisters Dubliners Joyce, James THE SISTERS sinful   JJ    sinf… negative </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> The Sisters Dubliners Joyce, James THE SISTERS fear     NN    fear  negative </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3,777 more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="choosing-a-sentiment-lexicon">Choosing a sentiment lexicon<a class="anchor" aria-label="anchor" href="#choosing-a-sentiment-lexicon"></a>
 </h4>
 <p>The lexicon can be chosen at measurement.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sentiment_ulysses</span> <span class="op">&lt;-</span> <span class="va">ulysses</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/load_texts.html">load_texts</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/identify_by.html">identify_by</a></span><span class="op">(</span><span class="va">section</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -560,19 +610,19 @@ legomena, and markers of progress.</p>
 <span></span>
 <span><span class="va">sentiment_ulysses</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/drop_na.html">drop_na</a></span><span class="op">(</span><span class="va">sentiment</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 63,006 × 6</span></span></span>
-<span><span class="co">#&gt;    title   author       part  doc_id word    sentiment   </span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Ulysses Joyce, James — I — [ 1 ]  stately positive    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Ulysses Joyce, James — I — [ 1 ]  plump   anticipation</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Ulysses Joyce, James — I — [ 1 ]  buck    fear        </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Ulysses Joyce, James — I — [ 1 ]  buck    negative    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Ulysses Joyce, James — I — [ 1 ]  buck    positive    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Ulysses Joyce, James — I — [ 1 ]  buck    surprise    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Ulysses Joyce, James — I — [ 1 ]  razor   fear        </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Ulysses Joyce, James — I — [ 1 ]  dark    sadness     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Ulysses Joyce, James — I — [ 1 ]  fearful fear        </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Ulysses Joyce, James — I — [ 1 ]  fearful negative    </span></span>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 63,006 × 7</span></span></span>
+<span><span class="co">#&gt;    doc_id title   author       part  section word    sentiment   </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> [ 1 ]  Ulysses Joyce, James — I — [ 1 ]   stately positive    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> [ 1 ]  Ulysses Joyce, James — I — [ 1 ]   plump   anticipation</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> [ 1 ]  Ulysses Joyce, James — I — [ 1 ]   buck    fear        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> [ 1 ]  Ulysses Joyce, James — I — [ 1 ]   buck    negative    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> [ 1 ]  Ulysses Joyce, James — I — [ 1 ]   buck    positive    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> [ 1 ]  Ulysses Joyce, James — I — [ 1 ]   buck    surprise    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> [ 1 ]  Ulysses Joyce, James — I — [ 1 ]   razor   fear        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> [ 1 ]  Ulysses Joyce, James — I — [ 1 ]   dark    sadness     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> [ 1 ]  Ulysses Joyce, James — I — [ 1 ]   fearful fear        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> [ 1 ]  Ulysses Joyce, James — I — [ 1 ]   fearful negative    </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 62,996 more rows</span></span></span></code></pre>
 </div>
 </div>
@@ -582,7 +632,7 @@ legomena, and markers of progress.</p>
 <p>Following the same pattern, <code><a href="../reference/add_ngrams.html">add_ngrams()</a></code> adds columns
 for n-length phrases of words. By default, it prepares bigrams (or
 2-grams).</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bigrams_joyce</span> <span class="op">&lt;-</span> <span class="va">corpus_joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/add_ngrams.html">add_ngrams</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
@@ -602,7 +652,7 @@ for n-length phrases of words. By default, it prepares bigrams (or
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Dubliners Dubliners Joyce, James THE SISTERS <span style="color: #BB0000;">NA</span>      was      was    the   </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 417,836 more rows</span></span></span></code></pre></div>
 <p>Other n-grams can be chosen by passing a vector of numbers.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">trigrams_joyce</span> <span class="op">&lt;-</span> <span class="va">corpus_joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/add_ngrams.html">add_ngrams</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span>
 <span></span>
@@ -625,12 +675,33 @@ for n-length phrases of words. By default, it prepares bigrams (or
 <div class="section level3">
 <h3 id="tf-idf">Tf-idf<a class="anchor" aria-label="anchor" href="#tf-idf"></a>
 </h3>
-<p>Unlike other measurements, term frequency–inverse document frequency
-doesn’t preserve word order, and it reduces documents to one instance of
-each token. Since any use of tf-idf can’t merely add a column,
-<code><a href="../reference/summarize_tf_idf.html">summarize_tf_idf()</a></code> avoids the <code>add_</code> naming
-convention. Results are returned in descending strength of tf-idf.</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<p><code><a href="../reference/add_tf_idf.html">add_tf_idf()</a></code> adds measurements of term frequency
+(<code>tf</code>), inverse document frequency (<code>idf</code>), and
+combined term frequency–inverse document frequency
+(<code>tf_idf</code>).</p>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">corpus_dubliners</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/add_tf_idf.html">add_tf_idf</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 67,885 × 11</span></span></span>
+<span><span class="co">#&gt;    doc_id      title author part  word  pos   lemma     n      tf    idf  tf_idf</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> The Sisters Dubl… Joyce… THE … there EX    there    15 0.004<span style="text-decoration: underline;">8</span>  0      0   <span style="color: #949494;"> </span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> The Sisters Dubl… Joyce… THE … was   VBD   be       57 0.018<span style="text-decoration: underline;">2</span>  0      0   <span style="color: #949494;"> </span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> The Sisters Dubl… Joyce… THE … no    DT    no       16 0.005<span style="text-decoration: underline;">12</span> 0      0   <span style="color: #949494;"> </span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> The Sisters Dubl… Joyce… THE … hope  NN    hope      1 0.000<span style="text-decoration: underline;">32</span> 0.511  1.63<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> The Sisters Dubl… Joyce… THE … for   IN    for      32 0.010<span style="text-decoration: underline;">2</span>  0      0   <span style="color: #949494;"> </span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> The Sisters Dubl… Joyce… THE … him   PRP   him      43 0.013<span style="text-decoration: underline;">8</span>  0      0   <span style="color: #949494;"> </span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> The Sisters Dubl… Joyce… THE … this  DT    this      6 0.001<span style="text-decoration: underline;">92</span> 0.069<span style="text-decoration: underline;">0</span> 1.32<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> The Sisters Dubl… Joyce… THE … time  NN    time      3 0.000<span style="text-decoration: underline;">96</span> 0      0   <span style="color: #949494;"> </span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> The Sisters Dubl… Joyce… THE … it    PRP   it       40 0.012<span style="text-decoration: underline;">8</span>  0      0   <span style="color: #949494;"> </span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> The Sisters Dubl… Joyce… THE … was   VBD   be       57 0.018<span style="text-decoration: underline;">2</span>  0      0   <span style="color: #949494;"> </span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 67,875 more rows</span></span></span></code></pre></div>
+<p>Term frequency–inverse document frequency is most commonly used as a
+way of summarizing language used, paying less attention word order and
+reducing documents to one instance of each token. To study texts this
+way, <code><a href="../reference/summarize_tf_idf.html">summarize_tf_idf()</a></code> returns a table arranged in
+descending strength of tf-idf.</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tfidf_dubliners</span> <span class="op">&lt;-</span> <span class="va">corpus_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/summarize_tf_idf.html">summarize_tf_idf</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
@@ -654,7 +725,7 @@ unique to each document. The <code>remove_names</code> argument in
 <code><a href="../reference/load_texts.html">load_texts()</a></code> can help to filter out words that appear only
 in capitalized form. Removing names from <em>Dubliners</em> makes a
 noticeable difference in tf-idf results:</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tfidf_dubliners</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_gutenberg_corpus.html">get_gutenberg_corpus</a></span><span class="op">(</span><span class="fl">2814</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/load_texts.html">load_texts</a></span><span class="op">(</span>remove_names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/identify_by.html">identify_by</a></span><span class="op">(</span><span class="va">part</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -692,7 +763,7 @@ findings without struggling to recall a specialized function.</p>
 </h3>
 <p>By default, <code><a href="../reference/tabulize.html">tabulize()</a></code> prepares a table showing the
 lengths of each document.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">corpus_joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div id="mwlefoodfi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
@@ -1146,8 +1217,8 @@ lengths of each document.</p>
 </style>
 <table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead><tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id=""></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="words">words</th>
+<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="doc_id"></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n">words</th>
     </tr></thead>
 <tbody class="gt_table_body">
 <tr>
@@ -1167,13 +1238,14 @@ lengths of each document.</p>
 </div>
 </div>
 <div class="section level3">
-<h3 id="word-counts">Word counts<a class="anchor" aria-label="anchor" href="#word-counts"></a>
+<h3 id="word-frequencies-1">Word frequencies<a class="anchor" aria-label="anchor" href="#word-frequencies-1"></a>
 </h3>
-<p>Adding <code>count = TRUE</code> will show the counts of the
-most-frequent words.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<p>After <code><a href="../reference/add_frequency.html">add_frequency()</a></code>, <code><a href="../reference/tabulize.html">tabulize()</a></code> will show
+the counts of the most-frequent words.</p>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">corpus_joyce</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span>count <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="../reference/add_frequency.html">add_frequency</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div id="eexombwkke" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#eexombwkke table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -1625,7 +1697,7 @@ most-frequent words.</p>
 </style>
 <table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead><tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id=""></th>
+<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="doc_id"></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="word">word</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n">n</th>
     </tr></thead>
@@ -1729,7 +1801,7 @@ most-frequent words.</p>
 </h3>
 <p>When used after <code><a href="../reference/add_vocabulary.html">add_vocabulary()</a></code>,
 <code><a href="../reference/tabulize.html">tabulize()</a></code> prepares a clean summary table.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">corpus_joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/add_vocabulary.html">add_vocabulary</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -2185,20 +2257,20 @@ most-frequent words.</p>
 <table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
 <tr class="gt_col_headings gt_spanner_row">
-<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" scope="col" id=""></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="length">length</th>
+<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" scope="col" id="doc_id"></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col" id="words">length</th>
       <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="vocabulary">
-        <span class="gt_column_spanner">vocabulary</span>
+        <div class="gt_column_spanner">vocabulary</div>
       </th>
       <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="hapax">
-        <span class="gt_column_spanner">hapax</span>
+        <div class="gt_column_spanner">hapax</div>
       </th>
     </tr>
 <tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="total">total</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="ratio">ratio</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="total">total</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="ratio">ratio</th>
+<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="vocab">total</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="ttr">ratio</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="hlemona">total</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="htr">ratio</th>
     </tr>
 </thead>
 <tbody class="gt_table_body">
@@ -2235,7 +2307,7 @@ most-frequent words.</p>
 </h3>
 <p>For sentiment analysis, <code><a href="../reference/tabulize.html">tabulize()</a></code> returns a summary of
 figures for each document.</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># dplyr is used here to choose a smaller example for comparison</span></span>
 <span><span class="va">sentiment_dubliners_part</span> <span class="op">&lt;-</span> <span class="va">sentiment_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">doc_id</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"The Sisters"</span>, <span class="st">"An Encounter"</span>,  <span class="st">"Araby"</span><span class="op">)</span><span class="op">)</span></span>
@@ -2693,72 +2765,72 @@ figures for each document.</p>
 </style>
 <table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead><tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id=""></th>
+<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="doc_id"></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="sentiment">sentiment</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n">n</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="%">%</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="percent">%</th>
     </tr></thead>
 <tbody class="gt_table_body">
 <tr>
 <td headers="doc_id" class="gt_row gt_center">The Sisters</td>
 <td headers="sentiment" class="gt_row gt_left">negative</td>
-<td headers="n" class="gt_row gt_right">110</td>
-<td headers="percent" class="gt_row gt_right">3.53</td>
+<td headers="n" class="gt_row gt_right">106</td>
+<td headers="percent" class="gt_row gt_right">3.39</td>
 </tr>
 <tr>
 <td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">The Sisters</td>
 <td headers="sentiment" class="gt_row gt_left">positive</td>
-<td headers="n" class="gt_row gt_right">69</td>
-<td headers="percent" class="gt_row gt_right">2.22</td>
+<td headers="n" class="gt_row gt_right">66</td>
+<td headers="percent" class="gt_row gt_right">2.11</td>
 </tr>
 <tr>
 <td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">The Sisters</td>
 <td headers="sentiment" class="gt_row gt_left">—</td>
-<td headers="n" class="gt_row gt_right">2,934</td>
-<td headers="percent" class="gt_row gt_right">94.25</td>
+<td headers="n" class="gt_row gt_right">2,953</td>
+<td headers="percent" class="gt_row gt_right">94.50</td>
 </tr>
 <tr>
 <td headers="doc_id" class="gt_row gt_center">An Encounter</td>
 <td headers="sentiment" class="gt_row gt_left">negative</td>
-<td headers="n" class="gt_row gt_right">89</td>
-<td headers="percent" class="gt_row gt_right">2.73</td>
+<td headers="n" class="gt_row gt_right">88</td>
+<td headers="percent" class="gt_row gt_right">2.70</td>
 </tr>
 <tr>
 <td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">An Encounter</td>
 <td headers="sentiment" class="gt_row gt_left">positive</td>
-<td headers="n" class="gt_row gt_right">78</td>
-<td headers="percent" class="gt_row gt_right">2.39</td>
+<td headers="n" class="gt_row gt_right">76</td>
+<td headers="percent" class="gt_row gt_right">2.33</td>
 </tr>
 <tr>
 <td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">An Encounter</td>
 <td headers="sentiment" class="gt_row gt_left">—</td>
-<td headers="n" class="gt_row gt_right">3,090</td>
-<td headers="percent" class="gt_row gt_right">94.87</td>
+<td headers="n" class="gt_row gt_right">3,091</td>
+<td headers="percent" class="gt_row gt_right">94.96</td>
 </tr>
 <tr>
 <td headers="doc_id" class="gt_row gt_center">Araby</td>
 <td headers="sentiment" class="gt_row gt_left">negative</td>
-<td headers="n" class="gt_row gt_right">86</td>
-<td headers="percent" class="gt_row gt_right">3.67</td>
+<td headers="n" class="gt_row gt_right">85</td>
+<td headers="percent" class="gt_row gt_right">3.64</td>
 </tr>
 <tr>
 <td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Araby</td>
 <td headers="sentiment" class="gt_row gt_left">positive</td>
 <td headers="n" class="gt_row gt_right">41</td>
-<td headers="percent" class="gt_row gt_right">1.75</td>
+<td headers="percent" class="gt_row gt_right">1.76</td>
 </tr>
 <tr>
 <td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Araby</td>
 <td headers="sentiment" class="gt_row gt_left">—</td>
-<td headers="n" class="gt_row gt_right">2,218</td>
-<td headers="percent" class="gt_row gt_right">94.58</td>
+<td headers="n" class="gt_row gt_right">2,206</td>
+<td headers="percent" class="gt_row gt_right">94.60</td>
 </tr>
 </tbody>
 </table>
 </div>
 <p>Setting <code>drop_na = TRUE</code> removes rows without sentiment
 measure.</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sentiment_dubliners_part</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span>drop_na <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <div id="txvafbsnay" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
@@ -3212,54 +3284,54 @@ measure.</p>
 </style>
 <table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead><tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id=""></th>
+<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="doc_id"></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="sentiment">sentiment</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n">n</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="%">%</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="percent">%</th>
     </tr></thead>
 <tbody class="gt_table_body">
 <tr>
 <td headers="doc_id" class="gt_row gt_center">The Sisters</td>
 <td headers="sentiment" class="gt_row gt_left">negative</td>
-<td headers="n" class="gt_row gt_right">110</td>
-<td headers="percent" class="gt_row gt_right">61.45</td>
+<td headers="n" class="gt_row gt_right">106</td>
+<td headers="percent" class="gt_row gt_right">61.63</td>
 </tr>
 <tr>
 <td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">The Sisters</td>
 <td headers="sentiment" class="gt_row gt_left">positive</td>
-<td headers="n" class="gt_row gt_right">69</td>
-<td headers="percent" class="gt_row gt_right">38.55</td>
+<td headers="n" class="gt_row gt_right">66</td>
+<td headers="percent" class="gt_row gt_right">38.37</td>
 </tr>
 <tr>
 <td headers="doc_id" class="gt_row gt_center">An Encounter</td>
 <td headers="sentiment" class="gt_row gt_left">negative</td>
-<td headers="n" class="gt_row gt_right">89</td>
-<td headers="percent" class="gt_row gt_right">53.29</td>
+<td headers="n" class="gt_row gt_right">88</td>
+<td headers="percent" class="gt_row gt_right">53.66</td>
 </tr>
 <tr>
 <td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">An Encounter</td>
 <td headers="sentiment" class="gt_row gt_left">positive</td>
-<td headers="n" class="gt_row gt_right">78</td>
-<td headers="percent" class="gt_row gt_right">46.71</td>
+<td headers="n" class="gt_row gt_right">76</td>
+<td headers="percent" class="gt_row gt_right">46.34</td>
 </tr>
 <tr>
 <td headers="doc_id" class="gt_row gt_center">Araby</td>
 <td headers="sentiment" class="gt_row gt_left">negative</td>
-<td headers="n" class="gt_row gt_right">86</td>
-<td headers="percent" class="gt_row gt_right">67.72</td>
+<td headers="n" class="gt_row gt_right">85</td>
+<td headers="percent" class="gt_row gt_right">67.46</td>
 </tr>
 <tr>
 <td headers="doc_id" class="gt_row gt_center" style="visibility:hidden;border-top:0px;">Araby</td>
 <td headers="sentiment" class="gt_row gt_left">positive</td>
 <td headers="n" class="gt_row gt_right">41</td>
-<td headers="percent" class="gt_row gt_right">32.28</td>
+<td headers="percent" class="gt_row gt_right">32.54</td>
 </tr>
 </tbody>
 </table>
 </div>
 <p>The <code>ignore</code> parameter aids in selecting a subset of
 sentiments, converting the rest to <code>NA</code>.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># dplyr is used here to choose a smaller example for comparison</span></span>
 <span><span class="va">sentiment_ulysses_part</span> <span class="op">&lt;-</span> <span class="va">sentiment_ulysses</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">doc_id</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[ 1 ]"</span>, <span class="st">"[ 2 ]"</span>, <span class="st">"[ 3 ]"</span><span class="op">)</span><span class="op">)</span></span>
@@ -3717,10 +3789,10 @@ sentiments, converting the rest to <code>NA</code>.</p>
 </style>
 <table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead><tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id=""></th>
+<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="doc_id"></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="sentiment">sentiment</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n">n</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="%">%</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="percent">%</th>
     </tr></thead>
 <tbody class="gt_table_body">
 <tr>
@@ -3805,7 +3877,7 @@ sentiments, converting the rest to <code>NA</code>.</p>
 <p>After <code><a href="../reference/add_ngrams.html">add_ngrams()</a></code>, <code><a href="../reference/tabulize.html">tabulize()</a></code> returns the
 top n-grams per document. By default, the first six are shown for each
 group, but rows can be chosen freely.</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bigrams_joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <div id="cbwjcfdjag" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
@@ -4259,10 +4331,10 @@ group, but rows can be chosen freely.</p>
 </style>
 <table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead><tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id=""></th>
+<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="doc_id"></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="ngram">ngram</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n">n</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="%">%</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="percent">%</th>
     </tr></thead>
 <tbody class="gt_table_body">
 <tr>
@@ -4308,11 +4380,11 @@ group, but rows can be chosen freely.</p>
 <div class="section level3">
 <h3 id="tf-idf-1">Tf-idf<a class="anchor" aria-label="anchor" href="#tf-idf-1"></a>
 </h3>
-<p>For data frames prepared with <code><a href="../reference/summarize_tf_idf.html">summarize_tf_idf()</a></code>,
-<code><a href="../reference/tabulize.html">tabulize()</a></code> returns six rows of the top-scoring words for
-each document. This amount can be specified with the <code>rows</code>
-argument.</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<p>For data frames prepared with <code><a href="../reference/add_tf_idf.html">add_tf_idf()</a></code> or
+<code><a href="../reference/summarize_tf_idf.html">summarize_tf_idf()</a></code>, <code><a href="../reference/tabulize.html">tabulize()</a></code> returns six
+rows of the top-scoring words for each document. This amount can be
+adjusted with the <code>rows</code> argument.</p>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tfidf_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/tabulize.html">tabulize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span></code></pre></div>
 <div id="fvsybhaagl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
@@ -4766,7 +4838,7 @@ argument.</p>
 </style>
 <table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead><tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id=""></th>
+<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="doc_id"></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="word">word</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n">n</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="tf">tf</th>
@@ -5160,20 +5232,29 @@ modifying filled and colored layers.</li>
 </h3>
 <p>By default, <code><a href="../reference/visualize.html">visualize()</a></code> prepares a figure showing the
 lengths of each document.</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">corpus_joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>inorder <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-33-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-36-1.png" width="700"></p>
 </div>
 <div class="section level3">
-<h3 id="word-counts-1">Word counts<a class="anchor" aria-label="anchor" href="#word-counts-1"></a>
+<h3 id="word-counts">Word counts<a class="anchor" aria-label="anchor" href="#word-counts"></a>
 </h3>
-<p>Adding <code>count = TRUE</code> will show the counts of the
-most-frequent words.</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<p>Using <code><a href="../reference/visualize.html">visualize()</a></code> after <code><a href="../reference/add_frequency.html">add_frequency()</a></code>
+will chart the most frequent words of each document.</p>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">corpus_joyce</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>count <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-34-1.png" width="700"></p>
+<span>  <span class="fu"><a href="../reference/add_frequency.html">add_frequency</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-37-1.png" width="700"></p>
+<p><code><a href="../reference/visualize.html">visualize()</a></code> takes additional arguments for customizing
+results.</p>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">counts_dubliners</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, </span>
+<span>            color_y <span class="op">=</span> <span class="cn">TRUE</span>, </span>
+<span>            reorder_y <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-38-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="vocabulary-richness-2">Vocabulary richness<a class="anchor" aria-label="anchor" href="#vocabulary-richness-2"></a>
@@ -5182,39 +5263,39 @@ most-frequent words.</p>
 <code><a href="../reference/visualize.html">visualize()</a></code> charts each document by its length and the
 number of unique tokens. A figure like this is useful to compare
 documents by their rate of vocabulary growth.</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">corpus_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/add_vocabulary.html">add_vocabulary</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-35-1.png" width="700"></p>
-<p>Other features, such as type-token ratio (“ttr”), hapax-token ratio
-(“htr”), or a sampling of hapax legomena (“hapax”) can also be
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-39-1.png" width="700"></p>
+<p>Other features, such as type-token ratio (“ttr”), hapax introduction
+ratio (“hir”), or a sampling of hapax legomena (“hapax”) can also be
 shown.</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">vocab_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="st">"ttr"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-36-1.png" width="700"></p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-40-1.png" width="700"></p>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">corpus_joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/add_vocabulary.html">add_vocabulary</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="st">"hapax"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-37-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-41-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="sentiment-2">Sentiment<a class="anchor" aria-label="anchor" href="#sentiment-2"></a>
 </h3>
 <p>For sentiment analysis, <code><a href="../reference/visualize.html">visualize()</a></code> allows for
 comparison among documents in a set.</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sentiment_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-38-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-42-1.png" width="700"></p>
 <p>The <code>ignore</code> parameter stipulates values to remove from
 the Y-axis to focus a figure.</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sentiment_ulysses</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>ignore <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"anger"</span>, <span class="st">"anticipation"</span>, <span class="st">"disgust"</span>, <span class="st">"fear"</span>, <span class="st">"trust"</span>, <span class="st">"positive"</span>, <span class="st">"negative"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-39-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-43-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="n-grams-2">N-grams<a class="anchor" aria-label="anchor" href="#n-grams-2"></a>
@@ -5222,10 +5303,10 @@ the Y-axis to focus a figure.</p>
 <p>For n-grams, <code><a href="../reference/visualize.html">visualize()</a></code> typically returns a network
 visualization inspired by the bigram network in <em>Text Mining with
 R</em>.</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bigrams_joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-40-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-44-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="combining-n-grams">Combining n-grams<a class="anchor" aria-label="anchor" href="#combining-n-grams"></a>
@@ -5234,12 +5315,12 @@ R</em>.</p>
 visualization. Certain arguments allow for deviation from typical
 charts, including choosing the rows to chart and modifying colors to be
 set by values on the Y-axis.</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bigrams_joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">word_1</span> <span class="op">==</span> <span class="st">"he"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/combine_ngrams.html">combine_ngrams</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, color_y <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-41-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-45-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="tf-idf-2">Tf-idf<a class="anchor" aria-label="anchor" href="#tf-idf-2"></a>
@@ -5250,33 +5331,33 @@ each other. Because <code>tfidf_dubliners</code> was prepared with
 <code>load_texts(remove_names = TRUE)</code>, the resulting chart shows
 clearer delineation of topics characteristic of the stories in Joyce’s
 collection:</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tfidf_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-42-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-46-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="changing-colors">Changing colors<a class="anchor" aria-label="anchor" href="#changing-colors"></a>
 </h3>
 <p><code><a href="../reference/change_colors.html">change_colors()</a></code> does what its name implies. By default,
 it adopts the “Dark2” palette from Brewer.</p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sentiment_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-43-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-47-1.png" width="700"></p>
 <p>Colors can be chosen manually.</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggraph.data-imaginist.com" class="external-link">ggraph</a></span><span class="op">)</span></span>
 <span><span class="va">bigrams_joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>top_n <span class="op">=</span> <span class="fl">60</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#999999"</span>, </span>
 <span>                  <span class="st">"orange"</span>, </span>
 <span>                  <span class="st">"darkred"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-44-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-48-1.png" width="700"></p>
 <p>Optionally, use a named vector to set some colors by value instead of
 by order. By default unnamed colors are gray.</p>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bigrams_joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">word_1</span> <span class="op">==</span> <span class="st">"he"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/combine_ngrams.html">combine_ngrams</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -5284,9 +5365,9 @@ by order. By default unnamed colors are gray.</p>
 <span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>    <span class="st">"he is"</span> <span class="op">=</span> <span class="st">"darkorange"</span>,</span>
 <span>    <span class="st">"he has"</span> <span class="op">=</span> <span class="st">"orange"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-45-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-49-1.png" width="700"></p>
 <p>Unnamed colors fill in as needed.</p>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bigrams_joyce</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">word_1</span> <span class="op">==</span> <span class="st">"he"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/combine_ngrams.html">combine_ngrams</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -5295,14 +5376,14 @@ by order. By default unnamed colors are gray.</p>
 <span>    <span class="st">"he is"</span> <span class="op">=</span> <span class="st">"darkorange"</span>,</span>
 <span>    <span class="st">"he has"</span> <span class="op">=</span> <span class="st">"orange"</span>, </span>
 <span>    <span class="st">"navy"</span>, <span class="st">"skyblue"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-46-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-50-1.png" width="700"></p>
 <p>Or choose a predetermined color set and palette, as described in
 function documentation.</p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tfidf_dubliners</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span>colorset <span class="op">=</span> <span class="st">"viridis"</span>, palette <span class="op">=</span> <span class="st">"mako"</span>, direction <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tmtyro_files/figure-html/unnamed-chunk-47-1.png" width="700"></p>
+<p><img src="tmtyro_files/figure-html/unnamed-chunk-51-1.png" width="700"></p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -5316,7 +5397,7 @@ function documentation.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer>
