@@ -1,6 +1,6 @@
 ---
 title: "Vectorized functions"
-subtitle: "with custom tables and figures"
+subtitle: "with custom columns, tables, and figures"
 ---
 
 ```{r, include = FALSE}
@@ -8,11 +8,13 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+library(dplyr)
+library(tmtyro)
 ```
 
 tmtyro is optimized for a fast start, speeding users along a standard workflow made possible by tidytext and the tidyverse packages on which it's built. But it also offers a pathway for growth by providing vectorized functions for use in a larger ecosystem of tools and simplifying the transition to text mining for anyone familiar with those tools.
 
-## Loading a corpus
+## Loading a corpus with tmtyro
 
 Regardless of a user's starting point, tmtyro's main verbs for gathering and preparing a corpus will prove useful:
 
@@ -334,7 +336,7 @@ gt_1 |>
 
 ## Preparing figures with ggplot2
 
-Vectorized functions beginning `get_...()` and `is...()` won't work well with tmtyro's `visualize()` function, which is made for the standard workflow. Those visualizations are all built with ggplot2, so they can be recreated with a little effort and nearly limitless customization. Consult the [ggplot2 documentation](https://ggplot2.tidyverse.org/articles/ggplot2.html) to learn more methods than can be demonstrated here.
+Vectorized functions beginning `get_...()` and `is...()` don't work well with `visualize()`, which is made for the standard workflow. Those visualizations are all built with ggplot2, so they can be recreated with a little effort and nearly limitless customization. Consult the [ggplot2 documentation](https://ggplot2.tidyverse.org/articles/ggplot2.html) to learn more methods than can be demonstrated here.
 
 ### Corpus details
 

@@ -373,11 +373,11 @@ library(tmtyro)
 #| label: viz-tmtyro
 #| eval: false
 my_corpus |> 
-  count(word) |> 
+  add_frequency()
   visualize()
 ```
 
-`count()` is reexported from dplyr. For showing word counts, `visualize()` also uses ggplot2. Other kinds of visualizations will add the forcats, scales, tidyr, ggraph, and igraph packages.
+For showing word counts, `visualize()` uses ggplot2. Other kinds of visualizations will add the forcats, scales, tidyr, ggraph, and igraph packages.
 
 #### tidytext
 

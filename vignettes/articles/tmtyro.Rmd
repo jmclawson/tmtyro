@@ -13,10 +13,6 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-```
-
-```{r setup}
-#| echo: false
 library(tmtyro)
 ```
 

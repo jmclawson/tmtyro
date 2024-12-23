@@ -7,6 +7,10 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+library(tibble)
+library(ggplot2)
+library(stringr)
+library(gt)
 ```
 
 Not everyone has experience coding, but everyone has a favorite color. To help beginners feel a sense of ownership for the work they do, tmtyro prioritizes simple customization using a single function: `change_colors()`. It takes the place of twelve different scaling functions from ggplot2 while providing a standard interface for any visualization created by tmtyro.
