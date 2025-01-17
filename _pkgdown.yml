@@ -14,7 +14,9 @@ reference:
   desc: Functions for collecting, loading, and cleaning a corpus of texts.
 - subtitle: Collecting Texts
 - contents:
-  - starts_with("get_")
+  - get_corpus
+  - get_gutenberg_corpus
+  - get_micusp_corpus
   - download_once
   - starts_with("micusp_")
   - parse_html
