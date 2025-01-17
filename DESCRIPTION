@@ -47,6 +47,7 @@ Suggests:
     fansi,
     geomtextpath (>= 0.1.4),
     ggrepel,
+    gtExtras,
     NLP,
     openNLP,
     plotly,
@@ -55,6 +56,9 @@ Suggests:
     testthat (>= 3.0.0),
     textdata,
     textstem,
+    tinytable (>= 0.6.1.7),
     utils,
     wordcloud
 Config/testthat/edition: 3
+Remotes:  
+    url::https://vincentarelbundock.r-universe.dev/src/contrib/tinytable_0.6.1.7.tar.gz
