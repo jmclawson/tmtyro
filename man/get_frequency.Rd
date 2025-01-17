@@ -3,7 +3,7 @@
 \name{get_frequency}
 \alias{get_frequency}
 \alias{get_tf}
-\title{Get get_frequencies of values in a vector}
+\title{Get frequencies of values in a vector}
 \usage{
 get_frequency(x, percent = FALSE)
 
@@ -18,7 +18,7 @@ get_tf(x, percent = TRUE)
 A vector of counts or ratios for each value of \code{x}.
 }
 \description{
-Get get_frequencies of values in a vector
+Get frequencies of values in a vector
 }
 \examples{
 my_values <- c("dog", "cat", "dog")

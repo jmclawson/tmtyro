@@ -1,6 +1,6 @@
 ---
-title: "Vectorized functions"
-subtitle: "with custom columns, tables, and figures"
+title: "Ramping up skills"
+subtitle: "Stepping into dplyr"
 ---
 
 ```{r, include = FALSE}
@@ -12,108 +12,286 @@ library(dplyr)
 library(tmtyro)
 ```
 
-tmtyro is optimized for a fast start, speeding users along a standard workflow made possible by tidytext and the tidyverse packages on which it's built. But it also offers a pathway for growth by providing vectorized functions for use in a larger ecosystem of tools and simplifying the transition to text mining for anyone familiar with those tools.
+tmtyro is optimized for a fast start, speeding users along a standard workflow built on tidytext and the tidyverse. But it also serves as a skills ramp, offering vectorized functions that work seamlessly with a broader ecosystem of tools. These functions provide a stepping stone for users transitioning to text mining workflows that leverage the flexibility and power of dplyr. The vectorized functions outlined below present an alternative pathway to the workflows enabled by functions like `add_frequency()` and `add_sentiment()`, bridging the gap to more advanced techniques.
 
-## Loading a corpus with tmtyro
+## Working with vectors
 
-Regardless of a user's starting point, tmtyro's main verbs for gathering and preparing a corpus will prove useful:
+We often work with text as a vector of words, sometimes thought of as a "bag" of words. In this form, everything is typically standardized into lowercase spellings, punctuation marks are removed, and words are split at spaces:
 
 ```{r}
-#| message: false
-library(dplyr)
-library(ggplot2)
+library(stringr)
+primer <- "See Jack run. Run, Jack! Run well!" |> 
+  tolower() |> 
+  str_remove_all("[:punct:]") |>
+  strsplit(" ") |> 
+  unlist()
+
+primer
+```
+
+tmtyro offers functions for working with such lists or bags of words, returning an equal-length list of some measurement or test. For instance, `get_frequency()` returns word counts for each word in a list:
+
+```{r}
+get_frequency(primer)
+```
+
+These counts can be converted to percentages by adding `percent = TRUE` or by using the shorthand `get_tf()`:
+
+```{r}
+get_frequency(primer, percent = TRUE)
+
+get_tf(primer)
+```
+
+Most of tmtyro's functions for working with vectors begin with `get_...()`. This standardization helps to simplify autocomplete. Additionally, two logical tests beginning with `is_...()` return values `TRUE` or `FALSE`:
+
+```{r}
+#| echo: false
 library(gt)
-library(tmtyro)
-corpus_dubliners <- get_gutenberg_corpus(2814) |> 
-  load_texts(lemma = TRUE, pos = TRUE) |> 
-  identify_by(part) |> 
-  standardize_titles()
+transitive <- make_dictionary(
+  list(
+    "no" = "run",
+    "yes" = "see"))
 
-corpus_dubliners
+tm_fn <- c(
+  "`get_frequency()`",
+  "`get_frequency(percent = FALSE)` <br>or<br> `get_tf()`",
+  "`get_cumulative_vocabulary()`",
+  "`get_ttr()`",
+  "`get_htr()`",
+  "`get_hir()`",
+  "`get_match()`",
+  "`get_sentiment()`",
+  "`is_new()`",
+  "`is_hapax()`")
+
+tm_exp <- c(
+  "word frequencies as counts",
+  "word frequencies as percentages",
+  "cumulative count of new words",
+  "cumulative type-token ratio",
+  "cumulative hapax-token ratio",
+  "hapax introduction rate",
+  "word matches according to a dictionary",
+  "word matches according to a sentiment dictionary",
+  "whether a word is newly being added to the list",
+  "whether a word is used only once in the list")
+
+tm_code <- c(
+  "`get_frequency(primer)`",
+  "`get_tf(primer)`",
+  "`get_cumulative_vocabulary(primer)`",
+  "`get_ttr(primer)`",
+  "`get_htr(primer)`",
+  "`get_hir(primer)`",
+  "`get_match(primer, verbs)`",
+  "`get_sentiment(primer)`",
+  "`is_new(primer)`",
+  "`is_hapax(primer)`")
+
+tm_result <- list(
+  get_frequency(primer),
+  get_tf(primer),
+  get_cumulative_vocabulary(primer),
+  get_ttr(primer),
+  get_htr(primer),
+  get_hir(primer),
+  get_match(primer, transitive),
+  get_sentiment(primer),
+  is_new(primer),
+  is_hapax(primer)) |> 
+  purrr::map({\(x) 
+    if (is.double(x)) {
+      round(x, 2)
+    } else if (is.character(x)) {
+      paste0("“", x, "”")
+    } else {
+      x
+    }}) |> 
+  purrr::map(\(x) tidyr::replace_na(x, "NA")) |> 
+  purrr::map({
+   \(x)
+    paste0("`", x, "`")
+  }) |> 
+  purrr::map(\(x) str_replace_all(x, "“NA”", "NA")) |> 
+  purrr::map_chr(str_flatten_comma)
+
+tm_table <- data.frame(
+  fn = tm_fn,
+  returns = tm_exp,
+  use = tm_code,
+  result = tm_result
+)
+
+tm_table |> 
+  gt() |> 
+  fmt_markdown(columns = c(fn, use, result)) |> 
+  cols_label(
+    fn = "tmtyro function"
+  )
 ```
 
-## Adding columns with dplyr
+Working with and becoming familiar with these vectorized functions can be a useful step for gaining confidence in working with text data.
 
-Beyond this point, anyone familiar with common tidyverse packages like dplyr and ggplot2 might forge their own path. For instance, while tmtyro offers a selection of verbs for adding new columns---all helpfully beginning with `add_...()`---the dplyr way to add columns is with `mutate()`. To support this workflow, tmtyro offers functions for working with columns as vectors, too.
+## Working with tables
 
-### Word count and frequency
+Although text analysis often conceives of documents as bags of words, tmtyro typically follows tidytext principals to go further, with data organized in a table with one word per row. This method of organization allows for both *context*, in rows above and below, and *understanding*, in columns to the left and right. 
 
-The main path for adding a column of word frequencies is with the `add_frequency()` function. Users familiar with dplyr can instead use `mutate()` paired with `get_frequency()`:
+### Adding columns
+
+tmtyro's typical workflow offers a selection of verbs for adding new columns---all helpfully beginning with `add_...()`. Alternatively, the vector functions listed above work well with dplyr's `mutate()` for adding columns:
+
+```{r}
+#| message: false
+# Load a corpus
+corpus_dubliners <- get_gutenberg_corpus(2814) |> 
+  load_texts() |> 
+  identify_by(part) |> 
+  standardize_titles() |> 
+  select(doc_id, word)
+
+# Use mutate() to add columns
+corpus_dubliners |> 
+  mutate(
+    count = get_frequency(word),
+    percent = get_tf(word),
+    new = is_new(word),
+    hapax = is_hapax(word))
+```
+
+### Grouping documents
+
+Not every measurement makes sense in a big corpus, where we might care more about things on a document-by-document basis. For this reason, tmtyro offers a few additional functions for measuring grouped values. Functions of this type are named in a pattern using `get_..._by()`:
+
+```{r}
+#| echo: false
+tm_grp_fn <- c(
+  "`get_tf_by()`",
+  "`get_idf_by()`",
+  "`get_tfidf_by()`")
+
+tm_grp_returns <- c(
+  "term frequencies (as a percentage) for each word by document",
+  "inverse document frequencies for each word by document",
+  "term frequency--inverse document frequencies for each word by document")
+
+tm_grp_table <- data.frame(
+  fn = tm_grp_fn,
+  returns = tm_grp_returns)
+
+tm_grp_table |> 
+  gt() |> 
+  fmt_markdown(columns = c(fn, returns)) |> 
+  cols_label(
+    fn = "function"
+  )
+```
+
+Because they expect two arguments of equal length, these kinds of vector-document functions are best suited for data organized in a table. All of these `get_..._by()` functions use the same syntax:
 
 ```{r}
 #| message: false
 corpus_dubliners |> 
-  select(doc_id, word, lemma) |> 
   mutate(
-    count_word = get_frequency(word),
-    count_lemma = get_frequency(lemma))
+    tf = get_tf_by(word, doc_id),
+    idf = get_idf_by(word, doc_id),
+    tf_idf = get_tfidf_by(word, doc_id))
 ```
 
-These frequencies can just as easily be reported as percentages relative to the whole, using `get_frequency(percent = TRUE)`:
+Native to dplyr, `group_by()` and `ungroup()` offer another method for calculating values by document:
 
 ```{r}
 corpus_dubliners |> 
-  select(doc_id, word, lemma) |> 
-  mutate(
-    count_word = get_frequency(word, percent = TRUE),
-    count_lemma = get_frequency(lemma, percent = TRUE))
-```
-
-Of course, these frequencies relate to the entire corpus. To get document-level numbers, use the dplyr functions `group_by()` and `ungroup()` around `mutate()`:
-
-```{r}
-corpus_dubliners <- corpus_dubliners |> 
-  select(doc_id, word) 
-
-dubliners_count <- corpus_dubliners |> 
   group_by(doc_id) |> 
   mutate(
-    n = get_frequency(word),
-    freq = get_frequency(word, percent = TRUE)) |> 
+    tf = get_tf(word)) |> 
   ungroup()
-
-dubliners_count
 ```
 
-### Vocabulary richness
+Be aware that that there's no equivalent `get_idf()` or `get_tfidf()` for pairing with `group_by()`. By definition, these calculations need contextual awareness of documents in a corpus. 
 
-tmtyro offers `add_vocabulary()` for adding columns devoted to vocabulary growth, uniqueness, and ratios of lexical diversity. When using `mutate()`, these features are handled by testing functions like `is_new()` and `is_hapax()` and measuring functions like `get_cumulative_vocabulary()`, `get_ttr()`, and `get_hir()`. As with word count, it's usually best to calculate values grouped by document using `group_by()` and `ungroup()`:
+Using dplyr in this way allows for a range of measurements beyond those imagined in tmtyro. For instance, it might be helpful to express term frequencies in terms of how far they are from average use:
 
 ```{r}
-dubliners_vocab <- corpus_dubliners |> 
+unique_usage <- corpus_dubliners |> 
   group_by(doc_id) |> 
   mutate(
-    new_word = is_new(word), 
-    hapax_word = is_hapax(word),
-    vocab = get_cumulative_vocabulary(word), 
-    ttr = get_ttr(word), 
-    hir = get_hir(word)) |> 
-  ungroup()
+    tf = get_tf(word),
+    mean = mean(tf, na.rm = TRUE),
+    sd = sd(tf, na.rm = TRUE),
+    z_score = (tf - mean)/sd) |> 
+  ungroup() |> 
+  select(-c(mean, sd))
 
-dubliners_vocab
+unique_usage
 ```
 
-Slower than these other methods, `get_htr()` offers more than is available in `add_vocabulary()`, returning the hapax-token ratio. This method can be slower, so be careful when applying it to a large corpus
+In this way, one could find outlier words by defining them as being at least a standard deviation away from standard usage in a document. 
 
 ```{r}
-dubliners_vocab <- 
-  dubliners_vocab |> 
-  select(doc_id, word, ttr, hir) |> 
-  filter(doc_id %in% c("The Sisters", "An Encounter")) |> 
-  group_by(doc_id) |> 
-  mutate(
-    htr = get_htr(word)
-  ) |> 
-  ungroup()
-
-dubliners_vocab |> 
-  # skip the first few lines
-  {\(x) x[-c(1:6),]}()
+unique_usage |> 
+  select(doc_id, word, z_score) |> 
+  filter(abs(z_score) >= 1) |> 
+  distinct()
 ```
 
-### Dictionary Matching
+This particular example unhelpfully emphasizes stopwords, but the process models the kind of checking that often proves helpful when working with text.
 
-While `add_dictionary()` can manage adding columns matching a dictionary to a column like `word` or `lemma`, the `get_match()` function will return the dictionary match for any word or vector. It's used to add a column with dplyr's `mutate()` like this:
+### Getting representational data
+
+Instead of studying every word in context, it's sometimes helpful to get representational data from each document. Standard dplyr functions helpfully limit groups to subsets of rows. For instance, `distinct()` drops any rows that repeat:
+
+```{r}
+#| message: false
+# mutate() keeps every row
+simple_freq <- corpus_dubliners |> 
+  group_by(doc_id) |> 
+  mutate(tf = get_tf(word)) |> 
+  ungroup()
+
+# distinct() keeps the first instance of each row
+simple_freq |> 
+  distinct()
+```
+
+Combining elements of both `mutate()` and `distinct()`, the `summarize()` function returns one row per group while allowing new column definitions:
+
+```{r}
+#| message: false
+# summarize() returns one row per group, here the maximum tf value for combination of doc_id and word
+simple_freq |> 
+  group_by(doc_id, word) |> 
+  summarize(tf = max(tf)) |> 
+  ungroup()
+```
+
+Offering a little more flexibility, dplyr's `slice_...()` family of functions is helpful for choosing a subset of rows in each group. For instance, `slice_max()` makes it easy to get the top 3 words used in each story from *Dubliners*, ordered by term frequency: 
+
+```{r}
+simple_freq |> 
+  distinct() |> 
+  group_by(doc_id) |> 
+  slice_max(
+    order_by = tf,
+    n = 3) |> 
+  ungroup()
+```
+
+Other slicing functions like `slice_sample()` and `slice_head()` offer additional options for preparing data to study.
+
+## Dictionary matching
+
+Many of the vectorized `get_...()` functions return numeric or logical results, but two return values based on a dictionary of terms. These functions are perhaps best demonstrated with a new bag of words:
+
+```{r}
+primer2 <- "Jack hates rainy days." |> 
+  tolower() |> 
+  str_remove_all("[:punct:]") |>
+  strsplit(" ") |> 
+  unlist()
+```
+
+The more general `get_match()` function returns the dictionary match for any word or vector. When paired with a dictionary made with `make_dictionary()`, it returns values for any matches found:
 
 ```{r}
 emoji_weather <- make_dictionary(
@@ -127,336 +305,47 @@ emoji_weather <- make_dictionary(
     "️❄️" = c("snow", "snows", "snowing")),
   name = "weather")
 
+primer2
+get_match(primer2, emoji_weather)
+```
+
+As shown here, unmatched values return `NA` missing values.
+
+The function works with dplyr's `mutate()` much like any other vectorized function:
+
+```{r}
 dubliners_weather <- corpus_dubliners |> 
   mutate(weather = get_match(word, emoji_weather))
 
 dubliners_weather |> 
   # show only one story and skip a few hundred words
   filter(doc_id == "The Dead") |> 
-  filter(row_number() > 602)
+  filter(row_number() > 609)
 
 dubliners_weather |> 
   drop_na()
 ```
 
-#### Sentiment
+### Matching sentiment
 
-Matching sentiment with `get_sentiment()` just uses a special kind of dictionary matching:
+A sentiment lexicon is just a special kind of dictionary. To support a specialized case for sentiment analysis, `get_sentiment()` works the same way as `get_match()`:
+
+```{r}
+primer2
+get_match(primer2, tidytext::get_sentiments("bing"))
+get_sentiment(primer2, "bing")
+```
+
+Like other functions, it works well with dplyr's `mutate()` for adding a column of sentiment interpretation:
 
 ```{r}
 corpus_dubliners |> 
   mutate(
-    sent_1 = get_match(word, tidytext::get_sentiments("bing")),
-    sent_2 = get_sentiment(word, "bing")) |> 
+    sentiment = get_sentiment(word, "bing")) |> 
   drop_na()
 ```
 
-### Tf-idf
 
-The `get_tf()` function offers a shorthand alias to `get_frequency(percent = TRUE)`. Importantly, this frequency reports values for the whole of a group, so it may often be necessary to use `group_by()` and `ungroup()`:
+## 
 
-```{r}
-dubliners_tfidf <- corpus_dubliners |> 
-  group_by(doc_id) |> 
-  mutate(
-    tf = get_tf(word)) |> 
-  ungroup()
-
-dubliners_tfidf
-```
-
-Simpler is to use `get_tf_by()`, which accepts a string and a grouping variable like `doc_id`. It works well with `get_idf_by()` to calculate the inverse document frequency for each term. Lastly, multiplying these columns together results in tf-idf:
-
-```{r}
-dubliners_tfidf <- corpus_dubliners |> 
-  mutate(
-    tf = get_tf_by(word, doc_id),
-    idf = get_idf_by(word, doc_id),
-    tf_idf = tf * idf)
-
-dubliners_tfidf
-```
-
-Alternatively, `get_tfidf_by()` simplifies the process to one step:
-
-```{r}
-dubliners_tfidf |> 
-  select(doc_id, word, tf_idf) |> 
-  mutate(
-    tf_idf2 = get_tfidf_by(word, doc_id)
-  )
-```
-
-## Preparing tables with dplyr and gt
-
-In addition to adding new columns, tmtyro's functions like `add_vocabulary()` and `add_sentiment()` also prepare objects to work easily with `tabulize()`. Users who wish to prepare similar tables manually will need to become familiar with a package like gt, allowing for nearly limitless customization. A few methods for creating and modifying gt tables are shown below, but more are found in [package documentation](https://gt.rstudio.com/articles/gt.html).
-
-### Corpus details
-
-By default, a corpus prepared by tmtyro will `tabulize()` into a table showing word counts for each document. A simple version of this can be prepared by hand with very little effort:
-
-```{r}
-gt_details <- corpus_dubliners |> 
-  count(doc_id) |> 
-  gt()
-
-gt_details
-```
-
-Once the table is prepared, gt allows for further tweaking---for instance, to format word counts for readability, hide the `doc_id` column header, and rename `n` as `words`:
-
-```{r}
-gt_details |> 
-  fmt_integer(n) |> 
-  cols_label(
-    doc_id = "",
-    n = "words")
-```
-
-
-### Word frequencies
-
-The standard workflow for preparing a polished table of high-frequency word counts with tmtyro---`add_frequency() |> tabulize()`---will easily show a few of the most used words in each document. To use `get_frequency()` when adding columns for word counts, a chain of functions will prepare a summary table---`group_by() |> summarize() |> ungroup() |> slice_max()`. Once it's ready, `gt()` will do the rest.
-
-```{r}
-#| message: false
-dubliners_count <- dubliners_count |>
-  group_by(doc_id, word) |> 
-  summarize(n = max(n)) |> 
-  ungroup() |> 
-  slice_max(
-    order_by = n, 
-    by = doc_id, 
-    n = 3) # show three words each
-
-gt_counts <- dubliners_count |> 
-  # limit to three stories for a shorter display
-  filter(doc_id %in% c("The Sisters", "An Encounter", "The Dead")) |> 
-  gt()
-
-gt_counts
-```
-
-The `cols_label()` function from gt can adjust headers, and tmtyro's `collapse_rows()` function cleans up repeated values in the first column: 
-
-```{r}
-gt_counts |> 
-  cols_label(doc_id = "") |> 
-  collapse_rows(doc_id)
-```
-
-Choosing to adjust things manually introduces a steeper learning curve, but it also allows for greater customization:
-
-```{r}
-dubliners_count |> 
-  filter(doc_id %in% c("The Sisters", "An Encounter", "The Dead")) |> 
-  gt(groupname_col = "doc_id") |> 
-  cols_label(
-    word = "") |> 
-  data_color(columns = n, palette = "PuBuGn") |> 
-  tab_style(
-    style = cell_text(weight = "bold"),
-    locations = cells_row_groups())
-```
-
-Dictionary matches, including for sentiment, follow the same pattern.
-
-### Vocabulary richness
-
-A similar manual workflow can be used to prepare tables of vocabulary richness:
-
-```{r}
-gt_vocab <- corpus_dubliners |> 
-  filter(doc_id %in% c("The Sisters", "An Encounter", "The Dead")) |> 
-  group_by(doc_id) |> 
-  summarize(
-    length = n(),
-    vocab_count = sum(is_new(word)),
-    ttr = last(get_ttr(word)),
-    hapax_count = sum(is_hapax(word)),
-    htr = last(get_hir(word))) |> 
-  ungroup() |> 
-  gt()
-
-gt_vocab
-```
-
-Here, tab spanners can be added to approximate the version created by a typical tmtyro workflow:
-
-```{r}
-gt_vocab |> 
-  tab_spanner(
-    label = "vocabulary",
-    columns = c("vocab_count", "ttr")) |> 
-  tab_spanner(
-    label = "hapax",
-    columns = c("hapax_count", "htr")) |> 
-  cols_label(
-    vocab_count = "total",
-    ttr = "ratio",
-    hapax_count = "total",
-    htr = "ratio") |> 
-  fmt_number(c(ttr, htr), decimals = 3)
-```
-
-### Extending `tabulize()`
-
-Learning some of gt's functions can also be helpful for customizing outputs derived from `tabulize()`, which are just gt objects. To demonstrate the usefulness of customization, we can create a short table of word counts by selecting a few titles and showing the default output from `tabulize()`:
-
-```{r}
-some_docs <- unique(corpus_dubliners$doc_id)[c(1:3, 12, 15)]
-
-gt_1 <- corpus_dubliners |> 
-  filter(doc_id %in% some_docs) |> 
-  tabulize()
-
-gt_1
-```
-
-This table is functional but not necessarily pretty. While beauty is subjective, customization makes it possible to aim for something clean like this:
-
-```{r}
-gt_1 |> 
-  tab_style(
-    style = cell_borders(
-      sides = "all", 
-      color = NULL),
-    locations = cells_body()) |> 
-  tab_style(
-    style = cell_text(size = pct(70)),
-    locations = cells_column_labels()
-  ) |> 
-  cols_align(
-    align = "right",
-    columns = doc_id) |> 
-  opt_css(
-    css = ".gt_col_headings {border-bottom-color: #FFFFFF !important;}"
-  )
-```
-
-## Preparing figures with ggplot2
-
-Vectorized functions beginning `get_...()` and `is...()` don't work well with `visualize()`, which is made for the standard workflow. Those visualizations are all built with ggplot2, so they can be recreated with a little effort and nearly limitless customization. Consult the [ggplot2 documentation](https://ggplot2.tidyverse.org/articles/ggplot2.html) to learn more methods than can be demonstrated here.
-
-### Corpus details
-
-By default, a corpus prepared with `load_texts()` will `visualize()` into a bar chart showing word counts for each document. Preparing something manually is pretty simple, even if it doesn't compare well to the default output:
-
-```{r fig.width = 5, fig.height = 5, fig.show = "hold", out.width  =  "50%"}
-# default output
-visualize(corpus_dubliners)
-
-# manual output
-corpus_dubliners |> 
-  count(doc_id) |> 
-  ggplot(aes(
-    x = n, 
-    y = doc_id)) +
-  geom_col()
-```
-
-Among other things, `visualize()` preserves the order of documents from top to bottom, adjusts labeling, and adds some settings for theme and color. Alone, each is a simple change. But everything adds up when polishing publication-ready graphs, including customizing gridlines, adjusting label spacing, and formatting numbers:
-
-```{r}
-corpus_dubliners |> 
-  count(doc_id) |> 
-  # reverse doc_id order
-  mutate(doc_id = forcats::fct_rev(doc_id)) |> 
-  ggplot(aes(
-    x = n, 
-    y = doc_id, 
-    # add color
-    fill = doc_id)) +
-  geom_col(show.legend = FALSE) +
-  # adjust number format and shift y-axis labels
-  scale_x_continuous(
-    labels = scales::label_comma(),
-    expand = c(0, 0)) +
-  # change the theme background
-  theme_minimal() +
-  # adjust labels
-  labs(
-    x = "length (words)",
-    y = NULL) +
-  # adjust grid lines
-  theme(
-    panel.grid.minor.x = element_blank(),
-    panel.grid.major.y = element_blank(),
-    panel.grid.minor.y = element_blank())
-```
-
-### Word frequencies
-
-When used after `add_frequency()`, `visualize()` will prepare a faceted graph of some of the top word frequencies for each document. To create something similar manually, using `mutate()` with a vectorized function like `get_frequency()` or `get_tf_by()`, it's necessary to prepare a table with `summarize()` and `slice_max()` before piping it to `ggplot()`:
-
-```{r}
-#| message: false
-corpus_dubliners |>
-  mutate(
-    n = get_tf_by(word, doc_id)) |> 
-  group_by(doc_id, word) |> 
-  summarize(n = max(n)) |> 
-  ungroup() |> 
-  slice_max(
-    order_by = n, 
-    by = doc_id, 
-    n = 3) |> # show 3 words each
-  ggplot(aes(n, word)) +
-  geom_col() +
-  facet_wrap(vars(doc_id), scales = "free")
-```
-
-The resulting graph can be further customized with ggplot2's functions.
-
-### Vocabulary richness
-
-The default visualizations tmtyro makes after `add_vocabulary()` are highly customized. It isn't hard to make a simple version after a vectorized function like `get_cumulative_vocabulary()`, but this version can lack readability:
-
-```{r}
-corpus_dubliners |> 
-  group_by(doc_id) |> 
-  mutate(
-    vocab = get_cumulative_vocabulary(word), 
-    progress = row_number()) |> 
-  ungroup() |> 
-  ggplot(aes(
-    x = progress, 
-    y = vocab, 
-    color = doc_id)) +
-  geom_line()
-```
-
-Adding direct labels is often worth the effort:
-
-```{r}
-dubliners_vocab <- corpus_dubliners |> 
-  group_by(doc_id) |> 
-  mutate(
-    vocab = get_cumulative_vocabulary(word), 
-    progress = row_number()) |> 
-  ungroup()
-
-# table of labels and locations
-document_labels <- dubliners_vocab |> 
-  group_by(doc_id) |> 
-  summarize(
-    vocab = last(vocab),
-    progress = last(progress)) |> 
-  ungroup()
-
-dubliners_vocab |> 
-  ggplot(aes(
-    x = progress, 
-    y = vocab, 
-    color = doc_id)) +
-  geom_line() +
-  geom_point(
-    data = document_labels) +
-  # avoid overlapping labels
-  ggrepel::geom_text_repel(
-    data = document_labels,
-    aes(label = doc_id)) +
-  theme(legend.position = "none")
-```
-
-
+By combining simplicity and flexibility, tmtyro helps users move between streamlined workflows and customizable approaches. Whether working with small text datasets or exploring complex corpora, vectorized functions offer a bridge to mastering tools like dplyr. This approach encourages skill development in text mining, data analysis, and broader R programming techniques.

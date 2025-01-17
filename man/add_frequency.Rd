@@ -2,7 +2,7 @@
 % Please edit documentation in R/count.R
 \name{add_frequency}
 \alias{add_frequency}
-\title{Count words or other features}
+\title{Add frequency of words or other features}
 \usage{
 add_frequency(df, feature = word, by = doc_id)
 }
@@ -14,10 +14,10 @@ add_frequency(df, feature = word, by = doc_id)
 \item{by}{A grouping column identifying a document, such as \code{doc_id}.}
 }
 \value{
-The original data frame with a column added for count
+The original data frame with a column added for frequency
 }
 \description{
-Count words or other features
+Add frequency of words or other features
 }
 \examples{
 \dontrun{

@@ -13,7 +13,7 @@ library(stringr)
 library(gt)
 ```
 
-Not everyone has experience coding, but everyone has a favorite color. To help beginners feel a sense of ownership for the work they do, tmtyro prioritizes simple customization using a single function: `change_colors()`. It takes the place of twelve different scaling functions from ggplot2 while providing a standard interface for any visualization created by tmtyro.
+Not everyone has experience coding, but everyone has a favorite color. To help beginners feel a sense of ownership for the work they do, tmtyro simplifies color customization using a single function: `change_colors()`. It takes the place of twelve different scaling functions from ggplot2 while providing a standard interface for any visualization created by tmtyro.
 
 ## Colors are tricky
 
@@ -84,7 +84,7 @@ All visualization functions from tmtyro can be changed from one standard method:
 `change_colors()` also introduces one standard interface of arguments.
 
 * `scale_color_manual()` sets colors using named or hexadecimal colors in the `values` argument
-* `scale_color_brewer()` sets colors using numbers with the `palette` argument
+* `scale_color_brewer()` sets colors using numbers or names with the `palette` argument
 * `scale_color_viridis_d()` sets colors using letters with the `option` argument
 * **`change_colors()` uses the `palettes` argument for everything**
 
