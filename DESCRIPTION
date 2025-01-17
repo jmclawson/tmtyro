@@ -61,4 +61,4 @@ Suggests:
     wordcloud
 Config/testthat/edition: 3
 Remotes:  
-    url::https://vincentarelbundock.r-universe.dev/src/contrib/tinytable_0.6.1.7.tar.gz
+    tinytable=url::https://vincentarelbundock.r-universe.dev/src/contrib/tinytable_0.6.1.7.tar.gz
