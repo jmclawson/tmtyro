@@ -439,7 +439,7 @@ library(tmtyro)
 
 load_texts(text_directory) |> 
   drop_stopwords() |> 
-  count(word) |> 
+  add_frequency() |> 
   visualize()
 ```
 
