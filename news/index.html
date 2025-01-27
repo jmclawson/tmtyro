@@ -90,7 +90,7 @@
 <code><a href="../reference/identify_by.html">identify_by()</a></code> now works with multiple columns, and it keeps existing metadata columns. This is especially useful with the new <code><a href="../reference/add_partitions.html">add_partitions()</a></code> column, using something like <code>my_corpus() |&gt; add_partitions() |&gt; identify_by(title, partition)</code> before continuing to work with partitioned documents. To return framing to unpartitioned data, used <code>identify_by(title)</code> or whatever other column is most relevant.</li>
 <li>New visualization and tabulization methods for <code><a href="../reference/expand_documents.html">expand_documents()</a></code>
 </li>
-<li>Functions now imported: <code><a href="../reference/count.html">count()</a></code> and <code><a href="../reference/drop_na.html">drop_na()</a></code>
+<li>Functions now imported: <code><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count()</a></code> and <code><a href="../reference/drop_na.html">drop_na()</a></code>
 </li>
 <li>When the ggraph package is loaded, <code><a href="../reference/plot_bigrams.html">plot_bigrams()</a></code> now uses a color scale on edges, rather than spot color on nodes, with full support for <code>change_color()</code>
 </li>

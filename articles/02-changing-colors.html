@@ -699,11 +699,7 @@ in a vector inside <code><a href="../reference/change_colors.html">change_colors
 <code class="sourceCode R"><span><span class="va">joyce_count</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>    <span class="st">"#88DD00"</span>, <span class="st">"#00DDDD"</span>,</span>
-<span>    he <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: No shared levels found between `names(values)` of the manual scale and the</span></span>
-<span><span class="co">#&gt; data's <span style="color: #00BB00;">fill</span> values.</span></span>
-<span><span class="co">#&gt; No shared levels found between `names(values)` of the manual scale and the</span></span>
-<span><span class="co">#&gt; data's <span style="color: #00BB00;">fill</span> values.</span></span></code></pre></div>
+<span>    he <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="02-changing-colors_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 </div>
 <div class="section level3">
@@ -733,7 +729,8 @@ accommodate most color vision needs.</p>
 <p>These palettes work especially well for continuous data. Option “H”
 or “turbo” could work for discrete scales, but it also has a few
 caveats: among them, it’s poorly suited for black and white printing
-since it doesn’t follow a linear path between dark and light.</p>
+since it maps <em>high</em> to <em>low</em> along a circular path, from
+<em>dark</em> to <em>light</em> to <em>dark</em>.</p>
 <p><img src="02-changing-colors_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
 <p>Choose a Viridis palette by using its name or letter in the
 <code>palette</code> argument:</p>
