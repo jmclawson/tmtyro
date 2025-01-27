@@ -118,7 +118,7 @@ visualize.default <- function(.data, inorder = TRUE, count = NULL, rows = NULL, 
   } else if ("doc_id" %in% colnames(.data)) {
     the_plot <-
       .data |>
-      count(doc_id) |>
+      dplyr::count(doc_id) |>
       ggplot2::ggplot(ggplot2::aes(x = n, y = doc_id)) +
       ggplot2::geom_col() +
       ggplot2::labs(x = "words",
