@@ -195,7 +195,7 @@ dubliners <- get_gutenberg_corpus(2814) |>
   standardize_titles()
 
 dubliners_count <- dubliners |> 
-  count(doc_id, word) |> 
+  add_frequency() |> 
   visualize(rows = 1:3)
 
 joyce <- get_gutenberg_corpus(c(2814, 4217, 4300)) |>
@@ -203,7 +203,7 @@ joyce <- get_gutenberg_corpus(c(2814, 4217, 4300)) |>
   identify_by(title) 
 
 joyce_count <- joyce |> 
-  count(doc_id, word) |> 
+  add_frequency() |> 
   visualize(rows = 1:5, color_y = TRUE, reorder_y = TRUE)
 
 dubliners_dfm <- dubliners |> 
@@ -259,7 +259,7 @@ joyce_count |>
 
 Viridis palettes offer another set of choices for colors in your visualizations. These palettes not only look beautiful on the screen, but they typically work well for monochrome print and are designed to accommodate most color vision needs. 
 
-These palettes work especially well for continuous data. Option "H" or "turbo" could work for discrete scales, but it also has a few caveats: among them, it's poorly suited for black and white printing since it doesn't follow a linear path between dark and light.
+These palettes work especially well for continuous data. Option "H" or "turbo" could work for discrete scales, but it also has a few caveats: among them, it's poorly suited for black and white printing since it maps *high* to *low* along a circular path, from *dark* to *light* to *dark*.
 
 ```{r}
 #| echo: false

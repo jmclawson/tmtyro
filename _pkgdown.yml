@@ -36,7 +36,7 @@ reference:
   - starts_with("add_")
   - starts_with("drop_")
   - starts_with("summarize_")
-  - count
+  # - count
   - expand_documents
   - combine_ngrams
   - separate_ngrams
