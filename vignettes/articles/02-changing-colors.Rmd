@@ -206,9 +206,6 @@ joyce_count <- joyce |>
   add_frequency() |> 
   visualize(rows = 1:5, color_y = TRUE, reorder_y = TRUE)
 
-dubliners_dfm <- dubliners |> 
-  expand_documents() |> 
-  visualize(digits = 1)
 ```
 
 
@@ -306,7 +303,9 @@ viridis_palette_df <- function(pal_num, number = 9) {
 Choose a Viridis palette by using its name or letter in the `palette` argument:
 
 ```{r}
-dubliners_dfm |> 
+dubliners |> 
+  expand_documents() |> 
+  visualize(digits = 1) |> 
   change_colors("Viridis", palette = "mako")
 ```
 

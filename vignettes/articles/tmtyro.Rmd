@@ -220,6 +220,17 @@ corpus_dubliners |>
   add_frequency(lemma)
 ```
 
+#### Document-frequency matrix
+
+Alternatively, word frequencies can be shown in a document-frequency matrix using `expand_documents()`:
+
+```{r}
+corpus_dubliners |> 
+  expand_documents()
+```
+
+
+
 ### Vocabulary richness
 
 `add_vocabulary()` adds measurements of vocabulary richness, including cumulative vocabulary size, indicators of hapax legomena, and markers of progress.
@@ -362,7 +373,6 @@ corpus_joyce |>
   tabulize()
 ```
 
-
 ### Word frequencies
 
 After `add_frequency()`, `tabulize()` will show the counts of the most-frequent words.
@@ -372,6 +382,17 @@ corpus_joyce |>
   add_frequency() |> 
   tabulize()
 ```
+
+#### Document-frequency matrix
+
+For a document-frequency matrix, `tabulize()` will show frequencies for the top 6 words in the corpus:
+
+```{r}
+corpus_dubliners |> 
+  expand_documents() |> 
+  tabulize()
+```
+
 
 ### Vocabulary richness
 
@@ -452,7 +473,7 @@ corpus_joyce |>
   visualize(inorder = FALSE)
 ```
 
-### Word counts
+### Word frequencies
 
 Using `visualize()` after `add_frequency()` will chart the most frequent words of each document.
 
@@ -469,6 +490,16 @@ counts_dubliners |>
   visualize(rows = 1:3, 
             color_y = TRUE, 
             reorder_y = TRUE)
+```
+
+#### Document-frequency matrix
+
+For a document-frequency matrix, `visualize()` will prepare a heatmap:
+
+```{r}
+corpus_dubliners |> 
+  expand_documents() |> 
+  visualize()
 ```
 
 ### Vocabulary richness

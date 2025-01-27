@@ -4,6 +4,8 @@
 * New vectorized functions support using dplyr's `mutate()` and similar use cases: `get_frequency()` for returning counts and ratios of values in a vector; `is_new()` and `is_hapax()` for testing uniqueness of values in a vector; `get_cumulative_vocabulary()`, `get_ttr()`, `get_hir()`, and `get_htr()` for measuring the cumulative change of a vector over time; `get_match()` and `get_sentiment()` for matching values in a dictionary; and `get_tf()`, `get_tf_by()`, `get_idf_by()`, and `get_tfidf_by()` for weighing elements of term frequency--inverse document frequency.
 * Bar plots of words per document now use better logic with labels, and a new `label_color` argument allows for customizing label color when needed.
 * Added articles documenting vectorized functions, customizing tables, and customizing figures.
+* `count()` function no longer imported from dplyr.
+* Demonstrate `expand_documents()` in package documentation.
 
 # tmtyro 0.4.1
 

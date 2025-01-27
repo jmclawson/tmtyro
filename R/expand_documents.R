@@ -21,9 +21,10 @@
 #' dubliners |>
 #'   expand_documents()
 expand_documents <- function(df, feature = word, by = doc_id, percent = TRUE, sort = TRUE, columns = NULL) {
-  if (!"n" %in% colnames(df)) {
+  if (any(!"n" %in% colnames(df), "frequency" %in% class(df))) {
     df <- df |>
-      dplyr::count({{ by }}, {{ feature }})
+      dplyr::count({{ by }}, {{ feature }}) |>
+      dplyr::filter({{ feature }} != "")
   }
   if (percent) {
     df <- df |>
@@ -61,7 +62,8 @@ expand_documents <- function(df, feature = word, by = doc_id, percent = TRUE, so
       dplyr::arrange({{ feature }}) |>
       tidyr::pivot_wider(
         names_from = {{ feature }},
-        values_from = n, values_fill = 0) |>
+        values_from = n,
+        values_fill = 0) |>
       tidyr::pivot_longer(
         cols = -c({{ by }}),
         names_to = deparse(substitute(feature)),
