@@ -56,9 +56,7 @@ Suggests:
     testthat (>= 3.0.0),
     textdata,
     textstem,
-    tinytable (>= 0.6.1.7),
+    tinytable (>= 0.7),
     utils,
     wordcloud
 Config/testthat/edition: 3
-Remotes:  
-    tinytable=url::https://vincentarelbundock.r-universe.dev/src/contrib/tinytable_0.6.1.7.tar.gz

@@ -195,7 +195,7 @@ dubliners <- get_gutenberg_corpus(2814) |>
   standardize_titles()
 
 dubliners_count <- dubliners |> 
-  count(doc_id, word) |> 
+  add_frequency() |> 
   visualize(rows = 1:3)
 
 joyce <- get_gutenberg_corpus(c(2814, 4217, 4300)) |>
@@ -203,7 +203,7 @@ joyce <- get_gutenberg_corpus(c(2814, 4217, 4300)) |>
   identify_by(title) 
 
 joyce_count <- joyce |> 
-  count(doc_id, word) |> 
+  add_frequency() |> 
   visualize(rows = 1:5, color_y = TRUE, reorder_y = TRUE)
 
 dubliners_dfm <- dubliners |> 
