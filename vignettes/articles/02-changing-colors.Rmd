@@ -259,7 +259,7 @@ joyce_count |>
 
 Viridis palettes offer another set of choices for colors in your visualizations. These palettes not only look beautiful on the screen, but they typically work well for monochrome print and are designed to accommodate most color vision needs. 
 
-These palettes work especially well for continuous data. Option "H" or "turbo" could work for discrete scales, but it also has a few caveats: among them, it's poorly suited for black and white printing since it doesn't follow a linear path between dark and light.
+These palettes work especially well for continuous data. Option "H" or "turbo" could work for discrete scales, but it also has a few caveats: among them, it's poorly suited for black and white printing since it maps *high* to *low* along a circular path, from *dark* to *light* to *dark*.
 
 ```{r}
 #| echo: false

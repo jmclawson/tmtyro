@@ -23,7 +23,7 @@
 expand_documents <- function(df, feature = word, by = doc_id, percent = TRUE, sort = TRUE, columns = NULL) {
   if (!"n" %in% colnames(df)) {
     df <- df |>
-      count({{ by }}, {{ feature }})
+      dplyr::count({{ by }}, {{ feature }})
   }
   if (percent) {
     df <- df |>

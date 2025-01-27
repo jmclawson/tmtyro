@@ -172,11 +172,6 @@ my_corpus_tt <-
   unnest_tokens(word, text)
 ```
 
-```{r}
-#| include: false
-count <- tmtyro::count
-```
-
 
 #### quanteda
 
