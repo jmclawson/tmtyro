@@ -22,7 +22,7 @@ physics_m <- get_micusp_corpus(discipline == "Physics", sex == "Male")
 
 discipline_by_sex <-
   micusp_metadata() |>
-  count(discipline, sex) |>
+  dplyr::count(discipline, sex) |>
   tidyr::pivot_wider(
     names_from = "sex",
     values_from = "n") |>

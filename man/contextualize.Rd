@@ -12,7 +12,8 @@ contextualize(
   by = doc_id,
   feature = NULL,
   match = word,
-  regex = NULL
+  regex = NULL,
+  html = NULL
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ contextualize(
 \item{match}{The column to use for matching}
 
 \item{regex}{When defined, a regular expression for searches using greater control}
+
+\item{html}{Force message output to HTML format (e.g., for Shiny)}
 }
 \value{
 Invisibly, a data frame with four columns: \verb{<by>}, \verb{<match>}, "index", and "context"

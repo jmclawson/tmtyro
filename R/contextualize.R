@@ -8,6 +8,7 @@
 #' @param feature The column to show for context. When `NULL`, `contextualize()` looks first for an "original" column and then for a "word" column.
 #' @param match The column to use for matching
 #' @param regex When defined, a regular expression for searches using greater control
+#' @param html Force message output to HTML format (e.g., for Shiny)
 #'
 #' @details
 #' # Hiding results
@@ -21,7 +22,7 @@
 #'     load_texts(keep_original = TRUE)
 #'
 #' contextualize(dubliners, regex = "dog[s]?$")
-contextualize <- function(df, term, window = 3, limit = 1:5, by = doc_id, feature = NULL, match = word, regex = NULL) {
+contextualize <- function(df, term, window = 3, limit = 1:5, by = doc_id, feature = NULL, match = word, regex = NULL, html = NULL) {
   feature_str <- deparse(substitute(feature))
   if (length(limit) == 1 &
       any(is.na(limit), limit == 0)) {
@@ -95,14 +96,38 @@ contextualize <- function(df, term, window = 3, limit = 1:5, by = doc_id, featur
     dplyr::rename(context = ngram) |>
     dplyr::select({{ by }}, {{ match }}, index_str, context)
 
-  if (is.null(regex)) regex <- term
+  if (is.null(regex)) regex <- paste0("\\b", term, "\\b")
+
+  # browser()
   regex <- regex |>
     stringr::str_replace_all("[\\^]", "") |>
     stringr::str_replace_all("[$]", "")
   if (rlang::is_installed("cli") &
       length(limit) > 1 |
       length(limit) == 1 && !is.na(limit)) {
-    if (knitr::is_html_output() &
+    if (html | (rlang::is_installed("shiny") && shiny::isRunning())) {
+      itemize <- function(x) {
+        x_i <- list()
+        for (i in 1:length(x)) {
+          x_i[i] <- shiny::tags$li(x[i])
+        }
+        shiny::tags$ul(paste0(x_i, collapse = "\n"))
+      }
+      results <-  df |>
+        dplyr::rowwise() |>
+        dplyr::mutate(
+          html = context |>
+            stringr::str_replace_all(
+              stringr::regex(
+                regex, ignore_case = TRUE),
+              function(x) as.character(
+                shiny::strong(x, style="color: #FF00FF; text-decoration: underline;"))) |>
+            HTML()) |>
+        pull(html) |>
+        purrr::map(\(x) shiny::tags$li(HTML(x))) |>
+        shiny::tags$ul()
+      return(results)
+    } else if (knitr::is_html_output() &
         rlang::is_installed("fansi")) {
       results <-  df |>
         dplyr::pull(context) |>
