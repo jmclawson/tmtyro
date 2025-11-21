@@ -1,0 +1,57 @@
+# Get term frequencies of values in one vector `x` categorized by another vector `by`.
+
+Get term frequencies of values in one vector `x` categorized by another
+vector `by`.
+
+## Usage
+
+``` r
+get_tf_by(x, by)
+```
+
+## Arguments
+
+- x:
+
+  A vector, such as a column of character strings
+
+- by:
+
+  A vector of categories, such as a column of document identifiers
+
+## Value
+
+A vector of term frequencies for each value pair of `x` and `by`.
+
+## See also
+
+Other vectorized functions:
+[`get_cumulative_vocabulary()`](https://jmclawson.github.io/tmtyro/reference/get_cumulative_vocabulary.md),
+[`get_frequency()`](https://jmclawson.github.io/tmtyro/reference/get_frequency.md),
+[`get_hir()`](https://jmclawson.github.io/tmtyro/reference/get_hir.md),
+[`get_htr()`](https://jmclawson.github.io/tmtyro/reference/get_htr.md),
+[`get_idf_by()`](https://jmclawson.github.io/tmtyro/reference/get_idf_by.md),
+[`get_match()`](https://jmclawson.github.io/tmtyro/reference/get_match.md),
+[`get_sentiment()`](https://jmclawson.github.io/tmtyro/reference/get_sentiment.md),
+[`get_tfidf_by()`](https://jmclawson.github.io/tmtyro/reference/get_tfidf_by.md),
+[`get_ttr()`](https://jmclawson.github.io/tmtyro/reference/get_ttr.md),
+[`is_hapax()`](https://jmclawson.github.io/tmtyro/reference/is_hapax.md),
+[`is_new()`](https://jmclawson.github.io/tmtyro/reference/is_new.md)
+
+## Examples
+
+``` r
+my_values <- c(
+  "the", "cat", "was", "bad",
+  "the", "dog", "was", "very", "good",
+  "the", "lizard", "is", "the", "most", "bad")
+my_docs <- c(
+  "A", "A", "A", "A",
+  "B", "B", "B", "B", "B",
+  "C", "C", "C", "C", "C", "C")
+
+get_tf_by(my_values, my_docs)
+#>  [1] 0.2500000 0.2500000 0.2500000 0.2500000 0.2000000 0.2000000 0.2000000
+#>  [8] 0.2000000 0.2000000 0.3333333 0.1666667 0.1666667 0.3333333 0.1666667
+#> [15] 0.1666667
+```

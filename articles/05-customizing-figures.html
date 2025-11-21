@@ -6,12 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Customizing figures • tmtyro</title>
-<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
-<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
@@ -70,7 +69,7 @@
             <h3 data-toc-skip class="subtitle">Leveraging ggplot2</h3>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/jmclawson/tmtyro/blob/master/vignettes/articles/05-customizing-figures.Rmd" class="external-link"><code>vignettes/articles/05-customizing-figures.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/jmclawson/tmtyro/blob/main/vignettes/articles/05-customizing-figures.Rmd" class="external-link"><code>vignettes/articles/05-customizing-figures.Rmd</code></a></small>
       <div class="d-none name"><code>05-customizing-figures.Rmd</code></div>
     </div>
 
@@ -124,7 +123,7 @@ colors”&lt;/a&gt;.&lt;/p&gt;'><sup>1</sup></a></p>
 <span><span class="co"># custom colors on right</span></span>
 <span><span class="va">word_freqs</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Set1"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="05-customizing-figures_files/figure-html/unnamed-chunk-3-1.png" width="50%"><img src="05-customizing-figures_files/figure-html/unnamed-chunk-3-2.png" width="50%"></p>
+<p><img src="05-customizing-figures_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" width="50%"><img src="05-customizing-figures_files/figure-html/unnamed-chunk-3-2.png" class="r-plt" width="50%"></p>
 </div>
 <div class="section level3">
 <h3 id="themes">Themes<a class="anchor" aria-label="anchor" href="#themes"></a>
@@ -140,7 +139,7 @@ ggplot2.</p>
 <span><span class="va">word_freqs</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Pastel1"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_dark</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="05-customizing-figures_files/figure-html/unnamed-chunk-4-1.png" width="50%"><img src="05-customizing-figures_files/figure-html/unnamed-chunk-4-2.png" width="50%"></p>
+<p><img src="05-customizing-figures_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" width="50%"><img src="05-customizing-figures_files/figure-html/unnamed-chunk-4-2.png" class="r-plt" width="50%"></p>
 </div>
 <div class="section level3">
 <h3 id="labels">Labels<a class="anchor" aria-label="anchor" href="#labels"></a>
@@ -161,7 +160,7 @@ these.</p>
 <span>    subtitle <span class="op">=</span> <span class="st">"The use of “said” in “Ivy Day” suggests more dialogue."</span>,</span>
 <span>    x <span class="op">=</span> <span class="st">"prevalence"</span>,</span>
 <span>    y <span class="op">=</span> <span class="st">"word"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="05-customizing-figures_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
+<p><img src="05-customizing-figures_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" width="700"></p>
 </div>
 </div>
 <div class="section level2">
@@ -193,7 +192,7 @@ doesn’t compare well to the default output:</p>
 <span>    x <span class="op">=</span> <span class="va">n</span>, </span>
 <span>    y <span class="op">=</span> <span class="va">doc_id</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="05-customizing-figures_files/figure-html/unnamed-chunk-6-1.png" width="50%"><img src="05-customizing-figures_files/figure-html/unnamed-chunk-6-2.png" width="50%"></p>
+<p><img src="05-customizing-figures_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" width="50%"><img src="05-customizing-figures_files/figure-html/unnamed-chunk-6-2.png" class="r-plt" width="50%"></p>
 <p>Among other things, <code><a href="../reference/visualize.html">visualize()</a></code> preserves the order of
 documents from top to bottom, adjusts labeling, and adds some settings
 for theme and color. Alone, each is a simple change. But everything adds
@@ -225,7 +224,7 @@ spacing and number formatting:</p>
 <span>    panel.grid.minor.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    panel.grid.major.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    panel.grid.minor.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="05-customizing-figures_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+<p><img src="05-customizing-figures_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="word-frequencies">Word frequencies<a class="anchor" aria-label="anchor" href="#word-frequencies"></a>
@@ -259,7 +258,7 @@ to prepare a table with <code><a href="https://dplyr.tidyverse.org/reference/dis
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/vars.html" class="external-link">vars</a></span><span class="op">(</span><span class="va">doc_id</span><span class="op">)</span>, scales <span class="op">=</span> <span class="st">"free"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="co"># `scale_y_reordered()` cleans up after `reorder_within()`</span></span>
 <span>  <span class="fu">tidytext</span><span class="fu">::</span><span class="fu"><a href="https://juliasilge.github.io/tidytext/reference/reorder_within.html" class="external-link">scale_y_reordered</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="05-customizing-figures_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
+<p><img src="05-customizing-figures_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" width="700"></p>
 <p>The resulting graph can be further customized with ggplot2’s standard
 functions. After a function like <code><a href="https://juliasilge.github.io/tidytext/reference/reorder_within.html" class="external-link">reorder_within()</a></code>, the Y
 axis label especially needs some love.</p>
@@ -283,7 +282,7 @@ can lack readability:</p>
 <span>    y <span class="op">=</span> <span class="va">vocab</span>, </span>
 <span>    color <span class="op">=</span> <span class="va">doc_id</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="05-customizing-figures_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
+<p><img src="05-customizing-figures_files/figure-html/unnamed-chunk-9-1.png" class="r-plt" width="700"></p>
 <p>Adding direct labels is often worth the effort:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dubliners_vocab</span> <span class="op">&lt;-</span> <span class="va">corpus_dubliners</span> <span class="op">|&gt;</span> </span>
@@ -314,7 +313,7 @@ can lack readability:</p>
 <span>    data <span class="op">=</span> <span class="va">document_labels</span>,</span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">doc_id</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="05-customizing-figures_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
+<p><img src="05-customizing-figures_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" width="700"></p>
 </div>
 </div>
 
@@ -329,7 +328,7 @@ can lack readability:</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
