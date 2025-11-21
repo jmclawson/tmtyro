@@ -97,6 +97,7 @@ contextualize <- function(df, term, window = 3, limit = 1:5, by = doc_id, featur
     dplyr::select({{ by }}, {{ match }}, index_str, context)
 
   if (is.null(regex)) regex <- paste0("\\b", term, "\\b")
+  html <- html %||% FALSE
 
   # browser()
   regex <- regex |>
