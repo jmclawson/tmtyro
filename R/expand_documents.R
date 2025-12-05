@@ -2,7 +2,7 @@
 #'
 #' The resulting data frame is a simpler form of the document feature matrix used by other packages. `my_df |> expand_documents(percent = FALSE, sort = FALSE)` compares to `my_df |> count(doc_id, word) |> tidytext::cast_dfm(doc_id, word, n)`, but it is not equivalent. The latter prepares a DFM to be used with the quanteda package.
 #'
-#' @param df A tidy data frame, potentially containing a column called "word"
+#' @param data A tidy data frame, potentially containing a column called "word"
 #' @param feature A column of words containing one word per row, to be counted for frequency
 #' @param by A column containing document grouping
 #' @param percent Whether frequencies should be converted to percentages on a per-document basis
@@ -13,6 +13,7 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' dubliners <- get_gutenberg_corpus(2814) |>
 #'   load_texts() |>
 #'   identify_by(part) |>
@@ -20,21 +21,22 @@
 #'
 #' dubliners |>
 #'   expand_documents()
-expand_documents <- function(df, feature = word, by = doc_id, percent = TRUE, sort = TRUE, columns = NULL) {
-  if (any(!"n" %in% colnames(df), "frequency" %in% class(df))) {
-    df <- df |>
+#' }
+expand_documents <- function(data, feature = word, by = doc_id, percent = TRUE, sort = TRUE, columns = NULL) {
+  if (any(!"n" %in% colnames(data), "frequency" %in% class(data))) {
+    data <- data |>
       dplyr::count({{ by }}, {{ feature }}) |>
       dplyr::filter({{ feature }} != "")
   }
   if (percent) {
-    df <- df |>
+    data <- data |>
       dplyr::mutate(
         n = n / sum(n, na.rm = TRUE),
         .by = c({{ by }}))
   }
   if (sort) {
-    sort_it <- function(df, feature) {
-      df <- df |>
+    sort_it <- function(data, feature) {
+      data <- data |>
         dplyr::mutate(
           {{ feature }} := {{ feature }} |>
             forcats::fct_reorder(
@@ -45,20 +47,20 @@ expand_documents <- function(df, feature = word, by = doc_id, percent = TRUE, so
         )
     }
   } else {
-    sort_it <- function(df, feature){
-      df
+    sort_it <- function(data, feature){
+      data
     }
   }
 
-  df <- sort_it(df, {{ feature }})
+  data <- sort_it(data, {{ feature }})
 
   if (percent) {
-    # df <- df |>
+    # data <- data |>
     #   dplyr::arrange({{ feature }}) |>
     #   tidyr::pivot_wider(
     #     names_from = {{ feature }},
     #     values_from = n)
-    df <- df |>
+    data <- data |>
       dplyr::arrange({{ feature }}) |>
       tidyr::pivot_wider(
         names_from = {{ feature }},
@@ -75,7 +77,7 @@ expand_documents <- function(df, feature = word, by = doc_id, percent = TRUE, so
         values_from = n,
         values_fill = 0)
   } else {
-    df <- df |>
+    data <- data |>
       dplyr::arrange({{ feature }}) |>
       tidyr::pivot_wider(
         names_from = {{ feature }},
@@ -93,11 +95,11 @@ expand_documents <- function(df, feature = word, by = doc_id, percent = TRUE, so
   }
   if (!is.null(columns)) {
     columns <- c(0, columns) + 1
-    df |>
+    data |>
       dplyr::select(tidyr::all_of(columns)) |>
       add_class("expanded")
   } else {
-    df |>
+    data |>
       add_class("expanded")
   }
 }

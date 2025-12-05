@@ -5,7 +5,7 @@
 \title{Project hapax legomena onto vocabulary growth}
 \usage{
 plot_hapax(
-  df,
+  data,
   prop = 0.01,
   x = progress_words,
   y = vocabulary,
@@ -15,7 +15,7 @@ plot_hapax(
 )
 }
 \arguments{
-\item{df}{A tidy data frame, potentially containing columns called "doc_id" and "word"}
+\item{data}{A tidy data frame, potentially containing columns called "doc_id" and "word"}
 
 \item{prop}{The proportion of hapax to sample. The chart can become illegible with proportions over ~1\%}
 
@@ -62,6 +62,7 @@ Other visualizing helpers:
 \code{\link{plot_topic_wordcloud}()},
 \code{\link{plot_ttr}()},
 \code{\link{plot_vocabulary}()},
+\code{\link{theme_tmtyro}()},
 \code{\link{visualize}()}
 }
 \concept{visualizing helpers}

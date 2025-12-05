@@ -5,7 +5,7 @@
 \title{Plot a heatmap of ranked features}
 \usage{
 plot_doc_word_heatmap(
-  df,
+  data,
   rows = 1:10,
   by = doc_id,
   feature = word,
@@ -13,7 +13,7 @@ plot_doc_word_heatmap(
 )
 }
 \arguments{
-\item{df}{A tidy data frame, potentially containing columns called "doc_id" and "word"}
+\item{data}{A tidy data frame, potentially containing columns called "doc_id" and "word"}
 
 \item{rows}{The ranks to show, not counting ties}
 
@@ -30,6 +30,7 @@ A ggplot object
 Plot a heatmap of ranked features
 }
 \examples{
+\dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts(lemma = TRUE) |>
   identify_by(part) |>
@@ -48,6 +49,7 @@ dubliners |>
   dplyr::filter(doc_id \%in\% selected_titles) |>
   plot_doc_word_heatmap(feature = lemma, rows = 1:6)
 }
+}
 \seealso{
 Other visualizing helpers: 
 \code{\link{change_colors}()},
@@ -61,6 +63,7 @@ Other visualizing helpers:
 \code{\link{plot_topic_wordcloud}()},
 \code{\link{plot_ttr}()},
 \code{\link{plot_vocabulary}()},
+\code{\link{theme_tmtyro}()},
 \code{\link{visualize}()}
 }
 \concept{visualizing helpers}

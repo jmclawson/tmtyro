@@ -4,17 +4,10 @@
 \alias{tabulize.default}
 \title{Prepare a default table view}
 \usage{
-\method{tabulize}{default}(
-  .data,
-  summary = TRUE,
-  inorder = TRUE,
-  count = FALSE,
-  rows = NULL,
-  ...
-)
+\method{tabulize}{default}(data, summary = TRUE, inorder = TRUE, count = FALSE, rows = NULL, ...)
 }
 \arguments{
-\item{.data}{data processed with one or more functions from \code{tmtyro}}
+\item{data}{data processed with one or more functions from \code{tmtyro}}
 
 \item{summary}{Indicates whether to prepare a summary table or the rows as they exist}
 

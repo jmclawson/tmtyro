@@ -52,6 +52,7 @@ Other visualizing helpers:
 \code{\link{plot_topic_distributions}()},
 \code{\link{plot_ttr}()},
 \code{\link{plot_vocabulary}()},
+\code{\link{theme_tmtyro}()},
 \code{\link{visualize}()}
 }
 \concept{visualizing helpers}

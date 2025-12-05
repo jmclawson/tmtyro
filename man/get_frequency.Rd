@@ -28,6 +28,7 @@ get_frequency(my_values)
 \seealso{
 Other vectorized functions: 
 \code{\link{get_cumulative_vocabulary}()},
+\code{\link{get_df_by}()},
 \code{\link{get_hir}()},
 \code{\link{get_htr}()},
 \code{\link{get_idf_by}()},
@@ -41,6 +42,7 @@ Other vectorized functions:
 
 Other vectorized functions: 
 \code{\link{get_cumulative_vocabulary}()},
+\code{\link{get_df_by}()},
 \code{\link{get_hir}()},
 \code{\link{get_htr}()},
 \code{\link{get_idf_by}()},

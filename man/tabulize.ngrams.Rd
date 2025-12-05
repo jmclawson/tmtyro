@@ -4,10 +4,10 @@
 \alias{tabulize.ngrams}
 \title{Prepare a table of n-gram frequencies}
 \usage{
-\method{tabulize}{ngrams}(.data, ...)
+\method{tabulize}{ngrams}(data, ...)
 }
 \arguments{
-\item{.data}{data processed with one or more functions from \code{tmtyro}}
+\item{data}{data processed with one or more functions from \code{tmtyro}}
 
 \item{...}{optional parameters passed along to methods}
 }

@@ -1,16 +1,19 @@
 #' Divide documents in equal lengths
 #'
-#' @param df A tidy data frame, potentially containing a column called "word"
+#' @param data A tidy data frame, potentially containing a column called "word"
 #' @param size Size of each partition
 #' @param overlap Size each partition should overlap. If a value between 0 and 1 is used, `overlap` will be calculated as a percentage of `size`.
 #' @param minimum Minimum partition size. If a value between 0 and 1 is used, `minimum` will be calculated as a percentage of `size`.
+#' @param feature The feature to partition by in each document
 #' @param by A column containing document grouping
 #' @param character Whether to return a `partition` column as a character vector with zeroes added for padding. This feature may be helpful if using [identify_by()] to consider `partition` when defining documents in a corpus.
+#' @param label Whether to label variables added to data frame
 #'
 #' @returns The original data frame with a column added for partition.
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' dubliners <- get_gutenberg_corpus(2814) |>
 #'   load_texts() |>
 #'   identify_by(part) |>
@@ -19,16 +22,19 @@
 #' dubliners |>
 #'   add_partitions() |>
 #'   head()
+#' }
 add_partitions <- function(
-    df,
+    data,
     size = 1000,
     overlap = 0,
     minimum = 0.25,
     by = doc_id,
-    character = FALSE) {
+    feature = word,
+    character = FALSE,
+    label = NULL) {
 
-  if (!"word_index" %in% colnames(df)) {
-    df <- df |>
+  if (!"word_index" %in% colnames(data)) {
+    data <- data |>
       dplyr::mutate(
         word_index = dplyr::row_number(),
         .by = {{ by }}
@@ -46,7 +52,9 @@ add_partitions <- function(
     minimum <- size * minimum
   }
 
-  df <- df |>
+  tmtyro_log <- attr(data, "tmtyro_log")
+
+  data <- data |>
     dplyr::group_by({{ by }}) |>
     dplyr::group_modify(
       ~ join_partition(.x, size, overlap)) |>
@@ -57,31 +65,58 @@ add_partitions <- function(
     dplyr::arrange({{ by }}, partition, word_index)
 
   if (drop) {
-    df <- df |>
+    data <- data |>
       dplyr::select(-word_index)
   }
 
   # Convert partition to character with
   # zeroes for padding. This is needed
   # for doing something like this:
-  # df |>
+  # data |>
   #   identify_by(doc_id, partition)
   if (character) {
-    df |>
+    out <- data |>
       dplyr::mutate(
         partition = partition |>
           stringr::str_pad(
             width = max(floor(log10(partition)) + 1),
             pad = "0"))
   } else {
-    df
+    out <- data
   }
+  if (tmtyro_use_labels(label)) {
+    out <- out |>
+      assign_labels(
+        c("partition"),
+        deparse(substitute(feature)),
+        secondary = size,
+        tertiary = overlap)
+  }
+
+  if (tmtyro_use_log()) {
+    attr(out, "tmtyro_log") <- tmtyro_log
+    feature_string <- deparse(substitute(feature))
+    if (overlap == 0) {
+      overlap <- "no overlap"
+    } else {
+      overlap <- paste0(overlap, "-", feature_string, " overlaps")
+    }
+    out <- out |>
+      add_logstep(
+        fn = "add_partitions",
+        arguments = c(
+          feature = feature_string,
+          width = size,
+          overlap = overlap))
+  }
+
+  out
 }
 
 # This function isn't exported because
 # it can't be guaranteed to do the job
 combine_partitions <- function(
-    df,
+    data,
     size = 1000,
     overlap = 0,
     by = doc_id,
@@ -89,13 +124,13 @@ combine_partitions <- function(
   if (overlap < 1 & overlap > 0) {
     overlap <- size * overlap
   }
-  if ("word_index" %in% colnames(df) & is.null(drop)) {
+  if ("word_index" %in% colnames(data) & is.null(drop)) {
     drop <- FALSE
   } else if (is.null(drop)) {
     drop <- TRUE
   }
 
-  df <- df |>
+  data <- data |>
     dplyr::group_by({{ by }}) |>
     dplyr::group_modify(
       ~ tack_partition(.x, size, size - overlap)) |>
@@ -103,10 +138,10 @@ combine_partitions <- function(
     dplyr::select(-partition) |>
     dplyr::distinct()
   if (drop) {
-    df <- df |>
+    data <- data |>
       dplyr::select(-word_index)
   }
-  df
+  data
 }
 
 get_partitions <- function(nrow, size, overlap) {
@@ -125,10 +160,10 @@ get_partitions <- function(nrow, size, overlap) {
     tidyr::unnest_longer(word_index)
 }
 
-join_partition <- function(df, size, overlap){
-  df |>
+join_partition <- function(data, size, overlap){
+  data |>
     dplyr::left_join(
-      get_partitions(nrow(df),
+      get_partitions(nrow(data),
                      size,
                      overlap),
       by = dplyr::join_by(word_index)) |>
@@ -143,11 +178,11 @@ join_partition <- function(df, size, overlap){
     }}()
 }
 
-tack_partition <- function(df, size, overlap){
-  df |>
+tack_partition <- function(data, size, overlap){
+  data |>
     dplyr::mutate(
       word_index = get_partitions(
-        nrow(df),
+        nrow(data),
         size,
-        overlap)$word_index[1:nrow(df)])
+        overlap)$word_index[1:nrow(data)])
 }

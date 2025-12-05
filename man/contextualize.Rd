@@ -5,7 +5,7 @@
 \title{Show a term in context}
 \usage{
 contextualize(
-  df,
+  data,
   term,
   window = 3,
   limit = 1:5,
@@ -17,7 +17,7 @@ contextualize(
 )
 }
 \arguments{
-\item{df}{A data frame which most likely contains a column called "word"}
+\item{data}{A data frame which most likely contains a column called "word"}
 
 \item{term}{The term to search for, exactly}
 
@@ -46,8 +46,10 @@ Show a term in context
 }
 
 \examples{
+\dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
     load_texts(keep_original = TRUE)
 
 contextualize(dubliners, regex = "dog[s]?$")
+}
 }

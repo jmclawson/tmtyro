@@ -5,6 +5,7 @@ arousal <- temp <- NULL
 category <- temp <- NULL
 context <- temp <- NULL
 corpus <- temp <- NULL
+.data <- temp <- NULL
 display <- temp <- NULL
 doc_id <- doc <- temp <- NULL
 docranksum <- temp <- NULL
@@ -14,7 +15,7 @@ end <- temp <- NULL
 feature <- temp <- NULL
 fill_it <- temp <- NULL
 Freq <- temp <- NULL
-h1 <- h2 <- h3 <- h4 <- temp <- NULL
+h1 <- h2 <- h3 <- h4 <- h5 <- h6 <- temp <- NULL
 hapax <- temp <- NULL
 hir <- temp <- NULL
 hlemona <- temp <- NULL
@@ -79,21 +80,18 @@ words <- temp <- NULL
 "_PACKAGE"
 
 ## usethis namespace: start
+#' @importFrom ggplot2 update_ggplot class_ggplot
 #' @importFrom grDevices colorRampPalette
-#' @importFrom gt cells_body
-#' @importFrom gt cols_label
-#' @importFrom gt css
-#' @importFrom gt fmt_number
-#' @importFrom gt gt
-#' @importFrom gt sub_missing
-#' @importFrom gt tab_spanner
-#' @importFrom gt tab_style
-#' @importFrom gutenbergr gutenberg_download
-#' @importFrom gutenbergr gutenberg_get_mirror
+#' @importFrom gt gt cells_body cols_label css fmt_number sub_missing tab_spanner tab_style
+#' @importFrom gutenbergr gutenberg_download gutenberg_get_mirror
 #' @importFrom rlang :=
-#' @importFrom stats median
-#' @importFrom stats reorder
-#' @importFrom stats setNames
+#' @importFrom stats median reorder setNames
 #' @importFrom tidyr drop_na
 ## usethis namespace: end
 NULL
+
+.onLoad <- function(libname, pkgname) {
+  if (requireNamespace("S7")) {
+    S7::methods_register()
+  }
+}

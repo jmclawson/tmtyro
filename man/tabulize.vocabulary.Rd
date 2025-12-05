@@ -4,10 +4,10 @@
 \alias{tabulize.vocabulary}
 \title{Prepare a table of lexical variety}
 \usage{
-\method{tabulize}{vocabulary}(.data, digits = 3, ...)
+\method{tabulize}{vocabulary}(data, digits = 3, ...)
 }
 \arguments{
-\item{.data}{data processed with one or more functions from \code{tmtyro}}
+\item{data}{data processed with one or more functions from \code{tmtyro}}
 
 \item{digits}{The number of digits to show past the decimal point}
 

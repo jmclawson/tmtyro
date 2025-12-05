@@ -14,6 +14,7 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' dubliners <- get_gutenberg_corpus(2814) |>
 #'   load_texts() |>
 #'   identify_by(part) |>
@@ -85,6 +86,7 @@
 #'   add_ngrams() |>
 #'   visualize() |>
 #'   change_colors(c("#444488","orange"))
+#' }
 change_colors <- function(
     x,
     colorset = "brewer",
@@ -241,7 +243,7 @@ change_colors <- function(
     }
   }
 
-  if (!is.null(secondary)) {
+  if (!is.null(secondary) && !requireNamespace("ggh4x")) {
     x +
       ggplot2::scale_fill_manual(aesthetics = mapped,
                                  values = the_colors) +

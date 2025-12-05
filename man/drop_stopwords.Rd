@@ -4,10 +4,10 @@
 \alias{drop_stopwords}
 \title{Remove stopwords}
 \usage{
-drop_stopwords(df, wordlist = NULL, feature = word)
+drop_stopwords(data, wordlist = NULL, feature = word)
 }
 \arguments{
-\item{df}{A tidy data frame, potentially containing a column called "word"}
+\item{data}{A tidy data frame, potentially containing a column called "word"}
 
 \item{wordlist}{A list of stopwords}
 
@@ -20,6 +20,7 @@ The original data frame with fewer rows.
 Remove stopwords
 }
 \examples{
+\dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts() |>
   identify_by(part) |>
@@ -27,4 +28,5 @@ dubliners <- get_gutenberg_corpus(2814) |>
 
 dubliners |>
    drop_stopwords()
+}
 }

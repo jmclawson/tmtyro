@@ -4,10 +4,10 @@
 \alias{separate_ngrams}
 \title{Separate one word per column}
 \usage{
-separate_ngrams(df, names_prefix = "word", ...)
+separate_ngrams(data, names_prefix = "word", ...)
 }
 \arguments{
-\item{df}{A tidy data frame containing a column called "ngram"}
+\item{data}{A tidy data frame containing a column called "ngram"}
 
 \item{names_prefix}{The prefixed name of the new columns, as in "word_1", "word_2", etc.}
 
@@ -25,7 +25,6 @@ Separate one word per column
 
   my_bigrams <- my_corpus |>
     separate_ngrams()
-}
 
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts() |>
@@ -37,6 +36,7 @@ dubliners |>
   combine_ngrams() |>
   separate_ngrams() |>
   head()
+}
 }
 \seealso{
 Other n-gram helpers: 

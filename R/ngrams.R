@@ -1,11 +1,12 @@
 #' Add ngram columns
 #'
-#' @param df A tidy data frame, potentially containing a column called "word"
+#' @param data A tidy data frame, potentially containing a column called "word"
 #' @param n A range defining the extent of an ngram---for instance, from word 1 to word 3. Alternatively, a single number will signal the number of words to include in each ngram. Default value of `1:2` will produce bigrams.
 #' @param feature The feature to use when constructing ngrams
 #' @param keep Whether to keep the original feature column
 #' @param collapse Whether to join the ngram parts into a single column called "ngram"
-#' @param by A grouping column identifying a document, such as `doc_id`.
+#' @param by A grouping column identifying a document, such as `doc_id`
+#' @param label Whether to label variables added to data frame
 #'
 #' @returns The original data frame with columns added for subsequent parts of ngrams
 #' @family n-gram helpers
@@ -19,6 +20,7 @@
 #'     add_ngrams(3)
 #' }
 #'
+#' \dontrun{
 #' dubliners <- get_gutenberg_corpus(2814) |>
 #'   load_texts() |>
 #'   identify_by(part) |>
@@ -27,8 +29,9 @@
 #' dubliners |>
 #'   add_ngrams(2) |>
 #'   head()
+#' }
 
-add_ngrams <- function(df, n = 1:2, feature = word, keep = FALSE, collapse = FALSE, by = doc_id){
+add_ngrams <- function(data, n = 1:2, feature = word, keep = FALSE, collapse = FALSE, by = doc_id, label = NULL){
 
   make_range <- function(n = 6) {
     if(length(n)==1) {n <- 1:n}
@@ -54,16 +57,16 @@ add_ngrams <- function(df, n = 1:2, feature = word, keep = FALSE, collapse = FAL
 
   by_col <- deparse(substitute(by))
 
-  if (by_col %in% colnames(df)) {
-    the_df <- df |>
+  if (by_col %in% colnames(data)) {
+    out <- data |>
       dplyr::ungroup() |>
       dplyr::group_by({{ by }})
   } else {
-    the_df <- df |>
+    out <- data |>
       dplyr::ungroup()
   }
 
-  the_df <- df |>
+  out <- out |>
     dplyr::mutate(dplyr::across(
       .cols = {{ feature }},
       .fns = map_shift,
@@ -71,7 +74,7 @@ add_ngrams <- function(df, n = 1:2, feature = word, keep = FALSE, collapse = FAL
     dplyr::ungroup()
 
   if (!keep) {
-    the_df <- the_df |>
+    out <- out |>
       dplyr::select(-{{ feature }})
   }
 
@@ -82,7 +85,7 @@ add_ngrams <- function(df, n = 1:2, feature = word, keep = FALSE, collapse = FAL
   }
 
   if (collapse) {
-    the_df <- the_df |>
+    out <- out |>
       tidyr::unite(
         "ngram",
         stringr::str_glue("{col_string}_{min(num)}"):stringr::str_glue("{col_string}_{max(num)}"),
@@ -90,18 +93,33 @@ add_ngrams <- function(df, n = 1:2, feature = word, keep = FALSE, collapse = FAL
   }
 
   if (mean(n > 0) == 1) {
-    colnames(the_df)[colnames(the_df) %in% stringr::str_glue("{col_string}_{num}")] <- stringr::str_glue("{col_string}_{make_range(n)}")
+    colnames(out)[colnames(out) %in% stringr::str_glue("{col_string}_{num}")] <- stringr::str_glue("{col_string}_{make_range(n)}")
   }
 
-  the_df |>
+  if (tmtyro_use_labels(label)) {
+    ngram_cols <- colnames(out)[stringr::str_detect(colnames(out), paste0(deparse(substitute(feature)), "_"))]
+
+    out <- prettify_labels(out, ngram_cols)
+  }
+
+  if (tmtyro_use_log()) {
+    attr(out, "tmtyro_log") <- attr(data, "tmtyro_log")
+    out <- out |>
+      add_logstep(
+        fn = "add_ngrams",
+        arguments = c(n = ifelse(length(n) > 1, length(n), n)))
+  }
+
+  out |>
     add_class("ngrams")
 }
 
 #' Combine ngram columns
 #'
-#' @param df A tidy data frame, potentially containing columns called "word_1", "word_2", etc.
+#' @param data A tidy data frame, potentially containing columns called "word_1", "word_2", etc.
 #' @param feature The column name prefix for the numbered columns of ngrams
-#' @param keep Whether to keep the original columns called "word_1", "word_2", etc., alongside the new "ngram" column.
+#' @param keep Whether to keep the original columns called "word_1", "word_2", etc., alongside the new "ngram" column
+#' @param label Whether to label variables added to data frame
 #'
 #' @returns A data frame with a column called ngram
 #' @family n-gram helpers
@@ -114,7 +132,6 @@ add_ngrams <- function(df, n = 1:2, feature = word, keep = FALSE, collapse = FAL
 #'   my_bigrams <- my_corpus |>
 #'     add_ngrams(collapse = FALSE) |>
 #'     combine_ngrams()
-#' }
 #'
 #' dubliners <- get_gutenberg_corpus(2814) |>
 #'   load_texts() |>
@@ -125,25 +142,29 @@ add_ngrams <- function(df, n = 1:2, feature = word, keep = FALSE, collapse = FAL
 #'   add_ngrams(2) |>
 #'   combine_ngrams() |>
 #'   head()
-combine_ngrams <- function(df, feature = word, keep = FALSE){
+#' }
+combine_ngrams <- function(data, feature = word, keep = FALSE, label = NULL){
   # browser()
   col_string <- deparse(substitute(feature))
-  if (!paste0(col_string,"_1") %in% colnames(df)) {
-    col_string <- colnames(df)[grepl("_[01]",colnames(df))][1] |>
+  if (!paste0(col_string,"_1") %in% colnames(data) &&
+      col_string %in% colnames(data)) {
+    colnames(data)[colnames(data) == col_string] <- paste0(col_string,"_1")
+  } else if (!paste0(col_string,"_1") %in% colnames(data)) {
+    col_string <- colnames(data)[grepl("_[01]",colnames(data))][1] |>
       stringr::str_remove_all("_[01]")
     feature <- as.name(col_string)
   }
 
-  col_names <- df |>
+  col_names <- data |>
     dplyr::select(tidyr::starts_with(paste0(col_string,"_"))) |>
     dplyr::select(tidyr::matches("[_][-]?\\d$")) |>
     colnames()
 
   if (length(col_names) < 2) {
-    df <- df |>
+    data <- data |>
       add_ngrams(2, feature)
 
-    col_names <- df |>
+    col_names <- data |>
       dplyr::select(tidyr::starts_with(paste0(col_string,"_"))) |>
       dplyr::select(tidyr::matches("[_]\\d$")) |>
       colnames()
@@ -155,12 +176,22 @@ combine_ngrams <- function(df, feature = word, keep = FALSE){
     as.numeric() |>
     range()
 
-  the_df <- df |>
+  the_df <- data |>
     tidyr::unite(
       "ngram",
       stringr::str_glue("{col_string}_{feature_range[1]}"):stringr::str_glue("{col_string}_{feature_range[2]}"),
       sep = " ",
       remove = !keep)
+
+  if (tmtyro_use_labels(label)) {
+    ngram_num <- colnames(data)[stringr::str_detect(colnames(data), paste0(deparse(substitute(feature)), "_"))] |> length()
+
+    the_df <- the_df |>
+      assign_labels(
+        c("ngram"),
+        feature = col_string,
+        secondary = ngram_num)
+  }
 
   the_df |>
     add_class("combined_ngrams", remove = "ngrams")
@@ -168,7 +199,7 @@ combine_ngrams <- function(df, feature = word, keep = FALSE){
 
 #' Separate one word per column
 #'
-#' @param df A tidy data frame containing a column called "ngram"
+#' @param data A tidy data frame containing a column called "ngram"
 #' @param names_prefix The prefixed name of the new columns, as in "word_1", "word_2", etc.
 #' @param ... Additional options passed to [tidyr::separate_wider_delim()]
 #'
@@ -182,7 +213,6 @@ combine_ngrams <- function(df, feature = word, keep = FALSE){
 #'
 #'   my_bigrams <- my_corpus |>
 #'     separate_ngrams()
-#' }
 #'
 #' dubliners <- get_gutenberg_corpus(2814) |>
 #'   load_texts() |>
@@ -194,12 +224,13 @@ combine_ngrams <- function(df, feature = word, keep = FALSE){
 #'   combine_ngrams() |>
 #'   separate_ngrams() |>
 #'   head()
-separate_ngrams <- function(df, names_prefix = "word", ...) {
-  if(!"ngram" %in% colnames(df)){
+#' }
+separate_ngrams <- function(data, names_prefix = "word", ...) {
+  if(!"ngram" %in% colnames(data)){
     stop("`separate_ngrams()` only works on tables with an `ngram` column.")
   }
 
-  df |>
+  data |>
     # dplyr::rename({{ names_prefix }} := ngram) |>
     tidyr::separate_wider_delim(
       ngram,
@@ -217,7 +248,7 @@ separate_ngrams <- function(df, names_prefix = "word", ...) {
 
 #' Visualize bigram chains
 #'
-#' @param df A tidy data frame potentially containing a column called "word" or columns called "word_1" and "word_2".
+#' @param data A tidy data frame potentially containing a column called "word" or columns called "word_1" and "word_2".
 #' @param feature The feature to use when constructing ngrams
 #' @param random_seed Whether to randomize the creation of the network chart.
 #' @param set_seed A specific seed to use if not random
@@ -233,26 +264,24 @@ separate_ngrams <- function(df, names_prefix = "word", ...) {
 #' @examples
 #' \dontrun{
 #' # It isn't necessary to use add_ngrams()
-#' df |>
+#' data |>
 #'   plot_bigrams()
 #'
 #' # Adding them first allows for filtering steps
-#' df |>
+#' data |>
 #'   add_ngrams() |>
 #'   drop_stopwords(word_1) |>
 #'   drop_stopwords(word_2) |>
 #'   plot_bigrams()
 #'
 #' # Only bigrams influence the visualization These show the same networks:
-#' df |>
+#' data |>
 #'   add_ngrams() |>
 #'   plot_bigrams()
 #'
-#' df |>
+#' data |>
 #'   add_ngrams(4) |>
 #'   plot_bigrams()
-#'
-#' }
 #'
 #' dubliners <- get_gutenberg_corpus(2814) |>
 #'   load_texts() |>
@@ -278,8 +307,9 @@ separate_ngrams <- function(df, names_prefix = "word", ...) {
 #'   dplyr::filter(doc_id == "The Dead") |>
 #'   plot_bigrams(top_n = 70) |>
 #'   change_colors(c("black", "orange"))
+#' }
 plot_bigrams <- function(
-    df,
+    data,
     feature = word,
     random_seed = TRUE,
     set_seed = NULL,
@@ -302,12 +332,12 @@ plot_bigrams <- function(
 
   col_string <- deparse(substitute(feature))
 
-  if (!stringr::str_glue("{col_string}_2") %in% colnames(df)) {
-    df <- df |>
+  if (!stringr::str_glue("{col_string}_2") %in% colnames(data)) {
+    data <- data |>
       add_ngrams()
   }
 
-  df_export <- df |>
+  df_export <- data |>
     dplyr::count(dplyr::across(
       stringr::str_glue("{col_string}_1"):stringr::str_glue("{col_string}_2")),
       sort = TRUE) |>

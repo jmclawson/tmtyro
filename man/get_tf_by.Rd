@@ -4,12 +4,14 @@
 \alias{get_tf_by}
 \title{Get term frequencies of values in one vector \code{x} categorized by another vector \code{by}.}
 \usage{
-get_tf_by(x, by)
+get_tf_by(x, by, percent = TRUE)
 }
 \arguments{
 \item{x}{A vector, such as a column of character strings}
 
 \item{by}{A vector of categories, such as a column of document identifiers}
+
+\item{percent}{Whether to return frequencies as percentage of the whole}
 }
 \value{
 A vector of term frequencies for each value pair of \code{x} and \code{by}.
@@ -32,6 +34,7 @@ get_tf_by(my_values, my_docs)
 \seealso{
 Other vectorized functions: 
 \code{\link{get_cumulative_vocabulary}()},
+\code{\link{get_df_by}()},
 \code{\link{get_frequency}()},
 \code{\link{get_hir}()},
 \code{\link{get_htr}()},

@@ -155,7 +155,7 @@ Useful at many stages of work with a corpus, `contextualize()` shows the context
 
 Not every method preserves the size or shape of data passed to it:
 
-* `summarize_tf_idf()` returns a data frame for every token in each document in a corpus, with columns indicating weights for term frequency-inverse document frequency.
+* `summarize_tf_idf()` returns a data frame for every unique token in each document in a corpus, with columns indicating weights for term frequency-inverse document frequency.
 
 Along with these, other functions assist with the process:
 
@@ -163,7 +163,7 @@ Along with these, other functions assist with the process:
 * `combine_ngrams()` combines multiple columns for n-grams into one.
 * `separate_ngrams()` separatesa  single column of n-grams into one column per word.
 
-But understanding context of key words with `show_context()` might be especially helpful.
+But understanding context of key words with `contextualize()` might be especially helpful.
 
 ### Showing context
 
@@ -406,7 +406,7 @@ corpus_joyce |>
 
 ### Sentiment
 
-For sentiment analysis, `tabulize()` returns a summary of figures for each document.
+For sentiment analysis, `tabulize()` returns a summary of measurements for each document.
 
 ```{r}
 # dplyr is used here to choose a smaller example for comparison

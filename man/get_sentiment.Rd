@@ -13,7 +13,7 @@ get_sentiment(
 \arguments{
 \item{x}{A vector, such as a column of character strings}
 
-\item{lexicon}{The sentiment lexicon to use from the \link{tidytext} package. Options include "bing", "afinn", "loughran", "nrc", "nrc_eil", or "nrc_vad".}
+\item{lexicon}{The sentiment lexicon to use from the \link[tidytext]{tidytext} package. Options include "bing", "afinn", "loughran", "nrc", "nrc_eil", or "nrc_vad".}
 
 \item{...}{Additional values passed to \code{get_match()}}
 }
@@ -31,6 +31,7 @@ get_sentiment(my_values)
 \seealso{
 Other vectorized functions: 
 \code{\link{get_cumulative_vocabulary}()},
+\code{\link{get_df_by}()},
 \code{\link{get_frequency}()},
 \code{\link{get_hir}()},
 \code{\link{get_htr}()},

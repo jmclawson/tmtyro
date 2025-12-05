@@ -4,10 +4,10 @@
 \alias{summarize_tf_idf}
 \title{Compare usage across a corpus}
 \usage{
-summarize_tf_idf(df, by = doc_id, feature = word)
+summarize_tf_idf(data, by = doc_id, feature = word)
 }
 \arguments{
-\item{df}{A tidy data frame, potentially containing columns called "doc_id" and "word"}
+\item{data}{A tidy data frame, potentially containing columns called "doc_id" and "word"}
 
 \item{by}{A column containing document grouping}
 
@@ -20,6 +20,7 @@ A summary of the original data frame, with rows for each document and term pairi
 \code{summarize_tf_idf()} prepares a summary table for each term in a corpus, including their frequencies by document and "tf-idf" measurements for comparing the relative importance in comparison to other documents in a set.
 }
 \examples{
+\dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts() |>
   identify_by(part) |>
@@ -27,6 +28,7 @@ dubliners <- get_gutenberg_corpus(2814) |>
 
 dubliners |>
   summarize_tf_idf()
+}
 }
 \seealso{
 Other tf_idf helpers: 

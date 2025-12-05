@@ -4,14 +4,16 @@
 \alias{add_vocabulary}
 \title{Measure lexical variety}
 \usage{
-add_vocabulary(df, by = doc_id, feature = word)
+add_vocabulary(data, by = doc_id, feature = word, label = NULL)
 }
 \arguments{
-\item{df}{A tidy data frame, potentially containing columns called "doc_id" and "word"}
+\item{data}{A tidy data frame, potentially containing columns called "doc_id" and "word"}
 
 \item{by}{A grouping column}
 
 \item{feature}{A column of words containing one word per row}
+
+\item{label}{Whether to label variables added to data frame}
 }
 \value{
 A data frame with 7 added columns
@@ -30,12 +32,14 @@ A data frame with 7 added columns
 \code{add_vocabulary()} augments a tidy text table with columns describing the lexical variety of the corpus. Among other things, checks for uniqueness and size of vocabulary, with additional ratios reporting these measurements in relation to document size.
 }
 \examples{
+\dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts() |>
   identify_by(part) |>
   standardize_titles()
 
 dubliners |>
-   add_vocabulary() |>
-   head()
+  add_vocabulary() |>
+  head()
+}
 }

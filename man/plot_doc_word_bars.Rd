@@ -5,7 +5,7 @@
 \title{Plot bar graphs of frequent features}
 \usage{
 plot_doc_word_bars(
-  df,
+  data,
   rows = 1:10,
   by = doc_id,
   feature = word,
@@ -21,7 +21,7 @@ plot_doc_word_bars(
 )
 }
 \arguments{
-\item{df}{A tidy data frame, potentially containing columns called "doc_id" and "word"}
+\item{data}{A tidy data frame, potentially containing columns called "doc_id" and "word"}
 
 \item{rows}{The features to show}
 
@@ -54,6 +54,7 @@ A ggplot object
 Plot bar graphs of frequent features
 }
 \examples{
+\dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts(lemma = TRUE) |>
   identify_by(part) |>
@@ -65,6 +66,7 @@ dubliners |>
 dubliners |>
   dplyr::filter(doc_id \%in\% c("The Sisters", "The Dead")) |>
   plot_doc_word_bars(feature = lemma, rows = 1:20)
+}
 }
 \seealso{
 Other visualizing helpers: 
@@ -79,6 +81,7 @@ Other visualizing helpers:
 \code{\link{plot_topic_wordcloud}()},
 \code{\link{plot_ttr}()},
 \code{\link{plot_vocabulary}()},
+\code{\link{theme_tmtyro}()},
 \code{\link{visualize}()}
 }
 \concept{visualizing helpers}

@@ -14,4 +14,6 @@ data/.*[.]rds
 plots/
 inst/austen/
 gutenberg/
+^gutenberg$
+shiny
 logo.png

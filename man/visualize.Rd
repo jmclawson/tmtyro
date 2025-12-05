@@ -4,10 +4,10 @@
 \alias{visualize}
 \title{Visualize output}
 \usage{
-visualize(.data, ...)
+visualize(data, ...)
 }
 \arguments{
-\item{.data}{data processed with one or more functions from \code{tmtyro}}
+\item{data}{data processed with one or more functions from \code{tmtyro}}
 
 \item{...}{
   Arguments passed on to \code{\link[=plot_doc_word_bars]{plot_doc_word_bars}}, \code{\link[=plot_bigrams]{plot_bigrams}}, \code{\link[=plot_vocabulary]{plot_vocabulary}}, \code{\link[=plot_ttr]{plot_ttr}}, \code{\link[=plot_hir]{plot_hir}}, \code{\link[=plot_topic_distributions]{plot_topic_distributions}}, \code{\link[=plot_topic_bars]{plot_topic_bars}}, \code{\link[=plot_topic_wordcloud]{plot_topic_wordcloud}}
@@ -51,6 +51,7 @@ a ggplot2 object
 For some visualizations, an optional \code{type} parameter may be helpful to change the visualization. For example, setting \code{type = "htr"}, \code{type = "ttr"}, or \code{type = "hapax"} after \code{\link[=add_vocabulary]{add_vocabulary()}} will emphasize different columns added by that function. Similarly, \code{type = "cloud"} or \code{type = "wordcloud"} will show topic word clouds after \code{\link[=make_topic_model]{make_topic_model()}}, and \code{type = "heatmap"} will show an alternative visualization for word frequencies.
 }
 \examples{
+\dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts() |>
   identify_by(part) |>
@@ -105,6 +106,7 @@ dubliners |>
    add_vocabulary() |>
    visualize(x = progress_percent)
 }
+}
 \seealso{
 Other visualizing helpers: 
 \code{\link{change_colors}()},
@@ -118,6 +120,7 @@ Other visualizing helpers:
 \code{\link{plot_topic_distributions}()},
 \code{\link{plot_topic_wordcloud}()},
 \code{\link{plot_ttr}()},
-\code{\link{plot_vocabulary}()}
+\code{\link{plot_vocabulary}()},
+\code{\link{theme_tmtyro}()}
 }
 \concept{visualizing helpers}

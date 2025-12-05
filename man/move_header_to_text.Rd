@@ -4,10 +4,10 @@
 \alias{move_header_to_text}
 \title{Move a header column to text}
 \usage{
-move_header_to_text(.data, column, ...)
+move_header_to_text(data, column, ...)
 }
 \arguments{
-\item{.data}{A data frame with a column called \code{text} and at least one other column indicating parts, chapters, or sections.}
+\item{data}{A data frame with a column called \code{text} and at least one other column indicating parts, chapters, or sections.}
 
 \item{column}{The header column to move}
 
@@ -24,4 +24,5 @@ if (FALSE) {
   joyce2 <- joyce |>
     move_column_to_text(subsection, title == "Ulysses")
 }
+
 }

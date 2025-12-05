@@ -4,10 +4,10 @@
 \alias{tabulize.expanded}
 \title{Prepare a table showing a document-feature matrix}
 \usage{
-\method{tabulize}{expanded}(.data, columns = NULL, digits = 2, ...)
+\method{tabulize}{expanded}(data, columns = NULL, digits = 2, ...)
 }
 \arguments{
-\item{.data}{data processed with one or more functions from \code{tmtyro}}
+\item{data}{data processed with one or more functions from \code{tmtyro}}
 
 \item{columns}{Chooses columns to be shown}
 

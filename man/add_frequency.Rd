@@ -4,14 +4,16 @@
 \alias{add_frequency}
 \title{Add frequency of words or other features}
 \usage{
-add_frequency(df, feature = word, by = doc_id)
+add_frequency(data, feature = word, by = doc_id, label = NULL)
 }
 \arguments{
-\item{df}{A tidy data frame, potentially containing a column called "word"}
+\item{data}{A tidy data frame, potentially containing a column called "word"}
 
 \item{feature}{The feature to count in each document}
 
-\item{by}{A grouping column identifying a document, such as \code{doc_id}.}
+\item{by}{A grouping column identifying a document, such as \code{doc_id}}
+
+\item{label}{Whether to label variables added to data frame}
 }
 \value{
 The original data frame with a column added for frequency
@@ -27,6 +29,7 @@ Add frequency of words or other features
     add_frequency()
 }
 
+\dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts() |>
   identify_by(part) |>
@@ -35,4 +38,5 @@ dubliners <- get_gutenberg_corpus(2814) |>
 dubliners |>
   add_frequency() |>
   head()
+}
 }

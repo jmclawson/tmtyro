@@ -4,14 +4,16 @@
 \alias{combine_ngrams}
 \title{Combine ngram columns}
 \usage{
-combine_ngrams(df, feature = word, keep = FALSE)
+combine_ngrams(data, feature = word, keep = FALSE, label = NULL)
 }
 \arguments{
-\item{df}{A tidy data frame, potentially containing columns called "word_1", "word_2", etc.}
+\item{data}{A tidy data frame, potentially containing columns called "word_1", "word_2", etc.}
 
 \item{feature}{The column name prefix for the numbered columns of ngrams}
 
-\item{keep}{Whether to keep the original columns called "word_1", "word_2", etc., alongside the new "ngram" column.}
+\item{keep}{Whether to keep the original columns called "word_1", "word_2", etc., alongside the new "ngram" column}
+
+\item{label}{Whether to label variables added to data frame}
 }
 \value{
 A data frame with a column called ngram
@@ -26,7 +28,6 @@ Combine ngram columns
   my_bigrams <- my_corpus |>
     add_ngrams(collapse = FALSE) |>
     combine_ngrams()
-}
 
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts() |>
@@ -37,6 +38,7 @@ dubliners |>
   add_ngrams(2) |>
   combine_ngrams() |>
   head()
+}
 }
 \seealso{
 Other n-gram helpers: 

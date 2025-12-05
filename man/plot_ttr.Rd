@@ -5,7 +5,7 @@
 \title{Show type-token ratio over time}
 \usage{
 plot_ttr(
-  df,
+  data,
   x = progress_words,
   by = doc_id,
   identity = NULL,
@@ -15,7 +15,7 @@ plot_ttr(
 )
 }
 \arguments{
-\item{df}{A tidy data frame, potentially containing a column called "doc_id" and "word"}
+\item{data}{A tidy data frame, potentially containing a column called "doc_id" and "word"}
 
 \item{x}{The progress column to show. Default option is progress_percent, but progress_words is also appropriate.}
 
@@ -43,6 +43,7 @@ A ggplot object
 Show type-token ratio over time
 }
 \examples{
+\dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts() |>
   identify_by(part) |>
@@ -57,6 +58,7 @@ dubliners_measured |>
 dubliners_measured |>
   plot_ttr()
 }
+}
 \seealso{
 Other visualizing helpers: 
 \code{\link{change_colors}()},
@@ -70,6 +72,7 @@ Other visualizing helpers:
 \code{\link{plot_topic_distributions}()},
 \code{\link{plot_topic_wordcloud}()},
 \code{\link{plot_vocabulary}()},
+\code{\link{theme_tmtyro}()},
 \code{\link{visualize}()}
 }
 \concept{visualizing helpers}

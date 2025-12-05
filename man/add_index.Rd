@@ -4,14 +4,16 @@
 \alias{add_index}
 \title{Index document row numbers}
 \usage{
-add_index(df, by = doc_id, name = word_index)
+add_index(data, by = doc_id, name = word_index, label = NULL)
 }
 \arguments{
-\item{df}{A tidy data frame, divided by lines, words, or some other feature}
+\item{data}{A tidy data frame, divided by lines, words, or some other feature}
 
 \item{by}{A grouping column identifying a document, such as \code{doc_id}}
 
 \item{name}{The name to use for the added column}
+
+\item{label}{Whether to label variables added to data frame}
 }
 \value{
 A data frame with one additional column
@@ -20,6 +22,7 @@ A data frame with one additional column
 Index document row numbers
 }
 \examples{
+\dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts() |>
   identify_by(part) |>
@@ -30,4 +33,5 @@ dubliners |>
   add_sentiment() |>
   drop_na() |>
   head()
+}
 }

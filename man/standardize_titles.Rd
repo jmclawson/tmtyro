@@ -4,22 +4,23 @@
 \alias{standardize_titles}
 \title{Standardize document titles}
 \usage{
-standardize_titles(.data, title = doc_id, drop_articles = FALSE)
+standardize_titles(data, title = doc_id, drop_articles = FALSE)
 }
 \arguments{
-\item{.data}{A tidy data frame, potentially containing a title column called "doc_id". Alternatively, a simple character vector of titles.}
+\item{data}{A tidy data frame, potentially containing a title column called "doc_id". Alternatively, a simple character vector of titles.}
 
 \item{title}{A column containing the titles to be standardized}
 
 \item{drop_articles}{Whether to remove opening articles like "The" and "A"}
 }
 \value{
-A data frame with one column adjusted. If .data is a character vector instead of a data frame, then a character vector is returned.
+A data frame with one column adjusted. If \code{data} is a character vector instead of a data frame, then a character vector is returned.
 }
 \description{
 Useful especially for visualizations. \code{standardize_titles} applies some English-language conventions, including converting underscores to spaces, capitalizing important words, removing leading articles, and dropping subtitles.
 }
 \examples{
+\dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts() |>
   identify_by(part)
@@ -45,4 +46,5 @@ dubliners_measured |>
 dubliners_measured |>
   standardize_titles() |>
   plot_vocabulary(labeling = "inline")
+}
 }

@@ -5,7 +5,7 @@
 \title{Show vocabulary growth}
 \usage{
 plot_vocabulary(
-  df,
+  data,
   x = progress_words,
   by = doc_id,
   identity = NULL,
@@ -14,7 +14,7 @@ plot_vocabulary(
 )
 }
 \arguments{
-\item{df}{A tidy data frame, potentially containing columns called "doc_id" and "word"}
+\item{data}{A tidy data frame, potentially containing columns called "doc_id" and "word"}
 
 \item{x}{A column showing the cumulative count of words}
 
@@ -40,6 +40,7 @@ A ggplot object
 \code{plot_vocabulary()} visualizes the vocabulary growth as new words are used in each document.
 }
 \examples{
+\dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts() |>
   identify_by(part) |>
@@ -54,7 +55,6 @@ dubliners_measured |>
 dubliners_measured |>
   plot_vocabulary()
 
-\dontrun{
   get_micusp_corpus(
     discipline \%in\% c("Physics", "Economics")) |>
     load_texts() |>
@@ -75,6 +75,7 @@ Other visualizing helpers:
 \code{\link{plot_topic_distributions}()},
 \code{\link{plot_topic_wordcloud}()},
 \code{\link{plot_ttr}()},
+\code{\link{theme_tmtyro}()},
 \code{\link{visualize}()}
 }
 \concept{visualizing helpers}

@@ -5,16 +5,18 @@
 \title{Divide documents in equal lengths}
 \usage{
 add_partitions(
-  df,
+  data,
   size = 1000,
   overlap = 0,
   minimum = 0.25,
   by = doc_id,
-  character = FALSE
+  feature = word,
+  character = FALSE,
+  label = NULL
 )
 }
 \arguments{
-\item{df}{A tidy data frame, potentially containing a column called "word"}
+\item{data}{A tidy data frame, potentially containing a column called "word"}
 
 \item{size}{Size of each partition}
 
@@ -24,7 +26,11 @@ add_partitions(
 
 \item{by}{A column containing document grouping}
 
+\item{feature}{The feature to partition by in each document}
+
 \item{character}{Whether to return a \code{partition} column as a character vector with zeroes added for padding. This feature may be helpful if using \code{\link[=identify_by]{identify_by()}} to consider \code{partition} when defining documents in a corpus.}
+
+\item{label}{Whether to label variables added to data frame}
 }
 \value{
 The original data frame with a column added for partition.
@@ -33,6 +39,7 @@ The original data frame with a column added for partition.
 Divide documents in equal lengths
 }
 \examples{
+\dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts() |>
   identify_by(part) |>
@@ -41,4 +48,5 @@ dubliners <- get_gutenberg_corpus(2814) |>
 dubliners |>
   add_partitions() |>
   head()
+}
 }

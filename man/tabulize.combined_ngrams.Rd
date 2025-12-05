@@ -4,10 +4,10 @@
 \alias{tabulize.combined_ngrams}
 \title{Prepare a table of n-gram frequencies}
 \usage{
-\method{tabulize}{combined_ngrams}(.data, rows = NULL, count = TRUE, digits = 2, ...)
+\method{tabulize}{combined_ngrams}(data, rows = NULL, count = TRUE, digits = 2, ...)
 }
 \arguments{
-\item{.data}{data processed with one or more functions from \code{tmtyro}}
+\item{data}{data processed with one or more functions from \code{tmtyro}}
 
 \item{rows}{Chooses rows to be shown}
 

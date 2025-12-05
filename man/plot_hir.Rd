@@ -5,7 +5,7 @@
 \title{Show hapax introduction ratio over time}
 \usage{
 plot_hir(
-  df,
+  data,
   x = progress_words,
   by = doc_id,
   identity = doc_id,
@@ -15,7 +15,7 @@ plot_hir(
 )
 }
 \arguments{
-\item{df}{A tidy data frame, potentially containing a column called "doc_id" and "word"}
+\item{data}{A tidy data frame, potentially containing a column called "doc_id" and "word"}
 
 \item{x}{The progress column to show. Default option is progress_percent, but progress_words is also appropriate.}
 
@@ -43,6 +43,7 @@ A ggplot object
 Show hapax introduction ratio over time
 }
 \examples{
+\dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts() |>
   identify_by(part) |>
@@ -54,6 +55,7 @@ dubliners_measured <- dubliners |>
 dubliners_measured |>
   standardize_titles() |>
   plot_hir()
+}
 }
 \seealso{
 Other visualizing helpers: 
@@ -68,6 +70,7 @@ Other visualizing helpers:
 \code{\link{plot_topic_wordcloud}()},
 \code{\link{plot_ttr}()},
 \code{\link{plot_vocabulary}()},
+\code{\link{theme_tmtyro}()},
 \code{\link{visualize}()}
 }
 \concept{visualizing helpers}
