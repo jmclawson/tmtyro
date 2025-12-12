@@ -33,3 +33,8 @@ make_sample_table <- function() {
     add_class("tmtyro")
 }
 
+drop_log <- function(x){
+  attr(x, 'tmtyro_log') <- NULL
+  x
+}
+
