@@ -46,7 +46,6 @@ Suggests:
     fansi,
     geomtextpath (>= 0.1.4),
     ggrepel,
-    ggh4x,
     gtExtras,
     NLP,
     openNLP,

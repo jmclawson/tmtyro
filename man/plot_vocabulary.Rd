@@ -10,7 +10,7 @@ plot_vocabulary(
   by = doc_id,
   identity = NULL,
   descriptive_labels = TRUE,
-  labeling = c("point", "inset", "inline", "axis")
+  labeling = c("point", "inset", "inline")
 )
 }
 \arguments{
@@ -28,7 +28,6 @@ plot_vocabulary(
 \itemize{
 \item \code{"point"} labels the final value
 \item \code{"inline"} prints the label within a smoothed curve
-\item \code{"axis"} prints labels where a secondary Y-axis might go
 \item \code{"inset"} prints a legend within the plot area
 \item Anything else prints a legend to the right of the plot area.
 }}

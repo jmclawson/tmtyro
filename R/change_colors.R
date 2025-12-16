@@ -243,18 +243,7 @@ change_colors <- function(
     }
   }
 
-  if (!is.null(secondary) && !requireNamespace("ggh4x")) {
-    x +
-      ggplot2::scale_fill_manual(aesthetics = mapped,
-                                 values = the_colors) +
-      ggplot2::scale_y_continuous(
-        labels = scales::label_comma(),
-        sec.axis = ggplot2::dup_axis(
-          breaks = secondary$breaks,
-          labels = secondary$labels,
-          guide = ggh4x::guide_axis_color(
-            color = rev(the_colors))))
-  } else if (kind != "seq"){
+  if (kind != "seq") {
     x +
       ggplot2::scale_fill_manual(aesthetics = mapped, values = the_colors)
   } else if (length(colorset) == 1 &&

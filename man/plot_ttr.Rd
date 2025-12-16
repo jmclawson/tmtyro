@@ -10,7 +10,7 @@ plot_ttr(
   by = doc_id,
   identity = NULL,
   descriptive_labels = TRUE,
-  labeling = c("point", "inline", "axis", "inset"),
+  labeling = c("point", "inline", "inset"),
   log_y = TRUE
 )
 }
@@ -29,7 +29,6 @@ plot_ttr(
 \itemize{
 \item \code{"point"} labels the final value
 \item \code{"inline"} prints the label within a smoothed curve
-\item \code{"axis"} prints labels where a secondary Y-axis might go
 \item \code{"inset"} prints a legend within the plot area
 \item Anything else prints a legend to the right of the plot area.
 }}

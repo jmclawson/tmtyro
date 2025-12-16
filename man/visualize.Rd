@@ -18,6 +18,7 @@ visualize(data, ...)
     \item{\code{inorder}}{Whether to retain the factor order of the "by" column}
     \item{\code{reorder_y}}{Whether to reorder the Y-values by facet}
     \item{\code{color_y}}{Whether bars should be filled by Y-values}
+    \item{\code{allow_y_blanks}}{The threshold number of blanks to allow on the Y-axis before dropping all blanks and reprinting values for each facet with a freely scaled Y-axis}
     \item{\code{percents}}{Whether to display word frequencies as percentage instead of raw counts}
     \item{\code{label}}{Whether to show the value as a label with each bar}
     \item{\code{label_tweak}}{The numeric value by which to tweak the label, if shown. For percentages, this value adjusts the decimal-point precision. For raw counts, this value adjusts labels' offset from the bars}
@@ -33,7 +34,6 @@ visualize(data, ...)
 \itemize{
 \item \code{"point"} labels the final value
 \item \code{"inline"} prints the label within a smoothed curve
-\item \code{"axis"} prints labels where a secondary Y-axis might go
 \item \code{"inset"} prints a legend within the plot area
 \item Anything else prints a legend to the right of the plot area.
 }}

@@ -12,6 +12,7 @@ plot_doc_word_bars(
   inorder = TRUE,
   reorder_y = NULL,
   color_y = FALSE,
+  allow_y_blanks = 2,
   percents = TRUE,
   label = NULL,
   label_tweak = 2,
@@ -34,6 +35,8 @@ plot_doc_word_bars(
 \item{reorder_y}{Whether to reorder the Y-values by facet}
 
 \item{color_y}{Whether bars should be filled by Y-values}
+
+\item{allow_y_blanks}{The threshold number of blanks to allow on the Y-axis before dropping all blanks and reprinting values for each facet with a freely scaled Y-axis}
 
 \item{percents}{Whether to display word frequencies as percentage instead of raw counts}
 

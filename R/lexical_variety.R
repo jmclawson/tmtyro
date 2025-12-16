@@ -5,7 +5,7 @@ internal_plot_engine <- function(
     by = doc_id,
     identity = doc_id,
     descriptive_labels = TRUE,
-    labeling = c("point", "inset", "inline", "axis"),
+    labeling = c("point", "inset", "inline"),
     log_y = FALSE,
     skip_print = FALSE){
   if (is.null(identity)) {
@@ -13,11 +13,7 @@ internal_plot_engine <- function(
   }
   x_check <- rlang::as_name(x)
   y_check <- rlang::as_name(y)
-  if(length(labeling)>2 & x_check == "progress_percent") {
-    labeling <- "axis"
-  } else {
-    labeling <- labeling[1]
-  }
+  labeling <- match.arg(labeling)
 
   data <- data |>
     dplyr::mutate(!!by := forcats::fct_reorder2(!!by, !!x, !!y))
@@ -84,26 +80,6 @@ internal_plot_engine <- function(
           label.size = NA)
     }
 
-  } else if (labeling == "axis") {
-    sec_y <- data |>
-      dplyr::slice_max(order_by = {{ x }}, n = 1, by = {{ by }}) |>
-      dplyr::select({{ by }}, {{ y }}) |>
-      dplyr::arrange({{ y }}) |>
-      # mutate({{ by }} := {{ by }} |> fct_inorder()) |>
-      stats::setNames(c("labels", "breaks"))
-
-    the_plot <- the_plot +
-      ggplot2::geom_line() +
-      # ggplot2::theme_minimal() +
-      # ggplot2::theme(legend.position = "none",
-      #       panel.grid.major.x = ggplot2::element_blank(),
-      #       panel.grid.minor = ggplot2::element_blank()) +
-      theme_tmtyro(grid_x = FALSE) +
-      ggplot2::theme(legend.position = "none",
-            # panel.grid.major.x = ggplot2::element_blank(),
-            # panel.grid.minor = ggplot2::element_blank(),
-            axis.ticks.y.right = ggplot2::element_blank(),
-            axis.title.y.right = ggplot2::element_blank())
   } else if (labeling == "inset") {
     the_plot <- the_plot +
       ggplot2::geom_line() +
@@ -134,38 +110,13 @@ internal_plot_engine <- function(
   }
 
   if (log_y) {
-    if (labeling == "axis") {
-      rlang::check_installed("ggh4x", reason = "for labeling a secondary axis")
-      the_plot <- the_plot +
-        suppressWarnings(ggplot2::scale_y_continuous(
-          trans = suppressWarnings(scales::log10_trans()),
-          labels = scales::label_percent(),
-          sec.axis = ggplot2::dup_axis(
-            breaks = sec_y$breaks,
-            labels = sec_y$labels,
-            guide = ggh4x::guide_axis_color(
-              color = scales::hue_pal(direction = -1)(nrow(sec_y))))))
-    } else {
-      the_plot <- the_plot +
-        suppressWarnings(ggplot2::scale_y_continuous(
-          trans = suppressWarnings(scales::log10_trans()),
-          labels = scales::label_percent()))
-    }
+    the_plot <- the_plot +
+      suppressWarnings(ggplot2::scale_y_continuous(
+        trans = suppressWarnings(scales::log10_trans()),
+        labels = scales::label_percent()))
   } else {
-    if (labeling == "axis") {
-      rlang::check_installed("ggh4x", reason = "for labeling a secondary axis")
-      the_plot <- the_plot +
-        ggplot2::scale_y_continuous(
-          labels = scales::label_comma(),
-          sec.axis = ggplot2::dup_axis(
-            breaks = sec_y$breaks,
-            labels = sec_y$labels,
-            guide = ggh4x::guide_axis_color(
-              color = scales::hue_pal(direction = -1)(nrow(sec_y)))))
-    } else {
-      the_plot <- the_plot +
-        ggplot2::scale_y_continuous(labels = scales::label_comma())
-    }
+    the_plot <- the_plot +
+      ggplot2::scale_y_continuous(labels = scales::label_comma())
   }
 
   if (x_check == "progress_words") {
@@ -275,7 +226,6 @@ add_vocabulary <- function(data, by = doc_id, feature = word, label = NULL) {
 #' @param labeling Options for labeling groups:
 #' * `"point"` labels the final value
 #' * `"inline"` prints the label within a smoothed curve
-#' * `"axis"` prints labels where a secondary Y-axis might go
 #' * `"inset"` prints a legend within the plot area
 #' * Anything else prints a legend to the right of the plot area.
 #'
@@ -306,7 +256,7 @@ add_vocabulary <- function(data, by = doc_id, feature = word, label = NULL) {
 #'     add_vocabulary() |>
 #'     plot_vocabulary(by = discipline)
 #' }
-plot_vocabulary <- function(data, x = progress_words, by = doc_id, identity = NULL, descriptive_labels = TRUE, labeling = c("point", "inset", "inline", "axis")){
+plot_vocabulary <- function(data, x = progress_words, by = doc_id, identity = NULL, descriptive_labels = TRUE, labeling = c("point", "inset", "inline")){
 
   viz_attr <- attr(data, "visualize")
   if (is.null(viz_attr)) viz_attr <- FALSE
@@ -335,7 +285,6 @@ plot_vocabulary <- function(data, x = progress_words, by = doc_id, identity = NU
 #' @param labeling Options for labeling groups:
 #' * `"point"` labels the final value
 #' * `"inline"` prints the label within a smoothed curve
-#' * `"axis"` prints labels where a secondary Y-axis might go
 #' * `"inset"` prints a legend within the plot area
 #' * Anything else prints a legend to the right of the plot area.
 #' @param log_y A toggle for logarithmic scaling to the Y-axis; defaults to TRUE
@@ -361,7 +310,7 @@ plot_vocabulary <- function(data, x = progress_words, by = doc_id, identity = NU
 #' dubliners_measured |>
 #'   plot_ttr()
 #' }
-plot_ttr <- function(data, x = progress_words, by = doc_id, identity = NULL, descriptive_labels = TRUE, labeling = c("point", "inline", "axis", "inset"), log_y = TRUE){
+plot_ttr <- function(data, x = progress_words, by = doc_id, identity = NULL, descriptive_labels = TRUE, labeling = c("point", "inline", "inset"), log_y = TRUE){
 
   viz_attr <- attr(data, "visualize")
   if (is.null(viz_attr)) viz_attr <- FALSE
@@ -390,7 +339,6 @@ plot_ttr <- function(data, x = progress_words, by = doc_id, identity = NULL, des
 #' @param labeling Options for labeling groups:
 #' * `"point"` labels the final value
 #' * `"inline"` prints the label within a smoothed curve
-#' * `"axis"` prints labels where a secondary Y-axis might go
 #' * `"inset"` prints a legend within the plot area
 #' * Anything else prints a legend to the right of the plot area.
 #' @param log_y A toggle for logarithmic scaling to the Y-axis; defaults to TRUE
@@ -414,7 +362,7 @@ plot_ttr <- function(data, x = progress_words, by = doc_id, identity = NULL, des
 #'   standardize_titles() |>
 #'   plot_hir()
 #' }
-plot_hir <- function(data, x = progress_words, by = doc_id, identity = doc_id, descriptive_labels = TRUE, labeling = c("point", "inline", "axis", "inset"), log_y = TRUE){
+plot_hir <- function(data, x = progress_words, by = doc_id, identity = doc_id, descriptive_labels = TRUE, labeling = c("point", "inline", "inset"), log_y = TRUE){
 
   viz_attr <- attr(data, "visualize")
   if (is.null(viz_attr)) viz_attr <- FALSE
