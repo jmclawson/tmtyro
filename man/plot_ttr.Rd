@@ -6,7 +6,7 @@
 \usage{
 plot_ttr(
   data,
-  x = progress_words,
+  x = progress,
   by = doc_id,
   identity = NULL,
   descriptive_labels = TRUE,
@@ -17,7 +17,7 @@ plot_ttr(
 \arguments{
 \item{data}{A tidy data frame, potentially containing a column called "doc_id" and "word"}
 
-\item{x}{The progress column to show. Default option is progress_percent, but progress_words is also appropriate.}
+\item{x}{A column showing the cumulative progress of documents}
 
 \item{by}{A grouping column for colors and labels}
 

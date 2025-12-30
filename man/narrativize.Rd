@@ -7,8 +7,9 @@
 narrativize(
   data,
   format = c("bullets", "text"),
-  person = c(NA, "we", "I"),
-  return = c("message", "character", "print")
+  dictionary = narrative_dictionary_en,
+  return = c("message", "character", "print"),
+  person = c(NA, "we", "I")
 )
 }
 \arguments{
@@ -16,9 +17,11 @@ narrativize(
 
 \item{format}{The format of output to return. Use \code{format = "bullets"} for well formatted bullets and \code{format = "text"} for paragraph-formatted text}
 
-\item{person}{The personal pronoun to use in the narrative, if any}
+\item{dictionary}{The narrative dictionary to use. \code{\link{narrative_dictionary_en}} is defined by default.}
 
 \item{return}{How output should be returned, whether using \code{message()}, \code{print()}, or as a standard character string}
+
+\item{person}{The personal pronoun to use in the narrative, if any. This parameter depends on the narrative dictionary defined in \code{dictionary}.}
 }
 \value{
 Text

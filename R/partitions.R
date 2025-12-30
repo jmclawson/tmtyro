@@ -104,7 +104,7 @@ add_partitions <- function(
     out <- out |>
       add_logstep(
         fn = "add_partitions",
-        arguments = c(
+        arguments = list(
           feature = feature_string,
           width = size,
           overlap = overlap))

@@ -98,7 +98,7 @@ add_sentiment <- function(
     out <- out |>
       add_logstep(
         fn = "add_sentiment",
-        arguments = c(
+        arguments = list(
           feature = feature_string,
           lexicon = lex_name))
   }

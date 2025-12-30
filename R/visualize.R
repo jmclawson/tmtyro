@@ -235,6 +235,14 @@ visualize.expanded <- function(data, columns = 1:6, digits = 2, ...) {
 
 #' @export
 visualize.vocabulary <- function(data, type = NULL, ...) {
+  if (!"progress" %in% colnames(data)) {
+    if ("word_index" %in% colnames(data)) {
+      data[["progress"]] <- data[["word_index"]]
+    } else {
+      data <- data |>
+        add_progress()
+    }
+  }
   if (!is.null(type)) {
     if (type == "ttr") {
       data |>

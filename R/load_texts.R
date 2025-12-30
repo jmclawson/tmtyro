@@ -183,8 +183,17 @@ load_texts <- function(
     full_corpus <- full_corpus |>
       add_logstep(
         fn = "load_texts",
-        arguments = c(
-          parameters = param_text))
+        arguments = list(
+          parameters = list(
+            word = word,
+            lemma = lemma,
+            to_lower = to_lower,
+            remove_names = remove_names,
+            pos = pos,
+            poetry = poetry,
+            paragraph = paragraph
+          )#, parameters = param_text
+          ))
   }
 
   full_corpus |>
@@ -505,7 +514,7 @@ identify_by <- function(
     data <- data |>
       add_logstep(
         fn = "identify_by",
-        arguments = c(
+        arguments = list(
           relevant_column = relevant_string))
   }
 

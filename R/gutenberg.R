@@ -203,7 +203,7 @@ get_gutenberg_corpus <- function(
     the_books <- the_books |>
       add_logstep(
         fn = "get_gutenberg_corpus",
-        arguments = c(gutenberg_id = id_string))
+        arguments = list(parameters = list(gutenberg_id = gutenberg_id)))
   }
 
   the_books

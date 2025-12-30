@@ -7,7 +7,7 @@
 plot_hapax(
   data,
   prop = 0.01,
-  x = progress_words,
+  x = progress,
   y = vocabulary,
   by = doc_id,
   descriptive_labels = TRUE,
@@ -19,7 +19,7 @@ plot_hapax(
 
 \item{prop}{The proportion of hapax to sample. The chart can become illegible with proportions over ~1\%}
 
-\item{x}{The progress column to show. Default option is progress_percent, but progress_words is also appropriate.}
+\item{x}{A column showing the cumulative progress of documents}
 
 \item{y}{The Y-axis variable to chart. Default value is the cumulative vocabulary size.}
 

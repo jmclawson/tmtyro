@@ -230,10 +230,12 @@ tabulize.tf_idf <- function(data, rows = NULL, digits = 5, feature = word, ...) 
   data |>
     dplyr::slice(rows, .by = doc_id) |>
     dplyr::arrange(doc_id) |>
+    drop_labels() |>
+    dplyr::rename(`tf-idf` = tf_idf) |>
     gt::gt() |>
     gt::cols_label(doc_id = "") |>
     gt::fmt_number(n, decimals = 0) |>
-    gt::fmt_number(tf:tf_idf, decimals = digits) |>
+    gt::fmt_number(tf:`tf-idf`, decimals = digits) |>
     collapse_rows(doc_id)
 }
 

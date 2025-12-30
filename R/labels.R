@@ -28,12 +28,14 @@ label_dictionary <- tibble::tribble(
   "hir", "hapax introduction ratio", "hapax introduction ratio",
   "idf", "inverse document frequency", "inverse document frequency",
   "index", "document index", "document index",
+  "progress", "document index", "document index",
+  "progress_unit", "secondary in document", "secondary in document",
   "n", "word count", "word count in doc_id",
   "new_word", "new use of word", "new use of word in doc_id",
   "ngram", "secondary-word sequence", "secondary-word sequence",
   "partition", "partition of ~secondary words", "partition of ~secondary words with ~tertiary overlap in doc_id",
   "progress_words", "words so far", "words so far in doc_id",
-  "progress_percent", "percentage of document", "percentage of doc_id",
+  # "progress_percent", "percentage of document", "percentage of doc_id",
   "sentiment", "secondary sentiment", "secondary sentiment of word",
   "tf", "term frequency", "word frequency in doc_id",
   "tf_idf", "term frequency-inverse document frequency", "term frequency-inverse doc_id frequency",
@@ -49,7 +51,9 @@ get_label <- function(var, feature = "word", document = "document", secondary = 
       "doc_id" = document,
       "secondary" = secondary,
       "tertiary" = tertiary)
-    )
+    ) |>
+    stringr::str_remove_all("[(][)]") |>
+    stringr::str_squish()
 }
 
 assign_label_from <- function(data, var, feature, document = "document", secondary = NULL, tertiary = NULL, from_var = var) {
@@ -60,6 +64,14 @@ assign_label_from <- function(data, var, feature, document = "document", seconda
 assign_labels <- function(data, vars, feature, document = "document", secondary = NULL, tertiary = NULL) {
   for (var in vars) {
     attr(data[[var]], "label") <- get_label(var, feature, document, secondary, tertiary)
+  }
+  data
+}
+
+drop_labels <- function(data, vars = NULL) {
+  vars <- vars %||% colnames(data)
+  for (var in vars) {
+    attr(data[[var]], "label") <- NULL
   }
   data
 }

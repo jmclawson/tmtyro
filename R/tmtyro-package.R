@@ -38,7 +38,8 @@ paper_id <- temp <- NULL
 par_num <- temp <- NULL
 partition <- temp <- NULL
 percent <- temp <- NULL
-progress_words <- temp <- NULL
+prefix <- suffix <- plural_pre <- plural_suf <- NULL
+progress <- progress_words <- temp <- NULL
 ranksum <- temp <- NULL
 reorder <- temp <- NULL
 rnumeral <- temp <- NULL
@@ -57,7 +58,7 @@ term <- temp <- NULL
 .test2 <- temp <- NULL
 text <- temp <- NULL
 tf <- temp <- NULL
-tf_idf <- temp <- NULL
+tf_idf <- `tf-idf` <- temp <- NULL
 title <- temp <- NULL
 topic <- temp <- NULL
 topics <- temp <- NULL

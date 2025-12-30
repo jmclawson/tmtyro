@@ -129,14 +129,15 @@ standardize_titles <- function(data, title = doc_id, drop_articles = FALSE){
 
   if (tmtyro_use_log()) {
     attr(data, "tmtyro_log") <- tmtyro_log
-    parameters_string <- ""
-    if (drop_articles) {
-      parameters_string <- " and dropping introductory articles"
-    }
+    # parameters_string <- ""
+    # if (drop_articles) {
+    #   parameters_string <- " and dropping introductory articles"
+    # }
     data <- data |>
       add_logstep(
         fn = "standardize_titles",
-        arguments = c(parameters = parameters_string))
+        # arguments = list(parameters = parameters_string)
+        arguments = list(parameters = list(drop_articles = drop_articles)))
   }
   data
 }

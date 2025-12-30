@@ -43,7 +43,7 @@ add_tf_idf <- function(data, by = doc_id, feature = word, label = NULL) {
     out <- out |>
       add_logstep(
         fn = "add_tf_idf",
-        arguments = c(
+        arguments = list(
           by = deparse(substitute(by)),
           feature = deparse(substitute(feature))
         ))

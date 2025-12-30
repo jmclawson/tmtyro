@@ -319,7 +319,7 @@ plot_doc_word_bars <- function(
     x_lab <- paste(prefix, "count")
   }
 
-  internal_data <<- data
+  # internal_data <<- data
 
   the_plot <- data |>
     internal_plot_word_bars(

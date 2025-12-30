@@ -54,7 +54,7 @@ add_frequency <- function(data, feature = word, by = doc_id, label = NULL){
     out <- out |>
       add_logstep(
         fn = "add_frequency",
-        arguments = c(
+        arguments = list(
           feature = feature_string,
           by = by_string))
   }

@@ -107,7 +107,7 @@ add_ngrams <- function(data, n = 1:2, feature = word, keep = FALSE, collapse = F
     out <- out |>
       add_logstep(
         fn = "add_ngrams",
-        arguments = c(n = ifelse(length(n) > 1, length(n), n)))
+        arguments = list(n = ifelse(length(n) > 1, length(n), n)))
   }
 
   out |>

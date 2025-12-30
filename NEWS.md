@@ -1,3 +1,25 @@
+# tmtyro 0.6
+* `add_vocabulary()` now adds fewer columns. Chain this function with `add_progress()` to regain those that have been dropped. 
+* `add_index()` is now a thin wrapper for `add_progress()`, a new function that adds support for measuring progress by percentage and for specifying units used in labels.
+* Variables now gain descriptive labels with new options to toggle label use. Turn off labels locally by setting `options(tmtyro.use_labels = FALSE)` within a document or turn them off for a profile or project by setting the environment variable `TMTYRO_USE_LABELS` to `FALSE`.
+* Optional logging now records steps for most tmtyro functions working at the level of data frame, with options to toggle use of this log. Turn off logging locally by setting `options(tmtyro.use_log = FALSE)` within a document or turn it off for a profile or project by setting the environment variable `TMTYRO_USE_LOG` to `FALSE`.
+* New `narrativize()` function uses log to print a narrative describing methods used.
+* Support for ggplot2 version 4.0+. 
+* New `theme_tmtyro()` function extracts and modularizes theme defaults with smart grid lines using S7 methods.
+* New `percent` argument in `get_tf_by()` for consonance with `get_tf()`.
+* New `get_df_by()` function for getting document frequencies in correspondence with `get_tf_by()`.
+* New `html` parameter in `contextualize()` ensures HTML output.
+* Improvements to `get_gutenberg_corpus()` handle file downloading:
+  - Cached files can now be used without a network connection
+  - New `download` argument directs handling of file downloads and location
+* Improvements to `parse_html()`:
+  - New `headers` argument limits headers to user-assigned range
+  - New `standardize_headers` argument allows keeping header tags for transparency
+  - New `standardize_headers()` function for managing standardization of column names from HTML tags
+* Avoid reprinting Y-axis values for small multiples from `plot_doc_word_bars()` where Y-axis isn't rearranged.
+* More unit tests added to increase coverage
+* REMOVED: Setting `labeling = "axis"` is no longer supported because of deprecations in ggh4x, which is no longer imported
+
 # tmtyro 0.5
 
 * New functions `add_frequency()` and `add_tf_idf()` allow for consistent phrasing of workflows. These new methods are supported by `visualize()` and `tabulize()`.

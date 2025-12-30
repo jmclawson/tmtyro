@@ -6,7 +6,7 @@
 \usage{
 plot_vocabulary(
   data,
-  x = progress_words,
+  x = progress,
   by = doc_id,
   identity = NULL,
   descriptive_labels = TRUE,
@@ -16,7 +16,7 @@ plot_vocabulary(
 \arguments{
 \item{data}{A tidy data frame, potentially containing columns called "doc_id" and "word"}
 
-\item{x}{A column showing the cumulative count of words}
+\item{x}{A column showing the cumulative progress of documents}
 
 \item{by}{A grouping column for colors and labels}
 
