@@ -20,7 +20,8 @@ A data frame with 7 added columns
 , the first two logical and the rest numeric:
 \itemize{
 \item \code{new_word} (logical) Indicates whether this is the first instance of a given word
-\item \code{hapax} (logical) Indicates whether this word is the only incident of a given word, or hapax legomenon
+\item \code{hapax_doc} (logical) Indicates whether this word is the only incident of a given word, or hapax legomenon, at the document level
+\item \code{hapax_corpus} (logical) Indicates whether this word is the only incident of a given word, or hapax legomenon, at the corpus level
 \item \code{vocabulary} (integer) Running count of words used
 \item \code{ttr} (double) Type-token ratio, derived from the running count of words divided by the total number of words used
 \item \code{hir} (double) Hapax introduction ratio, derived from the running count of hapax legomena divided by the total number of words used.

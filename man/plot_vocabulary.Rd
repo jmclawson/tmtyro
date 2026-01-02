@@ -9,7 +9,7 @@ plot_vocabulary(
   x = progress,
   by = doc_id,
   identity = NULL,
-  descriptive_labels = TRUE,
+  descriptive_labels = FALSE,
   labeling = c("point", "inset", "inline")
 )
 }
@@ -22,7 +22,7 @@ plot_vocabulary(
 
 \item{identity}{A grouping column for lines}
 
-\item{descriptive_labels}{A toggle for disabling descriptive labels of progress_percent on the X-axis}
+\item{descriptive_labels}{A toggle for using descriptive labels for progress on the X-axis}
 
 \item{labeling}{Options for labeling groups:
 \itemize{

@@ -1,4 +1,5 @@
 # tmtyro 0.6
+* `tabulize()` returns better formatted tables for every type. A new `italicize_titles()` function simplifies formatting of the doc_id column (or other columns).
 * `add_vocabulary()` now adds fewer columns. Chain this function with `add_progress()` to regain those that have been dropped. 
 * `add_index()` is now a thin wrapper for `add_progress()`, a new function that adds support for measuring progress by percentage and for specifying units used in labels.
 * Variables now gain descriptive labels with new options to toggle label use. Turn off labels locally by setting `options(tmtyro.use_labels = FALSE)` within a document or turn them off for a profile or project by setting the environment variable `TMTYRO_USE_LABELS` to `FALSE`.

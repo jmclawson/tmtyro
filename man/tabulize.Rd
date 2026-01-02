@@ -58,6 +58,7 @@ dubliners |>
 
 \seealso{
 Other table helpers: 
-\code{\link{collapse_rows}()}
+\code{\link{collapse_rows}()},
+\code{\link{italicize_titles}()}
 }
 \concept{table helpers}

@@ -11,7 +11,7 @@ plot_hapax(
   y = vocabulary,
   by = doc_id,
   descriptive_labels = TRUE,
-  feature = hapax
+  feature = hapax_doc
 )
 }
 \arguments{
@@ -27,7 +27,7 @@ plot_hapax(
 
 \item{descriptive_labels}{A toggle for disabling descriptive labels of progress_percent on the X-axis}
 
-\item{feature}{The column to check for new features. Defaults to \code{hapax}, but the function might also be used with \code{new_word} instead to plot a sample of new additions to documents' vocabularies.}
+\item{feature}{The column to check for new features. Defaults to \code{hapax_doc}, but the function might also be used with \code{new_word} instead to plot a sample of new additions to documents' vocabularies.}
 }
 \value{
 A ggplot object

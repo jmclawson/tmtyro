@@ -99,7 +99,7 @@ internal_plot_engine <- function(
 
   if (y_check %in% c("vocabulary", "ttr", "hir")){
     y_label <- dplyr::case_when(
-      y_check == "vocabulary" ~ "vocabulary (words)",
+      y_check == "vocabulary" ~ "vocabulary (new words)",
       y_check == "ttr" ~ "type-token ratio (TTR)",
       y_check == "hir" ~ "hapax introduction ratio",
     )
@@ -127,8 +127,8 @@ internal_plot_engine <- function(
       ggplot2::scale_x_continuous(
         labels = scales::label_comma(),
         # expand = c(0,0)
-      ) #+
-      # ggplot2::labs(x = "text length (words)")
+      ) +
+      ggplot2::labs(x = "progress (words)")
   } else if (
     max(data[[x_check]], na.rm = TRUE) <= 1 &
     # x_check == "progress_percent" &
@@ -136,9 +136,11 @@ internal_plot_engine <- function(
     the_plot <- the_plot +
       ggplot2::scale_x_continuous(breaks = c(0, .5, 1),
                          expand = c(0.01,0),
-                         labels = c("beginning", "middle of text", "end")) +
-      ggplot2::labs(x = "progress") +
-      suppressWarnings(ggplot2::theme(axis.text.x  = ggplot2::element_text(hjust = c(0, 0.5, 1))))
+                         labels = c("early", "middle", "late")) +
+      ggplot2::labs(x = "document progress") +
+      suppressWarnings(ggplot2::theme(
+        axis.text.x  = ggplot2::element_text(hjust = c(0, 0.5, 1))
+        ))
   } else if (
     max(data[[x_check]], na.rm = TRUE) <= 1 &
     # x_check == "progress_percent" &
@@ -146,8 +148,8 @@ internal_plot_engine <- function(
     the_plot <- the_plot +
       ggplot2::scale_x_continuous(labels = scales::label_percent(),
                          # expand = c(0,0)
-      ) #+
-      # ggplot2::labs(x = "progress") +
+      ) +
+      ggplot2::labs(x = "document progress") #+
       # suppressWarnings(ggplot2::theme(axis.text.x  = ggplot2::element_text(hjust = c(0, 0.5, 1)))) platypus check to see if this is the thing causing three times the X-axis labels
   }
 
@@ -170,7 +172,8 @@ internal_plot_engine <- function(
 #' @returns A data frame with 7 added columns
 #' , the first two logical and the rest numeric:
 #'   * `new_word` (logical) Indicates whether this is the first instance of a given word
-#'   * `hapax` (logical) Indicates whether this word is the only incident of a given word, or hapax legomenon
+#'   * `hapax_doc` (logical) Indicates whether this word is the only incident of a given word, or hapax legomenon, at the document level
+#'   * `hapax_corpus` (logical) Indicates whether this word is the only incident of a given word, or hapax legomenon, at the corpus level
 #'   * `vocabulary` (integer) Running count of words used
 #'   * `ttr` (double) Type-token ratio, derived from the running count of words divided by the total number of words used
 #'   * `hir` (double) Hapax introduction ratio, derived from the running count of hapax legomena divided by the total number of words used.
@@ -205,18 +208,22 @@ add_vocabulary <- function(data, by = doc_id, feature = word, label = NULL) {
     dplyr::ungroup() |>
     dplyr::group_by({{ by }}, {{ feature }}) |>
     dplyr::mutate(
-      hapax = dplyr::if_else(dplyr::n() == 1, TRUE, FALSE),
+      hapax_doc = dplyr::if_else(dplyr::n() == 1, TRUE, FALSE),
       .after = new_word) |>
     dplyr::ungroup() |>
     dplyr::mutate(
-      hir = cumsum(hapax) / dplyr::row_number(),
+      hapax_corpus = dplyr::if_else(dplyr::n() == 1, TRUE, FALSE),
+      .by = {{ feature }},
+      .after = hapax_doc) |>
+    dplyr::mutate(
+      hir = cumsum(hapax_doc) / dplyr::row_number(),
       .by = {{ by }},
       .after = ttr)
 
   if (tmtyro_use_labels(label)) {
     out <- out |>
       assign_labels(
-        c("new_word", "hapax", "vocabulary", "ttr", "hir"),# "progress_words", "progress_percent"),
+        c("new_word", "hapax_doc", "hapax_corpus", "vocabulary", "ttr", "hir"),# "progress_words", "progress_percent"),
         deparse(substitute(feature)),
         deparse(substitute(by)))
   }
@@ -243,7 +250,7 @@ add_vocabulary <- function(data, by = doc_id, feature = word, label = NULL) {
 #' @param x A column showing the cumulative progress of documents
 #' @param by A grouping column for colors and labels
 #' @param identity A grouping column for lines
-#' @param descriptive_labels A toggle for disabling descriptive labels of progress_percent on the X-axis
+#' @param descriptive_labels A toggle for using descriptive labels for progress on the X-axis
 #' @param labeling Options for labeling groups:
 #' * `"point"` labels the final value
 #' * `"inline"` prints the label within a smoothed curve
@@ -277,7 +284,18 @@ add_vocabulary <- function(data, by = doc_id, feature = word, label = NULL) {
 #'     add_vocabulary() |>
 #'     plot_vocabulary(by = discipline)
 #' }
-plot_vocabulary <- function(data, x = progress, by = doc_id, identity = NULL, descriptive_labels = TRUE, labeling = c("point", "inset", "inline")){
+plot_vocabulary <- function(data, x = progress, by = doc_id, identity = NULL, descriptive_labels = FALSE, labeling = c("point", "inset", "inline")){
+  if (!"progress" %in% colnames(data)) {
+    if ("word_index" %in% colnames(data)) {
+      data[["progress"]] <- data[["word_index"]]
+    } else if (descriptive_labels) {
+      data <- data |>
+        add_progress(unit = "percent")
+    } else {
+      data <- data |>
+        add_progress(unit = "index")
+    }
+  }
 
   viz_attr <- attr(data, "visualize")
   if (is.null(viz_attr)) viz_attr <- FALSE
@@ -332,6 +350,18 @@ plot_vocabulary <- function(data, x = progress, by = doc_id, identity = NULL, de
 #'   plot_ttr()
 #' }
 plot_ttr <- function(data, x = progress, by = doc_id, identity = NULL, descriptive_labels = TRUE, labeling = c("point", "inline", "inset"), log_y = TRUE){
+  labeling <- match.arg(labeling)
+  if (!"progress" %in% colnames(data)) {
+    if ("word_index" %in% colnames(data)) {
+      data[["progress"]] <- data[["word_index"]]
+    } else if (descriptive_labels) {
+      data <- data |>
+        add_progress(unit = "percent")
+    } else {
+      data <- data |>
+        add_progress(unit = "index")
+    }
+  }
 
   viz_attr <- attr(data, "visualize")
   if (is.null(viz_attr)) viz_attr <- FALSE
@@ -384,6 +414,18 @@ plot_ttr <- function(data, x = progress, by = doc_id, identity = NULL, descripti
 #'   plot_hir()
 #' }
 plot_hir <- function(data, x = progress, by = doc_id, identity = doc_id, descriptive_labels = TRUE, labeling = c("point", "inline", "inset"), log_y = TRUE){
+  labeling <- match.arg(labeling)
+  if (!"progress" %in% colnames(data)) {
+    if ("word_index" %in% colnames(data)) {
+      data[["progress"]] <- data[["word_index"]]
+    } else if (descriptive_labels) {
+      data <- data |>
+        add_progress(unit = "percent")
+    } else {
+      data <- data |>
+        add_progress(unit = "index")
+    }
+  }
 
   viz_attr <- attr(data, "visualize")
   if (is.null(viz_attr)) viz_attr <- FALSE
@@ -411,7 +453,7 @@ plot_hir <- function(data, x = progress, by = doc_id, identity = doc_id, descrip
 #' @param y The Y-axis variable to chart. Default value is the cumulative vocabulary size.
 #' @param by A grouping column, such as doc_id
 #' @param descriptive_labels A toggle for disabling descriptive labels of progress_percent on the X-axis
-#' @param feature The column to check for new features. Defaults to `hapax`, but the function might also be used with `new_word` instead to plot a sample of new additions to documents' vocabularies.
+#' @param feature The column to check for new features. Defaults to `hapax_doc`, but the function might also be used with `new_word` instead to plot a sample of new additions to documents' vocabularies.
 #'
 #' @returns A ggplot object
 #' @family visualizing helpers
@@ -438,7 +480,18 @@ plot_hapax <- function(
     y = vocabulary,
     by = doc_id,
     descriptive_labels = TRUE,
-    feature = hapax){
+    feature = hapax_doc){
+  if (!"progress" %in% colnames(data)) {
+    if ("word_index" %in% colnames(data)) {
+      data[["progress"]] <- data[["word_index"]]
+    } else if (descriptive_labels) {
+      data <- data |>
+        add_progress(unit = "percent")
+    } else {
+      data <- data |>
+        add_progress(unit = "index")
+    }
+  }
 
   the_plot <- data |>
     dplyr::filter({{ feature }}) |>
@@ -464,13 +517,13 @@ plot_hapax <- function(
     #       strip.background = ggplot2::element_rect(fill="white"),
     #       strip.text = ggplot2::element_text(color = "black"))
 
-  if (max(data[[x]], na.rm = TRUE) > 1
+  if (max(dplyr::pull(data, {{ x }}), na.rm = TRUE) > 1
     # deparse(substitute(x)) == "progress_words"
     ) {
     the_plot <- the_plot +
       ggplot2::scale_x_continuous(
         labels = scales::label_number(scale_cut = scales::cut_short_scale())) +
-      # ggplot2::labs(x = "text length (words)") +
+      ggplot2::labs(x = "progress (words)") +
       ggplot2::facet_wrap(ggplot2::vars({{ by }}), scales = "free")
   } else if (
     max(data[[deparse(substitute(x))]], na.rm = TRUE) <= 1 &
@@ -478,9 +531,9 @@ plot_hapax <- function(
     descriptive_labels) {
     the_plot <- the_plot +
       ggplot2::scale_x_continuous(breaks = c(0, .5, 1),
-                         labels = c("beginning", "middle", "end")) +
-      # ggplot2::labs(x = "progress") +
-      suppressWarnings(ggplot2::theme(axis.text.x  = ggplot2::element_text(hjust = c(0, 0.5, 1)))) +
+                         labels = c("early", "middle", "late")) +
+      ggplot2::labs(x = "document progress") +
+      suppressWarnings(ggplot2::theme(axis.text.x  = ggplot2::element_text(hjust = c(0, 0.5, 1)), axis.ticks.x = ggplot2::element_blank())) +
       ggplot2::facet_wrap(ggplot2::vars({{ by }}), scales = "free_y")
   } else if (
     max(data[[deparse(substitute(x))]], na.rm = TRUE) <= 1 &
@@ -488,7 +541,7 @@ plot_hapax <- function(
     !descriptive_labels) {
     the_plot <- the_plot +
       ggplot2::scale_x_continuous(labels = scales::label_percent()) +
-      # ggplot2::labs(x = "progress") +
+      ggplot2::labs(x = "document progress") +
       # suppressWarnings(ggplot2::theme(axis.text.x  = ggplot2::element_text(hjust = c(0, 0.5, 1)))) + platypus check if this is what's causing three times the number of labels
       ggplot2::facet_wrap(ggplot2::vars({{ by }}), scales = "free_y")
   }

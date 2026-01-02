@@ -24,7 +24,8 @@ tmtyro_use_labels <- function(label = NULL) {
 label_dictionary <- tibble::tribble(
   ~var, ~terse, ~long,
   "df", "document frequency", "documents containing word",
-  "hapax", "sole use of word", "sole use of word in document",
+  "hapax_doc", "document singleton", "sole use of word in document",
+  "hapax_corpus", "corpus singleton", "sole use of word in corpus",
   "hir", "hapax introduction ratio", "hapax introduction ratio",
   "idf", "inverse document frequency", "inverse document frequency",
   "index", "document index", "document index",

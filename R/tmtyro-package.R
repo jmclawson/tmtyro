@@ -16,7 +16,7 @@ feature <- temp <- NULL
 fill_it <- temp <- NULL
 Freq <- temp <- NULL
 h1 <- h2 <- h3 <- h4 <- h5 <- h6 <- temp <- NULL
-hapax <- temp <- NULL
+hapax <- hapax_doc <- hapax_corpus <- temp <- NULL
 hir <- temp <- NULL
 hlemona <- temp <- NULL
 htr <- temp <- NULL

@@ -29,7 +29,7 @@ visualize(data, ...)
     \item{\code{legend}}{Whether to show a legend for the edge color}
     \item{\code{top_n}}{The number of pairs to visualize}
     \item{\code{identity}}{A grouping column for lines}
-    \item{\code{descriptive_labels}}{A toggle for disabling descriptive labels of progress_percent on the X-axis}
+    \item{\code{descriptive_labels}}{A toggle for using descriptive labels for progress on the X-axis}
     \item{\code{labeling}}{Options for labeling groups:
 \itemize{
 \item \code{"point"} labels the final value
