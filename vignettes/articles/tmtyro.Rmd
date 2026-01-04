@@ -639,3 +639,20 @@ tfidf_dubliners |>
   visualize(rows = 1:4) |> 
   change_colors(colorset = "viridis", palette = "mako", direction = -1)
 ```
+
+### Italicizing titles
+
+Before sharing a figure, `italicize_titles()` adds one more step of polish:
+
+```{r}
+bigrams_joyce |> 
+  combine_ngrams() |> 
+  visualize(rows = 1:5, color_y = FALSE, reorder_y = TRUE) |> 
+  italicize_titles()
+```
+
+```{r}
+corpus_joyce |> 
+  visualize() |> 
+  italicize_titles()
+```
