@@ -12,7 +12,7 @@ plot_doc_word_bars(
   inorder = TRUE,
   reorder_y = NULL,
   color_y = FALSE,
-  allow_y_blanks = 2,
+  allow_y_blanks = 0,
   percents = TRUE,
   label = NULL,
   label_tweak = 2,
@@ -74,6 +74,7 @@ dubliners |>
 \seealso{
 Other visualizing helpers: 
 \code{\link{change_colors}()},
+\code{\link{italicize_titles}()},
 \code{\link{plot_bigrams}()},
 \code{\link{plot_doc_word_heatmap}()},
 \code{\link{plot_hapax}()},

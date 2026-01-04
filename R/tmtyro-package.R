@@ -18,8 +18,8 @@ Freq <- temp <- NULL
 h1 <- h2 <- h3 <- h4 <- h5 <- h6 <- temp <- NULL
 hapax <- hapax_doc <- hapax_corpus <- temp <- NULL
 hir <- temp <- NULL
-hlemona <- temp <- NULL
-htr <- temp <- NULL
+hlemona <- clemona <- temp <- NULL
+htr <- c_htr <- temp <- NULL
 id <- temp <- NULL
 idf <- temp <- NULL
 label_color <- temp <- NULL

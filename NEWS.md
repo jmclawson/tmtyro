@@ -1,7 +1,11 @@
+TODO:
+- add new functions to getting started:
+  - `narrativize()`
+  - `add_progress()`
+  - `italicize_titles()`
+- New documentation pages for labels and narrative
+
 # tmtyro 0.6
-* `tabulize()` returns better formatted tables for every type. A new `italicize_titles()` function simplifies formatting of the doc_id column (or other columns).
-* `add_vocabulary()` now adds fewer columns. Chain this function with `add_progress()` to regain those that have been dropped. 
-* `add_index()` is now a thin wrapper for `add_progress()`, a new function that adds support for measuring progress by percentage and for specifying units used in labels.
 * Variables now gain descriptive labels with new options to toggle label use. Turn off labels locally by setting `options(tmtyro.use_labels = FALSE)` within a document or turn them off for a profile or project by setting the environment variable `TMTYRO_USE_LABELS` to `FALSE`.
 * Optional logging now records steps for most tmtyro functions working at the level of data frame, with options to toggle use of this log. Turn off logging locally by setting `options(tmtyro.use_log = FALSE)` within a document or turn it off for a profile or project by setting the environment variable `TMTYRO_USE_LOG` to `FALSE`.
 * New `narrativize()` function uses log to print a narrative describing methods used.
@@ -17,7 +21,11 @@
   - New `headers` argument limits headers to user-assigned range
   - New `standardize_headers` argument allows keeping header tags for transparency
   - New `standardize_headers()` function for managing standardization of column names from HTML tags
-* Avoid reprinting Y-axis values for small multiples from `plot_doc_word_bars()` where Y-axis isn't rearranged.
+* `add_vocabulary()` now adds fewer columns. Chain this function with `add_progress()` to regain those that have been dropped. 
+* `add_index()` is now a thin wrapper for `add_progress()`, a new function that adds support for measuring progress by percentage and for specifying units used in labels.
+* `tabulize()` returns better formatted tables for every type. 
+* A new `italicize_titles()` generic function simplifies formatting of the doc_id column (or other columns) for tables made with `tabulize()` and for figures made with `visualize()`.
+* Where possible, visualizations avoid reprinting Y-axis values for small multiples from `plot_doc_word_bars()` when Y-axis isn't rearranged.
 * More unit tests added to increase coverage
 * REMOVED: Setting `labeling = "axis"` is no longer supported because of deprecations in ggh4x, which is no longer imported
 

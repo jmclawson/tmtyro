@@ -189,7 +189,7 @@ combine_ngrams <- function(data, feature = word, keep = FALSE, label = NULL){
     the_df <- the_df |>
       assign_labels(
         c("ngram"),
-        feature = col_string,
+        feature = ifelse(col_string == "original", "token", col_string),
         secondary = ngram_num)
   }
 

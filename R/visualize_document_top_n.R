@@ -185,7 +185,7 @@ plot_doc_word_bars <- function(
     inorder = TRUE,
     reorder_y = NULL,
     color_y = FALSE,
-    allow_y_blanks = 2,
+    allow_y_blanks = 0,
     percents = TRUE,
     label = NULL,
     label_tweak = 2,
@@ -333,12 +333,12 @@ plot_doc_word_bars <- function(
   # --- Avoid reprinting Y-axis values where possible ---
   # If every feature is found in every document, only print
   # axis values once in each facet row. If some features are
-  # missing in some document(s), it's ok to have some Y-axis
-  # values with blanks, and have all Y-axis values printed
-  # just once in each facet row. But some number of blanks
-  # on the Y-axis is too much; when blanks surpass an
-  # `allow_y_blanks` threshold, then drop all blanks and
-  # reprint all Y-axis values in each facet. - v0.6
+  # missing in some document(s), it might be ok to have some
+  # Y-axis values with blanks to have all Y-axis values
+  # printed just once in each facet row. But some number of
+  # blanks on the Y-axis is probably too much. When blanks
+  # surpass an `allow_y_blanks` threshold, drop all blanks
+  # and reprint all Y-axis values in each facet. - v0.6
   # 1. Get the total number of unique features
   y_features <- data |>
     dplyr::pull({{ feature }}) |>
@@ -365,10 +365,6 @@ plot_doc_word_bars <- function(
 
   # 5. Is #1 is greater than #4 by more than allow_y_blanks?
   above_threshold <- y_features > (expected_features + allow_y_blanks)
-
-  # For testing only
-  # message(paste("Above threshold?", above_threshold))
-  # message(paste("Num features is", y_features, "the mode is", mode_y_length, "the facets are", plot_facets, "and the expected features is", expected_features))
 
   # define facet scales logically - v0.6
   if (percents && (above_threshold | reorder_y)) {

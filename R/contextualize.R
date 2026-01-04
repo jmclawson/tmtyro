@@ -26,6 +26,7 @@
 #' }
 contextualize <- function(data, term, window = 3, limit = 1:5, by = doc_id, feature = NULL, match = word, regex = NULL, html = NULL) {
   feature_str <- deparse(substitute(feature))
+  match_str <- deparse(substitute(match))
   if (length(limit) == 1 &
       any(is.na(limit), limit == 0)) {
     limit <- NA
@@ -37,9 +38,14 @@ contextualize <- function(data, term, window = 3, limit = 1:5, by = doc_id, feat
     feature <- rlang::sym("word")
     feature_str <- "word"
   }
+  if (match_str=="NULL") {
+    match <- rlang::sym("word")
+    match_str <- "word"
+  }
   index_str <- paste0("index")
 
   if (is.null(regex)) {
+    if (is.null(match)) {match <- rlang::sym(match_str)}
     data <- data |>
       add_index({{ by }}, name = !!rlang::sym(index_str)) |>
       add_ngrams(n = -window:window,
@@ -52,7 +58,7 @@ contextualize <- function(data, term, window = 3, limit = 1:5, by = doc_id, feat
     data <- data |>
       add_index({{ by }}, name = !!rlang::sym(index_str)) |>
       add_ngrams(n = -window:window,
-                 feature = {{ feature }},
+                 feature = feature_str,
                  keep = TRUE) |>
       dplyr::filter(stringr::str_detect({{ match }}, regex))
     regex_str <- regex |>
@@ -76,7 +82,7 @@ contextualize <- function(data, term, window = 3, limit = 1:5, by = doc_id, feat
     dplyr::mutate(dplyr::across(
       .cols = dplyr::starts_with(paste0(feature_str, "_0")),
       .fn = {\(x) ifelse(is.na(x), "-", x)})) |>
-    combine_ngrams() |>
+    combine_ngrams(feature) |>
     dplyr::mutate(
       ngram = ngram |>
         stringr::str_replace_all(" NA ", " ") |>
@@ -89,7 +95,7 @@ contextualize <- function(data, term, window = 3, limit = 1:5, by = doc_id, feat
     dplyr::mutate(dplyr::across(
       .cols = dplyr::starts_with(paste0(feature_str, "_0")),
       .fn = {\(x) ifelse(is.na(x), "-", x)})) |>
-    combine_ngrams() |>
+    combine_ngrams(feature) |>
     dplyr::mutate(
       ngram = ngram |>
         stringr::str_replace_all(" NA ", " ") |>
