@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tmtyro</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,8 +42,9 @@
 <li><a class="dropdown-item" href="../articles/01-differentiating.html">Differentiating tmtyro</a></li>
     <li><a class="dropdown-item" href="../articles/02-changing-colors.html">Customizing colors</a></li>
     <li><a class="dropdown-item" href="../articles/03-skills-ramp.html">Ramping up skills</a></li>
-    <li><a class="dropdown-item" href="../articles/04-customizing-tables.html">Customizing tables</a></li>
-    <li><a class="dropdown-item" href="../articles/05-customizing-figures.html">Customizing figures</a></li>
+    <li><a class="dropdown-item" href="../articles/04-labels-and-narrative.html">Labels and Logging</a></li>
+    <li><a class="dropdown-item" href="../articles/05-customizing-tables.html">Customizing tables</a></li>
+    <li><a class="dropdown-item" href="../articles/06-customizing-figures.html">Customizing figures</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -686,20 +687,20 @@ picker</a> may help to narrow things down.<a class="footnote-ref" tabindex="0" d
 &lt;code&gt;&lt;a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link"&gt;rgb()&lt;/a&gt;&lt;/code&gt; will be useful. Feeding this function three arguments
 will return the corresponding hex code:
 &lt;code&gt;rgb(red = 0.60, green = 0.00, blue = 1.00)&lt;/code&gt; returns &lt;span style="color:#9900FF;"&gt;“#9900FF”&lt;/span&gt;.&lt;/p&gt;'><sup>3</sup></a></p>
-<p><img src="02-changing-colors_files/figure-html/hexcolors-1.png" class="r-plt" width="700"></p>
+<p><img src="02-changing-colors_files/figure-html/hexcolors-1.png" class="r-plt" alt="" width="700"></p>
 <p>Use manual colors—as named colors or as hex codes—by combining them
 in a vector inside <code><a href="../reference/change_colors.html">change_colors()</a></code>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dubliners_count</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#00BBBB"</span>, <span class="st">"tan"</span>, <span class="st">"purple"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="02-changing-colors_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" width="700"></p>
+<p><img src="02-changing-colors_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" alt="" width="700"></p>
 <p>Custom colors also work well when naming particular values:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">joyce_count</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>    <span class="st">"#88DD00"</span>, <span class="st">"#00DDDD"</span>,</span>
 <span>    he <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="02-changing-colors_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" width="700"></p>
+<p><img src="02-changing-colors_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="brewer-palettes">Brewer palettes<a class="anchor" aria-label="anchor" href="#brewer-palettes"></a>
@@ -707,16 +708,16 @@ in a vector inside <code><a href="../reference/change_colors.html">change_colors
 <p>If you’d rather not pick colors manually, <a href="https://colorbrewer2.org" class="external-link">Brewer palettes</a> are an excellent
 choice. The Brewer qualitative palettes are well suited for discrete
 data, using color to distinguish categories like documents or words.</p>
-<p><img src="02-changing-colors_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" width="700"></p>
+<p><img src="02-changing-colors_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="" width="700"></p>
 <p>Brewer’s sequential palettes are ideal for showing differences in
 magnitude:</p>
-<p><img src="02-changing-colors_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" width="700"></p>
+<p><img src="02-changing-colors_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" alt="" width="700"></p>
 <p>Choose a Brewer palette by using its name or number in the
 <code>palette</code> argument:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">joyce_count</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span><span class="st">"Brewer"</span>, palette <span class="op">=</span> <span class="st">"Dark2"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="02-changing-colors_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" width="700"></p>
+<p><img src="02-changing-colors_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="viridis-palettes">Viridis palettes<a class="anchor" aria-label="anchor" href="#viridis-palettes"></a>
@@ -730,7 +731,7 @@ or “turbo” could work for discrete scales, but it also has a few
 caveats: among them, it’s poorly suited for black and white printing
 since it maps <em>high</em> to <em>low</em> along a circular path, from
 <em>dark</em> to <em>light</em> to <em>dark</em>.</p>
-<p><img src="02-changing-colors_files/figure-html/unnamed-chunk-9-1.png" class="r-plt" width="700"></p>
+<p><img src="02-changing-colors_files/figure-html/unnamed-chunk-9-1.png" class="r-plt" alt="" width="700"></p>
 <p>Choose a Viridis palette by using its name or letter in the
 <code>palette</code> argument:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -738,7 +739,7 @@ since it maps <em>high</em> to <em>low</em> along a circular path, from
 <span>  <span class="fu"><a href="../reference/expand_documents.html">expand_documents</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/change_colors.html">change_colors</a></span><span class="op">(</span><span class="st">"Viridis"</span>, palette <span class="op">=</span> <span class="st">"mako"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="02-changing-colors_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" width="700"></p>
+<p><img src="02-changing-colors_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 </div>
 

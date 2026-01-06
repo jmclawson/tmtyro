@@ -1,5 +1,87 @@
 # Changelog
 
+## tmtyro 0.6
+
+- Variables now gain descriptive labels with new options to toggle label
+  use. Turn off labels locally by setting
+  `options(tmtyro.use_labels = FALSE)` within a document or turn them
+  off for a profile or project by setting the environment variable
+  `TMTYRO_USE_LABELS` to `FALSE`.
+  [`get_data_dictionary()`](https://jmclawson.github.io/tmtyro/reference/get_data_dictionary.md)
+  prepares an explanatory data dictionary using these labels,
+  [`set_data_dictionary()`](https://jmclawson.github.io/tmtyro/reference/set_data_dictionary.md)
+  modifies labels from a provided data dictionary, and
+  [`drop_labels()`](https://jmclawson.github.io/tmtyro/reference/drop_labels.md)
+  removes labels.
+- Optional logging now records steps for most tmtyro functions working
+  at the level of data frame, with options to toggle use of this log.
+  Turn off logging locally by setting `options(tmtyro.use_log = FALSE)`
+  within a document or turn it off for a profile or project by setting
+  the environment variable `TMTYRO_USE_LOG` to `FALSE`. Helper functions
+  [`get_methods_log()`](https://jmclawson.github.io/tmtyro/reference/methods_log.md),
+  [`set_methods_log()`](https://jmclawson.github.io/tmtyro/reference/methods_log.md),
+  and
+  [`add_methods_log()`](https://jmclawson.github.io/tmtyro/reference/methods_log.md)
+  allow for management and adding manual entries to the log.
+- New
+  [`narrativize()`](https://jmclawson.github.io/tmtyro/reference/narrativize.md)
+  function uses log to print a narrative describing methods used.
+- Support for ggplot2 version 4.0+.
+- New
+  [`theme_tmtyro()`](https://jmclawson.github.io/tmtyro/reference/theme_tmtyro.md)
+  function extracts and modularizes theme defaults with smart grid lines
+  using S7 methods.
+- New `percent` argument in
+  [`get_tf_by()`](https://jmclawson.github.io/tmtyro/reference/get_tf_by.md)
+  for consonance with
+  [`get_tf()`](https://jmclawson.github.io/tmtyro/reference/get_frequency.md).
+- New
+  [`get_df_by()`](https://jmclawson.github.io/tmtyro/reference/get_df_by.md)
+  function for getting document frequencies in correspondence with
+  [`get_tf_by()`](https://jmclawson.github.io/tmtyro/reference/get_tf_by.md).
+- New `html` parameter in
+  [`contextualize()`](https://jmclawson.github.io/tmtyro/reference/contextualize.md)
+  ensures HTML output.
+- Improvements to
+  [`get_gutenberg_corpus()`](https://jmclawson.github.io/tmtyro/reference/get_gutenberg_corpus.md)
+  handle file downloading:
+  - Cached files can now be used without a network connection
+  - New `download` argument directs handling of file downloads and
+    location
+- Improvements to
+  [`parse_html()`](https://jmclawson.github.io/tmtyro/reference/parse_html.md):
+  - New `headers` argument limits headers to user-assigned range
+  - New `standardize_headers` argument allows keeping header tags for
+    transparency
+  - New
+    [`standardize_headers()`](https://jmclawson.github.io/tmtyro/reference/standardize_headers.md)
+    function for managing standardization of column names from HTML tags
+- [`add_vocabulary()`](https://jmclawson.github.io/tmtyro/reference/add_vocabulary.md)
+  now adds fewer columns. Chain this function with
+  [`add_progress()`](https://jmclawson.github.io/tmtyro/reference/add_progress.md)
+  to regain those that have been dropped.
+- [`add_index()`](https://jmclawson.github.io/tmtyro/reference/add_progress.md)
+  is now a thin wrapper for
+  [`add_progress()`](https://jmclawson.github.io/tmtyro/reference/add_progress.md),
+  a new function that adds support for measuring progress by percentage
+  and for specifying units used in labels.
+- [`tabulize()`](https://jmclawson.github.io/tmtyro/reference/tabulize.md)
+  returns better formatted tables for every type.
+- A new
+  [`italicize_titles()`](https://jmclawson.github.io/tmtyro/reference/italicize_titles.md)
+  generic function simplifies formatting of the doc_id column (or other
+  columns) for tables made with
+  [`tabulize()`](https://jmclawson.github.io/tmtyro/reference/tabulize.md)
+  and for figures made with
+  [`visualize()`](https://jmclawson.github.io/tmtyro/reference/visualize.md).
+- Where possible, visualizations avoid reprinting Y-axis values for
+  small multiples from
+  [`plot_doc_word_bars()`](https://jmclawson.github.io/tmtyro/reference/plot_doc_word_bars.md)
+  when Y-axis isn’t rearranged.
+- More unit tests added to increase coverage
+- REMOVED: Setting `labeling = "axis"` is no longer supported because of
+  deprecations in ggh4x, which is no longer imported
+
 ## tmtyro 0.5
 
 - New functions
@@ -59,7 +141,7 @@
   [`contextualize()`](https://jmclawson.github.io/tmtyro/reference/contextualize.md)
   shows terms in a window of context
 - New function
-  [`add_index()`](https://jmclawson.github.io/tmtyro/reference/add_index.md)
+  [`add_index()`](https://jmclawson.github.io/tmtyro/reference/add_progress.md)
   adds a column showing word indices within each document
 - [`load_texts()`](https://jmclawson.github.io/tmtyro/reference/load_texts.md)
   adds support to keep original capitalization and punctuation alongside

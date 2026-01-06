@@ -6,18 +6,20 @@ Divide documents in equal lengths
 
 ``` r
 add_partitions(
-  df,
+  data,
   size = 1000,
   overlap = 0,
   minimum = 0.25,
   by = doc_id,
-  character = FALSE
+  feature = word,
+  character = FALSE,
+  label = NULL
 )
 ```
 
 ## Arguments
 
-- df:
+- data:
 
   A tidy data frame, potentially containing a column called "word"
 
@@ -39,12 +41,20 @@ add_partitions(
 
   A column containing document grouping
 
+- feature:
+
+  The feature to partition by in each document
+
 - character:
 
   Whether to return a `partition` column as a character vector with
   zeroes added for padding. This feature may be helpful if using
   [`identify_by()`](https://jmclawson.github.io/tmtyro/reference/identify_by.md)
   to consider `partition` when defining documents in a corpus.
+
+- label:
+
+  Whether to label variables added to data frame
 
 ## Value
 
@@ -53,6 +63,7 @@ The original data frame with a column added for partition.
 ## Examples
 
 ``` r
+if (FALSE) { # \dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts() |>
   identify_by(part) |>
@@ -61,13 +72,5 @@ dubliners <- get_gutenberg_corpus(2814) |>
 dubliners |>
   add_partitions() |>
   head()
-#> # A tibble: 6 × 6
-#>   doc_id      title     author       part        partition word 
-#>   <fct>       <chr>     <chr>        <chr>           <int> <chr>
-#> 1 The Sisters Dubliners Joyce, James THE SISTERS         1 there
-#> 2 The Sisters Dubliners Joyce, James THE SISTERS         1 was  
-#> 3 The Sisters Dubliners Joyce, James THE SISTERS         1 no   
-#> 4 The Sisters Dubliners Joyce, James THE SISTERS         1 hope 
-#> 5 The Sisters Dubliners Joyce, James THE SISTERS         1 for  
-#> 6 The Sisters Dubliners Joyce, James THE SISTERS         1 him  
+} # }
 ```

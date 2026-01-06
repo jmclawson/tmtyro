@@ -23,12 +23,12 @@ steps:
 ## Usage
 
 ``` r
-make_topic_model(df, by = doc_id, sample_size = 1000, k = 15, cache = TRUE)
+make_topic_model(data, by = doc_id, sample_size = 1000, k = 15, cache = TRUE)
 ```
 
 ## Arguments
 
-- df:
+- data:
 
   A data frame with nested text in a "text" column.
 

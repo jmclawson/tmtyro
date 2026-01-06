@@ -8,12 +8,12 @@ these measurements in relation to document size.
 ## Usage
 
 ``` r
-add_vocabulary(df, by = doc_id, feature = word)
+add_vocabulary(data, by = doc_id, feature = word, label = NULL)
 ```
 
 ## Arguments
 
-- df:
+- data:
 
   A tidy data frame, potentially containing columns called "doc_id" and
   "word"
@@ -26,6 +26,10 @@ add_vocabulary(df, by = doc_id, feature = word)
 
   A column of words containing one word per row
 
+- label:
+
+  Whether to label variables added to data frame
+
 ## Value
 
 A data frame with 7 added columns , the first two logical and the rest
@@ -34,8 +38,11 @@ numeric:
 - `new_word` (logical) Indicates whether this is the first instance of a
   given word
 
-- `hapax` (logical) Indicates whether this word is the only incident of
-  a given word, or hapax legomenon
+- `hapax_doc` (logical) Indicates whether this word is the only incident
+  of a given word, or hapax legomenon, at the document level
+
+- `hapax_corpus` (logical) Indicates whether this word is the only
+  incident of a given word, or hapax legomenon, at the corpus level
 
 - `vocabulary` (integer) Running count of words used
 
@@ -54,22 +61,14 @@ numeric:
 ## Examples
 
 ``` r
+if (FALSE) { # \dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts() |>
   identify_by(part) |>
   standardize_titles()
 
 dubliners |>
-   add_vocabulary() |>
-   head()
-#> # A tibble: 6 × 12
-#>   doc_id      title     author part  word  new_word hapax vocabulary   ttr   hir
-#>   <fct>       <chr>     <chr>  <chr> <chr> <lgl>    <lgl>      <int> <dbl> <dbl>
-#> 1 The Sisters Dubliners Joyce… THE … there TRUE     FALSE          1     1 0    
-#> 2 The Sisters Dubliners Joyce… THE … was   TRUE     FALSE          2     1 0    
-#> 3 The Sisters Dubliners Joyce… THE … no    TRUE     FALSE          3     1 0    
-#> 4 The Sisters Dubliners Joyce… THE … hope  TRUE     TRUE           4     1 0.25 
-#> 5 The Sisters Dubliners Joyce… THE … for   TRUE     FALSE          5     1 0.2  
-#> 6 The Sisters Dubliners Joyce… THE … him   TRUE     FALSE          6     1 0.167
-#> # ℹ 2 more variables: progress_words <int>, progress_percent <dbl>
+  add_vocabulary() |>
+  head()
+} # }
 ```

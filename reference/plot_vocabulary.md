@@ -7,25 +7,25 @@ used in each document.
 
 ``` r
 plot_vocabulary(
-  df,
-  x = progress_words,
+  data,
+  x = progress,
   by = doc_id,
   identity = NULL,
-  descriptive_labels = TRUE,
-  labeling = c("point", "inset", "inline", "axis")
+  descriptive_labels = FALSE,
+  labeling = c("point", "inset", "inline")
 )
 ```
 
 ## Arguments
 
-- df:
+- data:
 
   A tidy data frame, potentially containing columns called "doc_id" and
   "word"
 
 - x:
 
-  A column showing the cumulative count of words
+  A column showing the cumulative progress of documents
 
 - by:
 
@@ -37,8 +37,7 @@ plot_vocabulary(
 
 - descriptive_labels:
 
-  A toggle for disabling descriptive labels of progress_percent on the
-  X-axis
+  A toggle for using descriptive labels for progress on the X-axis
 
 - labeling:
 
@@ -47,8 +46,6 @@ plot_vocabulary(
   - `"point"` labels the final value
 
   - `"inline"` prints the label within a smoothed curve
-
-  - `"axis"` prints labels where a secondary Y-axis might go
 
   - `"inset"` prints a legend within the plot area
 
@@ -62,6 +59,7 @@ A ggplot object
 
 Other visualizing helpers:
 [`change_colors()`](https://jmclawson.github.io/tmtyro/reference/change_colors.md),
+[`italicize_titles()`](https://jmclawson.github.io/tmtyro/reference/italicize_titles.md),
 [`plot_bigrams()`](https://jmclawson.github.io/tmtyro/reference/plot_bigrams.md),
 [`plot_doc_word_bars()`](https://jmclawson.github.io/tmtyro/reference/plot_doc_word_bars.md),
 [`plot_doc_word_heatmap()`](https://jmclawson.github.io/tmtyro/reference/plot_doc_word_heatmap.md),
@@ -72,11 +70,13 @@ Other visualizing helpers:
 [`plot_topic_distributions()`](https://jmclawson.github.io/tmtyro/reference/plot_topic_distributions.md),
 [`plot_topic_wordcloud()`](https://jmclawson.github.io/tmtyro/reference/plot_topic_wordcloud.md),
 [`plot_ttr()`](https://jmclawson.github.io/tmtyro/reference/plot_ttr.md),
+[`theme_tmtyro()`](https://jmclawson.github.io/tmtyro/reference/theme_tmtyro.md),
 [`visualize()`](https://jmclawson.github.io/tmtyro/reference/visualize.md)
 
 ## Examples
 
 ``` r
+if (FALSE) { # \dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts() |>
   identify_by(part) |>
@@ -87,17 +87,10 @@ dubliners_measured <- dubliners |>
 
 dubliners_measured |>
   plot_vocabulary(progress_percent)
-#> Warning: `guide_axis_truncated()` was deprecated in ggh4x 0.3.0.
-#> ℹ Please use `ggplot2::guide_axis(theme)` instead.
-#> ℹ The deprecated feature was likely used in the tmtyro package.
-#>   Please report the issue at <https://github.com/jmclawson/tmtyro/issues>.
-
 
 dubliners_measured |>
   plot_vocabulary()
 
-
-if (FALSE) { # \dontrun{
   get_micusp_corpus(
     discipline %in% c("Physics", "Economics")) |>
     load_texts() |>

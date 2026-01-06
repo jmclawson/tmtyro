@@ -5,7 +5,7 @@ Read HTML headers and text from file
 ## Usage
 
 ``` r
-parse_html(html, title = TRUE)
+parse_html(html, headers = 1:6, standardize_headers = TRUE, title = TRUE)
 ```
 
 ## Arguments
@@ -14,15 +14,23 @@ parse_html(html, title = TRUE)
 
   A file in HTML format
 
+- headers:
+
+  The HTML header levels to consider
+
+- standardize_headers:
+
+  Whether to standardize HTML headers to useful column names
+
 - title:
 
   Whether to keep H1 tags even when there is only one unique value
 
 ## Value
 
-A data frame with a column called `text` and header columns called
-`title`, `part`, `section`, and `subsection` as needed. Header columns
-are limited to page elements tagged as h1, h2, h3, or h4.
+A data frame with a column called "text" and header columns limited to
+page elements like h1, h2, and h3, as included in the numeric range of
+`headers`
 
 ## Examples
 

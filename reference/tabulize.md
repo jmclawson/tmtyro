@@ -7,12 +7,12 @@ one of a set of tables.
 ## Usage
 
 ``` r
-tabulize(.data, ...)
+tabulize(data, ...)
 ```
 
 ## Arguments
 
-- .data:
+- data:
 
   data processed with one or more functions from `tmtyro`
 
@@ -74,4 +74,5 @@ A gt table data object
 ## See also
 
 Other table helpers:
-[`collapse_rows()`](https://jmclawson.github.io/tmtyro/reference/collapse_rows.md)
+[`collapse_rows()`](https://jmclawson.github.io/tmtyro/reference/collapse_rows.md),
+[`italicize_titles()`](https://jmclawson.github.io/tmtyro/reference/italicize_titles.md)

@@ -24,7 +24,8 @@ load_texts(
   poetry = FALSE,
   paragraph = TRUE,
   n = 1L,
-  ...
+  ...,
+  label = NULL
 )
 ```
 
@@ -99,6 +100,10 @@ load_texts(
   Additional arguments passed along to
   [`tidytext::unnest_tokens()`](https://juliasilge.github.io/tidytext/reference/unnest_tokens.html)
   for use with `tokenizers`
+
+- label:
+
+  Whether to label variables added to data frame
 
 ## Value
 

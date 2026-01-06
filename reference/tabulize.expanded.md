@@ -6,12 +6,12 @@ Prepare a table showing a document-feature matrix
 
 ``` r
 # S3 method for class 'expanded'
-tabulize(.data, columns = NULL, digits = 2, ...)
+tabulize(data, columns = NULL, digits = 2, ...)
 ```
 
 ## Arguments
 
-- .data:
+- data:
 
   data processed with one or more functions from `tmtyro`
 

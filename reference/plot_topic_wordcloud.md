@@ -52,6 +52,7 @@ Graphic(s) prepared with `knitr` for Quarto or RMarkdown
 
 Other visualizing helpers:
 [`change_colors()`](https://jmclawson.github.io/tmtyro/reference/change_colors.md),
+[`italicize_titles()`](https://jmclawson.github.io/tmtyro/reference/italicize_titles.md),
 [`plot_bigrams()`](https://jmclawson.github.io/tmtyro/reference/plot_bigrams.md),
 [`plot_doc_word_bars()`](https://jmclawson.github.io/tmtyro/reference/plot_doc_word_bars.md),
 [`plot_doc_word_heatmap()`](https://jmclawson.github.io/tmtyro/reference/plot_doc_word_heatmap.md),
@@ -62,4 +63,5 @@ Other visualizing helpers:
 [`plot_topic_distributions()`](https://jmclawson.github.io/tmtyro/reference/plot_topic_distributions.md),
 [`plot_ttr()`](https://jmclawson.github.io/tmtyro/reference/plot_ttr.md),
 [`plot_vocabulary()`](https://jmclawson.github.io/tmtyro/reference/plot_vocabulary.md),
+[`theme_tmtyro()`](https://jmclawson.github.io/tmtyro/reference/theme_tmtyro.md),
 [`visualize()`](https://jmclawson.github.io/tmtyro/reference/visualize.md)

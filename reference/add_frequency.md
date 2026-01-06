@@ -5,12 +5,12 @@ Add frequency of words or other features
 ## Usage
 
 ``` r
-add_frequency(df, feature = word, by = doc_id)
+add_frequency(data, feature = word, by = doc_id, label = NULL)
 ```
 
 ## Arguments
 
-- df:
+- data:
 
   A tidy data frame, potentially containing a column called "word"
 
@@ -20,7 +20,11 @@ add_frequency(df, feature = word, by = doc_id)
 
 - by:
 
-  A grouping column identifying a document, such as `doc_id`.
+  A grouping column identifying a document, such as `doc_id`
+
+- label:
+
+  Whether to label variables added to data frame
 
 ## Value
 
@@ -36,6 +40,7 @@ if (FALSE) { # \dontrun{
     add_frequency()
 } # }
 
+if (FALSE) { # \dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts() |>
   identify_by(part) |>
@@ -44,13 +49,5 @@ dubliners <- get_gutenberg_corpus(2814) |>
 dubliners |>
   add_frequency() |>
   head()
-#> # A tibble: 6 × 6
-#>   doc_id      title     author       part        word      n
-#>   <fct>       <chr>     <chr>        <chr>       <chr> <int>
-#> 1 The Sisters Dubliners Joyce, James THE SISTERS there    15
-#> 2 The Sisters Dubliners Joyce, James THE SISTERS was      56
-#> 3 The Sisters Dubliners Joyce, James THE SISTERS no       16
-#> 4 The Sisters Dubliners Joyce, James THE SISTERS hope      1
-#> 5 The Sisters Dubliners Joyce, James THE SISTERS for      32
-#> 6 The Sisters Dubliners Joyce, James THE SISTERS him      43
+} # }
 ```

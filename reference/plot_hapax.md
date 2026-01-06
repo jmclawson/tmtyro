@@ -7,19 +7,19 @@ faceted curves of vocabulary growth over time
 
 ``` r
 plot_hapax(
-  df,
+  data,
   prop = 0.01,
-  x = progress_words,
+  x = progress,
   y = vocabulary,
   by = doc_id,
   descriptive_labels = TRUE,
-  feature = hapax
+  feature = hapax_doc
 )
 ```
 
 ## Arguments
 
-- df:
+- data:
 
   A tidy data frame, potentially containing columns called "doc_id" and
   "word"
@@ -31,8 +31,7 @@ plot_hapax(
 
 - x:
 
-  The progress column to show. Default option is progress_percent, but
-  progress_words is also appropriate.
+  A column showing the cumulative progress of documents
 
 - y:
 
@@ -50,7 +49,7 @@ plot_hapax(
 
 - feature:
 
-  The column to check for new features. Defaults to `hapax`, but the
+  The column to check for new features. Defaults to `hapax_doc`, but the
   function might also be used with `new_word` instead to plot a sample
   of new additions to documents' vocabularies.
 
@@ -62,6 +61,7 @@ A ggplot object
 
 Other visualizing helpers:
 [`change_colors()`](https://jmclawson.github.io/tmtyro/reference/change_colors.md),
+[`italicize_titles()`](https://jmclawson.github.io/tmtyro/reference/italicize_titles.md),
 [`plot_bigrams()`](https://jmclawson.github.io/tmtyro/reference/plot_bigrams.md),
 [`plot_doc_word_bars()`](https://jmclawson.github.io/tmtyro/reference/plot_doc_word_bars.md),
 [`plot_doc_word_heatmap()`](https://jmclawson.github.io/tmtyro/reference/plot_doc_word_heatmap.md),
@@ -72,6 +72,7 @@ Other visualizing helpers:
 [`plot_topic_wordcloud()`](https://jmclawson.github.io/tmtyro/reference/plot_topic_wordcloud.md),
 [`plot_ttr()`](https://jmclawson.github.io/tmtyro/reference/plot_ttr.md),
 [`plot_vocabulary()`](https://jmclawson.github.io/tmtyro/reference/plot_vocabulary.md),
+[`theme_tmtyro()`](https://jmclawson.github.io/tmtyro/reference/theme_tmtyro.md),
 [`visualize()`](https://jmclawson.github.io/tmtyro/reference/visualize.md)
 
 ## Examples

@@ -7,12 +7,12 @@ to one of the other visualizing helpers.
 ## Usage
 
 ``` r
-visualize(.data, ...)
+visualize(data, ...)
 ```
 
 ## Arguments
 
-- .data:
+- data:
 
   data processed with one or more functions from `tmtyro`
 
@@ -51,6 +51,12 @@ visualize(.data, ...)
   `color_y`
 
   :   Whether bars should be filled by Y-values
+
+  `allow_y_blanks`
+
+  :   The threshold number of blanks to allow on the Y-axis before
+      dropping all blanks and reprinting values for each facet with a
+      freely scaled Y-axis
 
   `percents`
 
@@ -97,8 +103,7 @@ visualize(.data, ...)
 
   `descriptive_labels`
 
-  :   A toggle for disabling descriptive labels of progress_percent on
-      the X-axis
+  :   A toggle for using descriptive labels for progress on the X-axis
 
   `labeling`
 
@@ -107,8 +112,6 @@ visualize(.data, ...)
       - `"point"` labels the final value
 
       - `"inline"` prints the label within a smoothed curve
-
-      - `"axis"` prints labels where a secondary Y-axis might go
 
       - `"inset"` prints a legend within the plot area
 
@@ -143,6 +146,7 @@ frequencies.
 
 Other visualizing helpers:
 [`change_colors()`](https://jmclawson.github.io/tmtyro/reference/change_colors.md),
+[`italicize_titles()`](https://jmclawson.github.io/tmtyro/reference/italicize_titles.md),
 [`plot_bigrams()`](https://jmclawson.github.io/tmtyro/reference/plot_bigrams.md),
 [`plot_doc_word_bars()`](https://jmclawson.github.io/tmtyro/reference/plot_doc_word_bars.md),
 [`plot_doc_word_heatmap()`](https://jmclawson.github.io/tmtyro/reference/plot_doc_word_heatmap.md),
@@ -153,11 +157,13 @@ Other visualizing helpers:
 [`plot_topic_distributions()`](https://jmclawson.github.io/tmtyro/reference/plot_topic_distributions.md),
 [`plot_topic_wordcloud()`](https://jmclawson.github.io/tmtyro/reference/plot_topic_wordcloud.md),
 [`plot_ttr()`](https://jmclawson.github.io/tmtyro/reference/plot_ttr.md),
-[`plot_vocabulary()`](https://jmclawson.github.io/tmtyro/reference/plot_vocabulary.md)
+[`plot_vocabulary()`](https://jmclawson.github.io/tmtyro/reference/plot_vocabulary.md),
+[`theme_tmtyro()`](https://jmclawson.github.io/tmtyro/reference/theme_tmtyro.md)
 
 ## Examples
 
 ``` r
+if (FALSE) { # \dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts() |>
   identify_by(part) |>
@@ -167,29 +173,24 @@ dubliners <- get_gutenberg_corpus(2814) |>
 dubliners |>
    visualize()
 
-
 # Applying `tmtyro` functions will choose an appropriate visualization
 
 dubliners |>
    add_ngrams() |>
    visualize()
 
-
 dubliners |>
    add_ngrams() |>
    combine_ngrams() |>
    visualize()
 
-
 dubliners |>
    summarize_tf_idf() |>
    visualize()
 
-
 dubliners |>
    add_vocabulary() |>
    visualize()
-
 
 if (FALSE) { # sentiment requires interaction on first load
   dubliners |>
@@ -202,7 +203,6 @@ dubliners |>
    add_vocabulary() |>
    visualize(type = "ttr")
 
-
 if (FALSE) { # puzzlingly broken for Dubliners, but usually works
 dubliners |>
    add_vocabulary() |>
@@ -214,8 +214,8 @@ dubliners |>
    add_ngrams() |>
    visualize(top_n = 25)
 
-
 dubliners |>
    add_vocabulary() |>
    visualize(x = progress_percent)
+} # }
 ```

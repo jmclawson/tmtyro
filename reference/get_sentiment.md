@@ -20,8 +20,10 @@ get_sentiment(
 
 - lexicon:
 
-  The sentiment lexicon to use from the tidytext package. Options
-  include "bing", "afinn", "loughran", "nrc", "nrc_eil", or "nrc_vad".
+  The sentiment lexicon to use from the
+  [tidytext](https://juliasilge.github.io/tidytext/reference/tidytext-package.html)
+  package. Options include "bing", "afinn", "loughran", "nrc",
+  "nrc_eil", or "nrc_vad".
 
 - ...:
 
@@ -36,6 +38,7 @@ A vector or nested list of sentiments for each value of `x`.
 
 Other vectorized functions:
 [`get_cumulative_vocabulary()`](https://jmclawson.github.io/tmtyro/reference/get_cumulative_vocabulary.md),
+[`get_df_by()`](https://jmclawson.github.io/tmtyro/reference/get_df_by.md),
 [`get_frequency()`](https://jmclawson.github.io/tmtyro/reference/get_frequency.md),
 [`get_hir()`](https://jmclawson.github.io/tmtyro/reference/get_hir.md),
 [`get_htr()`](https://jmclawson.github.io/tmtyro/reference/get_htr.md),

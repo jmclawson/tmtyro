@@ -6,18 +6,19 @@ Add ngram columns
 
 ``` r
 add_ngrams(
-  df,
+  data,
   n = 1:2,
   feature = word,
   keep = FALSE,
   collapse = FALSE,
-  by = doc_id
+  by = doc_id,
+  label = NULL
 )
 ```
 
 ## Arguments
 
-- df:
+- data:
 
   A tidy data frame, potentially containing a column called "word"
 
@@ -41,7 +42,11 @@ add_ngrams(
 
 - by:
 
-  A grouping column identifying a document, such as `doc_id`.
+  A grouping column identifying a document, such as `doc_id`
+
+- label:
+
+  Whether to label variables added to data frame
 
 ## Value
 
@@ -65,6 +70,7 @@ if (FALSE) { # \dontrun{
     add_ngrams(3)
 } # }
 
+if (FALSE) { # \dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts() |>
   identify_by(part) |>
@@ -73,13 +79,5 @@ dubliners <- get_gutenberg_corpus(2814) |>
 dubliners |>
   add_ngrams(2) |>
   head()
-#> # A tibble: 6 × 6
-#>   doc_id      title     author       part        word_1 word_2
-#>   <fct>       <chr>     <chr>        <chr>       <chr>  <chr> 
-#> 1 The Sisters Dubliners Joyce, James THE SISTERS there  was   
-#> 2 The Sisters Dubliners Joyce, James THE SISTERS was    no    
-#> 3 The Sisters Dubliners Joyce, James THE SISTERS no     hope  
-#> 4 The Sisters Dubliners Joyce, James THE SISTERS hope   for   
-#> 5 The Sisters Dubliners Joyce, James THE SISTERS for    him   
-#> 6 The Sisters Dubliners Joyce, James THE SISTERS him    this  
+} # }
 ```

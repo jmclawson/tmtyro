@@ -56,6 +56,7 @@ A ggplot2 object
 ## See also
 
 Other visualizing helpers:
+[`italicize_titles()`](https://jmclawson.github.io/tmtyro/reference/italicize_titles.md),
 [`plot_bigrams()`](https://jmclawson.github.io/tmtyro/reference/plot_bigrams.md),
 [`plot_doc_word_bars()`](https://jmclawson.github.io/tmtyro/reference/plot_doc_word_bars.md),
 [`plot_doc_word_heatmap()`](https://jmclawson.github.io/tmtyro/reference/plot_doc_word_heatmap.md),
@@ -67,11 +68,13 @@ Other visualizing helpers:
 [`plot_topic_wordcloud()`](https://jmclawson.github.io/tmtyro/reference/plot_topic_wordcloud.md),
 [`plot_ttr()`](https://jmclawson.github.io/tmtyro/reference/plot_ttr.md),
 [`plot_vocabulary()`](https://jmclawson.github.io/tmtyro/reference/plot_vocabulary.md),
+[`theme_tmtyro()`](https://jmclawson.github.io/tmtyro/reference/theme_tmtyro.md),
 [`visualize()`](https://jmclawson.github.io/tmtyro/reference/visualize.md)
 
 ## Examples
 
 ``` r
+if (FALSE) { # \dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts() |>
   identify_by(part) |>
@@ -91,28 +94,23 @@ dubliners2 <- dubliners |>
 dubliners2 |>
   visualize()
 
-
 # change_color() starts with Brewer's "Dark2" palette
 dubliners2 |>
   visualize() |>
   change_colors()
-
 
 # Other color sets and palettes can be chosen
 dubliners2 |>
   visualize() |>
   change_colors(colorset = "okabe")
 
-
 dubliners2 |>
   visualize() |>
   change_colors(colorset = "viridis", palette = "turbo")
 
-
 dubliners2 |>
   visualize() |>
   change_colors(colorset = "brewer", palette = "Set1")
-
 
 # Named cases can be highlighted
 dubliners2 |>
@@ -121,45 +119,32 @@ dubliners2 |>
     rep("darkgray", 6),
     "A Painful Case" = "blue"))
 
-
 ### SEQUENTIAL DATA ###
 
 # By default, the "viridis" palette is applied
 dubliners2 |>
   visualize(type = "heatmap")
 
-
 # change_colors()  starts with Brewer's "BuGn" palette
 dubliners2 |>
   visualize(type = "heatmap") |>
   change_colors()
-#> Scale for fill is already present.
-#> Adding another scale for fill, which will replace the existing scale.
-
 
 # Palettes can be numbered or named
 dubliners2 |>
   visualize(type = "heatmap") |>
   change_colors("viridis", palette = 6)
-#> Scale for fill is already present.
-#> Adding another scale for fill, which will replace the existing scale.
-
 
 dubliners2 |>
   visualize(type = "heatmap") |>
   change_colors("viridis", palette = "mako")
-#> Scale for fill is already present.
-#> Adding another scale for fill, which will replace the existing scale.
-
 
 ### N-GRAMS ###
 library(ggraph)
-#> Loading required package: ggplot2
 
 dubliners |>
   add_ngrams() |>
   visualize() |>
   change_colors(c("#444488","orange"))
-#> Scale for edge_colour is already present.
-#> Adding another scale for edge_colour, which will replace the existing scale.
+} # }
 ```

@@ -6,13 +6,14 @@ Plot bar graphs of frequent features
 
 ``` r
 plot_doc_word_bars(
-  df,
+  data,
   rows = 1:10,
   by = doc_id,
   feature = word,
   inorder = TRUE,
   reorder_y = NULL,
   color_y = FALSE,
+  allow_y_blanks = 0,
   percents = TRUE,
   label = NULL,
   label_tweak = 2,
@@ -24,7 +25,7 @@ plot_doc_word_bars(
 
 ## Arguments
 
-- df:
+- data:
 
   A tidy data frame, potentially containing columns called "doc_id" and
   "word"
@@ -52,6 +53,12 @@ plot_doc_word_bars(
 - color_y:
 
   Whether bars should be filled by Y-values
+
+- allow_y_blanks:
+
+  The threshold number of blanks to allow on the Y-axis before dropping
+  all blanks and reprinting values for each facet with a freely scaled
+  Y-axis
 
 - percents:
 
@@ -89,6 +96,7 @@ A ggplot object
 
 Other visualizing helpers:
 [`change_colors()`](https://jmclawson.github.io/tmtyro/reference/change_colors.md),
+[`italicize_titles()`](https://jmclawson.github.io/tmtyro/reference/italicize_titles.md),
 [`plot_bigrams()`](https://jmclawson.github.io/tmtyro/reference/plot_bigrams.md),
 [`plot_doc_word_heatmap()`](https://jmclawson.github.io/tmtyro/reference/plot_doc_word_heatmap.md),
 [`plot_hapax()`](https://jmclawson.github.io/tmtyro/reference/plot_hapax.md),
@@ -99,11 +107,13 @@ Other visualizing helpers:
 [`plot_topic_wordcloud()`](https://jmclawson.github.io/tmtyro/reference/plot_topic_wordcloud.md),
 [`plot_ttr()`](https://jmclawson.github.io/tmtyro/reference/plot_ttr.md),
 [`plot_vocabulary()`](https://jmclawson.github.io/tmtyro/reference/plot_vocabulary.md),
+[`theme_tmtyro()`](https://jmclawson.github.io/tmtyro/reference/theme_tmtyro.md),
 [`visualize()`](https://jmclawson.github.io/tmtyro/reference/visualize.md)
 
 ## Examples
 
 ``` r
+if (FALSE) { # \dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts(lemma = TRUE) |>
   identify_by(part) |>
@@ -112,8 +122,8 @@ dubliners <- get_gutenberg_corpus(2814) |>
 dubliners |>
   plot_doc_word_bars(rows = 1:4)
 
-
 dubliners |>
   dplyr::filter(doc_id %in% c("The Sisters", "The Dead")) |>
   plot_doc_word_bars(feature = lemma, rows = 1:20)
+} # }
 ```

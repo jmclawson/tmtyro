@@ -6,12 +6,12 @@ Prepare a table of n-gram frequencies
 
 ``` r
 # S3 method for class 'ngrams'
-tabulize(.data, ...)
+tabulize(data, ...)
 ```
 
 ## Arguments
 
-- .data:
+- data:
 
   data processed with one or more functions from `tmtyro`
 

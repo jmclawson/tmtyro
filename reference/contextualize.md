@@ -6,7 +6,7 @@ Show a term in context
 
 ``` r
 contextualize(
-  df,
+  data,
   term,
   window = 3,
   limit = 1:5,
@@ -20,7 +20,7 @@ contextualize(
 
 ## Arguments
 
-- df:
+- data:
 
   A data frame which most likely contains a column called "word"
 
@@ -77,13 +77,10 @@ Markdown.
 ## Examples
 
 ``` r
+if (FALSE) { # \dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
     load_texts(keep_original = TRUE)
 
 contextualize(dubliners, regex = "dog[s]?$")
-#> on a thick bulldog face and a
-#> gone to the dogs.” “But Hogan has
-#> throw to a dog. He stands and
-#> order. ‘Down, ye dogs! Lie down, ye
-#> these two fighting dog and devil until
+} # }
 ```

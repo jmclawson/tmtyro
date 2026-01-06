@@ -6,7 +6,7 @@ vector `by`.
 ## Usage
 
 ``` r
-get_tf_by(x, by)
+get_tf_by(x, by, percent = TRUE)
 ```
 
 ## Arguments
@@ -19,6 +19,10 @@ get_tf_by(x, by)
 
   A vector of categories, such as a column of document identifiers
 
+- percent:
+
+  Whether to return frequencies as percentage of the whole
+
 ## Value
 
 A vector of term frequencies for each value pair of `x` and `by`.
@@ -27,6 +31,7 @@ A vector of term frequencies for each value pair of `x` and `by`.
 
 Other vectorized functions:
 [`get_cumulative_vocabulary()`](https://jmclawson.github.io/tmtyro/reference/get_cumulative_vocabulary.md),
+[`get_df_by()`](https://jmclawson.github.io/tmtyro/reference/get_df_by.md),
 [`get_frequency()`](https://jmclawson.github.io/tmtyro/reference/get_frequency.md),
 [`get_hir()`](https://jmclawson.github.io/tmtyro/reference/get_hir.md),
 [`get_htr()`](https://jmclawson.github.io/tmtyro/reference/get_htr.md),

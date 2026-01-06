@@ -8,12 +8,12 @@ token that is present only in a capitalized form.
 ## Usage
 
 ``` r
-unnest_without_caps(df, output = "word", input = "text", to_lower = TRUE)
+unnest_without_caps(data, output = "word", input = "text", to_lower = TRUE)
 ```
 
 ## Arguments
 
-- df:
+- data:
 
   A data frame
 

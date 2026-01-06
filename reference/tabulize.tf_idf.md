@@ -6,12 +6,12 @@ Prepare a table of term frequency–inverse document frequency
 
 ``` r
 # S3 method for class 'tf_idf'
-tabulize(.data, rows = NULL, digits = 5, feature = word, ...)
+tabulize(data, rows = NULL, digits = 5, feature = word, ...)
 ```
 
 ## Arguments
 
-- .data:
+- data:
 
   data processed with one or more functions from `tmtyro`
 

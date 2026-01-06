@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tmtyro</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,8 +22,9 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/01-differentiating.html">Differentiating tmtyro</a></li>
     <li><a class="dropdown-item" href="../articles/02-changing-colors.html">Customizing colors</a></li>
     <li><a class="dropdown-item" href="../articles/03-skills-ramp.html">Ramping up skills</a></li>
-    <li><a class="dropdown-item" href="../articles/04-customizing-tables.html">Customizing tables</a></li>
-    <li><a class="dropdown-item" href="../articles/05-customizing-figures.html">Customizing figures</a></li>
+    <li><a class="dropdown-item" href="../articles/04-labels-and-narrative.html">Labels and Logging</a></li>
+    <li><a class="dropdown-item" href="../articles/05-customizing-tables.html">Customizing tables</a></li>
+    <li><a class="dropdown-item" href="../articles/06-customizing-figures.html">Customizing figures</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -48,7 +49,7 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plot_bigrams</span><span class="op">(</span></span>
-<span>  <span class="va">df</span>,</span>
+<span>  <span class="va">data</span>,</span>
 <span>  feature <span class="op">=</span> <span class="va">word</span>,</span>
 <span>  random_seed <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  set_seed <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -61,7 +62,7 @@
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-df">df<a class="anchor" aria-label="anchor" href="#arg-df"></a></dt>
+<dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
 <dd><p>A tidy data frame potentially containing a column called "word" or columns called "word_1" and "word_2".</p></dd>
 
 
@@ -93,6 +94,7 @@
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other visualizing helpers:
 <code><a href="change_colors.html">change_colors()</a></code>,
+<code><a href="italicize_titles.html">italicize_titles()</a></code>,
 <code><a href="plot_doc_word_bars.html">plot_doc_word_bars()</a></code>,
 <code><a href="plot_doc_word_heatmap.html">plot_doc_word_heatmap()</a></code>,
 <code><a href="plot_hapax.html">plot_hapax()</a></code>,
@@ -103,6 +105,7 @@
 <code><a href="plot_topic_wordcloud.html">plot_topic_wordcloud()</a></code>,
 <code><a href="plot_ttr.html">plot_ttr()</a></code>,
 <code><a href="plot_vocabulary.html">plot_vocabulary()</a></code>,
+<code><a href="theme_tmtyro.html">theme_tmtyro()</a></code>,
 <code><a href="visualize.html">visualize()</a></code></p>
 <p>Other n-gram helpers:
 <code><a href="add_ngrams.html">add_ngrams()</a></code>,
@@ -114,26 +117,24 @@
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="co"># It isn't necessary to use add_ngrams()</span></span></span>
-<span class="r-in"><span><span class="va">df</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">plot_bigrams</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Adding them first allows for filtering steps</span></span></span>
-<span class="r-in"><span><span class="va">df</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="add_ngrams.html">add_ngrams</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="drop_stopwords.html">drop_stopwords</a></span><span class="op">(</span><span class="va">word_1</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="drop_stopwords.html">drop_stopwords</a></span><span class="op">(</span><span class="va">word_2</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">plot_bigrams</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Only bigrams influence the visualization These show the same networks:</span></span></span>
-<span class="r-in"><span><span class="va">df</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="add_ngrams.html">add_ngrams</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">plot_bigrams</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">df</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="add_ngrams.html">add_ngrams</a></span><span class="op">(</span><span class="fl">4</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">plot_bigrams</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">dubliners</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_gutenberg_corpus.html">get_gutenberg_corpus</a></span><span class="op">(</span><span class="fl">2814</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="load_texts.html">load_texts</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
@@ -142,29 +143,24 @@
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">dubliners</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">plot_bigrams</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="plot_bigrams-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Loading `ggraph` enables edge to show connection strengths</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggraph.data-imaginist.com" class="external-link">ggraph</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">dubliners</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">plot_bigrams</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="plot_bigrams-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">dubliners</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="add_ngrams.html">add_ngrams</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="drop_stopwords.html">drop_stopwords</a></span><span class="op">(</span>feature <span class="op">=</span> <span class="va">word_1</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="drop_stopwords.html">drop_stopwords</a></span><span class="op">(</span>feature <span class="op">=</span> <span class="va">word_2</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">plot_bigrams</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="plot_bigrams-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">dubliners</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">doc_id</span> <span class="op">==</span> <span class="st">"The Dead"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">plot_bigrams</span><span class="op">(</span>top_n <span class="op">=</span> <span class="fl">70</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="change_colors.html">change_colors</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="st">"orange"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Scale for <span style="color: #00BB00;">edge_colour</span> is already present.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Adding another scale for <span style="color: #00BB00;">edge_colour</span>, which will replace the existing scale.</span>
-<span class="r-plt img"><img src="plot_bigrams-4.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

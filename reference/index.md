@@ -30,6 +30,8 @@ Functions for collecting, loading, and cleaning a corpus of texts.
   : Move a header column to text
 - [`identify_by()`](https://jmclawson.github.io/tmtyro/reference/identify_by.md)
   : Choose a new doc_id column
+- [`standardize_headers()`](https://jmclawson.github.io/tmtyro/reference/standardize_headers.md)
+  : Standardize column names from HTML
 - [`standardize_titles()`](https://jmclawson.github.io/tmtyro/reference/standardize_titles.md)
   : Standardize document titles
 - [`unnest_without_caps()`](https://jmclawson.github.io/tmtyro/reference/unnest_without_caps.md)
@@ -44,18 +46,25 @@ do it.
   : Add values from a dictionary
 - [`add_frequency()`](https://jmclawson.github.io/tmtyro/reference/add_frequency.md)
   : Add frequency of words or other features
-- [`add_index()`](https://jmclawson.github.io/tmtyro/reference/add_index.md)
-  : Index document row numbers
 - [`add_ngrams()`](https://jmclawson.github.io/tmtyro/reference/add_ngrams.md)
   : Add ngram columns
 - [`add_partitions()`](https://jmclawson.github.io/tmtyro/reference/add_partitions.md)
   : Divide documents in equal lengths
+- [`add_progress()`](https://jmclawson.github.io/tmtyro/reference/add_progress.md)
+  [`add_index()`](https://jmclawson.github.io/tmtyro/reference/add_progress.md)
+  : Track progress in documents
 - [`add_sentiment()`](https://jmclawson.github.io/tmtyro/reference/add_sentiment.md)
   : Add sentiment markers
 - [`add_tf_idf()`](https://jmclawson.github.io/tmtyro/reference/add_tf_idf.md)
   : Compare usage across a corpus
 - [`add_vocabulary()`](https://jmclawson.github.io/tmtyro/reference/add_vocabulary.md)
   : Measure lexical variety
+- [`get_methods_log()`](https://jmclawson.github.io/tmtyro/reference/methods_log.md)
+  [`set_methods_log()`](https://jmclawson.github.io/tmtyro/reference/methods_log.md)
+  [`add_methods_log()`](https://jmclawson.github.io/tmtyro/reference/methods_log.md)
+  : Methods logging
+- [`drop_labels()`](https://jmclawson.github.io/tmtyro/reference/drop_labels.md)
+  : Drop variable labels
 - [`drop_na()`](https://jmclawson.github.io/tmtyro/reference/drop_na.md)
   : Drop rows containing missing values
 - [`drop_stopwords()`](https://jmclawson.github.io/tmtyro/reference/drop_stopwords.md)
@@ -98,11 +107,41 @@ keep them to yourself)
   : Collapse gt rows in the style of kableExtra
 - [`change_colors()`](https://jmclawson.github.io/tmtyro/reference/change_colors.md)
   : Choose other colors
+- [`italicize_titles()`](https://jmclawson.github.io/tmtyro/reference/italicize_titles.md)
+  : Italicize document titles in a table or figure
+- [`theme_tmtyro()`](https://jmclawson.github.io/tmtyro/reference/theme_tmtyro.md)
+  : Apply a smart tmtyro theme
+
+## Understanding Process
+
+Labels and method logs keep workflows comprehensible
+
+- [`narrativize()`](https://jmclawson.github.io/tmtyro/reference/narrativize.md)
+  : Describe the steps taken
+
+### Adjusting labels and managing the methods log
+
+- [`narrative_dictionary_en`](https://jmclawson.github.io/tmtyro/reference/narrative_dictionary_en.md)
+  : Default narrative dictionary
+- [`get_data_dictionary()`](https://jmclawson.github.io/tmtyro/reference/get_data_dictionary.md)
+  : Prepare a data dictionary from column labels
+- [`set_data_dictionary()`](https://jmclawson.github.io/tmtyro/reference/set_data_dictionary.md)
+  : Assign column labels from a data dictionary
+- [`get_methods_log()`](https://jmclawson.github.io/tmtyro/reference/methods_log.md)
+  [`set_methods_log()`](https://jmclawson.github.io/tmtyro/reference/methods_log.md)
+  [`add_methods_log()`](https://jmclawson.github.io/tmtyro/reference/methods_log.md)
+  : Methods logging
 
 ## Vectorized functions
 
 - [`get_cumulative_vocabulary()`](https://jmclawson.github.io/tmtyro/reference/get_cumulative_vocabulary.md)
   : Cumulative total of vocabulary size
+
+- [`get_df_by()`](https://jmclawson.github.io/tmtyro/reference/get_df_by.md)
+  :
+
+  Get document frequencies of values in one vector `x` categorized by
+  another vector `by`.
 
 - [`get_frequency()`](https://jmclawson.github.io/tmtyro/reference/get_frequency.md)
   [`get_tf()`](https://jmclawson.github.io/tmtyro/reference/get_frequency.md)

@@ -8,12 +8,18 @@ and caching it.
 ## Usage
 
 ``` r
-load_topic_model(df, k = 15, by = doc_id, sample_size = 1000, lda_name = NULL)
+load_topic_model(
+  data,
+  k = 15,
+  by = doc_id,
+  sample_size = 1000,
+  lda_name = NULL
+)
 ```
 
 ## Arguments
 
-- df:
+- data:
 
   A data frame with nested text in a "text" column.
 

@@ -62,4 +62,5 @@ A gt table data object
 ## See also
 
 Other table helpers:
+[`italicize_titles()`](https://jmclawson.github.io/tmtyro/reference/italicize_titles.md),
 [`tabulize()`](https://jmclawson.github.io/tmtyro/reference/tabulize.md)

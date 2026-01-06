@@ -6,7 +6,7 @@ Plot a heatmap of ranked features
 
 ``` r
 plot_doc_word_heatmap(
-  df,
+  data,
   rows = 1:10,
   by = doc_id,
   feature = word,
@@ -16,7 +16,7 @@ plot_doc_word_heatmap(
 
 ## Arguments
 
-- df:
+- data:
 
   A tidy data frame, potentially containing columns called "doc_id" and
   "word"
@@ -45,6 +45,7 @@ A ggplot object
 
 Other visualizing helpers:
 [`change_colors()`](https://jmclawson.github.io/tmtyro/reference/change_colors.md),
+[`italicize_titles()`](https://jmclawson.github.io/tmtyro/reference/italicize_titles.md),
 [`plot_bigrams()`](https://jmclawson.github.io/tmtyro/reference/plot_bigrams.md),
 [`plot_doc_word_bars()`](https://jmclawson.github.io/tmtyro/reference/plot_doc_word_bars.md),
 [`plot_hapax()`](https://jmclawson.github.io/tmtyro/reference/plot_hapax.md),
@@ -55,11 +56,13 @@ Other visualizing helpers:
 [`plot_topic_wordcloud()`](https://jmclawson.github.io/tmtyro/reference/plot_topic_wordcloud.md),
 [`plot_ttr()`](https://jmclawson.github.io/tmtyro/reference/plot_ttr.md),
 [`plot_vocabulary()`](https://jmclawson.github.io/tmtyro/reference/plot_vocabulary.md),
+[`theme_tmtyro()`](https://jmclawson.github.io/tmtyro/reference/theme_tmtyro.md),
 [`visualize()`](https://jmclawson.github.io/tmtyro/reference/visualize.md)
 
 ## Examples
 
 ``` r
+if (FALSE) { # \dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts(lemma = TRUE) |>
   identify_by(part) |>
@@ -74,8 +77,8 @@ dubliners |>
   dplyr::filter(doc_id %in% selected_titles) |>
   plot_doc_word_heatmap()
 
-
 dubliners |>
   dplyr::filter(doc_id %in% selected_titles) |>
   plot_doc_word_heatmap(feature = lemma, rows = 1:6)
+} # }
 ```

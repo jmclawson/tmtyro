@@ -5,12 +5,12 @@ Combine ngram columns
 ## Usage
 
 ``` r
-combine_ngrams(df, feature = word, keep = FALSE)
+combine_ngrams(data, feature = word, keep = FALSE, label = NULL)
 ```
 
 ## Arguments
 
-- df:
+- data:
 
   A tidy data frame, potentially containing columns called "word_1",
   "word_2", etc.
@@ -22,7 +22,11 @@ combine_ngrams(df, feature = word, keep = FALSE)
 - keep:
 
   Whether to keep the original columns called "word_1", "word_2", etc.,
-  alongside the new "ngram" column.
+  alongside the new "ngram" column
+
+- label:
+
+  Whether to label variables added to data frame
 
 ## Value
 
@@ -44,7 +48,6 @@ if (FALSE) { # \dontrun{
   my_bigrams <- my_corpus |>
     add_ngrams(collapse = FALSE) |>
     combine_ngrams()
-} # }
 
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts() |>
@@ -55,13 +58,5 @@ dubliners |>
   add_ngrams(2) |>
   combine_ngrams() |>
   head()
-#> # A tibble: 6 × 5
-#>   doc_id      title     author       part        ngram    
-#>   <fct>       <chr>     <chr>        <chr>       <chr>    
-#> 1 The Sisters Dubliners Joyce, James THE SISTERS there was
-#> 2 The Sisters Dubliners Joyce, James THE SISTERS was no   
-#> 3 The Sisters Dubliners Joyce, James THE SISTERS no hope  
-#> 4 The Sisters Dubliners Joyce, James THE SISTERS hope for 
-#> 5 The Sisters Dubliners Joyce, James THE SISTERS for him  
-#> 6 The Sisters Dubliners Joyce, James THE SISTERS him this 
+} # }
 ```

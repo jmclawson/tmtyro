@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tmtyro</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,8 +22,9 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/01-differentiating.html">Differentiating tmtyro</a></li>
     <li><a class="dropdown-item" href="../articles/02-changing-colors.html">Customizing colors</a></li>
     <li><a class="dropdown-item" href="../articles/03-skills-ramp.html">Ramping up skills</a></li>
-    <li><a class="dropdown-item" href="../articles/04-customizing-tables.html">Customizing tables</a></li>
-    <li><a class="dropdown-item" href="../articles/05-customizing-figures.html">Customizing figures</a></li>
+    <li><a class="dropdown-item" href="../articles/04-labels-and-narrative.html">Labels and Logging</a></li>
+    <li><a class="dropdown-item" href="../articles/05-customizing-tables.html">Customizing tables</a></li>
+    <li><a class="dropdown-item" href="../articles/06-customizing-figures.html">Customizing figures</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -48,13 +49,13 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plot_hapax</span><span class="op">(</span></span>
-<span>  <span class="va">df</span>,</span>
+<span>  <span class="va">data</span>,</span>
 <span>  prop <span class="op">=</span> <span class="fl">0.01</span>,</span>
-<span>  x <span class="op">=</span> <span class="va">progress_words</span>,</span>
+<span>  x <span class="op">=</span> <span class="va">progress</span>,</span>
 <span>  y <span class="op">=</span> <span class="va">vocabulary</span>,</span>
 <span>  by <span class="op">=</span> <span class="va">doc_id</span>,</span>
 <span>  descriptive_labels <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  feature <span class="op">=</span> <span class="va">hapax</span></span>
+<span>  feature <span class="op">=</span> <span class="va">hapax_doc</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -62,7 +63,7 @@
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-df">df<a class="anchor" aria-label="anchor" href="#arg-df"></a></dt>
+<dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
 <dd><p>A tidy data frame, potentially containing columns called "doc_id" and "word"</p></dd>
 
 
@@ -71,7 +72,7 @@
 
 
 <dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>The progress column to show. Default option is progress_percent, but progress_words is also appropriate.</p></dd>
+<dd><p>A column showing the cumulative progress of documents</p></dd>
 
 
 <dt id="arg-y">y<a class="anchor" aria-label="anchor" href="#arg-y"></a></dt>
@@ -87,7 +88,7 @@
 
 
 <dt id="arg-feature">feature<a class="anchor" aria-label="anchor" href="#arg-feature"></a></dt>
-<dd><p>The column to check for new features. Defaults to <code>hapax</code>, but the function might also be used with <code>new_word</code> instead to plot a sample of new additions to documents' vocabularies.</p></dd>
+<dd><p>The column to check for new features. Defaults to <code>hapax_doc</code>, but the function might also be used with <code>new_word</code> instead to plot a sample of new additions to documents' vocabularies.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -98,6 +99,7 @@
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other visualizing helpers:
 <code><a href="change_colors.html">change_colors()</a></code>,
+<code><a href="italicize_titles.html">italicize_titles()</a></code>,
 <code><a href="plot_bigrams.html">plot_bigrams()</a></code>,
 <code><a href="plot_doc_word_bars.html">plot_doc_word_bars()</a></code>,
 <code><a href="plot_doc_word_heatmap.html">plot_doc_word_heatmap()</a></code>,
@@ -108,6 +110,7 @@
 <code><a href="plot_topic_wordcloud.html">plot_topic_wordcloud()</a></code>,
 <code><a href="plot_ttr.html">plot_ttr()</a></code>,
 <code><a href="plot_vocabulary.html">plot_vocabulary()</a></code>,
+<code><a href="theme_tmtyro.html">theme_tmtyro()</a></code>,
 <code><a href="visualize.html">visualize()</a></code></p></div>
     </div>
 

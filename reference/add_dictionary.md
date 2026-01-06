@@ -5,12 +5,18 @@ Add values from a dictionary
 ## Usage
 
 ``` r
-add_dictionary(df, dictionary, feature = word, keep_term = NULL)
+add_dictionary(
+  data,
+  dictionary,
+  feature = word,
+  keep_term = NULL,
+  label = NULL
+)
 ```
 
 ## Arguments
 
-- df:
+- data:
 
   A tidy data frame, potentially containing a column called "word"
 
@@ -31,6 +37,10 @@ add_dictionary(df, dictionary, feature = word, keep_term = NULL)
   length; the NULL value will keep the term for these dictionaries while
   discarding it for those with terms of only one word.
 
+- label:
+
+  Whether to label variables added to data frame
+
 ## Value
 
 The original data frame with one or more columns added.
@@ -38,6 +48,7 @@ The original data frame with one or more columns added.
 ## Examples
 
 ``` r
+if (FALSE) { # \dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts() |>
   identify_by(part) |>
@@ -58,13 +69,5 @@ dubliners |>
    add_dictionary(emoji_weather) |>
    drop_na() |>
    head()
-#> # A tibble: 6 × 6
-#>   doc_id       title     author       part         word   weather
-#>   <fct>        <chr>     <chr>        <chr>        <chr>  <chr>  
-#> 1 The Sisters  Dubliners Joyce, James THE SISTERS  clouds ☁️      
-#> 2 The Sisters  Dubliners Joyce, James THE SISTERS  sunny  🌞     
-#> 3 The Sisters  Dubliners Joyce, James THE SISTERS  sun    🌞     
-#> 4 The Sisters  Dubliners Joyce, James THE SISTERS  clouds ☁️      
-#> 5 An Encounter Dubliners Joyce, James AN ENCOUNTER storm  ️⛈️      
-#> 6 An Encounter Dubliners Joyce, James AN ENCOUNTER sunny  🌞     
+} # }
 ```

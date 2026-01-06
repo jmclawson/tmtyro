@@ -6,27 +6,26 @@ Show type-token ratio over time
 
 ``` r
 plot_ttr(
-  df,
-  x = progress_words,
+  data,
+  x = progress,
   by = doc_id,
   identity = NULL,
   descriptive_labels = TRUE,
-  labeling = c("point", "inline", "axis", "inset"),
+  labeling = c("point", "inline", "inset"),
   log_y = TRUE
 )
 ```
 
 ## Arguments
 
-- df:
+- data:
 
   A tidy data frame, potentially containing a column called "doc_id" and
   "word"
 
 - x:
 
-  The progress column to show. Default option is progress_percent, but
-  progress_words is also appropriate.
+  A column showing the cumulative progress of documents
 
 - by:
 
@@ -49,8 +48,6 @@ plot_ttr(
 
   - `"inline"` prints the label within a smoothed curve
 
-  - `"axis"` prints labels where a secondary Y-axis might go
-
   - `"inset"` prints a legend within the plot area
 
   - Anything else prints a legend to the right of the plot area.
@@ -67,6 +64,7 @@ A ggplot object
 
 Other visualizing helpers:
 [`change_colors()`](https://jmclawson.github.io/tmtyro/reference/change_colors.md),
+[`italicize_titles()`](https://jmclawson.github.io/tmtyro/reference/italicize_titles.md),
 [`plot_bigrams()`](https://jmclawson.github.io/tmtyro/reference/plot_bigrams.md),
 [`plot_doc_word_bars()`](https://jmclawson.github.io/tmtyro/reference/plot_doc_word_bars.md),
 [`plot_doc_word_heatmap()`](https://jmclawson.github.io/tmtyro/reference/plot_doc_word_heatmap.md),
@@ -77,11 +75,13 @@ Other visualizing helpers:
 [`plot_topic_distributions()`](https://jmclawson.github.io/tmtyro/reference/plot_topic_distributions.md),
 [`plot_topic_wordcloud()`](https://jmclawson.github.io/tmtyro/reference/plot_topic_wordcloud.md),
 [`plot_vocabulary()`](https://jmclawson.github.io/tmtyro/reference/plot_vocabulary.md),
+[`theme_tmtyro()`](https://jmclawson.github.io/tmtyro/reference/theme_tmtyro.md),
 [`visualize()`](https://jmclawson.github.io/tmtyro/reference/visualize.md)
 
 ## Examples
 
 ``` r
+if (FALSE) { # \dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts() |>
   identify_by(part) |>
@@ -92,9 +92,8 @@ dubliners_measured <- dubliners |>
 
 dubliners_measured |>
   plot_ttr(labeling = "inline")
-#> `geom_smooth()` using formula = 'y ~ s(x, bs = "cs")'
-
 
 dubliners_measured |>
   plot_ttr()
+} # }
 ```

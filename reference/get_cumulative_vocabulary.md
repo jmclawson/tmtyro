@@ -21,6 +21,7 @@ A vector of counts
 ## See also
 
 Other vectorized functions:
+[`get_df_by()`](https://jmclawson.github.io/tmtyro/reference/get_df_by.md),
 [`get_frequency()`](https://jmclawson.github.io/tmtyro/reference/get_frequency.md),
 [`get_hir()`](https://jmclawson.github.io/tmtyro/reference/get_hir.md),
 [`get_htr()`](https://jmclawson.github.io/tmtyro/reference/get_htr.md),

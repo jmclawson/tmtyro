@@ -6,12 +6,12 @@ Prepare a table of n-gram frequencies
 
 ``` r
 # S3 method for class 'combined_ngrams'
-tabulize(.data, rows = NULL, count = TRUE, digits = 2, ...)
+tabulize(data, rows = NULL, count = TRUE, digits = 2, ...)
 ```
 
 ## Arguments
 
-- .data:
+- data:
 
   data processed with one or more functions from `tmtyro`
 

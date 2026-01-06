@@ -22,6 +22,8 @@ The tmtyro package aims to make these steps fast and easy.
   adjusting based on the kind of data used. Another simple function
   prepares compelling visualizations, returning clean, publication-ready
   figures.
+- When it’s time to share your work, a function prepares a narrative of
+  the process that was automatically logged along the way.
 - Every step is offered as a verb using complementary syntax. This keeps
   workflows easy to build, easy to understand, easy to explain, and easy
   to reproduce.
@@ -323,9 +325,9 @@ functions for studying texts follow a predictable naming convention:
 Not every method preserves the size or shape of data passed to it:
 
 - [`summarize_tf_idf()`](https://jmclawson.github.io/tmtyro/reference/summarize_tf_idf.md)
-  returns a data frame for every token in each document in a corpus,
-  with columns indicating weights for term frequency-inverse document
-  frequency.
+  returns a data frame for every unique token in each document in a
+  corpus, with columns indicating weights for term frequency-inverse
+  document frequency.
 
 Along with these, other functions assist with the process:
 
@@ -336,8 +338,9 @@ Along with these, other functions assist with the process:
 - [`separate_ngrams()`](https://jmclawson.github.io/tmtyro/reference/separate_ngrams.md)
   separatesa single column of n-grams into one column per word.
 
-But understanding context of key words with `show_context()` might be
-especially helpful.
+But understanding context of key words with
+[`contextualize()`](https://jmclawson.github.io/tmtyro/reference/contextualize.md)
+might be especially helpful.
 
 ### Showing context
 
@@ -515,7 +518,7 @@ corpus_dubliners |>
 
 [`add_vocabulary()`](https://jmclawson.github.io/tmtyro/reference/add_vocabulary.md)
 adds measurements of vocabulary richness, including cumulative
-vocabulary size, indicators of hapax legomena, and markers of progress.
+vocabulary size and indicators of hapax legomena.
 
 ``` r
 vocab_dubliners <- 
@@ -523,21 +526,21 @@ vocab_dubliners <-
   add_vocabulary()
 
 vocab_dubliners
-#> # A tibble: 67,885 × 14
-#>    doc_id   title author part  word  pos   lemma new_word hapax vocabulary   ttr
-#>    <fct>    <chr> <chr>  <chr> <chr> <chr> <chr> <lgl>    <lgl>      <int> <dbl>
-#>  1 The Sis… Dubl… Joyce… THE … there EX    there TRUE     FALSE          1   1  
-#>  2 The Sis… Dubl… Joyce… THE … was   VBD   be    TRUE     FALSE          2   1  
-#>  3 The Sis… Dubl… Joyce… THE … no    DT    no    TRUE     FALSE          3   1  
-#>  4 The Sis… Dubl… Joyce… THE … hope  NN    hope  TRUE     TRUE           4   1  
-#>  5 The Sis… Dubl… Joyce… THE … for   IN    for   TRUE     FALSE          5   1  
-#>  6 The Sis… Dubl… Joyce… THE … him   PRP   him   TRUE     FALSE          6   1  
-#>  7 The Sis… Dubl… Joyce… THE … this  DT    this  TRUE     FALSE          7   1  
-#>  8 The Sis… Dubl… Joyce… THE … time  NN    time  TRUE     FALSE          8   1  
-#>  9 The Sis… Dubl… Joyce… THE … it    PRP   it    TRUE     FALSE          9   1  
-#> 10 The Sis… Dubl… Joyce… THE … was   VBD   be    FALSE    FALSE          9   0.9
+#> # A tibble: 67,885 × 13
+#>    doc_id   title author part  word  pos   lemma new_word hapax_doc hapax_corpus
+#>    <fct>    <chr> <chr>  <chr> <chr> <chr> <chr> <lgl>    <lgl>     <lgl>       
+#>  1 The Sis… Dubl… Joyce… THE … there EX    there TRUE     FALSE     FALSE       
+#>  2 The Sis… Dubl… Joyce… THE … was   VBD   be    TRUE     FALSE     FALSE       
+#>  3 The Sis… Dubl… Joyce… THE … no    DT    no    TRUE     FALSE     FALSE       
+#>  4 The Sis… Dubl… Joyce… THE … hope  NN    hope  TRUE     TRUE      FALSE       
+#>  5 The Sis… Dubl… Joyce… THE … for   IN    for   TRUE     FALSE     FALSE       
+#>  6 The Sis… Dubl… Joyce… THE … him   PRP   him   TRUE     FALSE     FALSE       
+#>  7 The Sis… Dubl… Joyce… THE … this  DT    this  TRUE     FALSE     FALSE       
+#>  8 The Sis… Dubl… Joyce… THE … time  NN    time  TRUE     FALSE     FALSE       
+#>  9 The Sis… Dubl… Joyce… THE … it    PRP   it    TRUE     FALSE     FALSE       
+#> 10 The Sis… Dubl… Joyce… THE … was   VBD   be    FALSE    FALSE     FALSE       
 #> # ℹ 67,875 more rows
-#> # ℹ 3 more variables: hir <dbl>, progress_words <int>, progress_percent <dbl>
+#> # ℹ 3 more variables: vocabulary <int>, ttr <dbl>, hir <dbl>
 ```
 
 ### Sentiment
@@ -780,7 +783,7 @@ corpus_joyce |>
   tabulize()
 ```
 
-|                                         | words   |
+|                                         | Words   |
 |-----------------------------------------|---------|
 | Dubliners                               | 67,945  |
 | A Portrait of the Artist as a Young Man | 84,926  |
@@ -799,7 +802,7 @@ corpus_joyce |>
   tabulize()
 ```
 
-|                                         | word | n      |
+|                                         | Word | N      |
 |-----------------------------------------|------|--------|
 | Ulysses                                 | the  | 14,952 |
 | Ulysses                                 | of   | 8,143  |
@@ -855,7 +858,7 @@ corpus_dubliners |>
 When used after
 [`add_vocabulary()`](https://jmclawson.github.io/tmtyro/reference/add_vocabulary.md),
 [`tabulize()`](https://jmclawson.github.io/tmtyro/reference/tabulize.md)
-prepares a clean summary table.
+prepares a clean summary table comparing many traits.
 
 ``` r
 corpus_joyce |> 
@@ -869,7 +872,7 @@ corpus_joyce |>
 
 For sentiment analysis,
 [`tabulize()`](https://jmclawson.github.io/tmtyro/reference/tabulize.md)
-returns a summary of figures for each document.
+returns a summary of measurements for each document.
 
 ``` r
 # dplyr is used here to choose a smaller example for comparison
@@ -880,7 +883,7 @@ sentiment_dubliners_part |>
   tabulize()
 ```
 
-|              | sentiment | n     | %     |
+|              | Sentiment | N     | %     |
 |--------------|-----------|-------|-------|
 | The Sisters  | negative  | 106   | 3.39  |
 | The Sisters  | positive  | 66    | 2.11  |
@@ -899,7 +902,7 @@ sentiment_dubliners_part |>
   tabulize(drop_na = TRUE)
 ```
 
-|              | sentiment | n   | %     |
+|              | Sentiment | N   | %     |
 |--------------|-----------|-----|-------|
 | The Sisters  | negative  | 106 | 61.63 |
 | The Sisters  | positive  | 66  | 38.37 |
@@ -920,7 +923,7 @@ sentiment_ulysses_part |>
   tabulize(ignore = c("anger", "anticipation", "disgust", "fear", "trust", "positive", "negative"))
 ```
 
-|         | sentiment | n     | %     |
+|         | Sentiment | N     | %     |
 |---------|-----------|-------|-------|
 | \[ 1 \] | joy       | 161   | 1.93  |
 | \[ 1 \] | sadness   | 124   | 1.48  |
@@ -948,7 +951,7 @@ bigrams_joyce |>
   tabulize(rows = 1:2)
 ```
 
-|                                         | ngram  | n     | %    |
+|                                         | Bigram | N     | %    |
 |-----------------------------------------|--------|-------|------|
 | Ulysses                                 | of the | 1,628 | 0.61 |
 | Ulysses                                 | in the | 1,447 | 0.55 |
@@ -972,7 +975,7 @@ tfidf_dubliners |>
   tabulize(rows = 1:3)
 ```
 
-|                               | word        | n   | tf      | idf     | tf_idf  |
+|                               | Word        | N   | TF      | IDF     | TF-IDF  |
 |-------------------------------|-------------|-----|---------|---------|---------|
 | The Sisters                   | aunt        | 19  | 0.00649 | 1.60944 | 0.01044 |
 | The Sisters                   | snuff       | 6   | 0.00205 | 2.70805 | 0.00555 |
@@ -1020,6 +1023,24 @@ tfidf_dubliners |>
 | The Dead                      | snow        | 20  | 0.00137 | 2.70805 | 0.00372 |
 | The Dead                      | miss        | 64  | 0.00439 | 0.76214 | 0.00335 |
 
+### Italicizing titles
+
+Before sharing a table,
+[`italicize_titles()`](https://jmclawson.github.io/tmtyro/reference/italicize_titles.md)
+adds one more step of polish:
+
+``` r
+corpus_joyce |> 
+  tabulize() |> 
+  italicize_titles()
+```
+
+|                                         | Words   |
+|-----------------------------------------|---------|
+| Dubliners                               | 67,945  |
+| A Portrait of the Artist as a Young Man | 84,926  |
+| Ulysses                                 | 264,975 |
+
 ## Preparing figures
 
 tmtyro provides many functions for preparing figures, but only one is
@@ -1045,7 +1066,7 @@ corpus_joyce |>
   visualize(inorder = FALSE)
 ```
 
-![](tmtyro_files/figure-html/unnamed-chunk-38-1.png)
+![](tmtyro_files/figure-html/unnamed-chunk-39-1.png)
 
 ### Word frequencies
 
@@ -1061,7 +1082,7 @@ corpus_joyce |>
   visualize()
 ```
 
-![](tmtyro_files/figure-html/unnamed-chunk-39-1.png)
+![](tmtyro_files/figure-html/unnamed-chunk-40-1.png)
 
 [`visualize()`](https://jmclawson.github.io/tmtyro/reference/visualize.md)
 takes additional arguments for customizing results.
@@ -1073,7 +1094,7 @@ counts_dubliners |>
             reorder_y = TRUE)
 ```
 
-![](tmtyro_files/figure-html/unnamed-chunk-40-1.png)
+![](tmtyro_files/figure-html/unnamed-chunk-41-1.png)
 
 #### Document-frequency matrix
 
@@ -1087,7 +1108,7 @@ corpus_dubliners |>
   visualize()
 ```
 
-![](tmtyro_files/figure-html/unnamed-chunk-41-1.png)
+![](tmtyro_files/figure-html/unnamed-chunk-42-1.png)
 
 ### Vocabulary richness
 
@@ -1104,7 +1125,7 @@ corpus_dubliners |>
   visualize()
 ```
 
-![](tmtyro_files/figure-html/unnamed-chunk-42-1.png)
+![](tmtyro_files/figure-html/unnamed-chunk-43-1.png)
 
 Other features, such as type-token ratio (“ttr”), hapax introduction
 ratio (“hir”), or a sampling of hapax legomena (“hapax”) can also be
@@ -1115,7 +1136,7 @@ vocab_dubliners |>
   visualize("ttr")
 ```
 
-![](tmtyro_files/figure-html/unnamed-chunk-43-1.png)
+![](tmtyro_files/figure-html/unnamed-chunk-44-1.png)
 
 ``` r
 corpus_joyce |> 
@@ -1123,7 +1144,7 @@ corpus_joyce |>
   visualize("hapax")
 ```
 
-![](tmtyro_files/figure-html/unnamed-chunk-44-1.png)
+![](tmtyro_files/figure-html/unnamed-chunk-45-1.png)
 
 ### Sentiment
 
@@ -1136,7 +1157,7 @@ sentiment_dubliners |>
   visualize()
 ```
 
-![](tmtyro_files/figure-html/unnamed-chunk-45-1.png)
+![](tmtyro_files/figure-html/unnamed-chunk-46-1.png)
 
 The `ignore` parameter stipulates values to remove from the Y-axis to
 focus a figure.
@@ -1146,7 +1167,7 @@ sentiment_ulysses |>
   visualize(ignore = c("anger", "anticipation", "disgust", "fear", "trust", "positive", "negative"))
 ```
 
-![](tmtyro_files/figure-html/unnamed-chunk-46-1.png)
+![](tmtyro_files/figure-html/unnamed-chunk-47-1.png)
 
 ### N-grams
 
@@ -1160,7 +1181,7 @@ bigrams_joyce |>
   visualize()
 ```
 
-![](tmtyro_files/figure-html/unnamed-chunk-47-1.png)
+![](tmtyro_files/figure-html/unnamed-chunk-48-1.png)
 
 ### Combining n-grams
 
@@ -1176,7 +1197,7 @@ bigrams_joyce |>
   visualize(rows = 1:5, color_y = TRUE)
 ```
 
-![](tmtyro_files/figure-html/unnamed-chunk-48-1.png)
+![](tmtyro_files/figure-html/unnamed-chunk-49-1.png)
 
 ### Tf-idf
 
@@ -1192,7 +1213,7 @@ tfidf_dubliners |>
   visualize(rows = 1:4)
 ```
 
-![](tmtyro_files/figure-html/unnamed-chunk-49-1.png)
+![](tmtyro_files/figure-html/unnamed-chunk-50-1.png)
 
 ### Changing colors
 
@@ -1206,7 +1227,7 @@ sentiment_dubliners |>
   change_colors()
 ```
 
-![](tmtyro_files/figure-html/unnamed-chunk-50-1.png)
+![](tmtyro_files/figure-html/unnamed-chunk-51-1.png)
 
 Colors can be chosen manually.
 
@@ -1219,7 +1240,7 @@ bigrams_joyce |>
                   "darkred"))
 ```
 
-![](tmtyro_files/figure-html/unnamed-chunk-51-1.png)
+![](tmtyro_files/figure-html/unnamed-chunk-52-1.png)
 
 Optionally, use a named vector to set some colors by value instead of by
 order. By default unnamed colors are gray.
@@ -1234,7 +1255,7 @@ bigrams_joyce |>
     "he has" = "orange"))
 ```
 
-![](tmtyro_files/figure-html/unnamed-chunk-52-1.png)
+![](tmtyro_files/figure-html/unnamed-chunk-53-1.png)
 
 Unnamed colors fill in as needed.
 
@@ -1244,12 +1265,15 @@ bigrams_joyce |>
   combine_ngrams() |> 
   visualize(rows = 1:5, color_y = TRUE, reorder_y = TRUE) |> 
   change_colors(c(
+    # Highlight two bars as outliers:
     "he is" = "darkorange",
     "he has" = "orange", 
-    "navy", "skyblue"))
+    # Custom gradient palette:
+    "midnightblue", "lightseagreen", "mediumspringgreen"
+    ))
 ```
 
-![](tmtyro_files/figure-html/unnamed-chunk-53-1.png)
+![](tmtyro_files/figure-html/unnamed-chunk-54-1.png)
 
 Or choose a predetermined color set and palette, as described in
 function documentation.
@@ -1260,4 +1284,60 @@ tfidf_dubliners |>
   change_colors(colorset = "viridis", palette = "mako", direction = -1)
 ```
 
-![](tmtyro_files/figure-html/unnamed-chunk-54-1.png)
+![](tmtyro_files/figure-html/unnamed-chunk-55-1.png)
+
+### Italicizing titles
+
+Before sharing a figure,
+[`italicize_titles()`](https://jmclawson.github.io/tmtyro/reference/italicize_titles.md)
+adds one more step of polish:
+
+``` r
+bigrams_joyce |> 
+  combine_ngrams() |> 
+  visualize(rows = 1:5, color_y = FALSE, reorder_y = TRUE) |> 
+  italicize_titles()
+```
+
+![](tmtyro_files/figure-html/unnamed-chunk-56-1.png)
+
+``` r
+corpus_joyce |> 
+  visualize() |> 
+  italicize_titles()
+```
+
+![](tmtyro_files/figure-html/unnamed-chunk-57-1.png)
+
+## Explaining process
+
+When it’s time to write up the methods used to find a set of
+conclusions, it’s important to document the steps taken.
+[`narrativize()`](https://jmclawson.github.io/tmtyro/reference/narrativize.md)
+helps turn a logged set of steps into bullet points or a paragraph of
+methods:
+
+``` r
+bigrams_joyce |> 
+  narrativize()
+#>  - Retrieved a corpus from Project Gutenberg using ID numbers 2814, 4217, and 4300.
+#>  - Moved column `subsection` into body text.
+#>  - Loaded texts by tokenizing words, converting to lowercase, and preserving paragraph breaks.
+#>  - Identified documents using the column `title`.
+#>  - Constructed bigram sequences from the text.
+```
+
+Options allow for changes in format and person, but the final output
+will still need some manual tweaking.
+
+``` r
+bigrams_joyce |> 
+  narrativize(format = "text", person = "we", return = "html")
+```
+
+First we retrieved a corpus from Project Gutenberg using ID numbers
+2814, 4217, and 4300. Then we moved column \`subsection\` into body
+text. Next, we loaded texts by tokenizing words, converting to
+lowercase, and preserving paragraph breaks. We identified documents
+using the column \`title\`. Finally, we constructed bigram sequences
+from the text.

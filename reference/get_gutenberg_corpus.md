@@ -27,6 +27,7 @@ things up considerably in subsequent use.
 ``` r
 get_gutenberg_corpus(
   gutenberg_id,
+  download = c("auto", "always", "temp", "never"),
   dir = "gutenberg",
   meta_fields = c("gutenberg_id", "title", "author"),
   html_title = FALSE,
@@ -41,40 +42,48 @@ get_gutenberg_corpus(
   A vector of ID numbers from Project Gutenberg or a data frame
   containing a `gutenberg_id` column, such as from the results of a call
   to
-  [`gutenbergr::gutenberg_works()`](https://docs.ropensci.org/gutenbergr/reference/gutenberg_works.html).
+  [`gutenbergr::gutenberg_works()`](https://docs.ropensci.org/gutenbergr/reference/gutenberg_works.html)
+
+- download:
+
+  Whether files should be automatically downloaded into a project
+  subdirectory as needed (the default), always downloaded into the
+  project folder, temporarily downloaded once per-session, or never
+  downloaded
 
 - dir:
 
-  The directory for storing downloaded `.txt` files. Default value is
-  "gutenberg".
+  The project subdirectory for storing downloaded `.htm` files
 
 - meta_fields:
 
   Additional fields to add from
   [gutenbergr::gutenberg_metadata](https://docs.ropensci.org/gutenbergr/reference/gutenberg_metadata.html)
-  describing each book. By default, title and author are added.
+  describing each book
 
 - html_title:
 
   Whether to use the h1 header from an HTML file to determine a
-  document's title. By default, uses
-  [gutenbergr::gutenberg_metadata](https://docs.ropensci.org/gutenbergr/reference/gutenberg_metadata.html).
+  document's title instead of
+  [gutenbergr::gutenberg_metadata](https://docs.ropensci.org/gutenbergr/reference/gutenberg_metadata.html)
 
 - ...:
 
   Additional parameters passed along to
-  [`gutenbergr::gutenberg_strip()`](https://docs.ropensci.org/gutenbergr/reference/gutenberg_strip.html).
+  [`gutenbergr::gutenberg_strip()`](https://docs.ropensci.org/gutenbergr/reference/gutenberg_strip.html)
 
 ## Value
 
-A data frame with one row for each line of the texts in the corpus.
+A data frame with one row for each line of the texts in the corpus
 
 ## Examples
 
 ``` r
+if (FALSE) { # \dontrun{
 library(gutenbergr)
 
 dalloway <- gutenberg_works(author == "Woolf, Virginia",
                             title == "Mrs Dalloway in Bond Street") |>
   get_gutenberg_corpus()
+} # }
 ```

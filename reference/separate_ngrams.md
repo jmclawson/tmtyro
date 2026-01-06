@@ -5,12 +5,12 @@ Separate one word per column
 ## Usage
 
 ``` r
-separate_ngrams(df, names_prefix = "word", ...)
+separate_ngrams(data, names_prefix = "word", ...)
 ```
 
 ## Arguments
 
-- df:
+- data:
 
   A tidy data frame containing a column called "ngram"
 
@@ -42,7 +42,6 @@ if (FALSE) { # \dontrun{
 
   my_bigrams <- my_corpus |>
     separate_ngrams()
-} # }
 
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts() |>
@@ -54,13 +53,5 @@ dubliners |>
   combine_ngrams() |>
   separate_ngrams() |>
   head()
-#> # A tibble: 6 × 6
-#>   doc_id      title     author       part        word_1 word_2
-#>   <fct>       <chr>     <chr>        <chr>       <chr>  <chr> 
-#> 1 The Sisters Dubliners Joyce, James THE SISTERS there  was   
-#> 2 The Sisters Dubliners Joyce, James THE SISTERS was    no    
-#> 3 The Sisters Dubliners Joyce, James THE SISTERS no     hope  
-#> 4 The Sisters Dubliners Joyce, James THE SISTERS hope   for   
-#> 5 The Sisters Dubliners Joyce, James THE SISTERS for    him   
-#> 6 The Sisters Dubliners Joyce, James THE SISTERS him    this  
+} # }
 ```

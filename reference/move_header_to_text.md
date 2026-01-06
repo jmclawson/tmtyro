@@ -7,12 +7,12 @@ variance that shouldn't be confused with other section tags.
 ## Usage
 
 ``` r
-move_header_to_text(.data, column, ...)
+move_header_to_text(data, column, ...)
 ```
 
 ## Arguments
 
-- .data:
+- data:
 
   A data frame with a column called `text` and at least one other column
   indicating parts, chapters, or sections.

@@ -6,19 +6,12 @@ Prepare a default table view
 
 ``` r
 # Default S3 method
-tabulize(
-  .data,
-  summary = TRUE,
-  inorder = TRUE,
-  count = FALSE,
-  rows = NULL,
-  ...
-)
+tabulize(data, summary = TRUE, inorder = TRUE, count = FALSE, rows = NULL, ...)
 ```
 
 ## Arguments
 
-- .data:
+- data:
 
   data processed with one or more functions from `tmtyro`
 

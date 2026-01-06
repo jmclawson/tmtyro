@@ -6,7 +6,7 @@ Visualize bigram chains
 
 ``` r
 plot_bigrams(
-  df,
+  data,
   feature = word,
   random_seed = TRUE,
   set_seed = NULL,
@@ -17,7 +17,7 @@ plot_bigrams(
 
 ## Arguments
 
-- df:
+- data:
 
   A tidy data frame potentially containing a column called "word" or
   columns called "word_1" and "word_2".
@@ -50,6 +50,7 @@ A ggplot2 object
 
 Other visualizing helpers:
 [`change_colors()`](https://jmclawson.github.io/tmtyro/reference/change_colors.md),
+[`italicize_titles()`](https://jmclawson.github.io/tmtyro/reference/italicize_titles.md),
 [`plot_doc_word_bars()`](https://jmclawson.github.io/tmtyro/reference/plot_doc_word_bars.md),
 [`plot_doc_word_heatmap()`](https://jmclawson.github.io/tmtyro/reference/plot_doc_word_heatmap.md),
 [`plot_hapax()`](https://jmclawson.github.io/tmtyro/reference/plot_hapax.md),
@@ -60,6 +61,7 @@ Other visualizing helpers:
 [`plot_topic_wordcloud()`](https://jmclawson.github.io/tmtyro/reference/plot_topic_wordcloud.md),
 [`plot_ttr()`](https://jmclawson.github.io/tmtyro/reference/plot_ttr.md),
 [`plot_vocabulary()`](https://jmclawson.github.io/tmtyro/reference/plot_vocabulary.md),
+[`theme_tmtyro()`](https://jmclawson.github.io/tmtyro/reference/theme_tmtyro.md),
 [`visualize()`](https://jmclawson.github.io/tmtyro/reference/visualize.md)
 
 Other n-gram helpers:
@@ -72,26 +74,24 @@ Other n-gram helpers:
 ``` r
 if (FALSE) { # \dontrun{
 # It isn't necessary to use add_ngrams()
-df |>
+data |>
   plot_bigrams()
 
 # Adding them first allows for filtering steps
-df |>
+data |>
   add_ngrams() |>
   drop_stopwords(word_1) |>
   drop_stopwords(word_2) |>
   plot_bigrams()
 
 # Only bigrams influence the visualization These show the same networks:
-df |>
+data |>
   add_ngrams() |>
   plot_bigrams()
 
-df |>
+data |>
   add_ngrams(4) |>
   plot_bigrams()
-
-} # }
 
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts() |>
@@ -101,13 +101,11 @@ dubliners <- get_gutenberg_corpus(2814) |>
 dubliners |>
   plot_bigrams()
 
-
 # Loading `ggraph` enables edge to show connection strengths
 library(ggraph)
 
 dubliners |>
   plot_bigrams()
-
 
 dubliners |>
   add_ngrams(2) |>
@@ -115,11 +113,9 @@ dubliners |>
   drop_stopwords(feature = word_2) |>
   plot_bigrams()
 
-
 dubliners |>
   dplyr::filter(doc_id == "The Dead") |>
   plot_bigrams(top_n = 70) |>
   change_colors(c("black", "orange"))
-#> Scale for edge_colour is already present.
-#> Adding another scale for edge_colour, which will replace the existing scale.
+} # }
 ```

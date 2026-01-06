@@ -6,12 +6,12 @@ Prepare a table of lexical variety
 
 ``` r
 # S3 method for class 'vocabulary'
-tabulize(.data, digits = 3, ...)
+tabulize(data, digits = 3, ...)
 ```
 
 ## Arguments
 
-- .data:
+- data:
 
   data processed with one or more functions from `tmtyro`
 

@@ -22,6 +22,7 @@ A vector of ratios
 
 Other vectorized functions:
 [`get_cumulative_vocabulary()`](https://jmclawson.github.io/tmtyro/reference/get_cumulative_vocabulary.md),
+[`get_df_by()`](https://jmclawson.github.io/tmtyro/reference/get_df_by.md),
 [`get_frequency()`](https://jmclawson.github.io/tmtyro/reference/get_frequency.md),
 [`get_htr()`](https://jmclawson.github.io/tmtyro/reference/get_htr.md),
 [`get_idf_by()`](https://jmclawson.github.io/tmtyro/reference/get_idf_by.md),

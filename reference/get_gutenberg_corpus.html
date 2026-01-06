@@ -39,7 +39,7 @@ in subsequent use.'><meta property="og:image" content="https://jmclawson.github.
 
     <a class="navbar-brand me-2" href="../index.html">tmtyro</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,8 +54,9 @@ in subsequent use.'><meta property="og:image" content="https://jmclawson.github.
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/01-differentiating.html">Differentiating tmtyro</a></li>
     <li><a class="dropdown-item" href="../articles/02-changing-colors.html">Customizing colors</a></li>
     <li><a class="dropdown-item" href="../articles/03-skills-ramp.html">Ramping up skills</a></li>
-    <li><a class="dropdown-item" href="../articles/04-customizing-tables.html">Customizing tables</a></li>
-    <li><a class="dropdown-item" href="../articles/05-customizing-figures.html">Customizing figures</a></li>
+    <li><a class="dropdown-item" href="../articles/04-labels-and-narrative.html">Labels and Logging</a></li>
+    <li><a class="dropdown-item" href="../articles/05-customizing-tables.html">Customizing tables</a></li>
+    <li><a class="dropdown-item" href="../articles/06-customizing-figures.html">Customizing figures</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -96,6 +97,7 @@ in subsequent use.</p>
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_gutenberg_corpus</span><span class="op">(</span></span>
 <span>  <span class="va">gutenberg_id</span>,</span>
+<span>  download <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"auto"</span>, <span class="st">"always"</span>, <span class="st">"temp"</span>, <span class="st">"never"</span><span class="op">)</span>,</span>
 <span>  dir <span class="op">=</span> <span class="st">"gutenberg"</span>,</span>
 <span>  meta_fields <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gutenberg_id"</span>, <span class="st">"title"</span>, <span class="st">"author"</span><span class="op">)</span>,</span>
 <span>  html_title <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -108,37 +110,43 @@ in subsequent use.</p>
 
 
 <dl><dt id="arg-gutenberg-id">gutenberg_id<a class="anchor" aria-label="anchor" href="#arg-gutenberg-id"></a></dt>
-<dd><p>A vector of ID numbers from Project Gutenberg or a data frame containing a <code>gutenberg_id</code> column, such as from the results of a call to <code><a href="https://docs.ropensci.org/gutenbergr/reference/gutenberg_works.html" class="external-link">gutenbergr::gutenberg_works()</a></code>.</p></dd>
+<dd><p>A vector of ID numbers from Project Gutenberg or a data frame containing a <code>gutenberg_id</code> column, such as from the results of a call to <code><a href="https://docs.ropensci.org/gutenbergr/reference/gutenberg_works.html" class="external-link">gutenbergr::gutenberg_works()</a></code></p></dd>
+
+
+<dt id="arg-download">download<a class="anchor" aria-label="anchor" href="#arg-download"></a></dt>
+<dd><p>Whether files should be automatically downloaded into a project subdirectory as needed (the default), always downloaded into the project folder, temporarily downloaded once per-session, or never downloaded</p></dd>
 
 
 <dt id="arg-dir">dir<a class="anchor" aria-label="anchor" href="#arg-dir"></a></dt>
-<dd><p>The directory for storing downloaded <code>.txt</code> files. Default value is "gutenberg".</p></dd>
+<dd><p>The project subdirectory for storing downloaded <code>.htm</code> files</p></dd>
 
 
 <dt id="arg-meta-fields">meta_fields<a class="anchor" aria-label="anchor" href="#arg-meta-fields"></a></dt>
-<dd><p>Additional fields to add from <a href="https://docs.ropensci.org/gutenbergr/reference/gutenberg_metadata.html" class="external-link">gutenbergr::gutenberg_metadata</a> describing each book. By default, title and author are added.</p></dd>
+<dd><p>Additional fields to add from <a href="https://docs.ropensci.org/gutenbergr/reference/gutenberg_metadata.html" class="external-link">gutenbergr::gutenberg_metadata</a> describing each book</p></dd>
 
 
 <dt id="arg-html-title">html_title<a class="anchor" aria-label="anchor" href="#arg-html-title"></a></dt>
-<dd><p>Whether to use the h1 header from an HTML file to determine a document's title. By default, uses <a href="https://docs.ropensci.org/gutenbergr/reference/gutenberg_metadata.html" class="external-link">gutenbergr::gutenberg_metadata</a>.</p></dd>
+<dd><p>Whether to use the h1 header from an HTML file to determine a document's title instead of <a href="https://docs.ropensci.org/gutenbergr/reference/gutenberg_metadata.html" class="external-link">gutenbergr::gutenberg_metadata</a></p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>Additional parameters passed along to <code><a href="https://docs.ropensci.org/gutenbergr/reference/gutenberg_strip.html" class="external-link">gutenbergr::gutenberg_strip()</a></code>.</p></dd>
+<dd><p>Additional parameters passed along to <code><a href="https://docs.ropensci.org/gutenbergr/reference/gutenberg_strip.html" class="external-link">gutenbergr::gutenberg_strip()</a></code></p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A data frame with one row for each line of the texts in the corpus.</p>
+    <p>A data frame with one row for each line of the texts in the corpus</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/gutenbergr/" class="external-link">gutenbergr</a></span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/gutenbergr/" class="external-link">gutenbergr</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">dalloway</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/gutenbergr/reference/gutenberg_works.html" class="external-link">gutenberg_works</a></span><span class="op">(</span><span class="va">author</span> <span class="op">==</span> <span class="st">"Woolf, Virginia"</span>,</span></span>
 <span class="r-in"><span>                            <span class="va">title</span> <span class="op">==</span> <span class="st">"Mrs Dalloway in Bond Street"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">get_gutenberg_corpus</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

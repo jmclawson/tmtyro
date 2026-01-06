@@ -7,7 +7,7 @@ Prepare a table for sentiment analysis
 ``` r
 # S3 method for class 'sentiment'
 tabulize(
-  .data,
+  data,
   inorder = TRUE,
   digits = 2,
   drop_na = FALSE,
@@ -20,7 +20,7 @@ tabulize(
 
 ## Arguments
 
-- .data:
+- data:
 
   data processed with one or more functions from `tmtyro`
 
