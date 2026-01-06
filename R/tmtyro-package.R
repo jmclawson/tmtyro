@@ -5,6 +5,7 @@ arousal <- temp <- NULL
 category <- temp <- NULL
 context <- temp <- NULL
 corpus <- temp <- NULL
+.data <- temp <- NULL
 display <- temp <- NULL
 doc_id <- doc <- temp <- NULL
 docranksum <- temp <- NULL
@@ -14,11 +15,11 @@ end <- temp <- NULL
 feature <- temp <- NULL
 fill_it <- temp <- NULL
 Freq <- temp <- NULL
-h1 <- h2 <- h3 <- h4 <- temp <- NULL
-hapax <- temp <- NULL
+h1 <- h2 <- h3 <- h4 <- h5 <- h6 <- temp <- NULL
+hapax <- hapax_doc <- hapax_corpus <- temp <- NULL
 hir <- temp <- NULL
-hlemona <- temp <- NULL
-htr <- temp <- NULL
+hlemona <- clemona <- temp <- NULL
+htr <- c_htr <- temp <- NULL
 id <- temp <- NULL
 idf <- temp <- NULL
 label_color <- temp <- NULL
@@ -37,7 +38,8 @@ paper_id <- temp <- NULL
 par_num <- temp <- NULL
 partition <- temp <- NULL
 percent <- temp <- NULL
-progress_words <- temp <- NULL
+prefix <- suffix <- plural_pre <- plural_suf <- NULL
+progress <- progress_words <- temp <- NULL
 ranksum <- temp <- NULL
 reorder <- temp <- NULL
 rnumeral <- temp <- NULL
@@ -56,7 +58,7 @@ term <- temp <- NULL
 .test2 <- temp <- NULL
 text <- temp <- NULL
 tf <- temp <- NULL
-tf_idf <- temp <- NULL
+tf_idf <- `tf-idf` <- temp <- NULL
 title <- temp <- NULL
 topic <- temp <- NULL
 topics <- temp <- NULL
@@ -79,21 +81,18 @@ words <- temp <- NULL
 "_PACKAGE"
 
 ## usethis namespace: start
+#' @importFrom ggplot2 update_ggplot class_ggplot
 #' @importFrom grDevices colorRampPalette
-#' @importFrom gt cells_body
-#' @importFrom gt cols_label
-#' @importFrom gt css
-#' @importFrom gt fmt_number
-#' @importFrom gt gt
-#' @importFrom gt sub_missing
-#' @importFrom gt tab_spanner
-#' @importFrom gt tab_style
-#' @importFrom gutenbergr gutenberg_download
-#' @importFrom gutenbergr gutenberg_get_mirror
+#' @importFrom gt gt cells_body cols_label css fmt_number sub_missing tab_spanner tab_style
+#' @importFrom gutenbergr gutenberg_download gutenberg_get_mirror
 #' @importFrom rlang :=
-#' @importFrom stats median
-#' @importFrom stats reorder
-#' @importFrom stats setNames
+#' @importFrom stats median reorder setNames
 #' @importFrom tidyr drop_na
 ## usethis namespace: end
 NULL
+
+.onLoad <- function(libname, pkgname) {
+  if (requireNamespace("S7")) {
+    S7::methods_register()
+  }
+}

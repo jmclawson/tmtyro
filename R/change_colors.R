@@ -14,6 +14,7 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' dubliners <- get_gutenberg_corpus(2814) |>
 #'   load_texts() |>
 #'   identify_by(part) |>
@@ -85,6 +86,7 @@
 #'   add_ngrams() |>
 #'   visualize() |>
 #'   change_colors(c("#444488","orange"))
+#' }
 change_colors <- function(
     x,
     colorset = "brewer",
@@ -241,18 +243,7 @@ change_colors <- function(
     }
   }
 
-  if (!is.null(secondary)) {
-    x +
-      ggplot2::scale_fill_manual(aesthetics = mapped,
-                                 values = the_colors) +
-      ggplot2::scale_y_continuous(
-        labels = scales::label_comma(),
-        sec.axis = ggplot2::dup_axis(
-          breaks = secondary$breaks,
-          labels = secondary$labels,
-          guide = ggh4x::guide_axis_color(
-            color = rev(the_colors))))
-  } else if (kind != "seq"){
+  if (kind != "seq") {
     x +
       ggplot2::scale_fill_manual(aesthetics = mapped, values = the_colors)
   } else if (length(colorset) == 1 &&

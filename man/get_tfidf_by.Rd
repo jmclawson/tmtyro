@@ -32,6 +32,7 @@ get_tfidf_by(my_values, my_docs)
 \seealso{
 Other vectorized functions: 
 \code{\link{get_cumulative_vocabulary}()},
+\code{\link{get_df_by}()},
 \code{\link{get_frequency}()},
 \code{\link{get_hir}()},
 \code{\link{get_htr}()},

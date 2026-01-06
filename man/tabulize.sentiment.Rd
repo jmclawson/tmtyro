@@ -5,7 +5,7 @@
 \title{Prepare a table for sentiment analysis}
 \usage{
 \method{tabulize}{sentiment}(
-  .data,
+  data,
   inorder = TRUE,
   digits = 2,
   drop_na = FALSE,
@@ -16,7 +16,7 @@
 )
 }
 \arguments{
-\item{.data}{data processed with one or more functions from \code{tmtyro}}
+\item{data}{data processed with one or more functions from \code{tmtyro}}
 
 \item{inorder}{Indicates whether labels in the \code{doc_id} column should have their order preserved}
 

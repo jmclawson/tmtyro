@@ -4,10 +4,10 @@
 \alias{make_topic_model}
 \title{Construct a topic model}
 \usage{
-make_topic_model(df, by = doc_id, sample_size = 1000, k = 15, cache = TRUE)
+make_topic_model(data, by = doc_id, sample_size = 1000, k = 15, cache = TRUE)
 }
 \arguments{
-\item{df}{A data frame with nested text in a "text" column.}
+\item{data}{A data frame with nested text in a "text" column.}
 
 \item{by}{The column for identifying each document. By default, the "title" column will be used.}
 

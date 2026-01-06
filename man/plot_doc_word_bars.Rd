@@ -5,13 +5,14 @@
 \title{Plot bar graphs of frequent features}
 \usage{
 plot_doc_word_bars(
-  df,
+  data,
   rows = 1:10,
   by = doc_id,
   feature = word,
   inorder = TRUE,
   reorder_y = NULL,
   color_y = FALSE,
+  allow_y_blanks = 0,
   percents = TRUE,
   label = NULL,
   label_tweak = 2,
@@ -21,7 +22,7 @@ plot_doc_word_bars(
 )
 }
 \arguments{
-\item{df}{A tidy data frame, potentially containing columns called "doc_id" and "word"}
+\item{data}{A tidy data frame, potentially containing columns called "doc_id" and "word"}
 
 \item{rows}{The features to show}
 
@@ -34,6 +35,8 @@ plot_doc_word_bars(
 \item{reorder_y}{Whether to reorder the Y-values by facet}
 
 \item{color_y}{Whether bars should be filled by Y-values}
+
+\item{allow_y_blanks}{The threshold number of blanks to allow on the Y-axis before dropping all blanks and reprinting values for each facet with a freely scaled Y-axis}
 
 \item{percents}{Whether to display word frequencies as percentage instead of raw counts}
 
@@ -54,6 +57,7 @@ A ggplot object
 Plot bar graphs of frequent features
 }
 \examples{
+\dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts(lemma = TRUE) |>
   identify_by(part) |>
@@ -66,9 +70,11 @@ dubliners |>
   dplyr::filter(doc_id \%in\% c("The Sisters", "The Dead")) |>
   plot_doc_word_bars(feature = lemma, rows = 1:20)
 }
+}
 \seealso{
 Other visualizing helpers: 
 \code{\link{change_colors}()},
+\code{\link{italicize_titles}()},
 \code{\link{plot_bigrams}()},
 \code{\link{plot_doc_word_heatmap}()},
 \code{\link{plot_hapax}()},
@@ -79,6 +85,7 @@ Other visualizing helpers:
 \code{\link{plot_topic_wordcloud}()},
 \code{\link{plot_ttr}()},
 \code{\link{plot_vocabulary}()},
+\code{\link{theme_tmtyro}()},
 \code{\link{visualize}()}
 }
 \concept{visualizing helpers}

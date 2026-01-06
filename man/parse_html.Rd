@@ -4,15 +4,19 @@
 \alias{parse_html}
 \title{Read HTML headers and text from file}
 \usage{
-parse_html(html, title = TRUE)
+parse_html(html, headers = 1:6, standardize_headers = TRUE, title = TRUE)
 }
 \arguments{
 \item{html}{A file in HTML format}
 
+\item{headers}{The HTML header levels to consider}
+
+\item{standardize_headers}{Whether to standardize HTML headers to useful column names}
+
 \item{title}{Whether to keep H1 tags even when there is only one unique value}
 }
 \value{
-A data frame with a column called \code{text} and header columns called \code{title}, \code{part}, \code{section}, and \code{subsection} as needed. Header columns are limited to page elements tagged as h1, h2, h3, or h4.
+A data frame with a column called "text" and header columns limited to page elements like h1, h2, and h3, as included in the numeric range of \code{headers}
 }
 \description{
 Read HTML headers and text from file
@@ -36,4 +40,5 @@ if (FALSE) {
     identify_by(title, chapter) |>
     load_texts()
 }
+
 }

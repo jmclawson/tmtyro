@@ -5,17 +5,20 @@
 \title{Add sentiment markers}
 \usage{
 add_sentiment(
-  df,
+  data,
   lexicon = c("bing", "afinn", "loughran", "nrc", "nrc_eil", "nrc_vad"),
-  feature = word
+  feature = word,
+  label = NULL
 )
 }
 \arguments{
-\item{df}{A tidy data frame, potentially containing a column called "word"}
+\item{data}{A tidy data frame, potentially containing a column called "word"}
 
-\item{lexicon}{The sentiment lexicon to use from the \link{tidytext} package. Options include "bing", "afinn", "loughran", "nrc", "nrc_eil", or "nrc_vad".}
+\item{lexicon}{The sentiment lexicon to use from the \link[tidytext]{tidytext} package. Options include "bing", "afinn", "loughran", "nrc", "nrc_eil", or "nrc_vad"}
 
-\item{feature}{A column of words containing one word per row, to be used for dictionary look-up.}
+\item{feature}{A column of words containing one word per row, to be used for dictionary look-up}
+
+\item{label}{Whether to label variables added to data frame}
 }
 \value{
 The original data frame with one or more sentiment columns added.
@@ -24,13 +27,15 @@ The original data frame with one or more sentiment columns added.
 \code{\link[=add_sentiment]{add_sentiment()}} provides simple lexicon-based measures of sentiment, comparing words in a text to one of a number of controlled dictionaries.
 }
 \examples{
+\dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts() |>
   identify_by(part) |>
   standardize_titles()
 
 dubliners |>
-   add_sentiment() |>
-   drop_na() |>
-   head()
+  add_sentiment() |>
+  drop_na() |>
+  head()
+}
 }

@@ -1,6 +1,6 @@
 #' Show a term in context
 #'
-#' @param df A data frame which most likely contains a column called "word"
+#' @param data A data frame which most likely contains a column called "word"
 #' @param term The term to search for, exactly
 #' @param window The number of terms to show before and after
 #' @param limit The number of results to return in the console using cli, if installed
@@ -18,39 +18,47 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' dubliners <- get_gutenberg_corpus(2814) |>
 #'     load_texts(keep_original = TRUE)
 #'
 #' contextualize(dubliners, regex = "dog[s]?$")
-contextualize <- function(df, term, window = 3, limit = 1:5, by = doc_id, feature = NULL, match = word, regex = NULL, html = NULL) {
+#' }
+contextualize <- function(data, term, window = 3, limit = 1:5, by = doc_id, feature = NULL, match = word, regex = NULL, html = NULL) {
   feature_str <- deparse(substitute(feature))
+  match_str <- deparse(substitute(match))
   if (length(limit) == 1 &
       any(is.na(limit), limit == 0)) {
     limit <- NA
   }
-  if (feature_str=="NULL" & "original" %in% colnames(df)) {
+  if (feature_str=="NULL" & "original" %in% colnames(data)) {
     feature <- rlang::sym("original")
     feature_str <- "original"
-  } else if (feature_str=="NULL" & "word" %in% colnames(df)) {
+  } else if (feature_str=="NULL" & "word" %in% colnames(data)) {
     feature <- rlang::sym("word")
     feature_str <- "word"
+  }
+  if (match_str=="NULL") {
+    match <- rlang::sym("word")
+    match_str <- "word"
   }
   index_str <- paste0("index")
 
   if (is.null(regex)) {
-    df <- df |>
+    if (is.null(match)) {match <- rlang::sym(match_str)}
+    data <- data |>
       add_index({{ by }}, name = !!rlang::sym(index_str)) |>
       add_ngrams(n = -window:window,
                  feature = feature_str,
                  keep = TRUE) |>
       dplyr::filter(tolower({{ match }}) == tolower(term))
-    df_t <- df
+    df_t <- data
     df_t[[paste0(feature_str, "_0")]] <- toupper(df_t[[paste0(feature_str, "_0")]])
   } else {
-    df <- df |>
+    data <- data |>
       add_index({{ by }}, name = !!rlang::sym(index_str)) |>
       add_ngrams(n = -window:window,
-                 feature = {{ feature }},
+                 feature = feature_str,
                  keep = TRUE) |>
       dplyr::filter(stringr::str_detect({{ match }}, regex))
     regex_str <- regex |>
@@ -62,7 +70,7 @@ contextualize <- function(df, term, window = 3, limit = 1:5, by = doc_id, featur
         nobuck <- paste0(stringr::str_remove_all(x, "[[\\$]]$"), "-")
         paste0(x, "|", nobuck)
       } else {x}}()
-    df_t <- df
+    df_t <- data
     df_t <- df_t |>
       dplyr::mutate(dplyr::across(
         dplyr::starts_with(paste0(feature_str, "_")),
@@ -70,11 +78,11 @@ contextualize <- function(df, term, window = 3, limit = 1:5, by = doc_id, featur
       ))
   }
 
-  df <- df |>
+  data <- data |>
     dplyr::mutate(dplyr::across(
       .cols = dplyr::starts_with(paste0(feature_str, "_0")),
       .fn = {\(x) ifelse(is.na(x), "-", x)})) |>
-    combine_ngrams() |>
+    combine_ngrams(feature) |>
     dplyr::mutate(
       ngram = ngram |>
         stringr::str_replace_all(" NA ", " ") |>
@@ -87,7 +95,7 @@ contextualize <- function(df, term, window = 3, limit = 1:5, by = doc_id, featur
     dplyr::mutate(dplyr::across(
       .cols = dplyr::starts_with(paste0(feature_str, "_0")),
       .fn = {\(x) ifelse(is.na(x), "-", x)})) |>
-    combine_ngrams() |>
+    combine_ngrams(feature) |>
     dplyr::mutate(
       ngram = ngram |>
         stringr::str_replace_all(" NA ", " ") |>
@@ -114,7 +122,7 @@ contextualize <- function(df, term, window = 3, limit = 1:5, by = doc_id, featur
         }
         shiny::tags$ul(paste0(x_i, collapse = "\n"))
       }
-      results <-  df |>
+      results <- data |>
         dplyr::rowwise() |>
         dplyr::mutate(
           html = context |>
@@ -123,14 +131,14 @@ contextualize <- function(df, term, window = 3, limit = 1:5, by = doc_id, featur
                 regex, ignore_case = TRUE),
               function(x) as.character(
                 shiny::strong(x, style="color: #FF00FF; text-decoration: underline;"))) |>
-            HTML()) |>
-        pull(html) |>
-        purrr::map(\(x) shiny::tags$li(HTML(x))) |>
+            shiny::HTML()) |>
+        dplyr::pull(html) |>
+        purrr::map(\(x) shiny::tags$li(shiny::HTML(x))) |>
         shiny::tags$ul()
       return(results)
     } else if (knitr::is_html_output() &
         rlang::is_installed("fansi")) {
-      results <-  df |>
+      results <- data |>
         dplyr::pull(context) |>
         {\(x) x[limit[limit %in% 1:length(x)]]}() |>
         stringr::str_replace_all(
@@ -139,7 +147,7 @@ contextualize <- function(df, term, window = 3, limit = 1:5, by = doc_id, featur
         cli::cli_bullets() |>
         fansi::to_html()
     } else {
-      results <-  df |>
+      results <- data |>
         dplyr::pull(context) |>
         {\(x) x[limit[limit %in% 1:length(x)]]}() |>
         stringr::str_replace_all(

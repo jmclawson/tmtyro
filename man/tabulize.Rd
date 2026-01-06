@@ -4,10 +4,10 @@
 \alias{tabulize}
 \title{Prepare a table of data}
 \usage{
-tabulize(.data, ...)
+tabulize(data, ...)
 }
 \arguments{
-\item{.data}{data processed with one or more functions from \code{tmtyro}}
+\item{data}{data processed with one or more functions from \code{tmtyro}}
 
 \item{...}{
   Arguments passed on to \code{\link[=tabulize.default]{tabulize.default}}
@@ -58,6 +58,7 @@ dubliners |>
 
 \seealso{
 Other table helpers: 
-\code{\link{collapse_rows}()}
+\code{\link{collapse_rows}()},
+\code{\link{italicize_titles}()}
 }
 \concept{table helpers}

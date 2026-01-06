@@ -4,10 +4,10 @@
 \alias{unnest_without_caps}
 \title{Split text into words and drop proper nouns}
 \usage{
-unnest_without_caps(df, output = "word", input = "text", to_lower = TRUE)
+unnest_without_caps(data, output = "word", input = "text", to_lower = TRUE)
 }
 \arguments{
-\item{df}{A data frame}
+\item{data}{A data frame}
 
 \item{output}{Output column to be created.}
 

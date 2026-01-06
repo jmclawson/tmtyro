@@ -4,22 +4,25 @@
 \alias{add_tf_idf}
 \title{Compare usage across a corpus}
 \usage{
-add_tf_idf(df, by = doc_id, feature = word)
+add_tf_idf(data, by = doc_id, feature = word, label = NULL)
 }
 \arguments{
-\item{df}{A tidy data frame, potentially containing columns called "doc_id" and "word"}
+\item{data}{A tidy data frame, potentially containing columns called "doc_id" and "word"}
 
 \item{by}{A column containing document grouping}
 
 \item{feature}{A column containing the terms to be measured across document groupings}
+
+\item{label}{Whether to label variables added to data frame}
 }
 \value{
-The original data frame with additional columns added for term, feature_n, (the number of times this term was used in this document), tf (term's frequency in this document), idf (inverse document frequency), and tf_idf (previous two columns combined).
+The original data frame with additional columns added for n, (the number of times a term was used in this document), tf (term's frequency in this document), idf (inverse document frequency), and tf_idf (previous two columns combined).
 }
 \description{
 \code{add_tf_idf()} adds measurements including term frequency by document and "tf-idf" measurements for weighing relative importance in comparison to other documents in a set.
 }
 \examples{
+\dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts() |>
   identify_by(part) |>
@@ -27,6 +30,7 @@ dubliners <- get_gutenberg_corpus(2814) |>
 
 dubliners |>
   add_tf_idf()
+}
 }
 \seealso{
 Other tf_idf helpers: 

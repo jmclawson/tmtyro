@@ -4,21 +4,24 @@
 \alias{add_vocabulary}
 \title{Measure lexical variety}
 \usage{
-add_vocabulary(df, by = doc_id, feature = word)
+add_vocabulary(data, by = doc_id, feature = word, label = NULL)
 }
 \arguments{
-\item{df}{A tidy data frame, potentially containing columns called "doc_id" and "word"}
+\item{data}{A tidy data frame, potentially containing columns called "doc_id" and "word"}
 
 \item{by}{A grouping column}
 
 \item{feature}{A column of words containing one word per row}
+
+\item{label}{Whether to label variables added to data frame}
 }
 \value{
 A data frame with 7 added columns
 , the first two logical and the rest numeric:
 \itemize{
 \item \code{new_word} (logical) Indicates whether this is the first instance of a given word
-\item \code{hapax} (logical) Indicates whether this word is the only incident of a given word, or hapax legomenon
+\item \code{hapax_doc} (logical) Indicates whether this word is the only incident of a given word, or hapax legomenon, at the document level
+\item \code{hapax_corpus} (logical) Indicates whether this word is the only incident of a given word, or hapax legomenon, at the corpus level
 \item \code{vocabulary} (integer) Running count of words used
 \item \code{ttr} (double) Type-token ratio, derived from the running count of words divided by the total number of words used
 \item \code{hir} (double) Hapax introduction ratio, derived from the running count of hapax legomena divided by the total number of words used.
@@ -30,12 +33,14 @@ A data frame with 7 added columns
 \code{add_vocabulary()} augments a tidy text table with columns describing the lexical variety of the corpus. Among other things, checks for uniqueness and size of vocabulary, with additional ratios reporting these measurements in relation to document size.
 }
 \examples{
+\dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts() |>
   identify_by(part) |>
   standardize_titles()
 
 dubliners |>
-   add_vocabulary() |>
-   head()
+  add_vocabulary() |>
+  head()
+}
 }

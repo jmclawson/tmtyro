@@ -2,14 +2,15 @@
 #'
 #' Useful especially for visualizations. `standardize_titles` applies some English-language conventions, including converting underscores to spaces, capitalizing important words, removing leading articles, and dropping subtitles.
 #'
-#' @param .data A tidy data frame, potentially containing a title column called "doc_id". Alternatively, a simple character vector of titles.
+#' @param data A tidy data frame, potentially containing a title column called "doc_id". Alternatively, a simple character vector of titles.
 #' @param title A column containing the titles to be standardized
 #' @param drop_articles Whether to remove opening articles like "The" and "A"
 #'
-#' @returns A data frame with one column adjusted. If .data is a character vector instead of a data frame, then a character vector is returned.
+#' @returns A data frame with one column adjusted. If `data` is a character vector instead of a data frame, then a character vector is returned.
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' dubliners <- get_gutenberg_corpus(2814) |>
 #'   load_texts() |>
 #'   identify_by(part)
@@ -35,7 +36,9 @@
 #' dubliners_measured |>
 #'   standardize_titles() |>
 #'   plot_vocabulary(labeling = "inline")
-standardize_titles <- function(.data, title = doc_id, drop_articles = FALSE){
+#' }
+standardize_titles <- function(data, title = doc_id, drop_articles = FALSE){
+  tmtyro_log <- attr(data, "tmtyro_log")
   # Prepositions, articles, and conjunctions
   lowercase_words <- c("a", "an", "and",
                        "about", "after", "against",
@@ -84,42 +87,57 @@ standardize_titles <- function(.data, title = doc_id, drop_articles = FALSE){
       {\(x) x[x!=""]}()
   }
 
-  standardize_string <- function(.data, drop_articles){
-    .data <- .data |>
+  standardize_string <- function(data, drop_articles){
+    data <- data |>
       stringr::str_replace_all("_", " ") |>
       stringr::str_to_title() |>
       stringr::str_remove_all("[;:].*") |>
       stringr::str_remove_all("[.]$")
 
     if (drop_articles) {
-      .data <- .data |>
+      data <- data |>
         stringr::str_remove_all("^The ") |>
         stringr::str_remove_all("^A[n]? ")
     }
-    .data |>
+    data |>
       stringr::str_replace_all(lowercase_words)
   }
 
-  if (is.character(.data)) {
-    .data |> standardize_string(drop_articles)
-  } else if (is.factor(.data)) {
-    the_levels <- .data |>
+  if (is.character(data)) {
+    data <- data |> standardize_string(drop_articles)
+  } else if (is.factor(data)) {
+    the_levels <- data |>
       levels() |>
       standardize_string(drop_articles)
-    .data |>
+    data <- data |>
       standardize_string(drop_articles) |>
       factor(levels = the_levels)
-  } else if ("doc_id" %in% colnames(.data) &&
-             .data |>
+  } else if ("doc_id" %in% colnames(data) &&
+             data |>
              dplyr::pull(doc_id) |>
              is.factor()) {
-    .data |>
+    data <-
+      data |>
       dplyr::mutate({{ title }} := {{ title }} |>
                       standardize_string(drop_articles) |>
                       forcats::fct_inorder())
   } else {
-    .data |>
+    data <- data |>
       dplyr::mutate({{ title }} := {{ title }} |>
                standardize_string(drop_articles))
   }
+
+  if (tmtyro_use_log()) {
+    attr(data, "tmtyro_log") <- tmtyro_log
+    # parameters_string <- ""
+    # if (drop_articles) {
+    #   parameters_string <- " and dropping introductory articles"
+    # }
+    data <- data |>
+      add_logstep(
+        fn = "standardize_titles",
+        # arguments = list(parameters = parameters_string)
+        arguments = list(parameters = list(drop_articles = drop_articles)))
+  }
+  data
 }

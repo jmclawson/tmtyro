@@ -33,6 +33,7 @@ A ggplot2 object
 \code{change_colors()} standardizes three methods for choosing color palettes for color or fill mapping, providing access to Brewer and Viridis palettes alongside custom choices.
 }
 \examples{
+\dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts() |>
   identify_by(part) |>
@@ -105,8 +106,10 @@ dubliners |>
   visualize() |>
   change_colors(c("#444488","orange"))
 }
+}
 \seealso{
 Other visualizing helpers: 
+\code{\link{italicize_titles}()},
 \code{\link{plot_bigrams}()},
 \code{\link{plot_doc_word_bars}()},
 \code{\link{plot_doc_word_heatmap}()},
@@ -118,6 +121,7 @@ Other visualizing helpers:
 \code{\link{plot_topic_wordcloud}()},
 \code{\link{plot_ttr}()},
 \code{\link{plot_vocabulary}()},
+\code{\link{theme_tmtyro}()},
 \code{\link{visualize}()}
 }
 \concept{visualizing helpers}

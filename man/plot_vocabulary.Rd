@@ -5,30 +5,29 @@
 \title{Show vocabulary growth}
 \usage{
 plot_vocabulary(
-  df,
-  x = progress_words,
+  data,
+  x = progress,
   by = doc_id,
   identity = NULL,
-  descriptive_labels = TRUE,
-  labeling = c("point", "inset", "inline", "axis")
+  descriptive_labels = FALSE,
+  labeling = c("point", "inset", "inline")
 )
 }
 \arguments{
-\item{df}{A tidy data frame, potentially containing columns called "doc_id" and "word"}
+\item{data}{A tidy data frame, potentially containing columns called "doc_id" and "word"}
 
-\item{x}{A column showing the cumulative count of words}
+\item{x}{A column showing the cumulative progress of documents}
 
 \item{by}{A grouping column for colors and labels}
 
 \item{identity}{A grouping column for lines}
 
-\item{descriptive_labels}{A toggle for disabling descriptive labels of progress_percent on the X-axis}
+\item{descriptive_labels}{A toggle for using descriptive labels for progress on the X-axis}
 
 \item{labeling}{Options for labeling groups:
 \itemize{
 \item \code{"point"} labels the final value
 \item \code{"inline"} prints the label within a smoothed curve
-\item \code{"axis"} prints labels where a secondary Y-axis might go
 \item \code{"inset"} prints a legend within the plot area
 \item Anything else prints a legend to the right of the plot area.
 }}
@@ -40,6 +39,7 @@ A ggplot object
 \code{plot_vocabulary()} visualizes the vocabulary growth as new words are used in each document.
 }
 \examples{
+\dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts() |>
   identify_by(part) |>
@@ -54,7 +54,6 @@ dubliners_measured |>
 dubliners_measured |>
   plot_vocabulary()
 
-\dontrun{
   get_micusp_corpus(
     discipline \%in\% c("Physics", "Economics")) |>
     load_texts() |>
@@ -65,6 +64,7 @@ dubliners_measured |>
 \seealso{
 Other visualizing helpers: 
 \code{\link{change_colors}()},
+\code{\link{italicize_titles}()},
 \code{\link{plot_bigrams}()},
 \code{\link{plot_doc_word_bars}()},
 \code{\link{plot_doc_word_heatmap}()},
@@ -75,6 +75,7 @@ Other visualizing helpers:
 \code{\link{plot_topic_distributions}()},
 \code{\link{plot_topic_wordcloud}()},
 \code{\link{plot_ttr}()},
+\code{\link{theme_tmtyro}()},
 \code{\link{visualize}()}
 }
 \concept{visualizing helpers}

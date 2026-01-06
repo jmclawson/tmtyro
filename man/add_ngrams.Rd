@@ -5,16 +5,17 @@
 \title{Add ngram columns}
 \usage{
 add_ngrams(
-  df,
+  data,
   n = 1:2,
   feature = word,
   keep = FALSE,
   collapse = FALSE,
-  by = doc_id
+  by = doc_id,
+  label = NULL
 )
 }
 \arguments{
-\item{df}{A tidy data frame, potentially containing a column called "word"}
+\item{data}{A tidy data frame, potentially containing a column called "word"}
 
 \item{n}{A range defining the extent of an ngram---for instance, from word 1 to word 3. Alternatively, a single number will signal the number of words to include in each ngram. Default value of \code{1:2} will produce bigrams.}
 
@@ -24,7 +25,9 @@ add_ngrams(
 
 \item{collapse}{Whether to join the ngram parts into a single column called "ngram"}
 
-\item{by}{A grouping column identifying a document, such as \code{doc_id}.}
+\item{by}{A grouping column identifying a document, such as \code{doc_id}}
+
+\item{label}{Whether to label variables added to data frame}
 }
 \value{
 The original data frame with columns added for subsequent parts of ngrams
@@ -40,6 +43,7 @@ Add ngram columns
     add_ngrams(3)
 }
 
+\dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts() |>
   identify_by(part) |>
@@ -48,6 +52,7 @@ dubliners <- get_gutenberg_corpus(2814) |>
 dubliners |>
   add_ngrams(2) |>
   head()
+}
 }
 \seealso{
 Other n-gram helpers: 

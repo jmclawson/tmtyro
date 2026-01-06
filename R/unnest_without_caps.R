@@ -2,7 +2,7 @@
 #'
 #' Split a column of text using [tidytext::unnest_tokens()], flattening the table into one token per row while also omitting any token that is present only in a capitalized form.
 #'
-#' @param df A data frame
+#' @param data A data frame
 #' @param output Output column to be created.
 #' @param input Input column that gets split by word.
 #' @param to_lower Whether to convert final words to lowercase.
@@ -26,12 +26,12 @@
 #'              remove_names = TRUE)
 #'   }
 unnest_without_caps <- function(
-    df,
+    data,
     output = "word",
     input = "text",
     to_lower = TRUE) {
 
-  full <- df |>
+  full <- data |>
     tidytext::unnest_tokens({{output}},
                             {{input}},
                             to_lower = FALSE)
@@ -48,7 +48,7 @@ unnest_without_caps <- function(
 
   only_caps <- base::setdiff(tolower(big), small)
 
-  df |>
+  data |>
     tidytext::unnest_tokens({{output}}, {{input}}, to_lower = to_lower) |>
     # Changing next line to {{output}} might break something with topic modeling
     # But keeping it !!as.name(output) breaks tf_idf

@@ -1,6 +1,6 @@
 #' Plot a heatmap of ranked features
 #'
-#' @param df A tidy data frame, potentially containing columns called "doc_id" and "word"
+#' @param data A tidy data frame, potentially containing columns called "doc_id" and "word"
 #' @param rows The ranks to show, not counting ties
 #' @param by The column used for document grouping, with doc_id as the default
 #' @param feature The column to measure, as in "word" or "lemma"
@@ -12,6 +12,7 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' dubliners <- get_gutenberg_corpus(2814) |>
 #'   load_texts(lemma = TRUE) |>
 #'   identify_by(part) |>
@@ -29,13 +30,14 @@
 #' dubliners |>
 #'   dplyr::filter(doc_id %in% selected_titles) |>
 #'   plot_doc_word_heatmap(feature = lemma, rows = 1:6)
+#' }
 plot_doc_word_heatmap <- function(
-    df,
+    data,
     rows = 1:10,
     by = doc_id,
     feature = word,
     label = TRUE){
-  the_df <- df |>
+  the_df <- data |>
     dplyr::count({{ by }}, {{ feature }}, sort = TRUE) |>
     dplyr::ungroup() |>
     dplyr::slice(
@@ -141,13 +143,14 @@ plot_doc_word_heatmap <- function(
 
 #' Plot bar graphs of frequent features
 #'
-#' @param df A tidy data frame, potentially containing columns called "doc_id" and "word"
+#' @param data A tidy data frame, potentially containing columns called "doc_id" and "word"
 #' @param rows The features to show
 #' @param by The column used for document grouping, with doc_id as the default
 #' @param feature The column to measure, as in "word" or "lemma"
 #' @param inorder Whether to retain the factor order of the "by" column
 #' @param reorder_y Whether to reorder the Y-values by facet
 #' @param color_y Whether bars should be filled by Y-values
+#' @param allow_y_blanks The threshold number of blanks to allow on the Y-axis before dropping all blanks and reprinting values for each facet with a freely scaled Y-axis
 #' @param percents Whether to display word frequencies as percentage instead of raw counts
 #' @param label Whether to show the value as a label with each bar
 #' @param label_tweak The numeric value by which to tweak the label, if shown. For percentages, this value adjusts the decimal-point precision. For raw counts, this value adjusts labels' offset from the bars
@@ -161,6 +164,7 @@ plot_doc_word_heatmap <- function(
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' dubliners <- get_gutenberg_corpus(2814) |>
 #'   load_texts(lemma = TRUE) |>
 #'   identify_by(part) |>
@@ -172,14 +176,16 @@ plot_doc_word_heatmap <- function(
 #' dubliners |>
 #'   dplyr::filter(doc_id %in% c("The Sisters", "The Dead")) |>
 #'   plot_doc_word_bars(feature = lemma, rows = 1:20)
+#' }
 plot_doc_word_bars <- function(
-    df,
+    data,
     rows = 1:10,
     by = doc_id,
     feature = word,
     inorder = TRUE,
     reorder_y = NULL,
     color_y = FALSE,
+    allow_y_blanks = 0,
     percents = TRUE,
     label = NULL,
     label_tweak = 2,
@@ -192,8 +198,8 @@ plot_doc_word_bars <- function(
   precision <- label_tweak + 1
   offset <- label_tweak + 2
 
-  if (!"n" %in% colnames(df)) {
-    df <- df |>
+  if (!"n" %in% colnames(data)) {
+    data <- data |>
       dplyr::count({{ by }}, {{ feature }}) |>
       dplyr::ungroup()
   }
@@ -205,12 +211,12 @@ plot_doc_word_bars <- function(
   }
 
   if (inorder) {
-    df <- df |>
+    data <- data |>
       dplyr::mutate({{ by }} := forcats::fct_inorder({{ by }}))
   }
 
   if (percents) {
-    df <- df |>
+    data <- data |>
       dplyr::ungroup() |>
       dplyr::select({{ by }}, {{ feature }}, n) |>
       dplyr::distinct() |>
@@ -220,11 +226,11 @@ plot_doc_word_bars <- function(
   }
 
   if (na_rm) {
-    df <- df |>
+    data <- data |>
       tidyr::drop_na({{ feature }})
   }
 
-  df <- df |>
+  data <- data |>
     dplyr::ungroup() |>
     dplyr::select({{ by }}, {{ feature }}, n) |>
     dplyr::distinct() |>
@@ -235,35 +241,70 @@ plot_doc_word_bars <- function(
       rows,
       .by = {{ by }}) |>
     dplyr::group_by({{ by }}) |>
-    dplyr::arrange(dplyr::desc(n))
+    dplyr::arrange(dplyr::desc(n)) |>
+    dplyr::ungroup()
 
-  if (reorder_y && !color_y) {
-    df <- df |>
+  if (color_y) {
+    data <- data |>
       dplyr::mutate(
-        {{ feature }} := tidytext::reorder_within(
-          {{ feature }},
-          by = n,
-          within = {{ by }}))
-  } else if (reorder_y && color_y) {
-    df <- df |>
-      dplyr::mutate(
-        fill_it = reorder({{ feature }}, -n),
-        {{ feature }} := tidytext::reorder_within(
-          {{ feature }},
-          by = n,
-          within = {{ by }}))
-  } else if (!reorder_y) {
-    df <- df |>
-      dplyr::mutate(
-        {{ feature }} := forcats::fct_reorder(
-            .f = {{ feature }},
-            .x = n,
-            .fun = max,
-            .na_rm = TRUE,
-            .desc = FALSE))
+        fill_it = reorder({{ feature }}, -n))
   }
 
-  prefix <- df |>
+  if (reorder_y) {
+    data <- data |>
+      dplyr::mutate(
+        {{ feature }} := tidytext::reorder_within(
+          {{ feature }},
+          by = n,
+          within = {{ by }}))
+  } else {
+    data <- data |>
+      dplyr::mutate(
+        {{ feature }} := forcats::fct_reorder(
+          .f = {{ feature }},
+          .x = n,
+          .fun = sum,
+          .na_rm = TRUE,
+          .desc = FALSE))
+  }
+
+  # if (reorder_y && !color_y) {
+  #   data <- data |>
+  #     dplyr::mutate(
+  #       {{ feature }} := tidytext::reorder_within(
+  #         {{ feature }},
+  #         by = n,
+  #         within = {{ by }}))
+  # } else if (reorder_y && color_y) {
+  #   data <- data |>
+  #     dplyr::mutate(
+  #       fill_it = reorder({{ feature }}, -n),
+  #       {{ feature }} := tidytext::reorder_within(
+  #         {{ feature }},
+  #         by = n,
+  #         within = {{ by }}))
+  # } else if (!reorder_y && color_y) {
+  #   data <- data |>
+  #     dplyr::mutate(
+  #       fill_it = reorder({{ feature }}, -n),
+  #       {{ feature }} := forcats::fct_reorder(
+  #         .f = {{ feature }},
+  #         .x = n,
+  #         .fun = max,
+  #         .na_rm = TRUE,
+  #         .desc = FALSE))
+  # } else if (!reorder_y) {
+  #   data <- data |>
+  #     dplyr::mutate(
+  #       {{ feature }} := forcats::fct_reorder(
+  #           .f = {{ feature }},
+  #           .x = n,
+  #           .fun = max,
+  #           .na_rm = TRUE,
+  #           .desc = FALSE))
+  # }
+
+  prefix <- data |>
     colnames() |>
     stringr::str_subset(
       "^doc_id$",
@@ -278,7 +319,9 @@ plot_doc_word_bars <- function(
     x_lab <- paste(prefix, "count")
   }
 
-  the_plot <- df |>
+  # internal_data <<- data
+
+  the_plot <- data |>
     internal_plot_word_bars(
       n, rlang::enquo(by), color_y, rlang::enquo(feature), percents, label, label_tweak, label_inside, label_color)
 
@@ -287,18 +330,59 @@ plot_doc_word_bars <- function(
       tidytext::scale_y_reordered()
   }
 
-  if (length(unique(df[[deparse(substitute(by))]])) > 1) {
-    if (percents) {
-      the_plot <- the_plot +
-        ggplot2::facet_wrap(ggplot2::vars({{ by }}),
-                            scales = "free_y",
-                            labeller = ggplot2::labeller({{ by }} := ggplot2::label_wrap_gen(18)))
-    } else {
-      the_plot <- the_plot +
-        ggplot2::facet_wrap(ggplot2::vars({{ by }}),
-                            scales = "free",
-                            labeller = ggplot2::labeller({{ by }} := ggplot2::label_wrap_gen(18)))
-    }
+  # --- Avoid reprinting Y-axis values where possible ---
+  # If every feature is found in every document, only print
+  # axis values once in each facet row. If some features are
+  # missing in some document(s), it might be ok to have some
+  # Y-axis values with blanks to have all Y-axis values
+  # printed just once in each facet row. But some number of
+  # blanks on the Y-axis is probably too much. When blanks
+  # surpass an `allow_y_blanks` threshold, drop all blanks
+  # and reprint all Y-axis values in each facet. - v0.6
+  # 1. Get the total number of unique features
+  y_features <- data |>
+    dplyr::pull({{ feature }}) |>
+    as.character() |>
+    unique() |>
+    length()
+
+  # 2. Get the total number of rows
+  mode_y_length <- data |>
+    dplyr::count({{ by }}) |>
+    dplyr::pull(n) |>
+    table() |>
+    {\(x) {names(x)[which.max(x)]}}() |>
+    as.numeric()
+
+  # 3. Get the number of facets
+  plot_facets <- data |>
+    dplyr::pull({{ by }}) |>
+    unique() |>
+    length()
+
+  # 4. Get the number of expected features
+  expected_features <- ifelse(reorder_y, mode_y_length * plot_facets, mode_y_length)
+
+  # 5. Is #1 is greater than #4 by more than allow_y_blanks?
+  above_threshold <- y_features > (expected_features + allow_y_blanks)
+
+  # define facet scales logically - v0.6
+  if (percents && (above_threshold | reorder_y)) {
+    f_scales <- "free_y"
+  } else if (!percents && (above_threshold | reorder_y)) {
+    f_scales <- "free"
+  } else if (!percents) {
+    f_scales <- "free_x"
+  } else {
+    f_scales <- "fixed"
+  }
+
+  if (length(unique(data[[deparse(substitute(by))]])) > 1) {# 0.6
+    the_plot <- the_plot +
+      ggplot2::facet_wrap(
+        ggplot2::vars({{ by }}),
+        scales = f_scales,
+        labeller = ggplot2::labeller({{ by }} := ggplot2::label_wrap_gen(18)))
   }
 
   the_plot +
@@ -306,7 +390,7 @@ plot_doc_word_bars <- function(
 }
 
 internal_plot_word_bars <- function(
-    df,
+    data,
     x_value,
     by,
     color_y,
@@ -321,18 +405,18 @@ internal_plot_word_bars <- function(
   offset <- label_tweak + 2
 
   if (color_y &&
-      !"fill_it" %in% colnames(df)) {
-    the_plot <- df |>
+      !"fill_it" %in% colnames(data)) {
+    the_plot <- data |>
       ggplot2::ggplot(ggplot2::aes(x = {{ x_value }},
                                    y = !! feature,
                                    fill = !! feature))
   } else if (color_y) {
-    the_plot <- df |>
+    the_plot <- data |>
       ggplot2::ggplot(ggplot2::aes(x = {{ x_value }},
                                    y = !! feature,
                                    fill = fill_it))
   } else {
-    the_plot <- df |>
+    the_plot <- data |>
       ggplot2::ggplot(ggplot2::aes(x = {{ x_value }},
                                    y = !! feature,
                                    fill = !! by))
@@ -387,7 +471,7 @@ internal_plot_word_bars <- function(
         labels = scales::label_percent(),
         expand = ggplot2::expansion(mult = c(0, 0.05)))
 
-    if (length(unique(df[[deparse(substitute(by))]])) > 1) {
+    if (length(unique(data[[deparse(substitute(by))]])) > 1) {
       the_plot <- the_plot +
         ggplot2::facet_wrap(ggplot2::vars({{ by }}),
                             scales = "free_y")
@@ -399,7 +483,7 @@ internal_plot_word_bars <- function(
         labels = scales::label_comma(),
         expand = ggplot2::expansion(mult = c(0, 0.05)))
 
-    if (length(unique(df[[deparse(substitute(by))]])) > 1) {
+    if (length(unique(data[[deparse(substitute(by))]])) > 1) {
       the_plot <- the_plot +
         ggplot2::facet_wrap(ggplot2::vars({{ by }}),
                             scales = "free")

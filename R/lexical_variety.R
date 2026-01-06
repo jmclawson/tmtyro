@@ -1,11 +1,11 @@
 internal_plot_engine <- function(
-    df,
+    data,
     x,
     y,
     by = doc_id,
     identity = doc_id,
     descriptive_labels = TRUE,
-    labeling = c("point", "inset", "inline", "axis"),
+    labeling = c("point", "inset", "inline"),
     log_y = FALSE,
     skip_print = FALSE){
   if (is.null(identity)) {
@@ -13,16 +13,12 @@ internal_plot_engine <- function(
   }
   x_check <- rlang::as_name(x)
   y_check <- rlang::as_name(y)
-  if(length(labeling)>2 & x_check == "progress_percent") {
-    labeling <- "axis"
-  } else {
-    labeling <- labeling[1]
-  }
+  labeling <- match.arg(labeling)
 
-  df <- df |>
+  data <- data |>
     dplyr::mutate(!!by := forcats::fct_reorder2(!!by, !!x, !!y))
 
-  the_plot <- df |>
+  the_plot <- data |>
     ggplot2::ggplot(ggplot2::aes(x = {{ x }},
                y = {{ y }},
                color = {{ by }},
@@ -45,22 +41,26 @@ internal_plot_engine <- function(
           method = "gam")
     }
     the_plot <- the_plot +
-      ggplot2::theme_minimal() +
-      ggplot2::theme(legend.position = "none",
-            panel.grid.major.x = ggplot2::element_blank(),
-            panel.grid.minor = ggplot2::element_blank())
+      # ggplot2::theme_minimal() +
+      # ggplot2::theme(legend.position = "none",
+      #       panel.grid.major.x = ggplot2::element_blank(),
+      #       panel.grid.minor = ggplot2::element_blank()) +
+      theme_tmtyro(grid_x = FALSE) +
+      ggplot2::theme(legend.position = "none")
   } else if (labeling == "point") {
-    max_x <- df |>
+    max_x <- data |>
       dplyr::slice_max(order_by = {{ x }}, n = 1, by = {{ by }}) |>
       dplyr::select({{ by }}, {{ x }}, {{ y }})
 
     the_plot <- the_plot +
       ggplot2::geom_line() +
       ggplot2::geom_point(data = max_x) +
-      ggplot2::theme_minimal() +
-      ggplot2::theme(legend.position = "none",
-                     panel.grid.major.x = ggplot2::element_blank(),
-                     panel.grid.minor = ggplot2::element_blank())
+      # ggplot2::theme_minimal() +
+      # ggplot2::theme(legend.position = "none",
+      #       panel.grid.major.x = ggplot2::element_blank(),
+      #       panel.grid.minor = ggplot2::element_blank()) +
+      theme_tmtyro(grid_x = FALSE) +
+      ggplot2::theme(legend.position = "none")
 
     if (rlang::is_installed("ggrepel")) {
       the_plot <- the_plot +
@@ -80,39 +80,26 @@ internal_plot_engine <- function(
           label.size = NA)
     }
 
-  } else if (labeling == "axis") {
-    sec_y <- df |>
-      dplyr::slice_max(order_by = {{ x }}, n = 1, by = {{ by }}) |>
-      dplyr::select({{ by }}, {{ y }}) |>
-      dplyr::arrange({{ y }}) |>
-      # mutate({{ by }} := {{ by }} |> fct_inorder()) |>
-      stats::setNames(c("labels", "breaks"))
-
-    the_plot <- the_plot +
-      ggplot2::geom_line() +
-      ggplot2::theme_minimal() +
-      ggplot2::theme(legend.position = "none",
-            panel.grid.major.x = ggplot2::element_blank(),
-            panel.grid.minor = ggplot2::element_blank(),
-            axis.ticks.y.right = ggplot2::element_blank(),
-            axis.title.y.right = ggplot2::element_blank())
   } else if (labeling == "inset") {
     the_plot <- the_plot +
       ggplot2::geom_line() +
-      ggplot2::theme_minimal() +
+      # ggplot2::theme_minimal() +
+      theme_tmtyro() +
       ggplot2::theme(legend.position = c(0.73, 0.2),
-            legend.background = ggplot2::element_rect(fill = "white", color = "white"),
-            panel.grid.minor = ggplot2::element_blank())
+            legend.background = ggplot2::element_rect(fill = "white", color = "white")#,
+            # panel.grid.minor = ggplot2::element_blank()
+            )
   } else {
     the_plot <- the_plot +
       ggplot2::geom_line() +
-      ggplot2::theme_minimal() +
-      ggplot2::theme(panel.grid.minor = ggplot2::element_blank())
+      theme_tmtyro()
+      # ggplot2::theme_minimal() +
+      # ggplot2::theme(panel.grid.minor = ggplot2::element_blank())
   }
 
   if (y_check %in% c("vocabulary", "ttr", "hir")){
     y_label <- dplyr::case_when(
-      y_check == "vocabulary" ~ "vocabulary (words)",
+      y_check == "vocabulary" ~ "vocabulary (new words)",
       y_check == "ttr" ~ "type-token ratio (TTR)",
       y_check == "hir" ~ "hapax introduction ratio",
     )
@@ -123,59 +110,47 @@ internal_plot_engine <- function(
   }
 
   if (log_y) {
-    if (labeling == "axis") {
-      the_plot <- the_plot +
-        suppressWarnings(ggplot2::scale_y_continuous(
-          trans = suppressWarnings(scales::log10_trans()),
-          labels = scales::label_percent(),
-          sec.axis = ggplot2::dup_axis(
-            breaks = sec_y$breaks,
-            labels = sec_y$labels,
-            guide = ggh4x::guide_axis_color(
-              color = scales::hue_pal(direction = -1)(nrow(sec_y))))))
-    } else {
-      the_plot <- the_plot +
-        suppressWarnings(ggplot2::scale_y_continuous(
-          trans = suppressWarnings(scales::log10_trans()),
-          labels = scales::label_percent()))
-    }
+    the_plot <- the_plot +
+      suppressWarnings(ggplot2::scale_y_continuous(
+        trans = suppressWarnings(scales::log10_trans()),
+        labels = scales::label_percent()))
   } else {
-    if (labeling == "axis") {
-      the_plot <- the_plot +
-        ggplot2::scale_y_continuous(
-          labels = scales::label_comma(),
-          sec.axis = ggplot2::dup_axis(
-            breaks = sec_y$breaks,
-            labels = sec_y$labels,
-            guide = ggh4x::guide_axis_color(
-              color = scales::hue_pal(direction = -1)(nrow(sec_y)))))
-    } else {
-      the_plot <- the_plot +
-        ggplot2::scale_y_continuous(labels = scales::label_comma())
-    }
+    the_plot <- the_plot +
+      ggplot2::scale_y_continuous(labels = scales::label_comma())
   }
 
-  if (x_check == "progress_words") {
+  if (
+    max(data[[x_check]], na.rm = TRUE) > 1
+    # x_check == "progress_words"
+    ) {
     the_plot <- the_plot +
       ggplot2::scale_x_continuous(
         labels = scales::label_comma(),
         # expand = c(0,0)
       ) +
-      ggplot2::labs(x = "text length (words)")
-  } else if (x_check == "progress_percent" & descriptive_labels) {
+      ggplot2::labs(x = "progress (words)")
+  } else if (
+    max(data[[x_check]], na.rm = TRUE) <= 1 &
+    # x_check == "progress_percent" &
+    descriptive_labels) {
     the_plot <- the_plot +
       ggplot2::scale_x_continuous(breaks = c(0, .5, 1),
                          expand = c(0.01,0),
-                         labels = c("beginning", "middle of text", "end")) +
-      ggplot2::labs(x = "progress") +
-      suppressWarnings(ggplot2::theme(axis.text.x  = ggplot2::element_text(hjust = c(0, 0.5, 1))))
-  } else if (x_check == "progress_percent" & !descriptive_labels) {
+                         labels = c("early", "middle", "late")) +
+      ggplot2::labs(x = "document progress") +
+      suppressWarnings(ggplot2::theme(
+        axis.text.x  = ggplot2::element_text(hjust = c(0, 0.5, 1))
+        ))
+  } else if (
+    max(data[[x_check]], na.rm = TRUE) <= 1 &
+    # x_check == "progress_percent" &
+    !descriptive_labels) {
     the_plot <- the_plot +
       ggplot2::scale_x_continuous(labels = scales::label_percent(),
                          # expand = c(0,0)
       ) +
-      ggplot2::labs(x = "progress") +
-      suppressWarnings(ggplot2::theme(axis.text.x  = ggplot2::element_text(hjust = c(0, 0.5, 1))))
+      ggplot2::labs(x = "document progress") #+
+      # suppressWarnings(ggplot2::theme(axis.text.x  = ggplot2::element_text(hjust = c(0, 0.5, 1)))) platypus check to see if this is the thing causing three times the X-axis labels
   }
 
   if (!skip_print) {
@@ -189,14 +164,16 @@ internal_plot_engine <- function(
 #'
 #' `add_vocabulary()` augments a tidy text table with columns describing the lexical variety of the corpus. Among other things, checks for uniqueness and size of vocabulary, with additional ratios reporting these measurements in relation to document size.
 #'
-#' @param df A tidy data frame, potentially containing columns called "doc_id" and "word"
+#' @param data A tidy data frame, potentially containing columns called "doc_id" and "word"
 #' @param by A grouping column
 #' @param feature A column of words containing one word per row
+#' @param label Whether to label variables added to data frame
 #'
 #' @returns A data frame with 7 added columns
 #' , the first two logical and the rest numeric:
 #'   * `new_word` (logical) Indicates whether this is the first instance of a given word
-#'   * `hapax` (logical) Indicates whether this word is the only incident of a given word, or hapax legomenon
+#'   * `hapax_doc` (logical) Indicates whether this word is the only incident of a given word, or hapax legomenon, at the document level
+#'   * `hapax_corpus` (logical) Indicates whether this word is the only incident of a given word, or hapax legomenon, at the corpus level
 #'   * `vocabulary` (integer) Running count of words used
 #'   * `ttr` (double) Type-token ratio, derived from the running count of words divided by the total number of words used
 #'   * `hir` (double) Hapax introduction ratio, derived from the running count of hapax legomena divided by the total number of words used.
@@ -206,34 +183,62 @@ internal_plot_engine <- function(
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' dubliners <- get_gutenberg_corpus(2814) |>
 #'   load_texts() |>
 #'   identify_by(part) |>
 #'   standardize_titles()
 #'
 #' dubliners |>
-#'    add_vocabulary() |>
-#'    head()
-add_vocabulary <- function(df, by = doc_id, feature = word) {
-  df |>
+#'   add_vocabulary() |>
+#'   head()
+#' }
+add_vocabulary <- function(data, by = doc_id, feature = word, label = NULL) {
+  tmtyro_log <- attr(data, "tmtyro_log")
+  out <- data |>
     dplyr::ungroup() |>
     dplyr::group_by({{ by }}) |>
     dplyr::mutate(
       new_word = !duplicated({{ feature }}),
       vocabulary = cumsum(new_word), # total lexical variety
-      ttr = vocabulary / dplyr::row_number(), # type to term ratio
-      progress_words = dplyr::row_number(),
-      progress_percent = progress_words / max(progress_words)) |>
+      ttr = vocabulary / dplyr::row_number()#, # type to term ratio
+      # progress_words = dplyr::row_number(),
+      # progress_percent = progress_words / max(progress_words)
+    ) |>
     dplyr::ungroup() |>
     dplyr::group_by({{ by }}, {{ feature }}) |>
     dplyr::mutate(
-      hapax = dplyr::if_else(dplyr::n() == 1, TRUE, FALSE),
+      hapax_doc = dplyr::if_else(dplyr::n() == 1, TRUE, FALSE),
       .after = new_word) |>
     dplyr::ungroup() |>
     dplyr::mutate(
-      hir = cumsum(hapax) / dplyr::row_number(),
+      hapax_corpus = dplyr::if_else(dplyr::n() == 1, TRUE, FALSE),
+      .by = {{ feature }},
+      .after = hapax_doc) |>
+    dplyr::mutate(
+      hir = cumsum(hapax_doc) / dplyr::row_number(),
       .by = {{ by }},
-      .after = ttr) |>
+      .after = ttr)
+
+  if (tmtyro_use_labels(label)) {
+    out <- out |>
+      assign_labels(
+        c("new_word", "hapax_doc", "hapax_corpus", "vocabulary", "ttr", "hir"),# "progress_words", "progress_percent"),
+        deparse(substitute(feature)),
+        deparse(substitute(by)))
+  }
+
+  if (tmtyro_use_log()) {
+    attr(out, "tmtyro_log") <- tmtyro_log
+    feature_string <- deparse(substitute(feature))
+    out <- out |>
+      add_logstep(
+        fn = "add_vocabulary",
+        arguments = list(
+          feature = feature_string))
+  }
+
+  out |>
     add_class("vocabulary")
 }
 
@@ -241,15 +246,14 @@ add_vocabulary <- function(df, by = doc_id, feature = word) {
 #'
 #' `plot_vocabulary()` visualizes the vocabulary growth as new words are used in each document.
 #'
-#' @param df A tidy data frame, potentially containing columns called "doc_id" and "word"
-#' @param x A column showing the cumulative count of words
+#' @param data A tidy data frame, potentially containing columns called "doc_id" and "word"
+#' @param x A column showing the cumulative progress of documents
 #' @param by A grouping column for colors and labels
 #' @param identity A grouping column for lines
-#' @param descriptive_labels A toggle for disabling descriptive labels of progress_percent on the X-axis
+#' @param descriptive_labels A toggle for using descriptive labels for progress on the X-axis
 #' @param labeling Options for labeling groups:
 #' * `"point"` labels the final value
 #' * `"inline"` prints the label within a smoothed curve
-#' * `"axis"` prints labels where a secondary Y-axis might go
 #' * `"inset"` prints a legend within the plot area
 #' * Anything else prints a legend to the right of the plot area.
 #'
@@ -259,6 +263,7 @@ add_vocabulary <- function(df, by = doc_id, feature = word) {
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' dubliners <- get_gutenberg_corpus(2814) |>
 #'   load_texts() |>
 #'   identify_by(part) |>
@@ -273,26 +278,36 @@ add_vocabulary <- function(df, by = doc_id, feature = word) {
 #' dubliners_measured |>
 #'   plot_vocabulary()
 #'
-#' \dontrun{
 #'   get_micusp_corpus(
 #'     discipline %in% c("Physics", "Economics")) |>
 #'     load_texts() |>
 #'     add_vocabulary() |>
 #'     plot_vocabulary(by = discipline)
 #' }
-plot_vocabulary <- function(df, x = progress_words, by = doc_id, identity = NULL, descriptive_labels = TRUE, labeling = c("point", "inset", "inline", "axis")){
+plot_vocabulary <- function(data, x = progress, by = doc_id, identity = NULL, descriptive_labels = FALSE, labeling = c("point", "inset", "inline")){
+  if (!"progress" %in% colnames(data)) {
+    if ("word_index" %in% colnames(data)) {
+      data[["progress"]] <- data[["word_index"]]
+    } else if (descriptive_labels) {
+      data <- data |>
+        add_progress(unit = "percent")
+    } else {
+      data <- data |>
+        add_progress(unit = "index")
+    }
+  }
 
-  viz_attr <- attr(df, "visualize")
+  viz_attr <- attr(data, "visualize")
   if (is.null(viz_attr)) viz_attr <- FALSE
 
   if (is.null(identity)) {
     internal_plot_engine(
-      df, rlang::enquo(x), y = rlang::expr(vocabulary),
+      data, rlang::enquo(x), y = rlang::expr(vocabulary),
       rlang::enquo(by), identity = rlang::enquo(by),
       descriptive_labels, labeling, skip_print = viz_attr)
   } else {
     internal_plot_engine(
-      df, rlang::enquo(x), y = rlang::expr(vocabulary),
+      data, rlang::enquo(x), y = rlang::expr(vocabulary),
       rlang::enquo(by), identity = rlang::enquo(identity),
       descriptive_labels, labeling, skip_print = viz_attr)
   }
@@ -301,15 +316,14 @@ plot_vocabulary <- function(df, x = progress_words, by = doc_id, identity = NULL
 
 #' Show type-token ratio over time
 #'
-#' @param df A tidy data frame, potentially containing a column called "doc_id" and "word"
-#' @param x The progress column to show. Default option is progress_percent, but progress_words is also appropriate.
+#' @param data A tidy data frame, potentially containing a column called "doc_id" and "word"
+#' @param x A column showing the cumulative progress of documents
 #' @param by A grouping column for colors and labels
 #' @param identity A grouping column for lines
 #' @param descriptive_labels A toggle for disabling descriptive labels of progress_percent on the X-axis
 #' @param labeling Options for labeling groups:
 #' * `"point"` labels the final value
 #' * `"inline"` prints the label within a smoothed curve
-#' * `"axis"` prints labels where a secondary Y-axis might go
 #' * `"inset"` prints a legend within the plot area
 #' * Anything else prints a legend to the right of the plot area.
 #' @param log_y A toggle for logarithmic scaling to the Y-axis; defaults to TRUE
@@ -320,6 +334,7 @@ plot_vocabulary <- function(df, x = progress_words, by = doc_id, identity = NULL
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' dubliners <- get_gutenberg_corpus(2814) |>
 #'   load_texts() |>
 #'   identify_by(part) |>
@@ -333,19 +348,32 @@ plot_vocabulary <- function(df, x = progress_words, by = doc_id, identity = NULL
 #'
 #' dubliners_measured |>
 #'   plot_ttr()
-plot_ttr <- function(df, x = progress_words, by = doc_id, identity = NULL, descriptive_labels = TRUE, labeling = c("point", "inline", "axis", "inset"), log_y = TRUE){
+#' }
+plot_ttr <- function(data, x = progress, by = doc_id, identity = NULL, descriptive_labels = TRUE, labeling = c("point", "inline", "inset"), log_y = TRUE){
+  labeling <- match.arg(labeling)
+  if (!"progress" %in% colnames(data)) {
+    if ("word_index" %in% colnames(data)) {
+      data[["progress"]] <- data[["word_index"]]
+    } else if (descriptive_labels) {
+      data <- data |>
+        add_progress(unit = "percent")
+    } else {
+      data <- data |>
+        add_progress(unit = "index")
+    }
+  }
 
-  viz_attr <- attr(df, "visualize")
+  viz_attr <- attr(data, "visualize")
   if (is.null(viz_attr)) viz_attr <- FALSE
 
   if (is.null(identity)) {
     internal_plot_engine(
-      df, rlang::enquo(x), y = rlang::expr(ttr),
+      data, rlang::enquo(x), y = rlang::expr(ttr),
       rlang::enquo(by), rlang::enquo(by), descriptive_labels, labeling,
       log_y, skip_print = viz_attr)
   } else {
     internal_plot_engine(
-      df, rlang::enquo(x), y = rlang::expr(ttr),
+      data, rlang::enquo(x), y = rlang::expr(ttr),
       rlang::enquo(by), rlang::enquo(identity), descriptive_labels, labeling,
       log_y, skip_print = viz_attr)
   }
@@ -354,15 +382,14 @@ plot_ttr <- function(df, x = progress_words, by = doc_id, identity = NULL, descr
 
 #' Show hapax introduction ratio over time
 #'
-#' @param df A tidy data frame, potentially containing a column called "doc_id" and "word"
-#' @param x The progress column to show. Default option is progress_percent, but progress_words is also appropriate.
+#' @param data A tidy data frame, potentially containing a column called "doc_id" and "word"
+#' @param x A column showing the cumulative progress of documents
 #' @param by A grouping column for colors and labels
 #' @param identity A grouping column for lines
 #' @param descriptive_labels A toggle for disabling descriptive labels of progress_percent on the X-axis
 #' @param labeling Options for labeling groups:
 #' * `"point"` labels the final value
 #' * `"inline"` prints the label within a smoothed curve
-#' * `"axis"` prints labels where a secondary Y-axis might go
 #' * `"inset"` prints a legend within the plot area
 #' * Anything else prints a legend to the right of the plot area.
 #' @param log_y A toggle for logarithmic scaling to the Y-axis; defaults to TRUE
@@ -373,6 +400,7 @@ plot_ttr <- function(df, x = progress_words, by = doc_id, identity = NULL, descr
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' dubliners <- get_gutenberg_corpus(2814) |>
 #'   load_texts() |>
 #'   identify_by(part) |>
@@ -384,19 +412,32 @@ plot_ttr <- function(df, x = progress_words, by = doc_id, identity = NULL, descr
 #' dubliners_measured |>
 #'   standardize_titles() |>
 #'   plot_hir()
-plot_hir <- function(df, x = progress_words, by = doc_id, identity = doc_id, descriptive_labels = TRUE, labeling = c("point", "inline", "axis", "inset"), log_y = TRUE){
+#' }
+plot_hir <- function(data, x = progress, by = doc_id, identity = doc_id, descriptive_labels = TRUE, labeling = c("point", "inline", "inset"), log_y = TRUE){
+  labeling <- match.arg(labeling)
+  if (!"progress" %in% colnames(data)) {
+    if ("word_index" %in% colnames(data)) {
+      data[["progress"]] <- data[["word_index"]]
+    } else if (descriptive_labels) {
+      data <- data |>
+        add_progress(unit = "percent")
+    } else {
+      data <- data |>
+        add_progress(unit = "index")
+    }
+  }
 
-  viz_attr <- attr(df, "visualize")
+  viz_attr <- attr(data, "visualize")
   if (is.null(viz_attr)) viz_attr <- FALSE
 
   if (is.null(identity)) {
     internal_plot_engine(
-      df, rlang::enquo(x), y = rlang::expr(hir),
+      data, rlang::enquo(x), y = rlang::expr(hir),
       rlang::enquo(by), identity = rlang::enquo(by), descriptive_labels, labeling,
       log_y, skip_print = viz_attr)
   } else {
     internal_plot_engine(
-      df, rlang::enquo(x), y = rlang::expr(hir),
+      data, rlang::enquo(x), y = rlang::expr(hir),
       rlang::enquo(by), identity = rlang::enquo(identity), descriptive_labels, labeling,
       log_y, skip_print = viz_attr)
   }
@@ -406,13 +447,13 @@ plot_hir <- function(df, x = progress_words, by = doc_id, identity = doc_id, des
 #'
 #' `plot_hapax()` visualizes a sampling of hapax legomena projected on faceted curves of vocabulary growth over time
 #'
-#' @param df A tidy data frame, potentially containing columns called "doc_id" and "word"
+#' @param data A tidy data frame, potentially containing columns called "doc_id" and "word"
 #' @param prop The proportion of hapax to sample. The chart can become illegible with proportions over ~1%
-#' @param x The progress column to show. Default option is progress_percent, but progress_words is also appropriate.
+#' @param x A column showing the cumulative progress of documents
 #' @param y The Y-axis variable to chart. Default value is the cumulative vocabulary size.
 #' @param by A grouping column, such as doc_id
 #' @param descriptive_labels A toggle for disabling descriptive labels of progress_percent on the X-axis
-#' @param feature The column to check for new features. Defaults to `hapax`, but the function might also be used with `new_word` instead to plot a sample of new additions to documents' vocabularies.
+#' @param feature The column to check for new features. Defaults to `hapax_doc`, but the function might also be used with `new_word` instead to plot a sample of new additions to documents' vocabularies.
 #'
 #' @returns A ggplot object
 #' @family visualizing helpers
@@ -433,15 +474,26 @@ plot_hir <- function(df, x = progress_words, by = doc_id, identity = doc_id, des
 #'     plot_hapax()
 #' }
 plot_hapax <- function(
-    df,
+    data,
     prop = 0.01,
-    x = progress_words,
+    x = progress,
     y = vocabulary,
     by = doc_id,
     descriptive_labels = TRUE,
-    feature = hapax){
+    feature = hapax_doc){
+  if (!"progress" %in% colnames(data)) {
+    if ("word_index" %in% colnames(data)) {
+      data[["progress"]] <- data[["word_index"]]
+    } else if (descriptive_labels) {
+      data <- data |>
+        add_progress(unit = "percent")
+    } else {
+      data <- data |>
+        add_progress(unit = "index")
+    }
+  }
 
-  the_plot <- df |>
+  the_plot <- data |>
     dplyr::filter({{ feature }}) |>
     dplyr::slice_sample(prop = prop, by = {{ by }}) |>
     ggplot2::ggplot(ggplot2::aes(x = {{ x }},
@@ -452,31 +504,45 @@ plot_hapax <- function(
     ggplot2::scale_y_continuous(labels = scales::label_comma()) +
     ggplot2::labs(y = "vocabulary (words)",
          color = NULL) +
-    ggplot2::theme_linedraw() +
-    ggplot2::theme(legend.position = "none",
-          legend.background = ggplot2::element_rect(fill = "white", color = "white"),
-          panel.grid.minor = ggplot2::element_blank(),
-          strip.background = ggplot2::element_rect(fill="white"),
-          strip.text = ggplot2::element_text(color = "black"))
+    theme_tmtyro(
+      base_theme = ggplot2::theme_linedraw) +
+    ggplot2::theme(
+      legend.position = "none",
+      strip.background = ggplot2::element_rect(fill="white"),
+      strip.text = ggplot2::element_text(color = "black"))
+    # ggplot2::theme_linedraw() +
+    # ggplot2::theme(legend.position = "none",
+    #       legend.background = ggplot2::element_rect(fill = "white", color = "white"),
+    #       panel.grid.minor = ggplot2::element_blank(),
+    #       strip.background = ggplot2::element_rect(fill="white"),
+    #       strip.text = ggplot2::element_text(color = "black"))
 
-  if (deparse(substitute(x)) == "progress_words") {
+  if (max(dplyr::pull(data, {{ x }}), na.rm = TRUE) > 1
+    # deparse(substitute(x)) == "progress_words"
+    ) {
     the_plot <- the_plot +
       ggplot2::scale_x_continuous(
         labels = scales::label_number(scale_cut = scales::cut_short_scale())) +
-      ggplot2::labs(x = "text length (words)") +
+      ggplot2::labs(x = "progress (words)") +
       ggplot2::facet_wrap(ggplot2::vars({{ by }}), scales = "free")
-  } else if (deparse(substitute(x)) == "progress_percent" & descriptive_labels) {
+  } else if (
+    max(data[[deparse(substitute(x))]], na.rm = TRUE) <= 1 &
+    # deparse(substitute(x)) == "progress_percent" &
+    descriptive_labels) {
     the_plot <- the_plot +
       ggplot2::scale_x_continuous(breaks = c(0, .5, 1),
-                         labels = c("beginning", "middle", "end")) +
-      ggplot2::labs(x = "progress") +
-      suppressWarnings(ggplot2::theme(axis.text.x  = ggplot2::element_text(hjust = c(0, 0.5, 1)))) +
+                         labels = c("early", "middle", "late")) +
+      ggplot2::labs(x = "document progress") +
+      suppressWarnings(ggplot2::theme(axis.text.x  = ggplot2::element_text(hjust = c(0, 0.5, 1)), axis.ticks.x = ggplot2::element_blank())) +
       ggplot2::facet_wrap(ggplot2::vars({{ by }}), scales = "free_y")
-  } else if (deparse(substitute(x)) == "progress_percent" & !descriptive_labels) {
+  } else if (
+    max(data[[deparse(substitute(x))]], na.rm = TRUE) <= 1 &
+    # deparse(substitute(x)) == "progress_percent" &
+    !descriptive_labels) {
     the_plot <- the_plot +
       ggplot2::scale_x_continuous(labels = scales::label_percent()) +
-      ggplot2::labs(x = "progress") +
-      suppressWarnings(ggplot2::theme(axis.text.x  = ggplot2::element_text(hjust = c(0, 0.5, 1)))) +
+      ggplot2::labs(x = "document progress") +
+      # suppressWarnings(ggplot2::theme(axis.text.x  = ggplot2::element_text(hjust = c(0, 0.5, 1)))) + platypus check if this is what's causing three times the number of labels
       ggplot2::facet_wrap(ggplot2::vars({{ by }}), scales = "free_y")
   }
   the_plot

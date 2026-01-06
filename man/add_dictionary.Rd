@@ -4,16 +4,24 @@
 \alias{add_dictionary}
 \title{Add values from a dictionary}
 \usage{
-add_dictionary(df, dictionary, feature = word, keep_term = NULL)
+add_dictionary(
+  data,
+  dictionary,
+  feature = word,
+  keep_term = NULL,
+  label = NULL
+)
 }
 \arguments{
-\item{df}{A tidy data frame, potentially containing a column called "word"}
+\item{data}{A tidy data frame, potentially containing a column called "word"}
 
 \item{dictionary}{A data frame with two or more columns, potentially made with \code{make_dictionary()}}
 
 \item{feature}{The column (like "word") to use for looking up values in the dictionary}
 
 \item{keep_term}{Whether to retain the original term value. This option is especially useful with dictionaries containing terms longer than one word in length; the NULL value will keep the term for these dictionaries while discarding it for those with terms of only one word.}
+
+\item{label}{Whether to label variables added to data frame}
 }
 \value{
 The original data frame with one or more columns added.
@@ -22,6 +30,7 @@ The original data frame with one or more columns added.
 Add values from a dictionary
 }
 \examples{
+\dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts() |>
   identify_by(part) |>
@@ -42,4 +51,5 @@ dubliners |>
    add_dictionary(emoji_weather) |>
    drop_na() |>
    head()
+}
 }

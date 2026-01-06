@@ -15,6 +15,7 @@
 #' @param paragraph Whether to detect paragraph breaks for prose. Defaults to TRUE.
 #' @param n The number of words per row. By default, `load_texts()` unnests a text one word at a time using a column called `word`. When `n` is a value greater than 1, `load_texts()` will instead use [tidytext::unnest_tokens()] with `token = "ngrams"` to create a column called `ngram`.
 #' @param ... Additional arguments passed along to [tidytext::unnest_tokens()] for use with `tokenizers`
+#' @param label Whether to label variables added to data frame
 #'
 #' @returns A data frame with two to five columns and one row for each token (optionally, one row for each paragraph or one row for each line) in the corpus.
 #' @export
@@ -49,7 +50,9 @@ load_texts <- function(
     poetry = FALSE,
     paragraph = TRUE,
     n = 1L,
-    ...) {
+    ...,
+    label = NULL) {
+  imported_log <- NULL
   if (length(class(src)) == 1 && "character" %in% class(src)) {
     if (!dir.exists(src) & !dir.exists(paste0("data/",src))) {
       stop(corpus_missing(src),
@@ -75,6 +78,7 @@ load_texts <- function(
     if (sum(stringr::str_detect(colnames(src), "_id")) == 1) {
       index_id <- grepl("_id", colnames(src))
       colnames(src)[index_id] <- "doc_id"
+      imported_log <- attr(src, "tmtyro_log")
     } else {
       stop('When using `load_texts()` on an existing data frame, exactly one column needs to have a column name ending with "_id". Please rename columns accordingly and try again.')
     }
@@ -140,11 +144,74 @@ load_texts <- function(
       dplyr::select(-par_num)
   }
 
+  labels_queue <- c()
+  if (pos) labels_queue <- c(labels_queue, "pos")
+  if (lemma) labels_queue <- c(labels_queue, "lemma")
+
+  if (tmtyro_use_labels(label) && length(labels_queue) > 0) {
+    full_corpus <- full_corpus |>
+      assign_labels(labels_queue, "word")
+  }
+
+  if (tmtyro_use_log()) {
+    attr(full_corpus, "tmtyro_log") <- imported_log
+    param_text <- c()
+
+    if (word) {
+      param_text <- param_text |>
+        c("tokenizing words")
+    }
+    if (lemma) {
+      param_text <- param_text |>
+        c("detecting lemmas")
+    }
+    if (to_lower) {
+      param_text <- param_text |>
+        c("converting to lowercase")
+    }
+    if (remove_names) {
+      param_text <- param_text |>
+        c("removing names")
+    }
+    if (pos) {
+      param_text <- param_text |>
+        c("detecting parts of speech")
+    }
+    if (poetry) {
+      param_text <- param_text |>
+        c("preserving line breaks")
+    }
+    if (paragraph) {
+      param_text <- param_text |>
+        c("preserving paragraph breaks")
+    }
+    if (length(param_text) > 0) {
+      param_text <- param_text |>
+        stringr::str_flatten_comma(last = ", and ")
+      param_text <- paste(" by", param_text)
+    }
+
+    full_corpus <- full_corpus |>
+      add_logstep(
+        fn = "load_texts",
+        arguments = list(
+          parameters = list(
+            word = word,
+            lemma = lemma,
+            to_lower = to_lower,
+            remove_names = remove_names,
+            pos = pos,
+            poetry = poetry,
+            paragraph = paragraph
+          )#, parameters = param_text
+          ))
+  }
+
   full_corpus |>
     add_class("tmtyro")
 }
 
-tidy_texts_internal <- function(df, to_word, lemma, lemma_replace, to_lower, remove_names, pos = FALSE, n = 1, ...) {
+tidy_texts_internal <- function(data, to_word, lemma, lemma_replace, to_lower, remove_names, pos = FALSE, n = 1, ...) {
 
   if (n > 1) {
     if (remove_names) {
@@ -155,36 +222,36 @@ tidy_texts_internal <- function(df, to_word, lemma, lemma_replace, to_lower, rem
   }
 
   if (pos) {
-    df <- df |>
+    data <- data |>
       dplyr::filter(grepl("[a-zA-Z]", text)) |>
       annotate_pos()
   }
 
   if (to_word & !remove_names) {
-    df <- df |>
+    data <- data |>
       tidytext::unnest_tokens(word, text, to_lower = FALSE, ...)
   }
 
   if (n > 1) {
-    df <- df |>
+    data <- data |>
       tidytext::unnest_tokens(ngram, text, to_lower = FALSE, token = "ngrams", n = n, ...)
   }
 
   if (to_word & remove_names) {
-    df <-
+    data <-
       dplyr::group_modify(
-        .data = dplyr::group_by(df, doc_id),
+        .data = dplyr::group_by(data, doc_id),
         .f = ~ unnest_without_caps(.x, word, text, to_lower = FALSE)) |>
       dplyr::ungroup()
   }
 
   if (pos & to_word) {
-    df <- df |>
+    data <- data |>
       tidyr::separate(word, into = c("word", "pos"), sep = "__", fill = "right")
   }
 
   if (pos & n > 1) {
-    df <- df |>
+    data <- data |>
       dplyr::mutate(
         pos = ngram |>
           stringr::str_remove_all("\\b[a-zA-Z]+__"),
@@ -195,48 +262,48 @@ tidy_texts_internal <- function(df, to_word, lemma, lemma_replace, to_lower, rem
 
   if (lemma & to_word) {
     rlang::check_installed("textstem")
-    df <- df |>
+    data <- data |>
       dplyr::mutate(lemma = textstem::lemmatize_words(word))
   }
 
   if (lemma & n > 1) {
     rlang::check_installed("textstem")
-    df <- df |>
+    data <- data |>
       dplyr::mutate(lemma = textstem::lemmatize_strings(ngram))
   }
 
   if (lemma & to_word & lemma_replace) {
-    df <- df |>
+    data <- data |>
       dplyr::mutate(word = lemma) |>
       dplyr::select(-lemma)
   }
 
   if (lemma & n > 1 & lemma_replace) {
-    df <- df |>
+    data <- data |>
       dplyr::mutate(ngram = lemma) |>
       dplyr::select(-lemma)
   }
 
   if (lemma & !to_word & !n > 1) {
     rlang::check_installed("textstem")
-    df <- df |>
+    data <- data |>
       dplyr::mutate(text = textstem::lemmatize_strings(text))
   }
 
   if (to_lower) {
-    df <- df |>
+    data <- data |>
       dplyr::mutate(dplyr::across(dplyr::any_of(c("word", "lemma", "text", "ngram")), tolower))
   }
 
   if (pos) {
-    df <- df |>
+    data <- data |>
       dplyr::mutate(pos = stringr::str_replace_all(pos, "dollar", "$"))
   }
 
-  return(df)
+  return(data)
 }
 
-annotate_pos <- function(df){
+annotate_pos <- function(data){
   rlang::check_installed(c("NLP", "openNLP"))
   ##### NLP section #####
   sent_token_annotator <- openNLP::Maxent_Sent_Token_Annotator()
@@ -263,7 +330,7 @@ annotate_pos <- function(df){
     return(res)
   }
 
-  df |>
+  data |>
     dplyr::rowwise() |>
     dplyr::mutate(text = annotateDocuments(text) |>
              stringr::str_replace_all("[$] ","dollar ") |>
@@ -276,20 +343,20 @@ annotate_pos <- function(df){
 
 
 load_one_text <- function(file, directory, poetry = FALSE) {
-  df <-
+  data <-
     tibble::tibble(
       doc_id = stringr::str_remove_all(file, "[.].*"),
       text = readLines(paste0(directory, "/", file), warn = FALSE)) |>
     dplyr::filter(!(text == "" & dplyr::lead(text) == ""))
 
   if (!poetry) {
-    df <- df |>
+    data <- data |>
       dplyr::mutate(par_num = cumsum(text == ""),
                     .after = doc_id) |>
       dplyr::filter(text != "") |>
       dplyr::mutate(par_num = par_num - min(par_num, na.rm = TRUE) + 1)
   } else {
-    df <- df |>
+    data <- data |>
       dplyr::mutate(stanza_num = cumsum(text == "") + 1) |>
       dplyr::filter(text != "") |>
       dplyr::mutate(line_num = dplyr::row_number()) |>
@@ -297,7 +364,7 @@ load_one_text <- function(file, directory, poetry = FALSE) {
                       .after = doc_id)
   }
 
-  return(df)
+  return(data)
 }
 
 #' Prepare a corpus or corpora of texts
@@ -348,14 +415,14 @@ get_corpus <- function(
     x_rds <- paste0(corpus, ".rds")
 
     if (file.exists(x_rds) & cache) {
-      df <- readRDS(x_rds)
+      data <- readRDS(x_rds)
     } else {
       if (!dir.exists(corpus)) {
         stop(corpus_missing(corpus, cache),
              call. = FALSE)
       }
 
-      df <- load_texts(
+      data <- load_texts(
         src = corpus,
         name,
         word,
@@ -366,10 +433,10 @@ get_corpus <- function(
         pos,
         poetry,
         paragraph)
-      if (cache) saveRDS(df, x_rds)
+      if (cache) saveRDS(data, x_rds)
     }
 
-    df |>
+    data |>
       dplyr::mutate(corpus = corpus) |>
       dplyr::relocate(corpus)
   }
@@ -414,6 +481,7 @@ identify_by <- function(
   cols <- colnames(data)
   relevant <- lapply(substitute(list(...))[-1], deparse) |>
     unlist()
+  tmtyro_log <- attr(data, "tmtyro_log")
   if (!"doc_id" %in% relevant) {
     cols <- cols[cols != "doc_id"]
   }
@@ -441,6 +509,24 @@ identify_by <- function(
     data <- data |>
       dplyr::mutate(doc_id = forcats::fct_inorder(doc_id))
   }
+
+  if (tmtyro_use_log()) {
+    relevant_string <- paste0("`", relevant, "`") |>
+      unlist() |>
+      stringr::str_flatten_comma(last = ", and ")
+    if (length(relevant) > 1) {
+      relevant_string <- paste("columns", relevant_string)
+    } else {
+      relevant_string <- paste("column", relevant_string)
+    }
+    data <- data |>
+      set_methods_log(tmtyro_log) |>
+      add_logstep(
+        fn = "identify_by",
+        arguments = list(
+          relevant_column = relevant_string))
+  }
+
   data
 }
 

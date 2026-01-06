@@ -34,6 +34,7 @@ get_tf <- function(x, percent = TRUE){
 #'
 #' @param x A vector, such as a column of character strings
 #' @param by A vector of categories, such as a column of document identifiers
+#' @param percent Whether to return frequencies as percentage of the whole
 #'
 #' @returns A vector of term frequencies for each value pair of `x` and `by`.
 #' @family vectorized functions
@@ -50,7 +51,7 @@ get_tf <- function(x, percent = TRUE){
 #'   "C", "C", "C", "C", "C", "C")
 #'
 #' get_tf_by(my_values, my_docs)
-get_tf_by <- function(x, by) {
+get_tf_by <- function(x, by, percent = TRUE) {
   if (length(x) != length(by)) {
     stop("`x` and `by` must be vectors of the same length.")
   }
@@ -58,9 +59,53 @@ get_tf_by <- function(x, by) {
   data.frame(doc = by,
              word = x) |>
     dplyr::group_by(doc) |>
-    dplyr::mutate(tf = get_tf(word)) |>
+    dplyr::mutate(tf = get_tf(word, percent)) |>
     dplyr::ungroup() |>
     dplyr::pull(tf)
+}
+
+#' Get document frequencies of values in one vector `x` categorized by another vector `by`.
+#'
+#' @param x A vector, such as a column of character strings
+#' @param by A vector of categories, such as a column of document identifiers
+#' @param percent Whether to return frequencies as percentage of the whole
+#'
+#' @returns A vector of document frequencies for each value pair of `x` and `by`.
+#' @family vectorized functions
+#' @export
+#'
+#' @examples
+#' my_values <- c(
+#'   "the", "cat", "was", "bad",
+#'   "the", "dog", "was", "very", "good",
+#'   "the", "lizard", "is", "the", "most", "bad")
+#' my_docs <- c(
+#'   "A", "A", "A", "A",
+#'   "B", "B", "B", "B", "B",
+#'   "C", "C", "C", "C", "C", "C")
+#'
+#' get_df_by(my_values, my_docs)
+get_df_by <- function(x, by, percent = TRUE) {
+  if (missing(by)) {
+    stop("Missing `by`. A list of document identifiers is needed to calculate document frequency.")
+  }
+  if (length(x) != length(by)) {
+    stop("`x` and `by` must be vectors of the same length.")
+  }
+
+  x <- as.character(x)
+
+  doc_words <-
+    data.frame(doc = by,
+               word = x) |>
+    unique()
+
+  if (percent) {
+    unname(table(doc_words$word)[x] / length(unique(by)))
+  } else {
+    unname(table(doc_words$word)[x])
+  }
+
 }
 
 #' Get inverse document frequencies of values in one vector `x` categorized by another vector `by`.
@@ -91,18 +136,13 @@ get_idf_by <- function(x, by) {
   if (length(x) != length(by)) {
     stop("`x` and `by` must be vectors of the same length.")
   }
-  doc_words <-
-    data.frame(doc = by,
-               word = x) |>
-    unique()
-
-  term_counts <- table(doc_words$word)
+  doc_freq <- get_df_by(x, by, percent = FALSE)
 
   num_docs <- by |>
     unique() |>
     length()
 
-  log(num_docs/term_counts)[x] |>
+  log(num_docs/doc_freq) |>
     as.numeric()
 }
 
@@ -137,7 +177,7 @@ get_tfidf_by <- function(x, by) {
 #' Get sentiment matches of values in a vector
 #'
 #' @param x A vector, such as a column of character strings
-#' @param lexicon The sentiment lexicon to use from the [tidytext] package. Options include "bing", "afinn", "loughran", "nrc", "nrc_eil", or "nrc_vad".
+#' @param lexicon The sentiment lexicon to use from the \link[tidytext]{tidytext} package. Options include "bing", "afinn", "loughran", "nrc", "nrc_eil", or "nrc_vad".
 #' @param ... Additional values passed to `get_match()`
 #'
 #' @returns A vector or nested list of sentiments for each value of `x`.

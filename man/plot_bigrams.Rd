@@ -5,7 +5,7 @@
 \title{Visualize bigram chains}
 \usage{
 plot_bigrams(
-  df,
+  data,
   feature = word,
   random_seed = TRUE,
   set_seed = NULL,
@@ -14,7 +14,7 @@ plot_bigrams(
 )
 }
 \arguments{
-\item{df}{A tidy data frame potentially containing a column called "word" or columns called "word_1" and "word_2".}
+\item{data}{A tidy data frame potentially containing a column called "word" or columns called "word_1" and "word_2".}
 
 \item{feature}{The feature to use when constructing ngrams}
 
@@ -35,26 +35,24 @@ Visualize bigram chains
 \examples{
 \dontrun{
 # It isn't necessary to use add_ngrams()
-df |>
+data |>
   plot_bigrams()
 
 # Adding them first allows for filtering steps
-df |>
+data |>
   add_ngrams() |>
   drop_stopwords(word_1) |>
   drop_stopwords(word_2) |>
   plot_bigrams()
 
 # Only bigrams influence the visualization These show the same networks:
-df |>
+data |>
   add_ngrams() |>
   plot_bigrams()
 
-df |>
+data |>
   add_ngrams(4) |>
   plot_bigrams()
-
-}
 
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts() |>
@@ -81,9 +79,11 @@ dubliners |>
   plot_bigrams(top_n = 70) |>
   change_colors(c("black", "orange"))
 }
+}
 \seealso{
 Other visualizing helpers: 
 \code{\link{change_colors}()},
+\code{\link{italicize_titles}()},
 \code{\link{plot_doc_word_bars}()},
 \code{\link{plot_doc_word_heatmap}()},
 \code{\link{plot_hapax}()},
@@ -94,6 +94,7 @@ Other visualizing helpers:
 \code{\link{plot_topic_wordcloud}()},
 \code{\link{plot_ttr}()},
 \code{\link{plot_vocabulary}()},
+\code{\link{theme_tmtyro}()},
 \code{\link{visualize}()}
 
 Other n-gram helpers: 

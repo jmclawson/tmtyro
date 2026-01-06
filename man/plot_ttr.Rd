@@ -5,19 +5,19 @@
 \title{Show type-token ratio over time}
 \usage{
 plot_ttr(
-  df,
-  x = progress_words,
+  data,
+  x = progress,
   by = doc_id,
   identity = NULL,
   descriptive_labels = TRUE,
-  labeling = c("point", "inline", "axis", "inset"),
+  labeling = c("point", "inline", "inset"),
   log_y = TRUE
 )
 }
 \arguments{
-\item{df}{A tidy data frame, potentially containing a column called "doc_id" and "word"}
+\item{data}{A tidy data frame, potentially containing a column called "doc_id" and "word"}
 
-\item{x}{The progress column to show. Default option is progress_percent, but progress_words is also appropriate.}
+\item{x}{A column showing the cumulative progress of documents}
 
 \item{by}{A grouping column for colors and labels}
 
@@ -29,7 +29,6 @@ plot_ttr(
 \itemize{
 \item \code{"point"} labels the final value
 \item \code{"inline"} prints the label within a smoothed curve
-\item \code{"axis"} prints labels where a secondary Y-axis might go
 \item \code{"inset"} prints a legend within the plot area
 \item Anything else prints a legend to the right of the plot area.
 }}
@@ -43,6 +42,7 @@ A ggplot object
 Show type-token ratio over time
 }
 \examples{
+\dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts() |>
   identify_by(part) |>
@@ -57,9 +57,11 @@ dubliners_measured |>
 dubliners_measured |>
   plot_ttr()
 }
+}
 \seealso{
 Other visualizing helpers: 
 \code{\link{change_colors}()},
+\code{\link{italicize_titles}()},
 \code{\link{plot_bigrams}()},
 \code{\link{plot_doc_word_bars}()},
 \code{\link{plot_doc_word_heatmap}()},
@@ -70,6 +72,7 @@ Other visualizing helpers:
 \code{\link{plot_topic_distributions}()},
 \code{\link{plot_topic_wordcloud}()},
 \code{\link{plot_vocabulary}()},
+\code{\link{theme_tmtyro}()},
 \code{\link{visualize}()}
 }
 \concept{visualizing helpers}

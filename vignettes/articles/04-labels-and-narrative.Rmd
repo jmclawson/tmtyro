@@ -1,0 +1,145 @@
+---
+title: "Labels and Logging"
+subtitle: "Clarifying process"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Because sometimes we all get confused, tmtyro tries to keep things clear. In addition to using simple function names, tmtyro adds descriptive labels to variables explaining what they mean. It also logs steps in a workflow and offers tools to turn these built-in logs into a descriptive narrative.
+
+## Labels
+
+In RStudio and Positron, variable labels show up in the data viewer. Standard tmtyro functions that add columns---like `add_vocabulary()` or `add_sentiment()`---prepare reasonable default labels in English.
+
+```{r}
+library(tmtyro)
+corpus_dubliners <- get_gutenberg_corpus(2814) |> 
+  load_texts() |> 
+  identify_by(part) |> 
+  standardize_titles() |> 
+  add_vocabulary() |> 
+  add_sentiment()
+```
+
+These labels show in the IDE's data viewer:
+
+![](variable_labels.png)
+
+They're also revealed in the data dictionary made with `get_data_dictionary()`:
+
+```{r}
+get_data_dictionary(corpus_dubliners)
+```
+
+Column labels can be easily modified with `set_data_dictionary()`:
+
+```{r}
+dubliners_dd <- data.frame(
+  variable = "doc_id",
+  label = "story title"
+)
+
+corpus_dubliners <- corpus_dubliners |> 
+  set_data_dictionary(dubliners_dd)
+
+get_data_dictionary(corpus_dubliners, only_labeled = TRUE)
+```
+
+### Off-label use
+
+There are many ways to opt out of labels. 
+
+1. Setting the environment variable `TMTYRO_USE_LABELS` to `FALSE`---for example, either with the session-persistent command `Sys.setenv(TMTYRO_USE_LABELS = FALSE)` or by editing your `.Renviron`---will do the trick as long as the variable is defined. 
+2. Within a document or session, `options(tmtyro.use_labels = FALSE)` will also disable them.
+3. Functions adding columns also provide an argument to toggle labels for these columns. For instance, `add_sentiment(label = FALSE)` will avoid labeling the `sentiment` column.
+
+Labels can also be removed with `drop_labels()`.
+
+## Logging
+
+As tmtyro's functions apply new transformations to a corpus, they also record a reproducible log of what they did. This log is made accessible to readers with the `narrativize()` function, which explains the decisions made:
+
+```{r}
+corpus_joyce <- get_gutenberg_corpus(c(2814, 4217, 4300)) |> 
+  load_texts() |> 
+  identify_by(title) |> 
+  add_vocabulary()
+
+narrativize(corpus_joyce)
+```
+
+This output would ideally be adjusted before it is shared, but the function can already be adjusted for perspective and format:
+
+```{r}
+narrativize(corpus_joyce, person = "I", format = "text")
+```
+
+### Custom dictionaries
+
+A reasonable `narrative_dictionary_en` is provided for use with `narrativize()` by default. It can be used as a model to prepare alternative sentences to follow a house style or to describe process in another language.
+
+```{r}
+narrative_dictionary_fr <- tibble::tribble(
+  ~fn, ~parameter, ~narrative, ~prefix, ~suffix, ~plural_pre, ~plural_suf,
+  "get_gutenberg_corpus", NA, "Récupéré un corpus depuis Project Gutenberg à l'aide de {parameters}.", NA, NA, NA, NA, #
+  "get_gutenberg_corpus", "gutenberg_id", NA, "numéro d'ID", NA, "numéros d'ID", NA,
+
+  "load_texts", NA, "Préparé des textes{parameters}.", NA, NA, NA, NA, #
+  "load_texts", "parameters", NA, "en", NA, NA, NA,
+  "load_texts", "word", "tokenisant les mots", NA, NA, NA, NA,
+  "load_texts", "to_lower", "convertissant en minuscules", NA, NA, NA, NA,
+  "identify_by", NA, "Identifié les documents à l'aide de la {relevant_column}.", NA, NA, NA, NA, 
+  "add_vocabulary", NA, "Calculé l'unicité des {feature}s au fil du temps.", NA, NA, NA, NA,
+  NA, "and", "et", NA, NA, NA, NA,
+  NA, "words", "mots", NA, NA, NA, NA,
+  NA, "column", "colonne", NA, NA, NA, NA,
+)
+
+narrativize(corpus_joyce, dictionary = narrative_dictionary_fr)
+```
+
+### Navigating log jams
+
+Because tmtyro relies on a fixed set of functions to preserve and prepare the log, using other functions can get things out of sync.
+
+```{r}
+library(dplyr)
+corpus_joyce2 <- corpus_joyce |> 
+  group_by(doc_id) |> 
+  mutate(total_words = n()) |> 
+  ungroup() |> 
+  add_tf_idf()
+
+narrativize(corpus_joyce2)
+```
+
+Get around these log jams with helper functions `get_methods_log()`, `set_methods_log()`, and `add_methods_log()`:
+
+```{r}
+joyce_log <- get_methods_log(corpus_joyce)
+
+corpus_joyce2 <- corpus_joyce |> 
+  group_by(doc_id) |> 
+  mutate(total_words = n()) |> 
+  ungroup() |> 
+  set_methods_log(joyce_log) |> 
+  add_methods_log("Counted the total words in each document.") |> 
+  add_tf_idf()
+
+corpus_joyce2 |> 
+  narrativize()
+```
+
+### Avoiding logging
+
+These logs are optional and can be disabled with an environment variable or per session:
+
+1. Setting the environment variable `TMTYRO_USE_LOG` to `FALSE`---for example, either with the session-persistent command `Sys.setenv(TMTYRO_USE_LOG = FALSE)` or by editing your `.Renviron`---will do the trick as long as the variable is defined. 
+2. Within a document or session, `options(tmtyro.use_log = FALSE)` will also disable them.
+
+An existing log can also be removed from an object `x` with `x <- set_methods_log(x, NULL)`.

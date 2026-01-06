@@ -5,7 +5,7 @@
 \title{Convert data frame from long tidy format to wider format}
 \usage{
 expand_documents(
-  df,
+  data,
   feature = word,
   by = doc_id,
   percent = TRUE,
@@ -14,7 +14,7 @@ expand_documents(
 )
 }
 \arguments{
-\item{df}{A tidy data frame, potentially containing a column called "word"}
+\item{data}{A tidy data frame, potentially containing a column called "word"}
 
 \item{feature}{A column of words containing one word per row, to be counted for frequency}
 
@@ -33,6 +33,7 @@ A data frame with one row per document and as many features as words.
 The resulting data frame is a simpler form of the document feature matrix used by other packages. \code{my_df |> expand_documents(percent = FALSE, sort = FALSE)} compares to \code{my_df |> count(doc_id, word) |> tidytext::cast_dfm(doc_id, word, n)}, but it is not equivalent. The latter prepares a DFM to be used with the quanteda package.
 }
 \examples{
+\dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts() |>
   identify_by(part) |>
@@ -40,4 +41,5 @@ dubliners <- get_gutenberg_corpus(2814) |>
 
 dubliners |>
   expand_documents()
+}
 }

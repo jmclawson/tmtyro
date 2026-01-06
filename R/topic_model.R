@@ -9,7 +9,7 @@
 #' 6. converts the table of frequencies into a document term matrix
 #' 7. builds a topic model with `k` topics
 #'
-#' @param df A data frame with nested text in a "text" column.
+#' @param data A data frame with nested text in a "text" column.
 #' @param by The column for identifying each document. By default, the "title" column will be used.
 #' @param sample_size The sample size for each document chunk. By default, samples will include 1000 words.
 #' @param k The number of topics to search for. By default, 15 topics will be sought.
@@ -26,42 +26,42 @@
 #'   make_topic_model(k = 10)
 #'   }
 make_topic_model <- function(
-    df,
+    data,
     by = doc_id,
     sample_size = 1000,
     k = 15,
     cache = TRUE) {
 
   set_doc_samples <- function(
-    df,
+    data,
     size = 1000,
     by = doc_id,
     set_min = NULL,
     collapse_cols = TRUE) {
 
-    df <- df |>
+    data <- data |>
       dplyr::group_by({{ by }}) |>
       dplyr::mutate(set_id =
                ceiling(dplyr::row_number()/size)) |>
       dplyr::ungroup()
 
     if (!is.null(set_min)) {
-      df <- df |>
+      data <- data |>
         dplyr::group_by({{ by }}) |>
         dplyr::mutate(set_count = dplyr::n()) |>
         dplyr::filter(set_count > set_min)
     }
 
     if(collapse_cols) {
-      df <- df |>
+      data <- data |>
         tidyr::unite({{ by }}, {{ by }}, set_id)
     }
 
-    return(df)
+    return(data)
   }
 
   the_model <-
-    df |>
+    data |>
     unnest_without_caps() |>
     set_doc_samples(sample_size, {{ by }}) |>
     dplyr::anti_join(tidytext::get_stopwords()) |>
@@ -83,7 +83,7 @@ make_topic_model <- function(
 #'
 #' `load_topic_model()` checks to see whether a cached topic model exists before creating one with [make_topic_model()] and caching it.
 #'
-#' @param df A data frame with nested text in a "text" column.
+#' @param data A data frame with nested text in a "text" column.
 #' @param k The number of topics to search for. By default, 15 topics will be sought.
 #' @param by The column for identifying each document. By default, the "title" column will be used.
 #' @param sample_size The sample size for each document chunk. By default, samples will include 1000 words.
@@ -100,14 +100,14 @@ make_topic_model <- function(
 #'   load_topic_model(k = 10)
 #'   }
 load_topic_model <- function(
-    df,
+    data,
     k = 15,
     by = doc_id,
     sample_size = 1000,
     lda_name = NULL) {
 
   if (is.null(lda_name)) {
-    lda_name <- df |>
+    lda_name <- data |>
       substitute() |>
       deparse() |>
       paste0("_lda", k)
@@ -119,7 +119,7 @@ load_topic_model <- function(
   if (file.exists(cache_path)) {
     the_model <- readRDS(cache_path)
   } else {
-    the_model <- df |>
+    the_model <- data |>
       make_topic_model(
         by, sample_size,
         k, cache = TRUE) |>
@@ -179,21 +179,21 @@ plot_topic_distributions <- function(
     df_string <- deparse(substitute(lda))
   }
 
-  plot_topic_parts <- function(df,
+  plot_topic_parts <- function(data,
                                direct_label = TRUE) {
-    n_topics <- df |>
+    n_topics <- data |>
       dplyr::select(doc_id, topic) |>
       dplyr::distinct() |>
       dplyr::count(doc_id) |>
       dplyr::pull(n) |>
       mean(na.rm = TRUE)
 
-    n_docs <- df |>
+    n_docs <- data |>
       dplyr::pull(doc_id) |>
       unique() |>
       length()
 
-    doc_topics <- df |>
+    doc_topics <- data |>
       dplyr::group_by(doc_id, topic) |>
       dplyr::summarize(n = median(n)) |>
       dplyr::arrange(-n) |>
@@ -211,14 +211,14 @@ plot_topic_distributions <- function(
     label_breaks <- n_topics |>
       {\(x) ((1:x/(x - 1)) - (1/(x - 1))) * 0.95}()
 
-    plot <- df |>
+    plot <- data |>
       ggplot2::ggplot(ggplot2::aes(x = set, y = n))
 
     expand_var <- 0.1
 
     if (direct_label) {
       expand_var <- 0.01
-      df_text <- df |>
+      df_text <- data |>
         dplyr::group_by(doc_id) |>
         dplyr::filter(set == max(set)) |>
         dplyr::arrange(dplyr::desc(topic)) |>

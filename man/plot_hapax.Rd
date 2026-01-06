@@ -5,21 +5,21 @@
 \title{Project hapax legomena onto vocabulary growth}
 \usage{
 plot_hapax(
-  df,
+  data,
   prop = 0.01,
-  x = progress_words,
+  x = progress,
   y = vocabulary,
   by = doc_id,
   descriptive_labels = TRUE,
-  feature = hapax
+  feature = hapax_doc
 )
 }
 \arguments{
-\item{df}{A tidy data frame, potentially containing columns called "doc_id" and "word"}
+\item{data}{A tidy data frame, potentially containing columns called "doc_id" and "word"}
 
 \item{prop}{The proportion of hapax to sample. The chart can become illegible with proportions over ~1\%}
 
-\item{x}{The progress column to show. Default option is progress_percent, but progress_words is also appropriate.}
+\item{x}{A column showing the cumulative progress of documents}
 
 \item{y}{The Y-axis variable to chart. Default value is the cumulative vocabulary size.}
 
@@ -27,7 +27,7 @@ plot_hapax(
 
 \item{descriptive_labels}{A toggle for disabling descriptive labels of progress_percent on the X-axis}
 
-\item{feature}{The column to check for new features. Defaults to \code{hapax}, but the function might also be used with \code{new_word} instead to plot a sample of new additions to documents' vocabularies.}
+\item{feature}{The column to check for new features. Defaults to \code{hapax_doc}, but the function might also be used with \code{new_word} instead to plot a sample of new additions to documents' vocabularies.}
 }
 \value{
 A ggplot object
@@ -52,6 +52,7 @@ if (FALSE) {
 \seealso{
 Other visualizing helpers: 
 \code{\link{change_colors}()},
+\code{\link{italicize_titles}()},
 \code{\link{plot_bigrams}()},
 \code{\link{plot_doc_word_bars}()},
 \code{\link{plot_doc_word_heatmap}()},
@@ -62,6 +63,7 @@ Other visualizing helpers:
 \code{\link{plot_topic_wordcloud}()},
 \code{\link{plot_ttr}()},
 \code{\link{plot_vocabulary}()},
+\code{\link{theme_tmtyro}()},
 \code{\link{visualize}()}
 }
 \concept{visualizing helpers}

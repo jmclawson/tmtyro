@@ -6,6 +6,7 @@
 \usage{
 get_gutenberg_corpus(
   gutenberg_id,
+  download = c("auto", "always", "temp", "never"),
   dir = "gutenberg",
   meta_fields = c("gutenberg_id", "title", "author"),
   html_title = FALSE,
@@ -13,18 +14,20 @@ get_gutenberg_corpus(
 )
 }
 \arguments{
-\item{gutenberg_id}{A vector of ID numbers from Project Gutenberg or a data frame containing a \code{gutenberg_id} column, such as from the results of a call to \code{\link[gutenbergr:gutenberg_works]{gutenbergr::gutenberg_works()}}.}
+\item{gutenberg_id}{A vector of ID numbers from Project Gutenberg or a data frame containing a \code{gutenberg_id} column, such as from the results of a call to \code{\link[gutenbergr:gutenberg_works]{gutenbergr::gutenberg_works()}}}
 
-\item{dir}{The directory for storing downloaded \code{.txt} files. Default value is "gutenberg".}
+\item{download}{Whether files should be automatically downloaded into a project subdirectory as needed (the default), always downloaded into the project folder, temporarily downloaded once per-session, or never downloaded}
 
-\item{meta_fields}{Additional fields to add from \link[gutenbergr:gutenberg_metadata]{gutenbergr::gutenberg_metadata} describing each book. By default, title and author are added.}
+\item{dir}{The project subdirectory for storing downloaded \code{.htm} files}
 
-\item{html_title}{Whether to use the h1 header from an HTML file to determine a document's title. By default, uses \link[gutenbergr:gutenberg_metadata]{gutenbergr::gutenberg_metadata}.}
+\item{meta_fields}{Additional fields to add from \link[gutenbergr:gutenberg_metadata]{gutenbergr::gutenberg_metadata} describing each book}
 
-\item{...}{Additional parameters passed along to \code{\link[gutenbergr:gutenberg_strip]{gutenbergr::gutenberg_strip()}}.}
+\item{html_title}{Whether to use the h1 header from an HTML file to determine a document's title instead of \link[gutenbergr:gutenberg_metadata]{gutenbergr::gutenberg_metadata}}
+
+\item{...}{Additional parameters passed along to \code{\link[gutenbergr:gutenberg_strip]{gutenbergr::gutenberg_strip()}}}
 }
 \value{
-A data frame with one row for each line of the texts in the corpus.
+A data frame with one row for each line of the texts in the corpus
 }
 \description{
 \code{get_gutenberg_corpus()} improves upon the functionality
@@ -48,9 +51,11 @@ corpora, but offline caching speeds things up considerably
 in subsequent use.
 }
 \examples{
+\dontrun{
 library(gutenbergr)
 
 dalloway <- gutenberg_works(author == "Woolf, Virginia",
                             title == "Mrs Dalloway in Bond Street") |>
   get_gutenberg_corpus()
+}
 }

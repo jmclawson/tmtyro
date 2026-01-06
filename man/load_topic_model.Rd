@@ -4,10 +4,16 @@
 \alias{load_topic_model}
 \title{Load (or cache and load) a topic model}
 \usage{
-load_topic_model(df, k = 15, by = doc_id, sample_size = 1000, lda_name = NULL)
+load_topic_model(
+  data,
+  k = 15,
+  by = doc_id,
+  sample_size = 1000,
+  lda_name = NULL
+)
 }
 \arguments{
-\item{df}{A data frame with nested text in a "text" column.}
+\item{data}{A data frame with nested text in a "text" column.}
 
 \item{k}{The number of topics to search for. By default, 15 topics will be sought.}
 

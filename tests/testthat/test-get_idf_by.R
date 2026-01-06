@@ -47,7 +47,7 @@ test_that("get_idf_by() works with numeric vectors", {
 test_that("get_idf_by() works with logical vectors", {
   expect_equal(
     round(get_idf_by(
-      x = as.character(c(TRUE, FALSE, TRUE, TRUE)),
+      x = c(TRUE, FALSE, TRUE, TRUE),
       by = c("A", "A", "B", "B")), 2),
     c(0, 0.69, 0, 0)
   )

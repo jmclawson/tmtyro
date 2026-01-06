@@ -5,7 +5,7 @@
 \title{Visualize the top terms by tf-idf}
 \usage{
 plot_tf_idf(
-  df,
+  data,
   rows = 1:10,
   by = doc_id,
   feature = word,
@@ -15,7 +15,7 @@ plot_tf_idf(
 )
 }
 \arguments{
-\item{df}{A tidy data frame, potentially containing columns called "doc_id" and "word"}
+\item{data}{A tidy data frame, potentially containing columns called "doc_id" and "word"}
 
 \item{rows}{The rows of terms to chart in each document}
 
@@ -36,6 +36,7 @@ A ggplot object
 Visualize the top terms by tf-idf
 }
 \examples{
+\dontrun{
 dubliners <- get_gutenberg_corpus(2814) |>
   load_texts() |>
   identify_by(part) |>
@@ -44,9 +45,11 @@ dubliners <- get_gutenberg_corpus(2814) |>
 dubliners |>
   plot_tf_idf()
 }
+}
 \seealso{
 Other visualizing helpers: 
 \code{\link{change_colors}()},
+\code{\link{italicize_titles}()},
 \code{\link{plot_bigrams}()},
 \code{\link{plot_doc_word_bars}()},
 \code{\link{plot_doc_word_heatmap}()},
@@ -57,6 +60,7 @@ Other visualizing helpers:
 \code{\link{plot_topic_wordcloud}()},
 \code{\link{plot_ttr}()},
 \code{\link{plot_vocabulary}()},
+\code{\link{theme_tmtyro}()},
 \code{\link{visualize}()}
 }
 \concept{tf-idf helpers}

@@ -2,7 +2,7 @@
 #'
 #' `tabulize()` provides a simple method for sharing results. Based on previous functions used, `tabulize()` will choose a method, resolving to one of a set of tables.
 #'
-#' @param .data data processed with one or more functions from `tmtyro`
+#' @param data data processed with one or more functions from `tmtyro`
 #' @param ... optional parameters passed along to methods
 #' @inheritDotParams tabulize.default summary:rows
 #'
@@ -38,7 +38,7 @@
 #'      tabulize()
 #' ```
 #' \if{html}{\out{<div style="text-align: center">}\figure{tabulizer_sentiment.png}{options: style="width:700px;max-width:50\%;"}\out{</div>}}
-tabulize <- function(.data,...){
+tabulize <- function(data,...){
   UseMethod("tabulize")
 }
 
@@ -53,29 +53,31 @@ tabulize <- function(.data,...){
 #'
 #' @keywords internal
 #' @export
-tabulize.default <- function(.data, summary = TRUE, inorder = TRUE, count = FALSE, rows = NULL, ...){
+tabulize.default <- function(data, summary = TRUE, inorder = TRUE, count = FALSE, rows = NULL, ...){
   if (is.null(rows)) rows <- 1:6
 
-  if ("doc_id" %in% colnames(.data) && inorder) {
-    .data <- .data |>
+  if ("doc_id" %in% colnames(data) && inorder) {
+    data <- data |>
       dplyr::mutate(doc_id = forcats::fct_inorder(doc_id))
   }
 
   if (summary && !count &&
-      "doc_id" %in% colnames(.data) &&
-      "word" %in% colnames(.data)) {
-    .data |>
+      "doc_id" %in% colnames(data) &&
+      "word" %in% colnames(data)) {
+    data |>
       dplyr::count(doc_id) |>
       gt::gt() |>
       gt::fmt_number(columns = n, decimals = 0) |>
       gt::cols_label(
         doc_id = "",
         n = "words"
-      )
+      ) |>
+      gt::cols_label_with(columns = gt::everything(), stringr::str_to_title) |>
+      gt::cols_align("left", doc_id)
   } else if (summary && !count &&
-             "text" %in% colnames(.data)) {
-    id_cols <- colnames(.data)[colnames(.data) %in% c("gutenberg_id", "doc_id", "title", "author")]
-    .data |>
+             "text" %in% colnames(data)) {
+    id_cols <- colnames(data)[colnames(data) %in% c("gutenberg_id", "doc_id", "title", "author")]
+    data |>
       dplyr::group_by(dplyr::across(tidyr::all_of(id_cols))) |>
       dplyr::summarize(n = dplyr::n()) |>
       dplyr::ungroup() |>
@@ -83,9 +85,9 @@ tabulize.default <- function(.data, summary = TRUE, inorder = TRUE, count = FALS
       gt::fmt_number(columns = n, decimals = 0) |>
       gt::sub_missing()
   } else if (count &&
-             "doc_id" %in% colnames(.data) &&
-             "word" %in% colnames(.data)) {
-    .data |>
+             "doc_id" %in% colnames(data) &&
+             "word" %in% colnames(data)) {
+    data |>
       dplyr::count(doc_id, word, sort = TRUE) |>
       dplyr::slice(rows, .by = doc_id) |>
       gt::gt() |>
@@ -94,7 +96,7 @@ tabulize.default <- function(.data, summary = TRUE, inorder = TRUE, count = FALS
       collapse_rows(doc_id) |>
       gt::cols_label(doc_id = "")
   } else {
-    .data |>
+    data |>
       dplyr::slice(rows) |>
       gt::gt() |>
       gt::sub_missing()
@@ -109,30 +111,42 @@ tabulize.default <- function(.data, summary = TRUE, inorder = TRUE, count = FALS
 #'
 #' @keywords internal
 #' @export
-tabulize.vocabulary <- function(.data, digits = 3, ...) {
-  .data |>
+tabulize.vocabulary <- function(data, digits = 3, ...) {
+  data |>
     dplyr::summarize(
       words = dplyr::n(),
       vocabulary = sum(new_word),
-      hapax = sum(hapax),
+      hapax_doc = sum(hapax_doc),
+      hapax_corpus = sum(hapax_corpus),
       ttr = vocabulary / words,
-      htr = hapax / words,
+      htr = hapax_doc / words,
+      c_htr = hapax_corpus / words,
       .by = doc_id) |>
-    dplyr::relocate(hapax, .before = htr) |>
+    dplyr::relocate(hapax_doc, .before = htr) |>
+    dplyr::relocate(hapax_corpus, .before = c_htr) |>
     dplyr::rename(vocab = vocabulary,
-                  hlemona = hapax) |>
+                  hlemona = hapax_doc,
+                  clemona = hapax_corpus) |>
     gt::gt() |>
-    gt::fmt_number(columns = c(words, vocab, hlemona), decimals = 0) |>
-    gt::fmt_number(columns = c(ttr, htr), decimals = digits) |>
+    gt::fmt_number(columns = c(words, vocab, hlemona, clemona), decimals = 0) |>
+    gt::fmt_number(columns = c(ttr, htr, c_htr), decimals = digits) |>
     gt::cols_label(
       doc_id = "",
-      vocab = "total",
-      hlemona = "total",
+      vocab = "types",
+      hlemona = "hapaxes",
+      clemona = "hapaxes",
       htr = "ratio",
+      c_htr = "ratio",
       ttr = "ratio",
-      words = "length") |>
-    gt::tab_spanner("vocabulary", columns = vocab:ttr) |>
-    gt::tab_spanner("hapax", columns = hlemona:htr)
+      words = "words"
+      ) |>
+    gt::cols_label_with(columns = gt::everything(), stringr::str_to_title) |>
+    gt::tab_spanner("Length", level = 2, columns = words) |>
+    gt::tab_spanner("Vocabulary", level = 2, columns = vocab:ttr) |>
+    gt::tab_spanner("Lexical Novelty", level = 2, columns = hlemona:c_htr) |>
+    gt::tab_spanner("Document", level = 1, columns = hlemona:htr) |>
+    gt::tab_spanner("Corpus", level = 1, columns = clemona:c_htr) |>
+    gt::cols_align("left", columns = doc_id)
 }
 
 #' Prepare a table for sentiment analysis
@@ -146,14 +160,14 @@ tabulize.vocabulary <- function(.data, digits = 3, ...) {
 #'
 #' @keywords internal
 #' @export
-tabulize.sentiment <- function(.data, inorder = TRUE, digits = 2, drop_na = FALSE, ignore = NULL, rows = NULL, count = TRUE, ...) {
+tabulize.sentiment <- function(data, inorder = TRUE, digits = 2, drop_na = FALSE, ignore = NULL, rows = NULL, count = TRUE, ...) {
   if (is.null(rows)) rows <- 1:6
-  if ("doc_id" %in% colnames(.data) && inorder) {
-    .data <- .data |>
+  if ("doc_id" %in% colnames(data) && inorder) {
+    data <- data |>
       dplyr::mutate(doc_id = forcats::fct_inorder(doc_id))
   }
-  if (!is.null(ignore) && "sentiment" %in% colnames(.data)) {
-    .data <- .data |>
+  if (!is.null(ignore) && "sentiment" %in% colnames(data)) {
+    data <- data |>
       dplyr::mutate(
         sentiment = dplyr::case_when(
           sentiment %in% ignore ~ NA_character_,
@@ -161,13 +175,13 @@ tabulize.sentiment <- function(.data, inorder = TRUE, digits = 2, drop_na = FALS
         ))
   }
   if (drop_na) {
-    .data <- .data |>
+    data <- data |>
       tidyr::drop_na(sentiment)
   }
   if (count &&
-      "sentiment" %in% colnames(.data) && # nrc_vad uses sentiment_valence
-      is.character(.data$sentiment)) { # afinn is double
-     .data |>
+      "sentiment" %in% colnames(data) && # nrc_vad uses sentiment_valence
+      is.character(data$sentiment)) { # afinn is double
+     data |>
       dplyr::count(doc_id, sentiment) |>
       dplyr::mutate(percent = 100 * n / sum(n),
                     .by = doc_id) |>
@@ -179,10 +193,20 @@ tabulize.sentiment <- function(.data, inorder = TRUE, digits = 2, drop_na = FALS
       gt::cols_label(
         doc_id = "",
         percent = "%"
-      )
+      ) |>
+      gt::cols_label_with(columns = gt::everything(), {
+        \(x) stringr::str_to_title(x) |>
+          stringr::str_replace_all(
+            "Nrc", "NRC"
+          ) |>
+          stringr::str_replace_all(
+            "Afinn", "AFINN"
+          )
+      }) |>
+      gt::cols_align("left", doc_id)
   } else if (count &&
-             "sentiment_valence" %in% colnames(.data)) {
-    .data |>
+             "sentiment_valence" %in% colnames(data)) {
+    data |>
       dplyr::summarize(
         valence = mean(sentiment_valence, na.rm = TRUE),
         .by = doc_id) |>
@@ -190,11 +214,21 @@ tabulize.sentiment <- function(.data, inorder = TRUE, digits = 2, drop_na = FALS
       gt::fmt_number(columns = valence, decimals = digits) |>
       gt::cols_label(
         doc_id = "",
-        valence = "average valence")
+        valence = "average valence") |>
+      gt::cols_label_with(columns = gt::everything(), {
+        \(x) stringr::str_to_title(x) |>
+          stringr::str_replace_all(
+            "Nrc", "NRC"
+          ) |>
+          stringr::str_replace_all(
+            "Afinn", "AFINN"
+          )
+      }) |>
+      gt::cols_align("left", doc_id)
   } else if (count &&
-             "sentiment" %in% colnames(.data) &&
-             is.double(.data$sentiment)) {
-    .data |>
+             "sentiment" %in% colnames(data) &&
+             is.double(data$sentiment)) {
+    data |>
       dplyr::summarize(
         sentiment = mean(sentiment, na.rm = TRUE),
         .by = doc_id) |>
@@ -202,12 +236,32 @@ tabulize.sentiment <- function(.data, inorder = TRUE, digits = 2, drop_na = FALS
       gt::fmt_number(columns = sentiment, decimals = digits) |>
       gt::cols_label(
         doc_id = "",
-        sentiment = "average sentiment")
+        sentiment = "average sentiment") |>
+      gt::cols_label_with(columns = gt::everything(), {
+        \(x) stringr::str_to_title(x) |>
+          stringr::str_replace_all(
+            "Nrc", "NRC"
+          ) |>
+          stringr::str_replace_all(
+            "Afinn", "AFINN"
+          )
+      }) |>
+      gt::cols_align("left", doc_id)
   } else {
-    .data |>
+    data |>
       dplyr::slice(rows) |>
       gt::gt() |>
-      gt::sub_missing()
+      gt::sub_missing() |>
+      gt::cols_label_with(columns = gt::everything(), {
+        \(x) stringr::str_to_title(x) |>
+          stringr::str_replace_all(
+            "Nrc", "NRC"
+          ) |>
+          stringr::str_replace_all(
+            "Afinn", "AFINN"
+          )
+      }) |>
+      gt::cols_align("left", doc_id)
   }
 }
 
@@ -219,22 +273,31 @@ tabulize.sentiment <- function(.data, inorder = TRUE, digits = 2, drop_na = FALS
 #'
 #' @keywords internal
 #' @export
-tabulize.tf_idf <- function(.data, rows = NULL, digits = 5, feature = word, ...) {
-  .data <- .data |>
+tabulize.tf_idf <- function(data, rows = NULL, digits = 5, feature = word, ...) {
+  data <- data |>
     dplyr::select(doc_id,
                   {{ feature }},
                   n, tf, idf, tf_idf) |>
     dplyr::distinct() |>
     dplyr::arrange(dplyr::desc(tf_idf))
   if (is.null(rows)) rows <- 1:6
-  .data |>
+  data |>
     dplyr::slice(rows, .by = doc_id) |>
     dplyr::arrange(doc_id) |>
+    drop_labels() |>
+    dplyr::rename(`tf-idf` = tf_idf) |>
     gt::gt() |>
     gt::cols_label(doc_id = "") |>
     gt::fmt_number(n, decimals = 0) |>
-    gt::fmt_number(tf:tf_idf, decimals = digits) |>
-    collapse_rows(doc_id)
+    gt::fmt_number(tf:`tf-idf`, decimals = digits) |>
+    collapse_rows(doc_id) |>
+    gt::cols_label_with(columns = gt::everything(), {
+      \(x) x |>
+        stringr::str_to_title() |>
+        stringr::str_replace_all("Tf", "TF") |>
+        stringr::str_replace_all("Idf", "IDF")
+    }) |>
+    gt::cols_align("left", doc_id)
 }
 
 #' Prepare a table of n-gram frequencies
@@ -245,8 +308,8 @@ tabulize.tf_idf <- function(.data, rows = NULL, digits = 5, feature = word, ...)
 #'
 #' @keywords internal
 #' @export
-tabulize.ngrams <- function(.data, ...) {
-  .data |>
+tabulize.ngrams <- function(data, ...) {
+  data |>
     combine_ngrams() |>
     tabulize.combined_ngrams(...)
 }
@@ -259,10 +322,10 @@ tabulize.ngrams <- function(.data, ...) {
 #'
 #' @keywords internal
 #' @export
-tabulize.combined_ngrams <- function(.data, rows = NULL, count = TRUE, digits = 2, ...) {
+tabulize.combined_ngrams <- function(data, rows = NULL, count = TRUE, digits = 2, ...) {
   if (is.null(rows)) rows <- 1:6
   if (count) {
-    .data |>
+    data |>
       dplyr::count(doc_id, ngram, sort = TRUE) |>
       dplyr::mutate(percent = 100 * n / sum(n), .by = doc_id) |>
       dplyr::slice(rows, .by = doc_id) |>
@@ -273,42 +336,63 @@ tabulize.combined_ngrams <- function(.data, rows = NULL, count = TRUE, digits = 
       collapse_rows(doc_id) |>
       gt::cols_label(
         doc_id = "",
-        percent = "%")
+        percent = "%") |>
+      gt::cols_label_with(columns = gt::everything(), {
+        \(x) x |>
+          stringr::str_replace_all("2-word sequence", "bigram") |>
+          stringr::str_replace_all("3-word sequence", "trigram") |>
+          stringr::str_to_title()
+      }) |>
+      gt::cols_align("left", doc_id)
   } else {
-    .data |>
+    data |>
       dplyr::slice(rows) |>
       gt::gt() |>
-      gt::sub_missing()
+      gt::sub_missing() |>
+      gt::cols_label_with(columns = gt::everything(), {
+        \(x) x |>
+          stringr::str_replace_all("2-word sequence", "bigram") |>
+          stringr::str_replace_all("3-word sequence", "trigram") |>
+          stringr::str_to_title()
+      }) |>
+      gt::cols_align("left", doc_id)
   }
 }
 
 #' @export
-tabulize.frequency <- function(.data, rows = NULL, feature = word, ...) {
+tabulize.frequency <- function(data, rows = NULL, feature = word, ...) {
   # feature_n <- deparse(substitute(feature)) |>
   #   paste0("_n")
-  # if (feature_n %in% colnames(.data)) {
-  #   .data[["n"]] <- .data[[feature_n]]
+  # if (feature_n %in% colnames(data)) {
+  #   data[["n"]] <- data[[feature_n]]
   # }
-  if (is.null(feature) && "feature" %in% names(attributes(.data))) {
-    feature <- attr(.data, "feature")
+  data <- drop_labels(data)
+  if (is.null(feature) && "feature" %in% names(attributes(data))) {
+    feature <- attr(data, "feature")
     the_cols <- c("doc_id", feature, "n")
-    .data <- .data |>
+    data <- data |>
       dplyr::select(tidyr::all_of(the_cols)) |>
       dplyr::distinct()
+  } else if (is.null(feature)) {
+    data <- data |>
+      dplyr::select(doc_id, word, n) |>
+      dplyr::distinct()
   } else {
-    .data <- .data |>
+    data <- data |>
       dplyr::select(doc_id, {{ feature }}, n) |>
       dplyr::distinct()
   }
   if (is.null(rows)) rows <- 1:6
-  .data |>
+  data |>
     dplyr::arrange(-n) |>
     dplyr::slice(rows, .by = doc_id) |>
     gt::gt() |>
     gt::fmt_number(columns = n, decimals = 0) |>
     gt::sub_missing() |>
     collapse_rows(doc_id) |>
-    gt::cols_label(doc_id = "")
+    gt::cols_label(doc_id = "") |>
+    gt::cols_label_with(columns = gt::everything(), stringr::str_to_title) |>
+    gt::cols_align("left", doc_id)
 }
 
 #' Prepare a table showing a document-feature matrix
@@ -320,20 +404,21 @@ tabulize.frequency <- function(.data, rows = NULL, feature = word, ...) {
 #'
 #' @keywords internal
 #' @export
-tabulize.expanded <- function(.data, columns = NULL, digits = 2, ...) {
+tabulize.expanded <- function(data, columns = NULL, digits = 2, ...) {
   if (is.null(columns)) {
     columns <- 1:7
   } else {
     columns <- c(0, columns - 1) + 1
   }
-  .data |>
+  data |>
     dplyr::select(tidyr::all_of(columns)) |>
     gt::gt() |>
     gt::cols_label(doc_id = "") |>
     gt::fmt_percent(
       columns = columns[columns != 1],
       decimals = digits) |>
-    collapse_rows(doc_id)
+    collapse_rows(doc_id) |>
+    gt::cols_align("left", doc_id)
 }
 
 #' Collapse gt rows in the style of kableExtra

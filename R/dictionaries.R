@@ -66,15 +66,17 @@ make_dictionary <- function(
 
 #' Add values from a dictionary
 #'
-#' @param df A tidy data frame, potentially containing a column called "word"
+#' @param data A tidy data frame, potentially containing a column called "word"
 #' @param dictionary A data frame with two or more columns, potentially made with `make_dictionary()`
 #' @param feature The column (like "word") to use for looking up values in the dictionary
 #' @param keep_term Whether to retain the original term value. This option is especially useful with dictionaries containing terms longer than one word in length; the NULL value will keep the term for these dictionaries while discarding it for those with terms of only one word.
+#' @param label Whether to label variables added to data frame
 #'
 #' @returns The original data frame with one or more columns added.
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' dubliners <- get_gutenberg_corpus(2814) |>
 #'   load_texts() |>
 #'   identify_by(part) |>
@@ -95,11 +97,13 @@ make_dictionary <- function(
 #'    add_dictionary(emoji_weather) |>
 #'    drop_na() |>
 #'    head()
+#' }
 add_dictionary <- function(
-    df,
+    data,
     dictionary,
     feature = word,
-    keep_term = NULL
+    keep_term = NULL,
+    label = NULL
 ) {
   if (!"data.frame" %in% class(dictionary) ||
       !"term" == colnames(dictionary)[1] ||
@@ -147,34 +151,39 @@ add_dictionary <- function(
   colnames(dictionary)[2] <- dict_name
 
   if (max_ngrams > 1) {
-    results <- df |>
+    results <- data |>
       add_ngram_dictionary(dictionary)
     return(results)
   }
 
-  if ("data.frame" %in% class(df) &&
-      deparse(substitute(feature)) %in% colnames(df)) {
-    result <- df |>
+  if ("data.frame" %in% class(data) &&
+      deparse(substitute(feature)) %in% colnames(data)) {
+    result <- data |>
       dplyr::left_join(
         dictionary,
         by = dplyr::join_by({{ feature }} == word))
-  } else if ("data.frame" %in% class(df) &&
-             "text" %in% colnames(df)) {
+  } else if ("data.frame" %in% class(data) &&
+             "text" %in% colnames(data)) {
     dictionary_replace <- dictionary[,colnames(dictionary) != "word"]
     names(dictionary_replace) <-
       paste0("\\b",dictionary$word,"\\b")
-    result <- df |>
+    result <- data |>
       dplyr::mutate(
         text = text |>
           stringr::str_replace_all(dictionary_replace)
       )
   }
+
+  if (tmtyro_use_labels(label)) {
+    attr(result[[dict_name]], "label") <- "dictionary match"
+  }
+
   result |>
     add_class("dictionary") |>
     set_feature(dict_name)
 }
 
-add_ngram_dictionary <- function(df, dictionary){
+add_ngram_dictionary <- function(data, dictionary){
 
   feature <- colnames(dictionary)[1]
 
@@ -183,9 +192,9 @@ add_ngram_dictionary <- function(df, dictionary){
              unlist() |>
              length())
 
-  if ("ngram" %in% colnames(df)) {
+  if ("ngram" %in% colnames(data)) {
     warning("Adding an n-gram dictionary will drop the existing ngram column.")
-    df <- df |>
+    data <- data |>
       dplyr::select(-ngram)
   }
 
@@ -195,20 +204,20 @@ add_ngram_dictionary <- function(df, dictionary){
   max_ngram <- max(dictionary$.size, na.rm = TRUE)
 
   for (i in max_ngram:1) {
-    df <- df |>
+    data <- data |>
       add_ngrams(
         1:i,
         feature = eval(feature),
         keep = TRUE) |>
       combine_ngrams()
     if (i == max_ngram){
-      df <- df |>
+      data <- data |>
         dplyr::left_join(
           dplyr::rename(
             dictionary,
             ngram = eval(feature)))
     } else {
-      df <- df |>
+      data <- data |>
         dplyr::rows_patch(
           dictionary |>
             dplyr::rename(
@@ -219,18 +228,19 @@ add_ngram_dictionary <- function(df, dictionary){
           by = "ngram",
           unmatched = "ignore")
     }
-    df <- dplyr::select(df, -ngram)
+    data <- dplyr::select(data, -ngram)
   }
-  drop_lagged_values <- function(df, num) {
-    df |>
+  drop_lagged_values <- function(data, num) {
+    data |>
       dplyr::mutate(dplyr::across(dplyr::all_of(dictionary_cols),
           \(x) dplyr::case_when(
             is.na(lag(.size, n = num)) ~ x,
             lag(.size, n = num) <= num ~ x)))
   }
   for (i in 1:max_ngram){
-    df <- drop_lagged_values(df, i)
+    data <- drop_lagged_values(data, i)
   }
-  df |>
+
+  data |>
     dplyr::select(-.size)
 }

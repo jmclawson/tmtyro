@@ -57,6 +57,7 @@ penguins_gt |>
 
 \seealso{
 Other table helpers: 
+\code{\link{italicize_titles}()},
 \code{\link{tabulize}()}
 }
 \concept{table helpers}
