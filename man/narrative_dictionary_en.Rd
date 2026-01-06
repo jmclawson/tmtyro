@@ -56,6 +56,9 @@ narrativize(
 
 }
 \seealso{
-\code{\link{narrativize}}
+Other logging helpers: 
+\code{\link{methods_log}},
+\code{\link{narrativize}()}
 }
+\concept{logging helpers}
 \keyword{datasets}

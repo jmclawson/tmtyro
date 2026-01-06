@@ -113,7 +113,8 @@ corpus_dubliners |>
 Among other things, `visualize()` preserves the order of documents from top to bottom, adjusts labeling, and adds some settings for theme and color. Alone, each is a simple change. But everything adds up when polishing publication-ready graphs, from gridlines to label spacing and number formatting:
 
 ```{r}
-corpus_dubliners |> 
+dubliners_figure <- 
+  corpus_dubliners |> 
   count(doc_id) |> 
   # reverse doc_id order
   mutate(doc_id = forcats::fct_rev(doc_id)) |> 
@@ -127,12 +128,26 @@ corpus_dubliners |>
   scale_x_continuous(
     labels = scales::label_comma(),
     expand = c(0, 0)) +
-  # change the theme background
-  theme_minimal() +
   # adjust labels
   labs(
     x = "length (words)",
-    y = NULL) +
+    y = NULL)
+
+dubliners_figure
+```
+
+As of v0.6, tmtyro offers `theme_tmtyro()` to set a theme and turn off unnecessary grid lines. These theme elements can also be adjusted with existing ggplot2 methods.
+
+```{r fig.width = 5, fig.height = 5, fig.show = "hold", out.width  =  "50%"}
+# One step with theme_tmtyro()
+dubliners_figure +
+  # change the theme background and adjust grid lines
+  theme_tmtyro()
+
+# Multiple steps with ggplot2 functions
+dubliners_figure +
+  # change the theme background
+  theme_minimal() +
   # adjust grid lines
   theme(
     panel.grid.minor.x = element_blank(),
@@ -207,19 +222,31 @@ document_labels <- dubliners_vocab |>
     progress = last(progress)) |> 
   ungroup()
 
-dubliners_vocab |> 
+vocab_figure <- 
+  dubliners_vocab |> 
   ggplot(aes(
     x = progress, 
     y = vocab, 
     color = doc_id)) +
-  geom_line() +
+  geom_line(
+    show.legend = FALSE) +
   geom_point(
-    data = document_labels) +
+    data = document_labels,
+    show.legend = FALSE) +
   # avoid overlapping labels
   ggrepel::geom_text_repel(
     data = document_labels,
-    aes(label = doc_id)) +
-  theme(legend.position = "none")
+    aes(label = doc_id),
+    show.legend = FALSE)
+
+vocab_figure
+```
+
+Once again, setting a theme can add polish.
+
+```{r}
+vocab_figure +
+  theme_tmtyro(grid_x = FALSE)
 ```
 
 

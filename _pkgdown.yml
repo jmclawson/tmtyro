@@ -27,6 +27,7 @@ reference:
   contents:
   - move_header_to_text
   - identify_by
+  - standardize_headers
   - standardize_titles
   - unnest_without_caps
 
@@ -56,6 +57,21 @@ reference:
 - contents:
   - collapse_rows
   - change_colors
+  - italicize_titles
+  - theme_tmtyro
+
+- title: Understanding Process
+  desc: Labels and method logs keep workflows comprehensible
+- contents:
+  - narrativize
+- subtitle: Adjusting labels and managing the methods log
+- contents:
+  - narrative_dictionary_en
+  - get_data_dictionary
+  - set_data_dictionary
+  - get_methods_log
+  - set_methods_log
+  - add_methods_log
 
 - title: Vectorized functions
 - contents:

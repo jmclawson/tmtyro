@@ -15,6 +15,7 @@
 #' @param paragraph Whether to detect paragraph breaks for prose. Defaults to TRUE.
 #' @param n The number of words per row. By default, `load_texts()` unnests a text one word at a time using a column called `word`. When `n` is a value greater than 1, `load_texts()` will instead use [tidytext::unnest_tokens()] with `token = "ngrams"` to create a column called `ngram`.
 #' @param ... Additional arguments passed along to [tidytext::unnest_tokens()] for use with `tokenizers`
+#' @param label Whether to label variables added to data frame
 #'
 #' @returns A data frame with two to five columns and one row for each token (optionally, one row for each paragraph or one row for each line) in the corpus.
 #' @export
@@ -49,7 +50,8 @@ load_texts <- function(
     poetry = FALSE,
     paragraph = TRUE,
     n = 1L,
-    ...) {
+    ...,
+    label = NULL) {
   imported_log <- NULL
   if (length(class(src)) == 1 && "character" %in% class(src)) {
     if (!dir.exists(src) & !dir.exists(paste0("data/",src))) {
@@ -140,6 +142,15 @@ load_texts <- function(
   if (!paragraph & !poetry) {
     full_corpus <- full_corpus |>
       dplyr::select(-par_num)
+  }
+
+  labels_queue <- c()
+  if (pos) labels_queue <- c(labels_queue, "pos")
+  if (lemma) labels_queue <- c(labels_queue, "lemma")
+
+  if (tmtyro_use_labels(label) && length(labels_queue) > 0) {
+    full_corpus <- full_corpus |>
+      assign_labels(labels_queue, "word")
   }
 
   if (tmtyro_use_log()) {
@@ -505,11 +516,9 @@ identify_by <- function(
       unlist() |>
       stringr::str_flatten_comma(last = ", and ")
     if (length(relevant) > 1) {
-      relevant_string <- relevant_string |>
-        paste("columns")
+      relevant_string <- paste("columns", relevant_string)
     } else {
-      relevant_string <- relevant_string |>
-        paste("column")
+      relevant_string <- paste("column", relevant_string)
     }
     data <- data |>
       add_logstep(

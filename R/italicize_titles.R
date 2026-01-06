@@ -39,13 +39,13 @@
 #'   collapse_rows(island) |>
 #'   italicize_titles(species)
 #' ```
-italicize_titles <- function(x,...){
+italicize_titles <- function(x, col){
   UseMethod("italicize_titles")
 }
 
 #' @export
-italicize_titles.gt_tbl <- function(df_g, col = doc_id) {
-  df_g |>
+italicize_titles.gt_tbl <- function(x, col = doc_id) {
+  x |>
     gt::tab_style(
       style = gt::cell_text(style = "italic"),
       locations = cells_body(
@@ -55,7 +55,8 @@ italicize_titles.gt_tbl <- function(df_g, col = doc_id) {
 }
 
 #' @export
-italicize_titles.ggplot <- function(p, col = doc_id) {
+italicize_titles.ggplot <- function(x, col = doc_id) {
+  p <- x
   col_string <- deparse(substitute(col))
   on_facet <- isTRUE(col_string %in% names(p@facet$params$facets))
   on_x <- isTRUE(rlang::as_label(p@mapping$x) == col_string)

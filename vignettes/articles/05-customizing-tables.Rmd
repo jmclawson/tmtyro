@@ -20,7 +20,7 @@ The tables tmtyro creates offer a good starting point for anyone interested in l
 
 ### Alignment
 
-By default, character columns in tables prepared by `tabulize()` (and gt in general) are center aligned. To adjust this alignment, use gt's `cols_align()` function.
+By default, character columns in tables prepared by `tabulize()` are left aligned. To adjust this alignment, use gt's `cols_align()` function.
 
 ```{r}
 #| message: false
@@ -39,7 +39,7 @@ some_docs <- unique(corpus_dubliners$doc_id)[c(1:3, 12, 15)]
 corpus_dubliners <- corpus_dubliners |> 
   filter(doc_id %in% some_docs)
 
-# tabulize() typically centers text columns
+# tabulize() typically left-aligns text columns
 corpus_dubliners |> 
   tabulize()
 
@@ -47,7 +47,7 @@ corpus_dubliners |>
 corpus_dubliners |> 
   tabulize() |> 
   cols_align(
-    align = "left",
+    align = "center",
     columns = doc_id)
 ```
 
@@ -56,7 +56,7 @@ corpus_dubliners |>
 
 Outputs can be highly customized using themes built into packages like gtExtras. 
 
-```{r}
+```{r message=FALSE}
 library(gtExtras)
 corpus_dubliners |> 
   tabulize() |> 
@@ -65,7 +65,7 @@ corpus_dubliners |>
 
 Many theme options are available, adjusting coloring, font face, and text size. They're easy to add with functions beginning `gt_theme_...()`:
 
-```{r}
+```{r message=FALSE}
 corpus_dubliners |> 
   tabulize() |> 
   gt_theme_538()
@@ -80,7 +80,6 @@ The examples shown here barely scratch the surface of options available with gt.
 ```{r}
 corpus_dubliners |> 
   tabulize() |>
-  cols_align("left", columns = doc_id) |> 
   grand_summary_rows(
     fns = list("avg" ~ mean(.) |> 
                  scales::label_comma(accuracy = 0.1)()), 

@@ -80,6 +80,8 @@ tmtyro_use_log <- function() {
 #'   \item{plural_suf}{Optional plural form for \code{suffix} (character) or \code{NA}.}
 #' }
 #'
+#' @family logging helpers
+#'
 #' @examples
 #' narrative_dictionary_en
 #'
@@ -96,10 +98,10 @@ tmtyro_use_log <- function() {
 #'   dictionary = narrative_dictionary_en)
 #' }
 #'
-#' @seealso \code{\link{narrativize}}
 #' @export
 narrative_dictionary_en <- tibble::tribble(
   ~fn, ~parameter, ~narrative, ~prefix, ~suffix, ~plural_pre, ~plural_suf,
+  "user", NA, "{arguments}", NA, NA, NA, NA,
   "get_gutenberg_corpus", NA, "Retrieved a corpus from Project Gutenberg using {parameters}.", NA, NA, NA, NA, #
   "get_gutenberg_corpus", "gutenberg_id", NA, "ID number", NA, "ID numbers", NA,
   "load_texts", NA, "Loaded texts{parameters}.", NA, NA, NA, NA, #
@@ -155,7 +157,7 @@ narrative_dictionary_en <- tibble::tribble(
 get_narrative <- function(logstep, dictionary = NULL) {
   nd <- dictionary %||% narrative_dictionary_en
   # arguments should be a named list like list("by" = "doc_id")
-  if (!is.null(logstep$arguments)) {
+  if (!is.null(logstep$arguments) & !is.character(logstep$arguments)) {
     arguments <- logstep$arguments
     fn <- logstep$fun
 
@@ -166,6 +168,8 @@ get_narrative <- function(logstep, dictionary = NULL) {
     arguments_names <- paste0("\\{", names(arguments), "\\}")
     arguments <- as.character(arguments) |>
       setNames(arguments_names)
+  } else if (!is.null(logstep$arguments) & is.character(logstep$arguments)) {
+    return(logstep$arguments)
   } else {
     arguments <- c("\\{feature\\}" = "token")
   }
@@ -215,7 +219,7 @@ prep_parameters <- function(logstep, dictionary = NULL) {
       pre_v <- ifelse(is_plural, "plural_pre", "prefix")
       suf_v <- ifelse(is_plural, "plural_suf", "suffix")
 
-      this_pd <- pd[pd$fn == fn & (!is.na(pd$parameter) & pd$parameter == names(p)), ]
+      this_pd <- pd[pd$fn == fn & (!is.na(pd$parameter) & pd$parameter == names(parameters[i])), ]
 
       this_narrative <- this_pd$narrative
       this_prefix <- this_pd[[pre_v]]
@@ -290,10 +294,11 @@ add_logstep <- function(x, fn, arguments = NULL, call = NULL) {
 #' @param data Data processed with one or more functions from tmtyro
 #' @param format The format of output to return. Use `format = "bullets"` for well formatted bullets and `format = "text"` for paragraph-formatted text
 #' @param dictionary The narrative dictionary to use. [`narrative_dictionary_en`] is defined by default.
-#' @param return How output should be returned, whether using `message()`, `print()`, or as a standard character string
+#' @param return How output should be returned, whether using `message()`, `print()`, `cat()`, or as a standard character string
 #' @param person The personal pronoun to use in the narrative, if any. This parameter depends on the narrative dictionary defined in `dictionary`.
 #'
 #' @returns Text
+#' @family logging helpers
 #' @export
 #'
 #' @section Examples:
@@ -310,11 +315,11 @@ add_logstep <- function(x, fn, arguments = NULL, call = NULL) {
 #' Returns the following:
 #'  - Retrieved a corpus from Project Gutenberg using ID number 2814.
 #'  - Loaded texts by tokenizing words, converting to lowercase, and preserving paragraph breaks.
-#'  - Identified documents using the `part` column.
+#'  - Identified documents using the column `part`.
 #'  - Standardized titles by converting to title case.
 #'  - Counted the frequency of words used in each document.
 #'
-narrativize <- function(data, format = c("bullets", "text"), dictionary = narrative_dictionary_en, return = c("message", "character", "print"), person = c(NA, "we", "I")){
+narrativize <- function(data, format = c("bullets", "text"), dictionary = narrative_dictionary_en, return = c("message", "character", "print", "html"), person = c(NA, "we", "I")){
   format <- match.arg(format)
   person <- person[1]
   return <- match.arg(return)
@@ -411,7 +416,70 @@ narrativize <- function(data, format = c("bullets", "text"), dictionary = narrat
     message(result)
   } else if (return == "character") {
     return(result)
+  } else if (return == "html" && rlang::is_installed("htmltools")) {
+    htmltools::HTML(result)
   } else if (return == "print") {
     print(result)
   }
+}
+
+#' Methods logging
+#'
+#' Get, set, and append to a tmtyro methods log stored as an
+#' attribute on a data frame. The methods log can later be
+#' rendered into a narrative with [narrativize()].
+#'
+#' @details
+#' The methods log is stored in a list as a data-frame
+#' attribute. `add_methods_log()` appends a single, user-
+#' supplied entry to the existing log.
+#'
+#' @param x A data frame whose methods log is extracted or
+#' modified
+#' @param methods_log A methods log to apply to `x`
+#' @param string A single character string to append as a
+#' manual methods entry
+#'
+#' @return
+#' `get_methods_log()` returns the methods log or `NULL` if
+#' none is present. `set_methods_log()` and
+#' `add_methods_log()` return `x` with an updated methods
+#' log.
+#' @family logging helpers
+#'
+#' @examples
+#' my_df <- data.frame(a = 1:3)
+#'
+#' # Add a manual entry
+#' my_df2 <- my_df |>
+#'   dplyr::filter(!is.na(a)) |>
+#'   add_methods_log("Removed rows with missing values.")
+#'
+#' # Extract and re-apply
+#' my_log <- get_methods_log(my_df2)
+#'
+#' my_df3 <- my_df2 |>
+#'   set_methods_log(my_log)
+#'
+#' @name methods_log
+NULL
+
+#' @rdname methods_log
+#' @export
+get_methods_log <- function(x) {
+  attr(x, "tmtyro_log")
+}
+
+#' @rdname methods_log
+#' @export
+set_methods_log <- function(x, methods_log) {
+  attr(x, "tmtyro_log") <- methods_log
+  x
+}
+
+#' @rdname methods_log
+#' @export
+add_methods_log <- function(x, string) {
+  x |>
+    add_logstep(fn = "user", arguments = string, call = NA)
 }

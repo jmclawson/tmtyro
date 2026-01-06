@@ -4,7 +4,7 @@
 \alias{italicize_titles}
 \title{Italicize document titles in a table or figure}
 \usage{
-italicize_titles(x, ...)
+italicize_titles(x, col)
 }
 \arguments{
 \item{x}{A table data object created with \code{tabulize()} or a figure created with \code{visualize()}}

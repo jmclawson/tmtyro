@@ -8,7 +8,7 @@ narrativize(
   data,
   format = c("bullets", "text"),
   dictionary = narrative_dictionary_en,
-  return = c("message", "character", "print"),
+  return = c("message", "character", "print", "html"),
   person = c(NA, "we", "I")
 )
 }
@@ -19,7 +19,7 @@ narrativize(
 
 \item{dictionary}{The narrative dictionary to use. \code{\link{narrative_dictionary_en}} is defined by default.}
 
-\item{return}{How output should be returned, whether using \code{message()}, \code{print()}, or as a standard character string}
+\item{return}{How output should be returned, whether using \code{message()}, \code{print()}, \code{cat()}, or as a standard character string}
 
 \item{person}{The personal pronoun to use in the narrative, if any. This parameter depends on the narrative dictionary defined in \code{dictionary}.}
 }
@@ -46,9 +46,15 @@ Returns the following:
 \itemize{
 \item Retrieved a corpus from Project Gutenberg using ID number 2814.
 \item Loaded texts by tokenizing words, converting to lowercase, and preserving paragraph breaks.
-\item Identified documents using the \code{part} column.
+\item Identified documents using the column \code{part}.
 \item Standardized titles by converting to title case.
 \item Counted the frequency of words used in each document.
 }
 }
 
+\seealso{
+Other logging helpers: 
+\code{\link{methods_log}},
+\code{\link{narrative_dictionary_en}}
+}
+\concept{logging helpers}

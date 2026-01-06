@@ -1,13 +1,6 @@
-TODO:
-- add new functions to getting started:
-  - `narrativize()`
-  - `add_progress()`
-  - `italicize_titles()`
-- New documentation pages for labels and narrative
-
 # tmtyro 0.6
-* Variables now gain descriptive labels with new options to toggle label use. Turn off labels locally by setting `options(tmtyro.use_labels = FALSE)` within a document or turn them off for a profile or project by setting the environment variable `TMTYRO_USE_LABELS` to `FALSE`.
-* Optional logging now records steps for most tmtyro functions working at the level of data frame, with options to toggle use of this log. Turn off logging locally by setting `options(tmtyro.use_log = FALSE)` within a document or turn it off for a profile or project by setting the environment variable `TMTYRO_USE_LOG` to `FALSE`.
+* Variables now gain descriptive labels with new options to toggle label use. Turn off labels locally by setting `options(tmtyro.use_labels = FALSE)` within a document or turn them off for a profile or project by setting the environment variable `TMTYRO_USE_LABELS` to `FALSE`. `get_data_dictionary()` prepares an explanatory data dictionary using these labels, `set_data_dictionary()` modifies labels from a provided data dictionary, and `drop_labels()` removes labels.
+* Optional logging now records steps for most tmtyro functions working at the level of data frame, with options to toggle use of this log. Turn off logging locally by setting `options(tmtyro.use_log = FALSE)` within a document or turn it off for a profile or project by setting the environment variable `TMTYRO_USE_LOG` to `FALSE`. Helper functions `get_methods_log()`, `set_methods_log()`, and `add_methods_log()` allow for management and adding manual entries to the log.
 * New `narrativize()` function uses log to print a narrative describing methods used.
 * Support for ggplot2 version 4.0+. 
 * New `theme_tmtyro()` function extracts and modularizes theme defaults with smart grid lines using S7 methods.
