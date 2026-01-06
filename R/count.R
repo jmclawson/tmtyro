@@ -50,8 +50,8 @@ add_frequency <- function(data, feature = word, by = doc_id, label = NULL){
   }
 
   if (tmtyro_use_log()) {
-    attr(out, "tmtyro_log") <- attr(data, "tmtyro_log")
     out <- out |>
+      set_methods_log(tmtyro_log) |>
       add_logstep(
         fn = "add_frequency",
         arguments = list(

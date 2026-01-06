@@ -656,3 +656,19 @@ corpus_joyce |>
   visualize() |> 
   italicize_titles()
 ```
+
+## Explaining process
+
+When it's time to write up the methods used to find a set of conclusions, it's important to document the steps taken. `narrativize()` helps turn a logged set of steps into bullet points or a paragraph of methods:
+
+```{r}
+bigrams_joyce |> 
+  narrativize()
+```
+
+Options allow for changes in format and person, but the final output will still need some manual tweaking.
+
+```{r}
+bigrams_joyce |> 
+  narrativize(format = "text", person = "we", return = "html")
+```

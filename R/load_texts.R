@@ -511,7 +511,6 @@ identify_by <- function(
   }
 
   if (tmtyro_use_log()) {
-    attr(data, "tmtyro_log") <- tmtyro_log
     relevant_string <- paste0("`", relevant, "`") |>
       unlist() |>
       stringr::str_flatten_comma(last = ", and ")
@@ -521,6 +520,7 @@ identify_by <- function(
       relevant_string <- paste("column", relevant_string)
     }
     data <- data |>
+      set_methods_log(tmtyro_log) |>
       add_logstep(
         fn = "identify_by",
         arguments = list(

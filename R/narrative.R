@@ -114,6 +114,7 @@ narrative_dictionary_en <- tibble::tribble(
   "load_texts", "poetry", "preserving line breaks", NA, NA, NA, NA,
   "load_texts", "paragraph", "preserving paragraph breaks", NA, NA, NA, NA,
   "identify_by", NA, "Identified documents using the {relevant_column}.", NA, NA, NA, NA, #
+  "move_header_to_text", NA, "Moved {relevant_column} into body text.", NA, NA, NA, NA, #
   "standardize_titles", NA, "Standardized titles by converting to title case{parameters}.", NA, NA, NA, NA, #
   "standardize_titles", "drop_articles", "and dropping introductory articles", NA, NA, NA, NA,
   "add_dictionary", NA, "Assigned values to each {feature} using a {lexicon} dictionary.", NA, NA, NA, NA,

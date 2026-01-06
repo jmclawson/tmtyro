@@ -408,6 +408,7 @@ standardize_headers <- function(data, ..., title = TRUE) {
 #' }
 #'
 move_header_to_text <- function(data, column, ...){
+  tmtyro_log <- attr(data, "tmtyro_log")
   relevant_cols <- c(deparse(substitute(column)), "text")
   if (!missing(..1)) {
     data <- data |>
@@ -422,7 +423,7 @@ move_header_to_text <- function(data, column, ...){
         .test2 = duplicated({{ column }}))
   }
 
-  data |>
+  out <- data |>
     dplyr::mutate(
       {{ column }} := dplyr::case_when(
         .test1 & .test2 ~ NA_character_,
@@ -436,4 +437,24 @@ move_header_to_text <- function(data, column, ...){
     tidyr::pivot_wider(values_fn = list) |>
     dplyr::select(dplyr::where(function(x) mean(is.na(x)) < 1)) |>
     tidyr::unchop(text)
+
+  if (tmtyro_use_log()) {
+    relevant <- deparse(substitute(column))
+    relevant_string <- paste0("`", relevant, "`") |>
+      unlist() |>
+      stringr::str_flatten_comma(last = ", and ")
+    if (length(relevant) > 1) {
+      relevant_string <- paste("columns", relevant_string)
+    } else {
+      relevant_string <- paste("column", relevant_string)
+    }
+    out <- out |>
+      set_methods_log(tmtyro_log) |>
+      add_logstep(
+        fn = "move_header_to_text",
+        arguments = list(
+          relevant_column = relevant_string))
+  }
+
+  out
 }
